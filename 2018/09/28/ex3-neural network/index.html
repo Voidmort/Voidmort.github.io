@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="AndrewNg 机器学习习题ex3-neural network 练习用数据 ex3data1.mat是一个matlab文件，储存了5000个图像的数据，每个图像是一个20像素×20像素的灰度图，展开后为一个400维的向量，每一个向量都储存为矩阵X的行，所以X的维度是（5000，400）y的每一行代表X所对应的手写数字，y的维度是（5000，1） 需要的头：123456import matplo">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ex3-neural network">
+<meta property="og:url" content="https://xvjie.wang/2018/09/28/ex3-neural network/index.html">
+<meta property="og:site_name" content="Voidmort">
+<meta property="og:description" content="AndrewNg 机器学习习题ex3-neural network 练习用数据 ex3data1.mat是一个matlab文件，储存了5000个图像的数据，每个图像是一个20像素×20像素的灰度图，展开后为一个400维的向量，每一个向量都储存为矩阵X的行，所以X的维度是（5000，400）y的每一行代表X所对应的手写数字，y的维度是（5000，1） 需要的头：123456import matplo">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://xvjie.wang/2018/09/28/ex3-neural%20network/Figure_1.png">
+<meta property="og:image" content="https://xvjie.wang/2018/09/28/ex3-neural%20network/Figure_2.png">
+<meta property="og:image" content="https://xvjie.wang/2018/09/28/ex3-neural%20network/Figure_3.jpg">
+<meta property="og:updated_time" content="2018-10-13T06:02:02.102Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ex3-neural network">
+<meta name="twitter:description" content="AndrewNg 机器学习习题ex3-neural network 练习用数据 ex3data1.mat是一个matlab文件，储存了5000个图像的数据，每个图像是一个20像素×20像素的灰度图，展开后为一个400维的向量，每一个向量都储存为矩阵X的行，所以X的维度是（5000，400）y的每一行代表X所对应的手写数字，y的维度是（5000，1） 需要的头：123456import matplo">
+<meta name="twitter:image" content="https://xvjie.wang/2018/09/28/ex3-neural%20network/Figure_1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Voidmort" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://xvjie.wang/2018/09/28/ex3-neural network/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>ex3-neural network | Voidmort</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7b96eb7c2717359e36cc8bd8b546997c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/Voidmort" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Voidmort</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xvjie.wang/2018/09/28/ex3-neural network/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Voidmort">
+      <meta itemprop="description" content="研究AI，撰写影评，热爱音乐，努力健身">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Voidmort">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ex3-neural network
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-28 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-28T00:00:00+08:00">2018-09-28</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-13 14:02:02" itemprop="dateModified" datetime="2018-10-13T14:02:02+08:00">2018-10-13</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习习题/" itemprop="url" rel="index"><span itemprop="name">机器学习习题</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>AndrewNg 机器学习习题ex3-neural network</p>
+<p><a href="https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data" target="_blank" rel="noopener">练习用数据</a></p>
+<p>ex3data1.mat是一个matlab文件，储存了5000个图像的数据，每个图像是一个20像素×20像素的灰度图，展开后为一个400维的向量，每一个向量都储存为矩阵X的行，所以X的维度是（5000，400）<br>y的每一行代表X所对应的手写数字，y的维度是（5000，1）</p>
+<p>需要的头：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> scipy.io <span class="keyword">as</span> sio</span><br><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"><span class="keyword">import</span> scipy.optimize <span class="keyword">as</span> opt</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> classification_report <span class="comment"># 这个包是评价报告</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="Visualizing-the-data"><a href="#Visualizing-the-data" class="headerlink" title="Visualizing the data"></a>Visualizing the data</h1><p>载入数据：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_data</span><span class="params">(path, transpose=True)</span>:</span></span><br><span class="line">    data = sio.loadmat(path)</span><br><span class="line">    y = data.get(<span class="string">'y'</span>)</span><br><span class="line">    y = y.reshape(y.shape[<span class="number">0</span>])</span><br><span class="line">    X = data.get(<span class="string">'X'</span>)</span><br><span class="line">    <span class="keyword">if</span> transpose:</span><br><span class="line">        X = np.array([im.reshape((<span class="number">20</span>, <span class="number">20</span>)).T <span class="keyword">for</span> im <span class="keyword">in</span> X])</span><br><span class="line">        X = np.array([im.reshape(<span class="number">400</span>) <span class="keyword">for</span> im <span class="keyword">in</span> X])</span><br><span class="line">    <span class="keyword">return</span> X, y</span><br><span class="line"></span><br><span class="line">X, y = load_data(<span class="string">'./data/ex3data1.mat'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>画一个图<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_an_image</span><span class="params">(image)</span>:</span></span><br><span class="line">    fig, ax = plt.subplots(figsize=(<span class="number">1</span>, <span class="number">1</span>))</span><br><span class="line">    ax.matshow(image.reshape((<span class="number">20</span>, <span class="number">20</span>)), cmap=matplotlib.cm.binary)</span><br><span class="line">    plt.xticks(np.array([]))</span><br><span class="line">    plt.yticks(np.array([]))</span><br><span class="line">    plt.show()</span><br><span class="line"></span><br><span class="line">pick_one = np.random.randint(<span class="number">0</span>, <span class="number">5000</span>)</span><br><span class="line">plot_an_image(X[pick_one, :])</span><br><span class="line">print(<span class="string">'this should be &#123;&#125;'</span>.format(y[pick_one]))</span><br></pre></td></tr></table></figure></p>
+<p><img src="Figure_1.png" alt="image"></p>
+<p>画一百个图<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_100_image</span><span class="params">(X)</span>:</span></span><br><span class="line">    size = int(np.sqrt(X.shape[<span class="number">1</span>]))</span><br><span class="line">    sample_idx = np.random.choice(np.array(X.shape[<span class="number">0</span>]), <span class="number">100</span>)</span><br><span class="line">    sample_images = X[sample_idx, :]</span><br><span class="line"></span><br><span class="line">    fig, ax_array = plt.subplots(nrows=<span class="number">10</span>, ncols=<span class="number">10</span>, sharey=<span class="keyword">True</span>, sharex=<span class="keyword">True</span>, figsize=(<span class="number">8</span>, <span class="number">8</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> r <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">            ax_array[r, c].matshow(sample_images[<span class="number">10</span> * r + c].reshape((size, size)), cmap=matplotlib.cm.binary)</span><br><span class="line">            plt.xticks(np.array([]))</span><br><span class="line">            plt.yticks(np.array([]))</span><br><span class="line">    plt.show()</span><br><span class="line">    </span><br><span class="line">plot_100_image(X)</span><br></pre></td></tr></table></figure></p>
+<p><img src="Figure_2.png" alt="image"></p>
+<h1 id="准备数据"><a href="#准备数据" class="headerlink" title="准备数据"></a>准备数据</h1><p>加载好ex3data1.mat文件后我们需要处理一下，首先X是一个(5000,400)的矩阵，我们在第一列加上一列全为1的矩阵为偏差量，y是一个(5000,)的矩阵，需要注意的是，为了兼容Oxtave和matlab，y中0的被标记为了10。我们把y分成10类整理y数据为(10,5000)的一个矩阵。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">扩展 5000*1 到 5000*10</span><br><span class="line">     比如 y=10 -&gt; [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]: ndarray</span><br><span class="line">     比如 y=1 -&gt; [0, 1, 0, 0, 0, 0, 0, 0, 0, 0]: ndarray</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">raw_X, raw_y = load_data(<span class="string">'./data/ex3data1.mat'</span>)</span><br><span class="line">X = np.insert(raw_X, <span class="number">0</span>, values=np.ones(raw_X.shape[<span class="number">0</span>]), axis = <span class="number">1</span>) <span class="comment"># 插入了第一列 全为1</span></span><br><span class="line">y_matrix = []</span><br><span class="line"><span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">11</span>):</span><br><span class="line">    y_matrix.append((raw_y == k).astype(int))</span><br><span class="line">y_matrix = [y_matrix[<span class="number">-1</span>]] + y_matrix[:<span class="number">-1</span>]</span><br><span class="line">y = np.array(y_matrix)</span><br></pre></td></tr></table></figure>
+<h1 id="训练一维模型"><a href="#训练一维模型" class="headerlink" title="训练一维模型"></a>训练一维模型</h1><p>处理好数据后接着写，激活函数和代价函数，代价函数的偏导数就是梯度函数，我们期望这个函数最小。给梯度函数和代价函数加入正则项。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sigmoid</span><span class="params">(z)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span> / (<span class="number">1</span> + np.exp(-z))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cost</span><span class="params">(theta, X, y)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> np.mean(-y * np.log(sigmoid(X @ theta)) - (<span class="number">1</span> - y) * np.log(<span class="number">1</span> - sigmoid(X @ theta)))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 梯度就是jθ的在θ偏导</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gradient</span><span class="params">(theta, X, y)</span>:</span></span><br><span class="line">    <span class="comment"># @ 对应元素相乘求和</span></span><br><span class="line">    <span class="keyword">return</span> (<span class="number">1</span> / len(X)) * X.T @ (sigmoid(X @ theta) - y)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">regularized_cost</span><span class="params">(theta, X, y, l=<span class="number">1</span>)</span>:</span></span><br><span class="line">    theta_j1_to_n = theta[<span class="number">1</span>:]</span><br><span class="line">    regularized_term = (<span class="number">1</span> / (<span class="number">2</span> * len(X))) * np.power(theta_j1_to_n, <span class="number">2</span>).sum()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> cost(theta, X, y) + regularized_term</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">regularized_gradient</span><span class="params">(theta, X, y, l=<span class="number">1</span>)</span>:</span></span><br><span class="line">    theta_j1_to_n = theta[<span class="number">1</span>:]</span><br><span class="line">    regularized_theta = (l / len(X)) * theta_j1_to_n</span><br><span class="line">    regularized_term = np.concatenate([np.array([<span class="number">0</span>]), regularized_theta]) <span class="comment"># 在theta矩阵前接一个[0]</span></span><br><span class="line">    <span class="keyword">return</span> gradient(theta, X, y) + regularized_term</span><br></pre></td></tr></table></figure>
+<p>运用minimize()函数开始迭代，计算出theta，然后验证theta的准确性。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">logistic_regression</span><span class="params">(X, y, l=<span class="number">1</span>)</span>:</span></span><br><span class="line">    theta = np.zeros(X.shape[<span class="number">1</span>])</span><br><span class="line">    res = opt.minimize(fun=regularized_cost, x0=theta, args=(X, y, l), method=<span class="string">'TNC'</span>, jac=regularized_gradient, options=&#123;<span class="string">'disp'</span>: <span class="keyword">True</span>&#125;)</span><br><span class="line">    final_theta = res.x</span><br><span class="line">    <span class="keyword">return</span> final_theta</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">predict</span><span class="params">(x, theta)</span>:</span></span><br><span class="line">    prob = sigmoid(x @ theta)</span><br><span class="line">    <span class="keyword">return</span> (prob &gt;= <span class="number">0.5</span>).astype(int)</span><br><span class="line"></span><br><span class="line">t0 = logistic_regression(X, y[<span class="number">0</span>])</span><br><span class="line">y_pred = predict(X, t0)</span><br><span class="line">print(<span class="string">'Accuracy=&#123;&#125;'</span>.format(np.mean(y[<span class="number">0</span>] == y_pred)))</span><br></pre></td></tr></table></figure>
+<p>最终求得结果为 Accuracy=0.9974</p>
+<h1 id="训练K维模型"><a href="#训练K维模型" class="headerlink" title="训练K维模型"></a>训练K维模型</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">k_theta = np.array([logistic_regression(X, y[k]) <span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">10</span>)])</span><br><span class="line">print(k_theta.shape) <span class="comment"># (10, 401)</span></span><br><span class="line"></span><br><span class="line">prob_matrix = sigmoid(X @ k_theta.T)</span><br><span class="line">np.set_printoptions(suppress=<span class="keyword">True</span>) <span class="comment"># 科学计数法表示</span></span><br><span class="line">print(prob_matrix.shape) <span class="comment"># (5000, 10)</span></span><br><span class="line"></span><br><span class="line">y_pred = np.argmax(prob_matrix, axis=<span class="number">1</span>)</span><br><span class="line">print(y_pred.shape) <span class="comment"># (5000,)</span></span><br><span class="line"></span><br><span class="line">y_answer = raw_y.copy()</span><br><span class="line">y_answer[y_answer==<span class="number">10</span>] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">print(classification_report(y_answer, y_pred))</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">             precision    recall  f1-score   support</span><br><span class="line"></span><br><span class="line">          0       0.97      0.99      0.98       500</span><br><span class="line">          1       0.95      0.99      0.97       500</span><br><span class="line">          2       0.95      0.92      0.93       500</span><br><span class="line">          3       0.95      0.91      0.93       500</span><br><span class="line">          4       0.95      0.95      0.95       500</span><br><span class="line">          5       0.92      0.92      0.92       500</span><br><span class="line">          6       0.97      0.98      0.97       500</span><br><span class="line">          7       0.95      0.95      0.95       500</span><br><span class="line">          8       0.93      0.92      0.92       500</span><br><span class="line">          9       0.92      0.92      0.92       500</span><br><span class="line"></span><br><span class="line">avg / total       0.94      0.94      0.94      5000</span><br></pre></td></tr></table></figure>
+<p>如ex3.pdf中所说，我们成功的分类出94%的例子。</p>
+<h1 id="Feedforward-Propagation-and-Prediction"><a href="#Feedforward-Propagation-and-Prediction" class="headerlink" title="Feedforward Propagation and Prediction"></a>Feedforward Propagation and Prediction</h1><p><img src="Figure_3.jpg" alt="image"></p>
+<p>我们的神经网路如上图所示，它有3层构成（一个输入层，一个隐藏层a，一个输出层。）已经提供了一组训练参数（Θ1，Θ2）储存在ex3weights.mat中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">% Load saved matrices from file</span><br><span class="line">load(&apos;ex3weights.mat&apos;);</span><br><span class="line">% The matrices Theta1 and Theta2 will now be in your Octave</span><br><span class="line">% environment</span><br><span class="line">% Theta1 has size 25 x 401</span><br><span class="line">% Theta2 has size 10 x 26</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_weight</span><span class="params">(path)</span>:</span></span><br><span class="line">    data = sio.loadmat(path)</span><br><span class="line">    <span class="keyword">return</span> data[<span class="string">'Theta1'</span>], data[<span class="string">'Theta2'</span>]</span><br><span class="line"></span><br><span class="line">theta1, theta2 = load_weight(<span class="string">'./data/ex3weights.mat'</span>)</span><br><span class="line"></span><br><span class="line">X, y = load_data(<span class="string">'./data/ex3data1.mat'</span>,transpose=<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">X = np.insert(X, <span class="number">0</span>, values=np.ones(X.shape[<span class="number">0</span>]), axis=<span class="number">1</span>)  <span class="comment"># intercept</span></span><br><span class="line"></span><br><span class="line">a1 = X</span><br><span class="line"></span><br><span class="line">z2 = a1 @ theta1.T <span class="comment"># (5000, 401) @ (25,401).T = (5000, 25)</span></span><br><span class="line">print(z2.shape)</span><br><span class="line"></span><br><span class="line">z2 = np.insert(z2, <span class="number">0</span>, values=np.ones(z2.shape[<span class="number">0</span>]), axis=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">a2 = sigmoid(z2)</span><br><span class="line"></span><br><span class="line">z3 = a2 @ theta2.T</span><br><span class="line"></span><br><span class="line">a3 = sigmoid(z3)</span><br><span class="line"></span><br><span class="line">y_pred = np.argmax(a3, axis=<span class="number">1</span>) + <span class="number">1</span>  <span class="comment"># numpy is 0 base index, +1 for matlab convention，返回沿轴axis最大值的索引，axis=1代表行</span></span><br><span class="line"></span><br><span class="line">print(classification_report(y, y_pred))</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">             precision    recall  f1-score   support</span><br><span class="line"></span><br><span class="line">          1       0.97      0.98      0.97       500</span><br><span class="line">          2       0.98      0.97      0.97       500</span><br><span class="line">          3       0.98      0.96      0.97       500</span><br><span class="line">          4       0.97      0.97      0.97       500</span><br><span class="line">          5       0.98      0.98      0.98       500</span><br><span class="line">          6       0.97      0.99      0.98       500</span><br><span class="line">          7       0.98      0.97      0.97       500</span><br><span class="line">          8       0.98      0.98      0.98       500</span><br><span class="line">          9       0.97      0.96      0.96       500</span><br><span class="line">         10       0.98      0.99      0.99       500</span><br><span class="line"></span><br><span class="line">avg / total       0.98      0.98      0.98      5000</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"><i class="fa fa-tag"></i> 机器学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/14/LeetCode 28.Implement strStr()./" rel="next" title="LeetCode 28.Implement strStr().">
+                <i class="fa fa-chevron-left"></i> LeetCode 28.Implement strStr().
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/29/ex5-bias vs variance/" rel="prev" title="ex5-bias vs variance">
+                ex5-bias vs variance <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Voidmort" />
+            
+              <p class="site-author-name" itemprop="name">Voidmort</p>
+              <p class="site-description motion-element" itemprop="description">研究AI，撰写影评，热爱音乐，努力健身</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Voidmort" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:wxj5658@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1749266905" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Visualizing-the-data"><span class="nav-number">1.</span> <span class="nav-text">Visualizing the data</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#准备数据"><span class="nav-number">2.</span> <span class="nav-text">准备数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#训练一维模型"><span class="nav-number">3.</span> <span class="nav-text">训练一维模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#训练K维模型"><span class="nav-number">4.</span> <span class="nav-text">训练K维模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Feedforward-Propagation-and-Prediction"><span class="nav-number">5.</span> <span class="nav-text">Feedforward Propagation and Prediction</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Voidmort</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":110,"height":220},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>

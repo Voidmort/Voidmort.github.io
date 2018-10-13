@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="最近求职中接到的好多外包公司的电话，一般我都是拒绝的，其中告知外包到微软的就有三家，有一家说是微软小冰项目，给了我八道算法题，都不是太难，有的在LeetCode上还做过，在这里记录一下，正好也整理下LeetCode上刷过的题。 这里记录的算法是只用python实现，也是我目前能想到的最优解，一共八个问题。  完成一个函数：def Add(num1, num2):其中，两个输入都是数字，都是字符串（">
+<meta name="keywords" content="算法,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微软笔试算法（一）">
+<meta property="og:url" content="https://xvjie.wang/2018/05/29/微软笔试算法（一）/index.html">
+<meta property="og:site_name" content="Voidmort">
+<meta property="og:description" content="最近求职中接到的好多外包公司的电话，一般我都是拒绝的，其中告知外包到微软的就有三家，有一家说是微软小冰项目，给了我八道算法题，都不是太难，有的在LeetCode上还做过，在这里记录一下，正好也整理下LeetCode上刷过的题。 这里记录的算法是只用python实现，也是我目前能想到的最优解，一共八个问题。  完成一个函数：def Add(num1, num2):其中，两个输入都是数字，都是字符串（">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-05-29T13:39:34.189Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微软笔试算法（一）">
+<meta name="twitter:description" content="最近求职中接到的好多外包公司的电话，一般我都是拒绝的，其中告知外包到微软的就有三家，有一家说是微软小冰项目，给了我八道算法题，都不是太难，有的在LeetCode上还做过，在这里记录一下，正好也整理下LeetCode上刷过的题。 这里记录的算法是只用python实现，也是我目前能想到的最优解，一共八个问题。  完成一个函数：def Add(num1, num2):其中，两个输入都是数字，都是字符串（">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Voidmort" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://xvjie.wang/2018/05/29/微软笔试算法（一）/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>微软笔试算法（一） | Voidmort</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7b96eb7c2717359e36cc8bd8b546997c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/Voidmort" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Voidmort</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xvjie.wang/2018/05/29/微软笔试算法（一）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Voidmort">
+      <meta itemprop="description" content="研究AI，撰写影评，热爱音乐，努力健身">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Voidmort">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">微软笔试算法（一）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-29 00:00:00 / 修改时间：21:39:34" itemprop="dateCreated datePublished" datetime="2018-05-29T00:00:00+08:00">2018-05-29</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/算法练习/" itemprop="url" rel="index"><span itemprop="name">算法练习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近求职中接到的好多外包公司的电话，一般我都是拒绝的，其中告知外包到微软的就有三家，有一家说是微软小冰项目，给了我八道算法题，都不是太难，有的在LeetCode上还做过，在这里记录一下，正好也整理下LeetCode上刷过的题。</p>
+<p>这里记录的算法是只用python实现，也是我目前能想到的最优解，一共八个问题。</p>
+<ol>
+<li>完成一个函数：def Add(num1, num2):其中，两个输入都是数字，都是字符串（如：“12345678986543210123456789”），要求计算两个数字的和，返回一个字符串，不能使用内置函数，如int，long等。例如，输入两个数字是：“1000000000000000”和“-1”，返回“999999999999999”。</li>
+</ol>
+<p>这个问题比较简单了，主要就是三个小问题：</p>
+<ol>
+<li>字符串和数字的互转</li>
+<li>加法的进位</li>
+<li>减法的借位</li>
+</ol>
+<p>字符串和数字的互转不让用int函数，这个简单，python只要写个字典就解决了，C的话就要写switch case来一个一个比较了。这里就解决了字符转数字的问题了。</p>
+<p>到的数字开始计算，因为要设计借位和进位，答案会有四种情况</p>
+<ol>
+<li>正数 + 正数 = 正数   2 + 3 = 5</li>
+<li>负数 + 负数 = 负数   -2 + -3 = -5</li>
+<li>大正数 + 负数 = 正数 -2 + 3 = 1</li>
+<li>正数 + 大负数 = 负数 2 + -3 = -1</li>
+</ol>
+<p>貌似就是这样，但是观察结果除了负号就是两种，所以程序一开始应该先分析负号，进位的情况有1,2，借位情况是3,4，正好这两个结果除了负号答案一样，所以分两类就OK</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 问题 1</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">question1_add</span><span class="params">(num1, num2)</span>:</span></span><br><span class="line">    <span class="comment"># 创建个字典用来把字符转为int便于计算</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">strtoint</span><span class="params">(str)</span>:</span></span><br><span class="line">        numdict = &#123;<span class="string">"0"</span>: <span class="number">0</span>, <span class="string">"1"</span>: <span class="number">1</span>, <span class="string">"2"</span>: <span class="number">2</span>, <span class="string">"3"</span>: <span class="number">3</span>, <span class="string">"4"</span>: <span class="number">4</span>, <span class="string">"5"</span>: <span class="number">5</span>, <span class="string">"6"</span>: <span class="number">6</span>, <span class="string">"7"</span>: <span class="number">7</span>, <span class="string">"8"</span>: <span class="number">8</span>, <span class="string">"9"</span>: <span class="number">9</span>&#125;</span><br><span class="line">        <span class="keyword">return</span> numdict.get(str)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 把列表中的数字转会字符串 </span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inttostr</span><span class="params">(lt)</span>:</span></span><br><span class="line">        ls2 = [str(i) <span class="keyword">for</span> i <span class="keyword">in</span> lt]</span><br><span class="line">        <span class="keyword">return</span> <span class="string">''</span>.join(ls2)</span><br><span class="line"></span><br><span class="line">    lt, x, y = [], [], []</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 两个数是否为负数的标记</span></span><br><span class="line">    minusflag1, minusflag2 = <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 首先先提取出负号，记录负号的情况 </span></span><br><span class="line">    <span class="keyword">if</span> num1[<span class="number">0</span>] <span class="keyword">is</span> <span class="string">"-"</span>:</span><br><span class="line">        x = list(map(strtoint, num1[<span class="number">1</span>:]))</span><br><span class="line">        minusflag1 = <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        x = list(map(strtoint, num1))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> num2[<span class="number">0</span>] <span class="keyword">is</span> <span class="string">"-"</span>:</span><br><span class="line">        y = list(map(strtoint, num2[<span class="number">1</span>:]))</span><br><span class="line">        minusflag2 = <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        y = list(map(strtoint, num2))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 把 x作为最长的那列，y是短的那列</span></span><br><span class="line">    <span class="keyword">if</span> len(x) &lt; len(y):</span><br><span class="line">        x, y = y, x</span><br><span class="line"></span><br><span class="line">    maxlen, minlen = len(x), len(y)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 在短的那列前面插上0让两列一样齐以便于计算</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(maxlen-minlen):</span><br><span class="line">        y.insert(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 计算通常是从最低位开始，所以i从最低位开始</span></span><br><span class="line">    <span class="comment"># carry记录借位和进位情况</span></span><br><span class="line">    i, carry = <span class="number">0</span>, <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 两个数都是正数或负数</span></span><br><span class="line">    <span class="keyword">if</span> (minusflag1 == <span class="number">0</span> <span class="keyword">and</span> minusflag2 == <span class="number">0</span>) <span class="keyword">or</span> (minusflag1 == <span class="number">1</span> <span class="keyword">and</span> minusflag2 == <span class="number">1</span>):</span><br><span class="line">        <span class="comment"># +1是为了防止最高位有进位的情况，给最高位加一个0</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(maxlen+<span class="number">1</span>):</span><br><span class="line">            i -= <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> j &lt; maxlen:</span><br><span class="line">                sum = x[i] + y[i] + carry</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                sum = carry</span><br><span class="line">            <span class="comment"># 两个数相加大于十代表有进位， 把结果和10的商给新列表，余给进位标志   </span></span><br><span class="line">            <span class="keyword">if</span> sum &gt;= <span class="number">10</span>:</span><br><span class="line">                lt.insert(<span class="number">0</span>, sum%<span class="number">10</span>)</span><br><span class="line">                carry = sum//<span class="number">10</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                lt.insert(<span class="number">0</span>, sum)</span><br><span class="line">                carry = <span class="number">0</span></span><br><span class="line">        <span class="comment"># 如果最高位没有进位 把0删除       </span></span><br><span class="line">        <span class="keyword">if</span> lt[<span class="number">0</span>] == <span class="number">0</span>:</span><br><span class="line">            lt.pop(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 如果都为负数 加 -</span></span><br><span class="line">        <span class="keyword">if</span> minusflag1 == <span class="number">1</span> <span class="keyword">and</span> minusflag2 == <span class="number">1</span>:</span><br><span class="line">            lt.insert(<span class="number">0</span>, <span class="string">"-"</span>)</span><br><span class="line">            <span class="keyword">return</span> inttostr(lt)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> inttostr(lt)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 一正一负</span></span><br><span class="line">    <span class="keyword">if</span> (minusflag1 == <span class="number">1</span> <span class="keyword">and</span> minusflag2 == <span class="number">0</span>) <span class="keyword">or</span> (minusflag1 == <span class="number">0</span> <span class="keyword">and</span> minusflag2 == <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(maxlen):</span><br><span class="line">            i -= <span class="number">1</span></span><br><span class="line">            sum = x[i] - y[i] + carry</span><br><span class="line">            <span class="keyword">if</span> sum &lt; <span class="number">0</span>:</span><br><span class="line">                lt.insert(<span class="number">0</span>, sum%<span class="number">10</span>)</span><br><span class="line">                carry = sum//<span class="number">10</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                lt.insert(<span class="number">0</span>, sum)</span><br><span class="line">                carry = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> lt[<span class="number">0</span>] == <span class="number">0</span>:</span><br><span class="line">            lt.pop(<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">if</span> len(lt) == <span class="number">1</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 判断是否应该加 - 号</span></span><br><span class="line">        <span class="keyword">if</span> (num1[<span class="number">0</span>] <span class="keyword">is</span> <span class="string">"-"</span> <span class="keyword">and</span> len(num1[<span class="number">1</span>:]) &gt; len(num2)) <span class="keyword">or</span> num2[<span class="number">0</span>] <span class="keyword">is</span> <span class="string">"-"</span> <span class="keyword">and</span> len(num2[<span class="number">1</span>:]) &gt; len(num1) :</span><br><span class="line">            lt.insert(<span class="number">0</span>, <span class="string">"-"</span>)</span><br><span class="line">            <span class="keyword">return</span> inttostr(lt)</span><br><span class="line">        <span class="keyword">return</span> inttostr(lt)</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>给定一个数组nums，然后对其排序，使得排序结果满足nums[0] &lt; nums[1] &gt; nums[2] &lt; nums[3]…。 例如给定数组nums=[1,2,3,4,5,6,7,8,9],其中一个满足条件的结果是1<6>2<7>3<8>4<9>5.给出一个结果即可（可能无解）。最优解法是O(n)时间复杂度和O(1)空间复杂度。</9></8></7></6></li>
+</ol>
+<p>原题位置：<a href="https://leetcode.com/problems/wiggle-sort-ii/" target="_blank" rel="noopener">https://leetcode.com/problems/wiggle-sort-ii/</a></p>
+<p>这道题就比较有趣了，LeetCode上大神给出的算法挺多，但是最优解不是O(n)，用python实现的话还能比O(n)小。</p>
+<p>先说我看到题第一眼的想法和看了LeetCode上大神的方法吧，很简单就三行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nums.sort()</span><br><span class="line">median = len(nums[::<span class="number">2</span>]) - <span class="number">1</span></span><br><span class="line">nums[::<span class="number">2</span>], nums[<span class="number">1</span>::<span class="number">2</span>] = nums[median::<span class="number">-1</span>], nums[:median:<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+<p>首先排序，找到中位数，然后把中位数左右两边的交叉相排就OK了。</p>
+<p>好吧，详细一点吧，S代表比中位数小的，L代表比中位数大的，M代表中位数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Small half:  M . S . S . S      Small half:  M . S . S . S .</span><br><span class="line">Large half:  . L . L . M .      Large half:  . L . L . L . M</span><br><span class="line">--------------------------      --------------------------</span><br><span class="line">Together:    M L S L S M S      Together:    M L S L S L S M</span><br></pre></td></tr></table></figure>
+<p>根据这个原理还可以写成其他形式<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nums.sort()</span><br><span class="line">median = len(nums[::<span class="number">2</span>])</span><br><span class="line">nums[<span class="number">1</span>::<span class="number">2</span>], nums[::<span class="number">2</span>] = nums[median:],nums[:median]</span><br></pre></td></tr></table></figure></p>
+<p>这个方式简单但是不满足O(n)时间复杂度的要求，这个方法是LeetCode上大神想出的叫virtual indexing，地址<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">解释一下site()函数的作用</span><br><span class="line"></span><br><span class="line">为了防止median的元素挨在一起，也就是说奇数位置上的值是median，同时与他相邻的某个偶数位置上的值也是median导致排序失败</span><br><span class="line"></span><br><span class="line">为了避免这个问题，可以采用一种方法，即另j 每次移动两步，也就是说先另j直线奇数位置，再另j指向偶数位置，所以对于大小为10的序列，j的变化可能像是这样</span><br></pre></td></tr></table></figure></p>
+<p>1 -&gt; 3 -&gt; 5 -&gt; 7 -&gt; 9 -&gt; 0 -&gt; 2 -&gt; 4 -&gt; 6 -&gt; 8<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">暂且先不考虑怎么实现这样的改变，先说一下这样做带来的好处</span><br><span class="line"></span><br><span class="line">由上面j的变化可知，j的改变是每次移动两步，所以，根据算法描述。所有和median相等的元素一定是最后才固定位置，又因为当j指向的值等于median时，是不与i和k指向的任何一个元素交换的。所以，每次移动两步带来的结果是这些median永远不可能相邻。换句话说就是永远不会出现两个median挨着的情况</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">def question2_sort2(nums):</span><br><span class="line">    def site(n):</span><br><span class="line">        return (1 + 2 * n) % (len(nums) | 1)</span><br><span class="line"></span><br><span class="line">    nums.sort()</span><br><span class="line">    if len(nums) % 2 == 0:</span><br><span class="line">        median = (nums[len(nums) // 2] + nums[len(nums) // 2 - 1]) / 2</span><br><span class="line">    else:</span><br><span class="line">        median = nums[len(nums) // 2]</span><br><span class="line">    i, j, k = 0, 0, len(nums) - 1</span><br><span class="line">    while j &lt;= k:</span><br><span class="line">        if nums[site(j)] &gt; median:</span><br><span class="line">            nums[site(i)], nums[site(j)] = nums[site(j)], nums[site(i)]</span><br><span class="line">            i += 1</span><br><span class="line">            j += 1</span><br><span class="line">        elif nums[site(j)] &lt; median:</span><br><span class="line">            nums[site(j)], nums[site(k)] = nums[site(k)], nums[site(j)]</span><br><span class="line">            k -= 1</span><br><span class="line">            j += 1 # 没错就是这里，我认为执行过交换后j就在正确的位置上了，所以我让j+1结果就是循环次数减少了，如果进行j+1则会循环N次，两种的结果不同但都复合条件</span><br><span class="line">        else:</span><br><span class="line">            j += 1</span><br><span class="line">    return nums</span><br></pre></td></tr></table></figure></p>
+<ol start="3">
+<li>写一个函数，输入是两个int数组A和B。要求从A和B中分别取出一个数，使他们的和为20。打印出所有的组合。要求数字在数组中的位置和数字本身。比如输入为 A = [18, 2, 7, 8, 3], B = [17, 1, 19]，输出为 3 (A4) + 17 (B0) = 20，表示A的第4个元素是3，B的第0个元素是17</li>
+</ol>
+<p>这就是道送分题了，嵌套循环就OK了，没什么好说的。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">question3_take</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(a)):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(len(b)):</span><br><span class="line">            <span class="keyword">if</span> a[i] + b[j] == <span class="number">20</span>:</span><br><span class="line">                print(<span class="string">"%d (A%d) + %d (B%d) = 20"</span> % (a[i], i, b[j], j))</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">    print(<span class="string">" No solution!"</span>)</span><br></pre></td></tr></table></figure></p>
+<ol start="4">
+<li>写一个函数，输入一个随机的01序列，打印出这个序列中最长的01交替出现的序列的起始位置和结束位置。例如：输入“000101010101101”，输出起始位置2, 结束位置10</li>
+</ol>
+<p>这题让我纠结了下，因为需要记录的位置有点多</p>
+<p>因为我们要遍历这个序列中所有的01所以要两个指针同时移动才能确保01的出现，当出现01我们计数器n +1，然后判断是否到结尾或者下一个不是01的情况，我们就结束这段，记录这段的长度和结束开始的位置，如果下一段出现的01长我们就替换掉上次的记录。</p>
+<p>值得注意的是01可能出现在序列的奇数或偶数位上，所以要遍历两次，再比较奇偶上哪个长，返回长的那段。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(i, j, num)</span>:</span></span><br><span class="line">    start, end, n, count = <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> j &lt; len(num):</span><br><span class="line">        <span class="keyword">if</span> num[i] <span class="keyword">is</span> <span class="string">'0'</span> <span class="keyword">and</span> num[j] <span class="keyword">is</span> <span class="string">'1'</span>:</span><br><span class="line">            n += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> j+<span class="number">1</span> &gt;= len(num) - <span class="number">1</span> <span class="keyword">or</span> num[i+<span class="number">2</span>] <span class="keyword">is</span> <span class="string">'1'</span> <span class="keyword">or</span> num[j+<span class="number">2</span>] <span class="keyword">is</span> <span class="string">'0'</span>:</span><br><span class="line">            <span class="keyword">if</span> n &gt; count:</span><br><span class="line">                count = n</span><br><span class="line">                n = <span class="number">0</span></span><br><span class="line">                end = j + <span class="number">1</span></span><br><span class="line">                start = end - count*<span class="number">2</span></span><br><span class="line">        i += <span class="number">2</span></span><br><span class="line">        j += <span class="number">2</span></span><br><span class="line">    <span class="keyword">return</span> start, end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">question4</span><span class="params">(num)</span>:</span></span><br><span class="line">    i, j = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    start1, end1 = func(i, j, num)</span><br><span class="line">    i, j = <span class="number">1</span>, <span class="number">2</span></span><br><span class="line">    start2, end2 = func(i, j, num)</span><br><span class="line">    <span class="keyword">if</span> end1 - start1 &gt; end2- start2:</span><br><span class="line">        <span class="keyword">return</span> start1, end1</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> start2, end2</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/算法/" rel="tag"><i class="fa fa-tag"></i> 算法</a>
+          
+            <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/21/[转]机器学习法则：ML工程的最佳实践/" rel="next" title="【转】机器学习法则：ML工程的最佳实践">
+                <i class="fa fa-chevron-left"></i> 【转】机器学习法则：ML工程的最佳实践
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/30/【转】神经网络浅讲：从神经元到深度学习/" rel="prev" title="【转】神经网络浅讲：从神经元到深度学习">
+                【转】神经网络浅讲：从神经元到深度学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Voidmort" />
+            
+              <p class="site-author-name" itemprop="name">Voidmort</p>
+              <p class="site-description motion-element" itemprop="description">研究AI，撰写影评，热爱音乐，努力健身</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Voidmort" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:wxj5658@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1749266905" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Voidmort</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":110,"height":220},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>

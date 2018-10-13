@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Voidmort</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://xvjie.wang/"/>
+  <updated>2018-04-02T10:28:37.409Z</updated>
+  <id>https://xvjie.wang/</id>
+  
+  <author>
+    <name>Voidmort</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>GitHub学习笔记</title>
+    <link href="https://xvjie.wang/2018/10/13/Git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <id>https://xvjie.wang/2018/10/13/Git学习笔记/</id>
+    <published>2018-10-13T05:39:26.219Z</published>
+    <updated>2018-04-02T10:28:37.409Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Git是一个开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。&lt;br&gt;Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。&lt;br&gt;Git 与常用的版本控制工具 CVS, Subversion
+        
+      
+    
+    </summary>
+    
+      <category term="学习笔记" scheme="https://xvjie.wang/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="git" scheme="https://xvjie.wang/tags/git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>随便玩玩的玩家</title>
+    <link href="https://xvjie.wang/2018/10/13/%E9%9A%8F%E4%BE%BF%E7%8E%A9%E7%8E%A9%E7%9A%84%E7%8E%A9%E5%AE%B6/"/>
+    <id>https://xvjie.wang/2018/10/13/随便玩玩的玩家/</id>
+    <published>2018-10-13T05:39:25.911Z</published>
+    <updated>2018-04-07T09:10:08.330Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;如果从三岁看哥哥玩马戏团算起，游戏玩了也有二十个年头了，但还是个游戏菜鸟，已经古稀之年的斯皮尔伯格却要拍一部头号玩家，这使我怀着浓厚的兴趣走进了影院。&lt;/p&gt;
+&lt;p&gt;如果说最早看过斯皮尔伯格执导的电影那应该是大白鲨和侏罗纪公园了，但那时我还太小，大概七八岁，并不知道导演什么
+        
+      
+    
+    </summary>
+    
+      <category term="影评" scheme="https://xvjie.wang/categories/%E5%BD%B1%E8%AF%84/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>ex2-logistic regression</title>
+    <link href="https://xvjie.wang/2018/10/09/ex2-logistic%20regression/"/>
+    <id>https://xvjie.wang/2018/10/09/ex2-logistic regression/</id>
+    <published>2018-10-08T16:00:00.000Z</published>
+    <updated>2018-10-13T06:02:01.318Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;AndrewNg 机器学习习题ex2-logistic regression&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习习题" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ex1-linear regression</title>
+    <link href="https://xvjie.wang/2018/10/08/ex1-linear%20regression/"/>
+    <id>https://xvjie.wang/2018/10/08/ex1-linear regression/</id>
+    <published>2018-10-07T16:00:00.000Z</published>
+    <updated>2018-10-13T06:08:52.047Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;AndrewNg 机器学习习题ex1-linear regression&lt;br&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习习题" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>独热编码One Hot Encoder</title>
+    <link href="https://xvjie.wang/2018/09/29/%E7%8B%AC%E7%83%AD%E7%BC%96%E7%A0%81One%20Hot%20Encoder/"/>
+    <id>https://xvjie.wang/2018/09/29/独热编码One Hot Encoder/</id>
+    <published>2018-09-28T16:00:00.000Z</published>
+    <updated>2018-10-13T06:03:33.751Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;在机器学习时我们通常要进行归一化数据后再进行训练，还有一些其他处理方法比如使用独热编码。&lt;/p&gt;
+&lt;h1 id=&quot;什么是独热码&quot;&gt;&lt;a href=&quot;#什么是独热码&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="OneHotEncoder" scheme="https://xvjie.wang/tags/OneHotEncoder/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ex4-NN back propagation</title>
+    <link href="https://xvjie.wang/2018/09/29/ex4-NN%20back%20propagation/"/>
+    <id>https://xvjie.wang/2018/09/29/ex4-NN back propagation/</id>
+    <published>2018-09-28T16:00:00.000Z</published>
+    <updated>2018-10-13T06:01:58.462Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;AndrewNg 机器学习习题ex4-NN back propagation&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习习题" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ex5-bias vs variance</title>
+    <link href="https://xvjie.wang/2018/09/29/ex5-bias%20vs%20variance/"/>
+    <id>https://xvjie.wang/2018/09/29/ex5-bias vs variance/</id>
+    <published>2018-09-28T16:00:00.000Z</published>
+    <updated>2018-10-13T06:02:00.631Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;AndrewNg 机器学习习题ex5-bias vs variance&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习习题" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ex3-neural network</title>
+    <link href="https://xvjie.wang/2018/09/28/ex3-neural%20network/"/>
+    <id>https://xvjie.wang/2018/09/28/ex3-neural network/</id>
+    <published>2018-09-27T16:00:00.000Z</published>
+    <updated>2018-10-13T06:02:02.102Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;AndrewNg 机器学习习题ex3-neural network&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习习题" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>LeetCode 28.Implement strStr().</title>
+    <link href="https://xvjie.wang/2018/09/14/LeetCode%2028.Implement%20strStr()./"/>
+    <id>https://xvjie.wang/2018/09/14/LeetCode 28.Implement strStr()./</id>
+    <published>2018-09-13T16:00:00.000Z</published>
+    <updated>2018-09-16T11:04:13.573Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;28.Implement strStr().&lt;/p&gt;
+&lt;p&gt;Return the index of the first occurrence of needle in haystack, or -1 if needle is not part of
+        
+      
+    
+    </summary>
+    
+      <category term="算法练习" scheme="https://xvjie.wang/categories/%E7%AE%97%E6%B3%95%E7%BB%83%E4%B9%A0/"/>
+    
+    
+      <category term="算法" scheme="https://xvjie.wang/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="c" scheme="https://xvjie.wang/tags/c/"/>
+    
+      <category term="LeetCode" scheme="https://xvjie.wang/tags/LeetCode/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Python实现异常检测算法</title>
+    <link href="https://xvjie.wang/2018/08/27/Python%E5%AE%9E%E7%8E%B0%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95/"/>
+    <id>https://xvjie.wang/2018/08/27/Python实现异常检测算法/</id>
+    <published>2018-08-26T16:00:00.000Z</published>
+    <updated>2018-09-16T11:04:13.740Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;应用高斯分布开发异常检测算法，这个比较简单，高斯分布也叫做正态分布，高中就学过，如果我们的数据符合高斯分布或者比较像高斯分布的时候可以使用这个算法，通过训练集计算高斯分布函数，与交叉验证集比较设置合适的Σ，当测试数据小于Σ时则为异常&lt;/p&gt;
+&lt;figure
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习代码实现" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="python" scheme="https://xvjie.wang/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Python实现PCA降维算法</title>
+    <link href="https://xvjie.wang/2018/08/21/Python%E5%AE%9E%E7%8E%B0PCA%E9%99%8D%E7%BB%B4%E7%AE%97%E6%B3%95/"/>
+    <id>https://xvjie.wang/2018/08/21/Python实现PCA降维算法/</id>
+    <published>2018-08-20T16:00:00.000Z</published>
+    <updated>2018-08-25T02:04:36.963Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;这是第二个无监督学习的算法，是一个降维算法，可以把多个特征进行压缩，我在压缩后计算了与原数据的偏差，当我把四个特征压缩为三个时偏差只有0.5%，压缩为一个特征时偏差也只有7%，当只有一个特征时把数据展开也可以轻易的分为三类，所以这是一个非常优秀的算法。&lt;/p&gt;
+&lt;p&gt;值得注
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习代码实现" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="python" scheme="https://xvjie.wang/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Python实现K-均值算法</title>
+    <link href="https://xvjie.wang/2018/08/16/Python%E5%AE%9E%E7%8E%B0K-%E5%9D%87%E5%80%BC%E7%AE%97%E6%B3%95/"/>
+    <id>https://xvjie.wang/2018/08/16/Python实现K-均值算法/</id>
+    <published>2018-08-15T16:00:00.000Z</published>
+    <updated>2018-08-25T02:03:35.533Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;第一个无监督学习算法，K-均值，这是一个非常普及的聚类算法，实现起来也比较简单，学习了Andrew
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习代码实现" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="python" scheme="https://xvjie.wang/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>机器学习（十二）</title>
+    <link href="https://xvjie.wang/2018/08/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89/"/>
+    <id>https://xvjie.wang/2018/08/12/机器学习（十二）/</id>
+    <published>2018-08-12T07:00:50.000Z</published>
+    <updated>2018-08-12T11:45:47.465Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;十七、大规模机器学习(Large Scale Machine Learning)&lt;/p&gt;
+&lt;h3 id=&quot;17-1-大型数据集的学习&quot;&gt;&lt;a href=&quot;#17-1-大型数据集的学习&quot; class=&quot;headerlink&quot; title=&quot;17.1
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>机器学习（十一）</title>
+    <link href="https://xvjie.wang/2018/08/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89/"/>
+    <id>https://xvjie.wang/2018/08/12/机器学习（十一）/</id>
+    <published>2018-08-12T06:57:50.000Z</published>
+    <updated>2018-08-12T11:49:08.627Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;十五、异常检测(Anomaly Detection)&lt;/p&gt;
+&lt;h3 id=&quot;15-1-问题的动机&quot;&gt;&lt;a href=&quot;#15-1-问题的动机&quot; class=&quot;headerlink&quot; title=&quot;15.1 问题的动机&quot;&gt;&lt;/a&gt;15.1
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>机器学习（十）</title>
+    <link href="https://xvjie.wang/2018/08/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%EF%BC%89/"/>
+    <id>https://xvjie.wang/2018/08/12/机器学习（十）/</id>
+    <published>2018-08-12T06:55:50.000Z</published>
+    <updated>2018-08-12T11:40:41.992Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;十三、聚类(Clustering)&lt;/p&gt;
+&lt;h3 id=&quot;13-1-无监督学习：简介&quot;&gt;&lt;a href=&quot;#13-1-无监督学习：简介&quot; class=&quot;headerlink&quot; title=&quot;13.1 无监督学习：简介&quot;&gt;&lt;/a&gt;13.1
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>机器学习（九）</title>
+    <link href="https://xvjie.wang/2018/08/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B9%9D%EF%BC%89/"/>
+    <id>https://xvjie.wang/2018/08/12/机器学习（九）/</id>
+    <published>2018-08-12T06:50:50.000Z</published>
+    <updated>2018-08-12T11:10:20.541Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;十二、支持向量机(Support Vector Machines)&lt;/p&gt;
+&lt;h3 id=&quot;12-1-优化目标&quot;&gt;&lt;a href=&quot;#12-1-优化目标&quot; class=&quot;headerlink&quot; title=&quot;12.1 优化目标&quot;&gt;&lt;/a&gt;12.1
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="SVM" scheme="https://xvjie.wang/tags/SVM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>机器学习（八）</title>
+    <link href="https://xvjie.wang/2018/08/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AB%EF%BC%89/"/>
+    <id>https://xvjie.wang/2018/08/12/机器学习（八）/</id>
+    <published>2018-08-12T06:45:50.000Z</published>
+    <updated>2018-08-12T11:10:18.601Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;好吧，从这里开始博客就不是我自己手敲的了，因为一些原因，没有时间再写下去了，但又不想放弃，只能抄一份过来了，感谢Huang Haiguang老师的笔记。&lt;a href=&quot;https://github.com/fengdu78&quot; target=&quot;_blank&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【转】神经网络浅讲：从神经元到深度学习</title>
+    <link href="https://xvjie.wang/2018/05/30/%E3%80%90%E8%BD%AC%E3%80%91%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%B5%85%E8%AE%B2%EF%BC%9A%E4%BB%8E%E7%A5%9E%E7%BB%8F%E5%85%83%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://xvjie.wang/2018/05/30/【转】神经网络浅讲：从神经元到深度学习/</id>
+    <published>2018-05-29T16:00:00.000Z</published>
+    <updated>2018-08-12T07:39:52.899Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;这又是我常看的大神写的一篇博客，从最初的从机器学习谈起使我入门机器学习，到现在学到了神经网络，又找到了他的博客，希望对我学习神经网络有所帮助。&lt;/p&gt;
+&lt;p&gt;原文地址：&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="转载" scheme="https://xvjie.wang/categories/%E8%BD%AC%E8%BD%BD/"/>
+    
+    
+      <category term="机器学习，神经网络" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%8C%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>微软笔试算法（一）</title>
+    <link href="https://xvjie.wang/2018/05/29/%E5%BE%AE%E8%BD%AF%E7%AC%94%E8%AF%95%E7%AE%97%E6%B3%95%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <id>https://xvjie.wang/2018/05/29/微软笔试算法（一）/</id>
+    <published>2018-05-28T16:00:00.000Z</published>
+    <updated>2018-05-29T13:39:34.189Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;最近求职中接到的好多外包公司的电话，一般我都是拒绝的，其中告知外包到微软的就有三家，有一家说是微软小冰项目，给了我八道算法题，都不是太难，有的在LeetCode上还做过，在这里记录一下，正好也整理下LeetCode上刷过的题。&lt;/p&gt;
+&lt;p&gt;这里记录的算法是只用python
+        
+      
+    
+    </summary>
+    
+      <category term="算法练习" scheme="https://xvjie.wang/categories/%E7%AE%97%E6%B3%95%E7%BB%83%E4%B9%A0/"/>
+    
+    
+      <category term="算法" scheme="https://xvjie.wang/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="python" scheme="https://xvjie.wang/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【转】机器学习法则：ML工程的最佳实践</title>
+    <link href="https://xvjie.wang/2018/05/21/%5B%E8%BD%AC%5D%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%B3%95%E5%88%99%EF%BC%9AML%E5%B7%A5%E7%A8%8B%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"/>
+    <id>https://xvjie.wang/2018/05/21/[转]机器学习法则：ML工程的最佳实践/</id>
+    <published>2018-05-20T16:00:00.000Z</published>
+    <updated>2018-08-12T06:34:34.432Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;机器学习法则：ML工程的最佳实践&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;p style=&quot;color: rgb(105, 115, 117);font-size: 14px;letter-spacing: 1px;background-color: rgb(254, 255,
+        
+      
+    
+    </summary>
+    
+      <category term="转载" scheme="https://xvjie.wang/categories/%E8%BD%AC%E8%BD%BD/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+</feed>

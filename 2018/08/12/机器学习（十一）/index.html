@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="十五、异常检测(Anomaly Detection) 15.1 问题的动机参考文档: 15 - 1 - Problem Motivation (8 min).mkv 在接下来的一系列视频中，我将向大家介绍异常检测(Anomaly detection)问题。这是机器学习算法的一个常见应用。这种算法的一个有趣之处在于：它虽然主要用于非监督学习问题，但从某些角度看，它又类似于一些监督学习问题。 什么是异">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习（十一）">
+<meta property="og:url" content="https://xvjie.wang/2018/08/12/机器学习（十一）/index.html">
+<meta property="og:site_name" content="Voidmort">
+<meta property="og:description" content="十五、异常检测(Anomaly Detection) 15.1 问题的动机参考文档: 15 - 1 - Problem Motivation (8 min).mkv 在接下来的一系列视频中，我将向大家介绍异常检测(Anomaly detection)问题。这是机器学习算法的一个常见应用。这种算法的一个有趣之处在于：它虽然主要用于非监督学习问题，但从某些角度看，它又类似于一些监督学习问题。 什么是异">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/93d6dfe7e5cb8a46923c178171889747.png">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/fe4472adbf6ddd9d9b51d698cc750b68.png">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/65afdea865d50cba12d4f7674d599de5.png">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/fcb35433507a56631dde2b4e543743ee.png">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/ba47767a11ba39a23898b9f1a5a57cc5.png">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/82b90f56570c05966da116c3afe6fc91.jpg">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/0990d6b7a5ab3c0036f42083fe2718c6.jpg">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/f406bc738e5e032be79e52b6facfa48e.png">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/598db991a7c930c9021cec5f6ab9beb9.png">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/29df906704d254f18e92a63173dd51e7.jpg">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/3dbee365617e9264831400e4de247adc.png">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/d1a228f2bec262f2206379ed844c7f4a.png">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/015cee3a224dde6da0181215cf91a23d.png">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/7104dd2548f1251e4c423e059d1d2594.png">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/f4585239738f2b5149608879fa166889.png">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/c2822f2c28b343d7e6ade5bd40f3a1fc.png">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/747c1fd6bff694c6034da1911aa3314b.png">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/42a92e07b32b593bb826f8f6bc4d9eb3.png">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/c905a6f02e201a4767d869b3791e8aeb.png">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/0a8b49da1ab852f2996a02afcaca2322.png">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/54b1f7c3131aed24f9834d62a6835642.png">
+<meta property="og:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/9ec5cb55e14bd1462183e104f8e02b80.png">
+<meta property="og:updated_time" content="2018-08-12T11:49:08.627Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习（十一）">
+<meta name="twitter:description" content="十五、异常检测(Anomaly Detection) 15.1 问题的动机参考文档: 15 - 1 - Problem Motivation (8 min).mkv 在接下来的一系列视频中，我将向大家介绍异常检测(Anomaly detection)问题。这是机器学习算法的一个常见应用。这种算法的一个有趣之处在于：它虽然主要用于非监督学习问题，但从某些角度看，它又类似于一些监督学习问题。 什么是异">
+<meta name="twitter:image" content="https://xvjie.wang/2018/08/12/机器学习（十一）/93d6dfe7e5cb8a46923c178171889747.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Voidmort" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://xvjie.wang/2018/08/12/机器学习（十一）/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>机器学习（十一） | Voidmort</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7b96eb7c2717359e36cc8bd8b546997c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/Voidmort" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Voidmort</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xvjie.wang/2018/08/12/机器学习（十一）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Voidmort">
+      <meta itemprop="description" content="研究AI，撰写影评，热爱音乐，努力健身">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Voidmort">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习（十一）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-12 14:57:50 / 修改时间：19:49:08" itemprop="dateCreated datePublished" datetime="2018-08-12T14:57:50+08:00">2018-08-12</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>十五、异常检测(Anomaly Detection)</p>
+<h3 id="15-1-问题的动机"><a href="#15-1-问题的动机" class="headerlink" title="15.1 问题的动机"></a>15.1 问题的动机</h3><p>参考文档: 15 - 1 - Problem Motivation (8 min).mkv</p>
+<p>在接下来的一系列视频中，我将向大家介绍异常检测(<strong>Anomaly detection</strong>)问题。这是机器学习算法的一个常见应用。这种算法的一个有趣之处在于：它虽然主要用于非监督学习问题，但从某些角度看，它又类似于一些监督学习问题。</p>
+<p>什么是异常检测呢？为了解释这个概念，让我举一个例子吧：</p>
+<p>假想你是一个飞机引擎制造商，当你生产的飞机引擎从生产线上流出时，你需要进行<strong>QA</strong>(质量控制测试)，而作为这个测试的一部分，你测量了飞机引擎的一些特征变量，比如引擎运转时产生的热量，或者引擎的振动等等。</p>
+<p><img src="93d6dfe7e5cb8a46923c178171889747.png" alt=""></p>
+<p>这样一来，你就有了一个数据集，从$x^{(1)}$到$x^{(m)}$，如果你生产了$m$个引擎的话，你将这些数据绘制成图表，看起来就是这个样子：</p>
+<p><img src="fe4472adbf6ddd9d9b51d698cc750b68.png" alt=""></p>
+<p>这里的每个点、每个叉，都是你的无标签数据。这样，异常检测问题可以定义如下：我们假设后来有一天，你有一个新的飞机引擎从生产线上流出，而你的新飞机引擎有特征变量$x_{test}$。所谓的异常检测问题就是：我们希望知道这个新的飞机引擎是否有某种异常，或者说，我们希望判断这个引擎是否需要进一步测试。因为，如果它看起来像一个正常的引擎，那么我们可以直接将它运送到客户那里，而不需要进一步的测试。</p>
+<p>给定数据集 $x^{(1)},x^{(2)},..,x^{(m)}$，我们假使数据集是正常的，我们希望知道新的数据 $x_{test}$ 是不是异常的，即这个测试数据不属于该组数据的几率如何。我们所构建的模型应该能根据该测试数据的位置告诉我们其属于一组数据的可能性 $p(x)$。</p>
+<p><img src="65afdea865d50cba12d4f7674d599de5.png" alt=""></p>
+<p>上图中，在蓝色圈内的数据属于该组数据的可能性较高，而越是偏远的数据，其属于该组数据的可能性就越低。</p>
+<p>这种方法称为密度估计，表达如下：</p>
+<p>$$<br>if \quad p(x)<br>\begin{cases}<br>&lt; \varepsilon &amp; anomaly \</p>
+<blockquote>
+<p>=\varepsilon &amp; normal<br>\end{cases}<br>$$</p>
+</blockquote>
+<p>欺诈检测：</p>
+<p>$x^{(i)} = {用户的第i个活动特征}$</p>
+<p>模型$p(x)$ 为我们其属于一组数据的可能性，通过$p(x) &lt; \varepsilon$检测非正常用户。</p>
+<p>异常检测主要用来识别欺骗。例如在线采集而来的有关用户的数据，一个特征向量中可能会包含如：用户多久登录一次，访问过的页面，在论坛发布的帖子数量，甚至是打字速度等。尝试根据这些特征构建一个模型，可以用这个模型来识别那些不符合该模式的用户。</p>
+<p>再一个例子是检测一个数据中心，特征可能包含：内存使用情况，被访问的磁盘数量，<strong>CPU</strong>的负载，网络的通信量等。根据这些特征可以构建一个模型，用来判断某些计算机是不是有可能出错了。</p>
+<h3 id="15-2-高斯分布"><a href="#15-2-高斯分布" class="headerlink" title="15.2 高斯分布"></a>15.2 高斯分布</h3><p>参考视频: 15 - 2 - Gaussian Distribution (10 min).mkv</p>
+<p>在这个视频中，我将介绍高斯分布，也称为正态分布。回顾高斯分布的基本知识。</p>
+<p>通常如果我们认为变量 $x$ 符合高斯分布 $x \sim N(\mu, \sigma^2)$则其概率密度函数为：<br>$p(x,\mu,\sigma^2)=\frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)$<br>我们可以利用已有的数据来预测总体中的$μ$和$σ^2$的计算方法如下：<br>$\mu=\frac{1}{m}\sum\limits_{i=1}^{m}x^{(i)}$</p>
+<p>$\sigma^2=\frac{1}{m}\sum\limits_{i=1}^{m}(x^{(i)}-\mu)^2$</p>
+<p>高斯分布样例：</p>
+<p><img src="fcb35433507a56631dde2b4e543743ee.png" alt=""></p>
+<p>注：机器学习中对于方差我们通常只除以$m$而非统计学中的$(m-1)$。这里顺便提一下，在实际使用中，到底是选择使用$1/m$还是$1/(m-1)$其实区别很小，只要你有一个还算大的训练集，在机器学习领域大部分人更习惯使用$1/m$这个版本的公式。这两个版本的公式在理论特性和数学特性上稍有不同，但是在实际使用中，他们的区别甚小，几乎可以忽略不计。</p>
+<h3 id="15-3-算法"><a href="#15-3-算法" class="headerlink" title="15.3 算法"></a>15.3 算法</h3><p>参考视频: 15 - 3 - Algorithm (12 min).mkv</p>
+<p>在本节视频中，我将应用高斯分布开发异常检测算法。</p>
+<p>异常检测算法：</p>
+<p>对于给定的数据集 $x^{(1)},x^{(2)},…,x^{(m)}$，我们要针对每一个特征计算 $\mu$ 和 $\sigma^2$ 的估计值。</p>
+<p>$\mu_j=\frac{1}{m}\sum\limits_{i=1}^{m}x_j^{(i)}$</p>
+<p>$\sigma_j^2=\frac{1}{m}\sum\limits_{i=1}^m(x_j^{(i)}-\mu_j)^2$</p>
+<p>一旦我们获得了平均值和方差的估计值，给定新的一个训练实例，根据模型计算 $p(x)$：</p>
+<p>$p(x)=\prod\limits_{j=1}^np(x_j;\mu_j,\sigma_j^2)=\prod\limits_{j=1}^1\frac{1}{\sqrt{2\pi}\sigma_j}exp(-\frac{(x_j-\mu_j)^2}{2\sigma_j^2})$</p>
+<p>当$p(x) &lt; \varepsilon$时，为异常。</p>
+<p>下图是一个由两个特征的训练集，以及特征的分布情况：</p>
+<p><img src="ba47767a11ba39a23898b9f1a5a57cc5.png" alt=""></p>
+<p>下面的三维图表表示的是密度估计函数，$z$轴为根据两个特征的值所估计$p(x)$值：</p>
+<p><img src="82b90f56570c05966da116c3afe6fc91.jpg" alt=""></p>
+<p>我们选择一个$\varepsilon$，将$p(x) = \varepsilon$作为我们的判定边界，当$p(x) &gt; \varepsilon$时预测数据为正常数据，否则为异常。</p>
+<p>在这段视频中，我们介绍了如何拟合$p(x)$，也就是 $x$的概率值，以开发出一种异常检测算法。同时，在这节课中，我们也给出了通过给出的数据集拟合参数，进行参数估计，得到参数 $\mu$ 和 $\sigma$，然后检测新的样本，确定新样本是否是异常。</p>
+<p>在接下来的课程中，我们将深入研究这一算法，同时更深入地介绍，怎样让算法工作地更加有效。</p>
+<h3 id="15-4-开发和评价一个异常检测系统"><a href="#15-4-开发和评价一个异常检测系统" class="headerlink" title="15.4 开发和评价一个异常检测系统"></a>15.4 开发和评价一个异常检测系统</h3><p>参考视频: 15 - 4 - Developing and Evaluating an Anomaly Detection System (13 min). mkv</p>
+<p>异常检测算法是一个非监督学习算法，意味着我们无法根据结果变量 $ y$ 的值来告诉我们数据是否真的是异常的。我们需要另一种方法来帮助检验算法是否有效。当我们开发一个异常检测系统时，我们从带标记（异常或正常）的数据着手，我们从其中选择一部分正常数据用于构建训练集，然后用剩下的正常数据和异常数据混合的数据构成交叉检验集和测试集。</p>
+<p>例如：我们有10000台正常引擎的数据，有20台异常引擎的数据。 我们这样分配数据：</p>
+<p>6000台正常引擎的数据作为训练集</p>
+<p>2000台正常引擎和10台异常引擎的数据作为交叉检验集</p>
+<p>2000台正常引擎和10台异常引擎的数据作为测试集</p>
+<p>具体的评价方法如下：</p>
+<ol>
+<li><p>根据测试集数据，我们估计特征的平均值和方差并构建$p(x)$函数</p>
+</li>
+<li><p>对交叉检验集，我们尝试使用不同的$\varepsilon$值作为阀值，并预测数据是否异常，根据F1值或者查准率与查全率的比例来选择 $\varepsilon$</p>
+</li>
+<li><p>选出 $\varepsilon$ 后，针对测试集进行预测，计算异常检验系统的$F1$值，或者查准率与查全率之比</p>
+</li>
+</ol>
+<h3 id="15-5-异常检测与监督学习对比"><a href="#15-5-异常检测与监督学习对比" class="headerlink" title="15.5 异常检测与监督学习对比"></a>15.5 异常检测与监督学习对比</h3><p>参考视频: 15 - 5 - Anomaly Detection vs. Supervised Learning (8 min).mkv</p>
+<p>之前我们构建的异常检测系统也使用了带标记的数据，与监督学习有些相似，下面的对比有助于选择采用监督学习还是异常检测：</p>
+<p>两者比较：</p>
+<table>
+<thead>
+<tr>
+<th>异常检测</th>
+<th>监督学习</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>非常少量的正向类（异常数据 $y=1$）, 大量的负向类（$y=0$）</td>
+<td>同时有大量的正向类和负向类</td>
+</tr>
+<tr>
+<td>许多不同种类的异常，非常难。根据非常 少量的正向类数据来训练算法。</td>
+<td>有足够多的正向类实例，足够用于训练 算法，未来遇到的正向类实例可能与训练集中的非常近似。</td>
+</tr>
+<tr>
+<td>未来遇到的异常可能与已掌握的异常、非常的不同。</td>
+<td></td>
+</tr>
+<tr>
+<td>例如： 欺诈行为检测 生产（例如飞机引擎）检测数据中心的计算机运行状况</td>
+<td>例如：邮件过滤器 天气预报 肿瘤分类</td>
+</tr>
+</tbody>
+</table>
+<p>希望这节课能让你明白一个学习问题的什么样的特征，能让你把这个问题当做是一个异常检测，或者是一个监督学习的问题。另外，对于很多技术公司可能会遇到的一些问题，通常来说，正样本的数量很少，甚至有时候是0，也就是说，出现了太多没见过的不同的异常类型，那么对于这些问题，通常应该使用的算法就是异常检测算法。</p>
+<h3 id="15-6-选择特征"><a href="#15-6-选择特征" class="headerlink" title="15.6 选择特征"></a>15.6 选择特征</h3><p>参考视频: 15 - 6 - Choosing What Features to Use (12 min).mkv</p>
+<p>对于异常检测算法，我们使用的特征是至关重要的，下面谈谈如何选择特征：</p>
+<p>异常检测假设特征符合高斯分布，如果数据的分布不是高斯分布，异常检测算法也能够工作，但是最好还是将数据转换成高斯分布，例如使用对数函数：$x= log(x+c)$，其中 $c$ 为非负常数； 或者 $x=x^c$，$c$为 0-1 之间的一个分数，等方法。(编者注：在<strong>python</strong>中，通常用<code>np.log1p()</code>函数，$log1p$就是 $log(x+1)$，可以避免出现负数结果，反向函数就是<code>np.expm1()</code>)</p>
+<p><img src="0990d6b7a5ab3c0036f42083fe2718c6.jpg" alt=""></p>
+<p>误差分析：</p>
+<p>一个常见的问题是一些异常的数据可能也会有较高的$p(x)$值，因而被算法认为是正常的。这种情况下误差分析能够帮助我们，我们可以分析那些被算法错误预测为正常的数据，观察能否找出一些问题。我们可能能从问题中发现我们需要增加一些新的特征，增加这些新特征后获得的新算法能够帮助我们更好地进行异常检测。</p>
+<p>异常检测误差分析：</p>
+<p><img src="f406bc738e5e032be79e52b6facfa48e.png" alt=""></p>
+<p>我们通常可以通过将一些相关的特征进行组合，来获得一些新的更好的特征（异常数据的该特征值异常地大或小），例如，在检测数据中心的计算机状况的例子中，我们可以用<strong>CPU</strong>负载与网络通信量的比例作为一个新的特征，如果该值异常地大，便有可能意味着该服务器是陷入了一些问题中。</p>
+<p>在这段视频中，我们介绍了如何选择特征，以及对特征进行一些小小的转换，让数据更像正态分布，然后再把数据输入异常检测算法。同时也介绍了建立特征时，进行的误差分析方法，来捕捉各种异常的可能。希望你通过这些方法，能够了解如何选择好的特征变量，从而帮助你的异常检测算法，捕捉到各种不同的异常情况。</p>
+<h3 id="15-7-多元高斯分布（选修）"><a href="#15-7-多元高斯分布（选修）" class="headerlink" title="15.7 多元高斯分布（选修）"></a>15.7 多元高斯分布（选修）</h3><p>参考视频: 15 - 7 - Multivariate Gaussian Distribution (Optional) (14 min).mkv</p>
+<p>假使我们有两个相关的特征，而且这两个特征的值域范围比较宽，这种情况下，一般的高斯分布模型可能不能很好地识别异常数据。其原因在于，一般的高斯分布模型尝试的是去同时抓住两个特征的偏差，因此创造出一个比较大的判定边界。</p>
+<p>下图中是两个相关特征，洋红色的线（根据ε的不同其范围可大可小）是一般的高斯分布模型获得的判定边界，很明显绿色的<strong>X</strong>所代表的数据点很可能是异常值，但是其$p(x)$值却仍然在正常范围内。多元高斯分布将创建像图中蓝色曲线所示的判定边界。</p>
+<p><img src="598db991a7c930c9021cec5f6ab9beb9.png" alt=""></p>
+<p>在一般的高斯分布模型中，我们计算 $p(x)$ 的方法是：<br>通过分别计算每个特征对应的几率然后将其累乘起来，在多元高斯分布模型中，我们将构建特征的协方差矩阵，用所有的特征一起来计算 $p(x)$。</p>
+<p>我们首先计算所有特征的平均值，然后再计算协方差矩阵：<br>$p(x)=\prod_{j=1}^np(x_j;\mu,\sigma_j^2)=\prod_{j=1}^n\frac{1}{\sqrt{2\pi}\sigma_j}exp(-\frac{(x_j-\mu_j)^2}{2\sigma_j^2})$</p>
+<p>$\mu=\frac{1}{m}\sum_{i=1}^mx^{(i)}$</p>
+<p>$\Sigma = \frac{1}{m}\sum_{i=1}^m(x^{(i)}-\mu)(x^{(i)}-\mu)^T=\frac{1}{m}(X-\mu)^T(X-\mu)$<br>
+注:其中$\mu $ 是一个向量，其每一个单元都是原特征矩阵中一行数据的均值。最后我们计算多元高斯分布的$p\left( x \right)$:
+$p(x)=\frac{1}{(2\pi)^{\frac{n}{2}}|\Sigma|^{\frac{1}{2}}}exp\left(-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)\right)$
+<br>其中：</p>
+<p>$|\Sigma|$是定矩阵，在 <strong>Octave</strong> 中用 <code>det(sigma)</code>计算</p>
+<p>$\Sigma1$ 是逆矩阵，下面我们来看看协方差矩阵是如何影响模型的：</p>
+<p><img src="29df906704d254f18e92a63173dd51e7.jpg" alt=""></p>
+<p>上图是5个不同的模型，从左往右依次分析：</p>
+<ol>
+<li><p>是一个一般的高斯分布模型</p>
+</li>
+<li><p>通过协方差矩阵，令特征1拥有较小的偏差，同时保持特征2的偏差</p>
+</li>
+<li><p>通过协方差矩阵，令特征2拥有较大的偏差，同时保持特征1的偏差</p>
+</li>
+<li><p>通过协方差矩阵，在不改变两个特征的原有偏差的基础上，增加两者之间的正相关性</p>
+</li>
+<li><p>通过协方差矩阵，在不改变两个特征的原有偏差的基础上，增加两者之间的负相关性</p>
+</li>
+</ol>
+<p>多元高斯分布模型与原高斯分布模型的关系：</p>
+<p>可以证明的是，原本的高斯分布模型是多元高斯分布模型的一个子集，即像上图中的第1、2、3，3个例子所示，如果协方差矩阵只在对角线的单位上有非零的值时，即为原本的高斯分布模型了。</p>
+<p>原高斯分布模型和多元高斯分布模型的比较：</p>
+<table>
+<thead>
+<tr>
+<th>原高斯分布模型</th>
+<th>多元高斯分布模型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>不能捕捉特征之间的相关性 但可以通过将特征进行组合的方法来解决</td>
+<td>自动捕捉特征之间的相关性</td>
+</tr>
+<tr>
+<td>计算代价低，能适应大规模的特征</td>
+<td>计算代价较高 训练集较小时也同样适用</td>
+</tr>
+<tr>
+<td></td>
+<td>必须要有 $m&gt;n$，不然的话协方差矩阵 不可逆的，通常需要 $m&gt;10n$ 另外特征冗余也会导致协方差矩阵不可逆</td>
+</tr>
+</tbody>
+</table>
+<p>原高斯分布模型被广泛使用着，如果特征之间在某种程度上存在相互关联的情况，我们可以通过构造新新特征的方法来捕捉这些相关性。</p>
+<p>如果训练集不是太大，并且没有太多的特征，我们可以使用多元高斯分布模型。</p>
+<h3 id="15-8-使用多元高斯分布进行异常检测（可选）"><a href="#15-8-使用多元高斯分布进行异常检测（可选）" class="headerlink" title="15.8 使用多元高斯分布进行异常检测（可选）"></a>15.8 使用多元高斯分布进行异常检测（可选）</h3><p>参考视频: 15 - 8 - Anomaly Detection using the Multivariate Gaussian Distribution (Optional) (14 min).mkv</p>
+<p>在我们谈到的最后一个视频，关于多元高斯分布，看到的一些建立的各种分布模型，当你改变参数，$\mu$ 和 $\Sigma$。在这段视频中，让我们用这些想法，并应用它们制定一个不同的异常检测算法。</p>
+<p>要回顾一下多元高斯分布和多元正态分布：</p>
+<p><img src="3dbee365617e9264831400e4de247adc.png" alt=""></p>
+<p>分布有两个参数， $\mu$ 和 $\Sigma$。其中$\mu$这一个$n$维向量和 $\Sigma$ 的协方差矩阵，是一种$n\times n$的矩阵。而这里的公式$x$的概率，如按 $\mu$ 和参数化 $\Sigma$，和你的变量 $\mu$ 和 $\Sigma$，你可以得到一个范围的不同分布一样，你知道的，这些都是三个样本，那些我们在以前的视频看过了。</p>
+<p>因此，让我们谈谈参数拟合或参数估计问题：<br>
+我有一组样本${{{ x^{(1)},x^{(2)},...,x^{(m)}} }}$是一个$n$维向量，我想我的样本来自一个多元高斯分布。我如何尝试估计我的参数 $\mu$ 和 $\Sigma$ 以及标准公式？
+<br>估计他们是你设置 $\mu$ 是你的训练样本的平均值。</p>
+<p>$\mu=\frac{1}{m}\sum_{i=1}^{m}x^{(i)}$<br>并设置$\Sigma$：<br>$\Sigma=\frac{1}{m}\sum_{i=1}^{m}(x^{(i)}-\mu)(x^{(i)}-\mu)^T$<br>这其实只是当我们使用<strong>PCA</strong>算法时候，有 $\Sigma$ 时写出来。所以你只需插入上述两个公式，这会给你你估计的参数 $\mu$ 和你估计的参数 $\Sigma$。所以，这里给出的数据集是你如何估计 $\mu$ 和 $\Sigma$。让我们以这种方法而只需将其插入到异常检测算法。那么，我们如何把所有这一切共同开发一个异常检测算法？</p>
+<p><img src="d1a228f2bec262f2206379ed844c7f4a.png" alt=""></p>
+<p>首先，我们把我们的训练集，和我们的拟合模型，我们计算$p(x)$，要知道，设定$\mu$和描述的一样$\Sigma$。</p>
+<p><img src="015cee3a224dde6da0181215cf91a23d.png" alt=""></p>
+<p>如图，该分布在中央最多，越到外面的圈的范围越小。</p>
+<p>并在该点是出路这里的概率非常低。</p>
+<p>原始模型与多元高斯模型的关系如图：</p>
+<p>其中：协方差矩阵$\Sigma$为：</p>
+<p><img src="7104dd2548f1251e4c423e059d1d2594.png" alt=""></p>
+<p>原始模型和多元高斯分布比较如图：</p>
+<p><img src="f4585239738f2b5149608879fa166889.png" alt=""></p>
+<h2 id="十六、推荐系统-Recommender-Systems"><a href="#十六、推荐系统-Recommender-Systems" class="headerlink" title="十六、推荐系统(Recommender Systems)"></a>十六、推荐系统(Recommender Systems)</h2><h3 id="16-1-问题形式化"><a href="#16-1-问题形式化" class="headerlink" title="16.1 问题形式化"></a>16.1 问题形式化</h3><p>参考视频: 16 - 1 - Problem Formulation (8 min).mkv</p>
+<p>在接下来的视频中，我想讲一下推荐系统。我想讲推荐系统有两个原因：</p>
+<p>第一、仅仅因为它是机器学习中的一个重要的应用。在过去几年，我偶尔访问硅谷不同的技术公司，我常和工作在这儿致力于机器学习应用的人们聊天，我常问他们，最重要的机器学习的应用是什么，或者，你最想改进的机器学习应用有哪些。我最常听到的答案是推荐系统。现在，在硅谷有很多团体试图建立很好的推荐系统。因此，如果你考虑网站像亚马逊，或网飞公司或易趣，或<strong>iTunes Genius</strong>，有很多的网站或系统试图推荐新产品给用户。如，亚马逊推荐新书给你，网飞公司试图推荐新电影给你，等等。这些推荐系统，根据浏览你过去买过什么书，或过去评价过什么电影来判断。这些系统会带来很大一部分收入，比如为亚马逊和像网飞这样的公司。因此，对推荐系统性能的改善，将对这些企业的有实质性和直接的影响。</p>
+<p>推荐系统是个有趣的问题，在学术机器学习中因此，我们可以去参加一个学术机器学习会议，推荐系统问题实际上受到很少的关注，或者，至少在学术界它占了很小的份额。但是，如果你看正在发生的事情，许多有能力构建这些系统的科技企业，他们似乎在很多企业中占据很高的优先级。这是我为什么在这节课讨论它的原因之一。</p>
+<p>我想讨论推荐系统地第二个原因是：这个班视频的最后几集我想讨论机器学习中的一些大思想，并和大家分享。这节课我们也看到了，对机器学习来说，特征是很重要的，你所选择的特征，将对你学习算法的性能有很大的影响。因此，在机器学习中有一种大思想，它针对一些问题，可能并不是所有的问题，而是一些问题，有算法可以为你自动学习一套好的特征。因此，不要试图手动设计，而手写代码这是目前为止我们常干的。有一些设置，你可以有一个算法，仅仅学习其使用的特征，推荐系统就是类型设置的一个例子。还有很多其它的，但是通过推荐系统，我们将领略一小部分特征学习的思想，至少，你将能够了解到这方面的一个例子，我认为，机器学习中的大思想也是这样。因此，让我们开始讨论推荐系统问题形式化。</p>
+<p>我们从一个例子开始定义推荐系统的问题。</p>
+<p>假使我们是一个电影供应商，我们有 5 部电影和 4 个用户，我们要求用户为电影打分。</p>
+<p><img src="c2822f2c28b343d7e6ade5bd40f3a1fc.png" alt=""></p>
+<p>前三部电影是爱情片，后两部则是动作片，我们可以看出<strong>Alice</strong>和<strong>Bob</strong>似乎更倾向与爱情片， 而 <strong>Carol</strong> 和 <strong>Dave</strong> 似乎更倾向与动作片。并且没有一个用户给所有的电影都打过分。我们希望构建一个算法来预测他们每个人可能会给他们没看过的电影打多少分，并以此作为推荐的依据。</p>
+<p>下面引入一些标记：</p>
+<p>$n_u$ 代表用户的数量</p>
+<p>$n_m$ 代表电影的数量</p>
+<p>$r(i, j)$ 如果用户j给电影 $i$ 评过分则 $r(i,j)=1$</p>
+<p>$y^{(i, j)}$ 代表用户 $j$ 给电影i的评分</p>
+<p>$m_j$代表用户 $j$ 评过分的电影的总数</p>
+<h3 id="16-2-基于内容的推荐系统"><a href="#16-2-基于内容的推荐系统" class="headerlink" title="16.2 基于内容的推荐系统"></a>16.2 基于内容的推荐系统</h3><p>参考视频: 16 - 2 - Content Based Recommendations (15 min).mkv</p>
+<p>在一个基于内容的推荐系统算法中，我们假设对于我们希望推荐的东西有一些数据，这些数据是有关这些东西的特征。</p>
+<p>在我们的例子中，我们可以假设每部电影都有两个特征，如$x_1$代表电影的浪漫程度，$x_2$ 代表电影的动作程度。</p>
+<p><img src="747c1fd6bff694c6034da1911aa3314b.png" alt=""></p>
+<p>则每部电影都有一个特征向量，如$x^{(1)}$是第一部电影的特征向量为[0.9 0]。</p>
+<p>下面我们要基于这些特征来构建一个推荐系统算法。<br>
+假设我们采用线性回归模型，我们可以针对每一个用户都训练一个线性回归模型，如${{\theta }^{(1)}}$是第一个用户的模型的参数。
+<br>于是，我们有：</p>
+<p>$\theta^{(j)}$用户 $j$ 的参数向量</p>
+<p>$x^{(i)}$电影 $i$ 的特征向量</p>
+<p>对于用户 $j$ 和电影 $i$，我们预测评分为：$(\theta^{(j)})^T x^{(i)}$</p>
+<p>代价函数</p>
+<p>针对用户 $j$，该线性回归模型的代价为预测误差的平方和，加上正则化项：<br>$$<br>\min_{\theta (j)}\frac{1}{2}\sum_{i:r(i,j)=1}\left((\theta^{(j)})^Tx^{(i)}-y^{(i,j)}\right)^2+\frac{\lambda}{2}\left(\theta_{k}^{(j)}\right)^2<br>$$</p>
+<p>其中 $i:r(i,j)$表示我们只计算那些用户 $j$ 评过分的电影。在一般的线性回归模型中，误差项和正则项应该都是乘以$1/2m$，在这里我们将$m$去掉。并且我们不对方差项$\theta_0$进行正则化处理。</p>
+<p>上面的代价函数只是针对一个用户的，为了学习所有用户，我们将所有用户的代价函数求和：<br>
+$$
+\min_{\theta^{(1)},...,\theta^{(n_u)}} \frac{1}{2}\sum_{j=1}^{n_u}\sum_{i:r(i,j)=1}\left((\theta^{(j)})^Tx^{(i)}-y^{(i,j)}\right)^2+\frac{\lambda}{2}\sum_{j=1}^{n_u}\sum_{k=1}^{n}(\theta_k^{(j)})^2
+$$
+<br>如果我们要用梯度下降法来求解最优解，我们计算代价函数的偏导数后得到梯度下降的更新公式为：</p>
+<p>$$<br>\theta_k^{(j)}:=\theta_k^{(j)}-\alpha\sum_{i:r(i,j)=1}((\theta^{(j)})^Tx^{(i)}-y^{(i,j)})x_{k}^{(i)} \quad (\text{for} \, k = 0)<br>$$</p>
+<p>$$<br>\theta_k^{(j)}:=\theta_k^{(j)}-\alpha\left(\sum_{i:r(i,j)=1}((\theta^{(j)})^Tx^{(i)}-y^{(i,j)})x_{k}^{(i)}+\lambda\theta_k^{(j)}\right) \quad (\text{for} \, k\neq 0)<br>$$</p>
+<h3 id="16-3-协同过滤"><a href="#16-3-协同过滤" class="headerlink" title="16.3 协同过滤"></a>16.3 协同过滤</h3><p>参考视频: 16 - 3 - Collaborative Filtering (10 min).mkv</p>
+<p>在之前的基于内容的推荐系统中，对于每一部电影，我们都掌握了可用的特征，使用这些特征训练出了每一个用户的参数。相反地，如果我们拥有用户的参数，我们可以学习得出电影的特征。<br>
+$$
+\mathop{min}\limits_{x^{(1)},...,x^{(n_m)}}\frac{1}{2}\sum_{i=1}^{n_m}\sum_{j{r(i,j)=1}}((\theta^{(j)})^Tx^{(i)}-y^{(i,j)})^2+\frac{\lambda}{2}\sum_{i=1}^{n_m}\sum_{k=1}^{n}(x_k^{(i)})^2
+$$
+<br>但是如果我们既没有用户的参数，也没有电影的特征，这两种方法都不可行了。协同过滤算法可以同时学习这两者。</p>
+<p>我们的优化目标便改为同时针对$x$和$\theta$进行。<br>$$<br>J(x^{(1)},…x^{(n_m)},\theta^{(1)},…,\theta^{(n_u)})=\frac{1}{2}\sum_{(i:j):r(i,j)=1}((\theta^{(j)})^Tx^{(i)}-y^{(i,j)})^2+\frac{\lambda}{2}\sum_{i=1}^{n_m}\sum_{k=1}^{n}(x_k^{(j)})^2+\frac{\lambda}{2}\sum_{j=1}^{n_u}\sum_{k=1}^{n}(\theta_k^{(j)})^2<br>$$</p>
+<p>对代价函数求偏导数的结果如下：</p>
+<p>$$<br>x_k^{(i)}:=x_k^{(i)}-\alpha\left(\sum_{j:r(i,j)=1}((\theta^{(j)})^Tx^{(i)}-y^{(i,j)}\theta_k^{j}+\lambda x_k^{(i)}\right)<br>$$</p>
+<p>$$<br>\theta_k^{(i)}:=\theta_k^{(i)}-\alpha\left(\sum_{i:r(i,j)=1}((\theta^{(j)})^Tx^{(i)}-y^{(i,j)}x_k^{(i)}+\lambda \theta_k^{(j)}\right)<br>$$</p>
+<p>注：在协同过滤从算法中，我们通常不使用方差项，如果需要的话，算法会自动学得。<br>协同过滤算法使用步骤如下：</p>
+<ol>
+<li><p>初始 $x^{(1)},x^{(1)},…x^{(nm)},\ \theta^{(1)},\theta^{(2)},…,\theta^{(n_u)}$为一些随机小值</p>
+</li>
+<li><p>使用梯度下降算法最小化代价函数</p>
+</li>
+<li><p>在训练完算法后，我们预测$(\theta^{(j)})^Tx^{(i)}$为用户 $j$ 给电影 $i$ 的评分</p>
+</li>
+</ol>
+<p>通过这个学习过程获得的特征矩阵包含了有关电影的重要数据，这些数据不总是人能读懂的，但是我们可以用这些数据作为给用户推荐电影的依据。<br>
+例如，如果一位用户正在观看电影 $x^{(i)}$，我们可以寻找另一部电影$x^{(j)}$，依据两部电影的特征向量之间的距离$\left\| {{x}^{(i)}}-{{x}^{(j)}} \right\|$的大小。
+</p>
+<h3 id="16-4-协同过滤算法"><a href="#16-4-协同过滤算法" class="headerlink" title="16.4 协同过滤算法"></a>16.4 协同过滤算法</h3><p>参考视频: 16 - 4 - Collaborative Filtering Algorithm (9 min).mkv</p>
+<p>协同过滤优化目标：<br>
+给定$x^{(1)},...,x^{(n_m)}$，估计$\theta^{(1)},...,\theta^{(n_u)}$：
+$$
+\min_{\theta^{(1)},...,\theta^{(n_u)}}\frac{1}{2}\sum_{j=1}^{n_u}\sum_{i:r(i,j)=1}((\theta^{(j)})^Tx^{(i)}-y^{(i,j)})^2+\frac{\lambda}{2}\sum_{j=1}^{n_u}\sum_{k=1}^{n}(\theta_k^{(j)})^2
+$$
+</p>
+<p>给定$\theta^{(1)},…,\theta^{(n_u)}$，估计$x^{(1)},…,x^{(n_m)}$：</p>
+<p>同时最小化$x^{(1)},…,x^{(n_m)}$和$\theta^{(1)},…,\theta^{(n_u)}$：<br>$$<br>J(x^{(1)},…,x^{(n_m)},\theta^{(1)},…,\theta^{(n_u)})=\frac{1}{2}\sum_{(i,j):r(i,j)=1}((\theta^{(j)})^Tx^{(i)}-y^{(i,j)})^2+\frac{\lambda}{2}\sum_{i=1}^{n_m}\sum_{k=1}^{n}(x_k^{(i)})^2+\frac{\lambda}{2}\sum_{j=1}^{n_u}\sum_{k=1}^{n}(\theta_k^{(j)})^2<br>$$<br>
+$$
+\min_{x^{(1)},...,x^{(n_m)} \\\ \theta^{(1)},...,\theta^{(n_u)}}J(x^{(1)},...,x^{(n_m)},\theta^{(1)},...,\theta^{(n_u)})
+$$
+</p>
+<h3 id="16-5-向量化：低秩矩阵分解"><a href="#16-5-向量化：低秩矩阵分解" class="headerlink" title="16.5 向量化：低秩矩阵分解"></a>16.5 向量化：低秩矩阵分解</h3><p>参考视频: 16 - 5 - Vectorization_ Low Rank Matrix Factorization (8 min).mkv</p>
+<p>在上几节视频中，我们谈到了协同过滤算法，本节视频中我将会讲到有关该算法的向量化实现，以及说说有关该算法你可以做的其他事情。</p>
+<p>举例子：</p>
+<ol>
+<li><p>当给出一件产品时，你能否找到与之相关的其它产品。</p>
+</li>
+<li><p>一位用户最近看上一件产品，有没有其它相关的产品，你可以推荐给他。</p>
+</li>
+</ol>
+<p>我将要做的是：实现一种选择的方法，写出协同过滤算法的预测情况。</p>
+<p>我们有关于五部电影的数据集，我将要做的是，将这些用户的电影评分，进行分组并存到一个矩阵中。</p>
+<p>我们有五部电影，以及四位用户，那么 这个矩阵 $Y$ 就是一个5行4列的矩阵，它将这些电影的用户评分数据都存在矩阵里：</p>
+<table>
+<thead>
+<tr>
+<th><strong>Movie</strong></th>
+<th><strong>Alice (1)</strong></th>
+<th><strong>Bob (2)</strong></th>
+<th><strong>Carol (3)</strong></th>
+<th><strong>Dave (4)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Love at last</td>
+<td>5</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Romance forever</td>
+<td>5</td>
+<td>?</td>
+<td>?</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Cute puppies of love</td>
+<td>?</td>
+<td>4</td>
+<td>0</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Nonstop car chases</td>
+<td>0</td>
+<td>0</td>
+<td>5</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Swords vs. karate</td>
+<td>0</td>
+<td>0</td>
+<td>5</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<p><img src="42a92e07b32b593bb826f8f6bc4d9eb3.png" alt=""></p>
+<p>推出评分：</p>
+<p><img src="c905a6f02e201a4767d869b3791e8aeb.png" alt=""></p>
+<p>找到相关影片：</p>
+<p><img src="0a8b49da1ab852f2996a02afcaca2322.png" alt=""></p>
+<p>现在既然你已经对特征参数向量进行了学习，那么我们就会有一个很方便的方法来度量两部电影之间的相似性。例如说：电影 $i$ 有一个特征向量$x^{(i)}$，你是否能找到一部不同的电影 $j$，保证两部电影的特征向量之间的距离$x^{(i)}$和$x^{(j)}$很小，那就能很有力地表明电影$i$和电影 $j$ 在某种程度上有相似，至少在某种意义上，某些人喜欢电影 $i$，或许更有可能也对电影 $j$ 感兴趣。总结一下，当用户在看某部电影 $i$ 的时候，如果你想找5部与电影非常相似的电影，为了能给用户推荐5部新电影，你需要做的是找出电影 $j$，在这些不同的电影中与我们要找的电影 $i$ 的距离最小，这样你就能给你的用户推荐几部不同的电影了。</p>
+<p>通过这个方法，希望你能知道，如何进行一个向量化的计算来对所有的用户和所有的电影进行评分计算。同时希望你也能掌握，通过学习特征参数，来找到相关电影和产品的方法。</p>
+<h3 id="16-6-推行工作上的细节：均值归一化"><a href="#16-6-推行工作上的细节：均值归一化" class="headerlink" title="16.6 推行工作上的细节：均值归一化"></a>16.6 推行工作上的细节：均值归一化</h3><p>参考视频: 16 - 6 - Implementational Detail_ Mean Normalization (9 min).mkv</p>
+<p>让我们来看下面的用户评分数据：</p>
+<p><img src="54b1f7c3131aed24f9834d62a6835642.png" alt=""></p>
+<p>如果我们新增一个用户 <strong>Eve</strong>，并且 <strong>Eve</strong> 没有为任何电影评分，那么我们以什么为依据为<strong>Eve</strong>推荐电影呢？</p>
+<p>我们首先需要对结果 $Y $矩阵进行均值归一化处理，将每一个用户对某一部电影的评分减去所有用户对该电影评分的平均值：</p>
+<p><img src="9ec5cb55e14bd1462183e104f8e02b80.png" alt=""></p>
+<p>然后我们利用这个新的 $Y$ 矩阵来训练算法。<br>如果我们要用新训练出的算法来预测评分，则需要将平均值重新加回去，预测$(\theta^{(j)})^T x^{(i)}+\mu_i$，对于<strong>Eve</strong>，我们的新模型会认为她给每部电影的评分都是该电影的平均分。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"><i class="fa fa-tag"></i> 机器学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/12/机器学习（十）/" rel="next" title="机器学习（十）">
+                <i class="fa fa-chevron-left"></i> 机器学习（十）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/12/机器学习（十二）/" rel="prev" title="机器学习（十二）">
+                机器学习（十二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Voidmort" />
+            
+              <p class="site-author-name" itemprop="name">Voidmort</p>
+              <p class="site-description motion-element" itemprop="description">研究AI，撰写影评，热爱音乐，努力健身</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Voidmort" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:wxj5658@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1749266905" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#15-1-问题的动机"><span class="nav-number">1.</span> <span class="nav-text">15.1 问题的动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-2-高斯分布"><span class="nav-number">2.</span> <span class="nav-text">15.2 高斯分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-3-算法"><span class="nav-number">3.</span> <span class="nav-text">15.3 算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-4-开发和评价一个异常检测系统"><span class="nav-number">4.</span> <span class="nav-text">15.4 开发和评价一个异常检测系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-5-异常检测与监督学习对比"><span class="nav-number">5.</span> <span class="nav-text">15.5 异常检测与监督学习对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-6-选择特征"><span class="nav-number">6.</span> <span class="nav-text">15.6 选择特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-7-多元高斯分布（选修）"><span class="nav-number">7.</span> <span class="nav-text">15.7 多元高斯分布（选修）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-8-使用多元高斯分布进行异常检测（可选）"><span class="nav-number">8.</span> <span class="nav-text">15.8 使用多元高斯分布进行异常检测（可选）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#十六、推荐系统-Recommender-Systems"><span class="nav-number"></span> <span class="nav-text">十六、推荐系统(Recommender Systems)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#16-1-问题形式化"><span class="nav-number">1.</span> <span class="nav-text">16.1 问题形式化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-2-基于内容的推荐系统"><span class="nav-number">2.</span> <span class="nav-text">16.2 基于内容的推荐系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-3-协同过滤"><span class="nav-number">3.</span> <span class="nav-text">16.3 协同过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-4-协同过滤算法"><span class="nav-number">4.</span> <span class="nav-text">16.4 协同过滤算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-5-向量化：低秩矩阵分解"><span class="nav-number">5.</span> <span class="nav-text">16.5 向量化：低秩矩阵分解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-6-推行工作上的细节：均值归一化"><span class="nav-number">6.</span> <span class="nav-text">16.6 推行工作上的细节：均值归一化</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Voidmort</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":110,"height":220},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>

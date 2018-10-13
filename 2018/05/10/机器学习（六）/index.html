@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="这里记录了视频第七节的内容，主要关于正则化的问题 欠拟合(under fitting)和过拟合(over fitting)现在已经学习了一些不同的机器学习算法，包括线性回归和逻辑回归，它们能够有效的解决许多问题，但是将它们应用到某些特定的机器学习中时，就会出现欠拟合或者过拟合的问题，导致效果很差，通过正则化的方法可以改善算法，下面介绍什么是过拟合与欠拟合。继续用线性回归预测房价的例子：  首先看第">
+<meta name="keywords" content="机器学习,正则化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习（六）">
+<meta property="og:url" content="https://xvjie.wang/2018/05/10/机器学习（六）/index.html">
+<meta property="og:site_name" content="Voidmort">
+<meta property="og:description" content="这里记录了视频第七节的内容，主要关于正则化的问题 欠拟合(under fitting)和过拟合(over fitting)现在已经学习了一些不同的机器学习算法，包括线性回归和逻辑回归，它们能够有效的解决许多问题，但是将它们应用到某些特定的机器学习中时，就会出现欠拟合或者过拟合的问题，导致效果很差，通过正则化的方法可以改善算法，下面介绍什么是过拟合与欠拟合。继续用线性回归预测房价的例子：  首先看第">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://xvjie.wang/2018/05/10/机器学习（六）/1.png">
+<meta property="og:image" content="https://xvjie.wang/2018/05/10/机器学习（六）/2.png">
+<meta property="og:image" content="https://xvjie.wang/2018/05/10/机器学习（六）/3.png">
+<meta property="og:image" content="https://xvjie.wang/2018/05/10/机器学习（六）/4.png">
+<meta property="og:image" content="https://xvjie.wang/2018/05/10/机器学习（六）/5.png">
+<meta property="og:image" content="https://xvjie.wang/2018/05/10/机器学习（六）/6.png">
+<meta property="og:image" content="https://xvjie.wang/2018/05/10/机器学习（六）/7.png">
+<meta property="og:image" content="https://xvjie.wang/2018/05/10/机器学习（六）/8.png">
+<meta property="og:image" content="https://xvjie.wang/2018/05/10/机器学习（六）/9.png">
+<meta property="og:image" content="https://xvjie.wang/2018/05/10/机器学习（六）/10.png">
+<meta property="og:image" content="https://xvjie.wang/2018/05/10/机器学习（六）/11.png">
+<meta property="og:image" content="https://xvjie.wang/2018/05/10/机器学习（六）/12.png">
+<meta property="og:image" content="https://xvjie.wang/2018/05/10/机器学习（六）/13.png">
+<meta property="og:image" content="https://xvjie.wang/2018/05/10/机器学习（六）/14.png">
+<meta property="og:image" content="https://xvjie.wang/2018/05/10/机器学习（六）/15.png">
+<meta property="og:image" content="https://xvjie.wang/2018/05/10/机器学习（六）/16.png">
+<meta property="og:image" content="https://xvjie.wang/2018/05/10/机器学习（六）/17.png">
+<meta property="og:image" content="https://xvjie.wang/2018/05/10/机器学习（六）/18.png">
+<meta property="og:updated_time" content="2018-08-26T02:24:52.781Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习（六）">
+<meta name="twitter:description" content="这里记录了视频第七节的内容，主要关于正则化的问题 欠拟合(under fitting)和过拟合(over fitting)现在已经学习了一些不同的机器学习算法，包括线性回归和逻辑回归，它们能够有效的解决许多问题，但是将它们应用到某些特定的机器学习中时，就会出现欠拟合或者过拟合的问题，导致效果很差，通过正则化的方法可以改善算法，下面介绍什么是过拟合与欠拟合。继续用线性回归预测房价的例子：  首先看第">
+<meta name="twitter:image" content="https://xvjie.wang/2018/05/10/机器学习（六）/1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Voidmort" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://xvjie.wang/2018/05/10/机器学习（六）/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>机器学习（六） | Voidmort</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7b96eb7c2717359e36cc8bd8b546997c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/Voidmort" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Voidmort</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xvjie.wang/2018/05/10/机器学习（六）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Voidmort">
+      <meta itemprop="description" content="研究AI，撰写影评，热爱音乐，努力健身">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Voidmort">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习（六）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-10 00:00:00" itemprop="dateCreated datePublished" datetime="2018-05-10T00:00:00+08:00">2018-05-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-08-26 10:24:52" itemprop="dateModified" datetime="2018-08-26T10:24:52+08:00">2018-08-26</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这里记录了视频第七节的内容，主要关于正则化的问题</p>
+<h1 id="欠拟合-under-fitting-和过拟合-over-fitting"><a href="#欠拟合-under-fitting-和过拟合-over-fitting" class="headerlink" title="欠拟合(under fitting)和过拟合(over fitting)"></a>欠拟合(under fitting)和过拟合(over fitting)</h1><p>现在已经学习了一些不同的机器学习算法，包括线性回归和逻辑回归，它们能够有效的解决许多问题，但是将它们应用到某些特定的机器学习中时，就会出现欠拟合或者过拟合的问题，导致效果很差，通过正则化的方法可以改善算法，下面介绍什么是过拟合与欠拟合。<br><img src="1.png" alt=""><br>继续用线性回归预测房价的例子：</p>
+<ol>
+<li>首先看第一幅图，使用一条直线函数来拟合数据，很显然随着房子面积的增大，房屋价格的变化越稳定或者说是越像右越趋于平滑，因此线性回归并没有很好拟合训练数据。<br>==我们把此类情况称为欠拟合(underfitting)，或者叫作叫做高偏差(bias)。==</li>
+</ol>
+<p>这两种说法大致相似，都表示没有很好地拟合训练数据。高偏差这个词是 machine learning 的研究初期传下来的一个专业名词，具体到这个问题，意思就是说如果用线性回归这个算法去拟合训练数据，那么该算法实际上会产生一个非常大的偏差或者说存在一个很强的偏见。</p>
+<ol start="2">
+<li>在第二幅图我们用了一个二次函数去拟合数据，可以拟合出一条合理的曲线，事实证明这是一个很好的拟合效果。</li>
+<li>第三幅图，在这里我们有五个训练数据，所以使用了五个参数θ0到θ4的一个四次多项式去拟合数据，它似乎是一个很好的拟合，因为它成功的通过了我们的所有训练数据，但是它非常的扭曲，在上下波动，所以事实上我们并不认为它是一个预测房价的好模型。</li>
+</ol>
+<p>==我们把这类情况叫做过拟合(overfitting)，也叫高方差(variance)。==</p>
+<p>与高偏差一样，高方差同样也是一个历史上的叫法。从第一印象上来说，如果我们拟合一个高阶多项式，那么这个函数能很好的拟合训练集（能拟合几乎所有的训练数据），但这也就面临函数可能太过庞大的问题，变量太多。<br>==同时如果我们没有足够的数据集（训练集）去约束这个变量过多的模型，那么就会发生过拟合。==<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">为什么足够多的多项式可以完美的拟合数据？</span><br><span class="line">泰勒公式展开式。</span><br></pre></td></tr></table></figure></p>
+<p>概括的说，过拟合将会发生在变量（特征）过多的时候，这时候训练出的方程总能够很好的拟合训练数据，我们的代价函数无限趋于0或者就是0，但是这样千方百计拟合训练数据的曲线无法泛化到新的样本数据中，以至于无法预测新的样本价格。术语<strong>泛化</strong>指的是一个假设模型能够应用到新样本的能力，新样本指的是不在训练集中的样本数据。</p>
+<p>过拟合和欠拟合的情况不仅出现在线性回归也会出现在逻辑回归的问题<br><img src="2.png" alt=""><br><strong>过多的变量（特征），同时只有非常少的训练数据，会导致出现过度拟合的问题</strong></p>
+<p>如何避免过拟合呢？有以下两个方式来避免过拟合</p>
+<p><img src="3.png" alt=""></p>
+<ol>
+<li><strong>减少选取变量的数量，保留更加重要的特征</strong></li>
+</ol>
+<p>具体而言，我们可以人工检查每一项变量，并以此来确定哪些变量更为重要，然后，保留那些更为重要的特征变量。至于，哪些变量应该舍弃，我们以后在讨论，这会涉及到模型选择算法，这种算法是可以自动选择采用哪些特征变量，自动舍弃不需要的变量。这类做法非常有效，但是其缺点是当你舍弃一部分特征变量时，你也舍弃了问题中的一些信息。例如，也许所有的特征变量对于预测房价都是有用的，我们实际上并不想舍弃一些信息或者说舍弃这些特征变量。</p>
+<ol start="2">
+<li><strong>正则化</strong></li>
+</ol>
+<p>正则化中我们将保留所有的特征变量，但是会减小特征变量的数量级（参数数值的大小θ(j)）。</p>
+<p>这个方法非常有效，当我们有很多特征变量时，其中每一个变量都能对预测产生一点影响。正如我们在房价预测的例子中看到的那样，我们可以有很多特征变量，其中每一个变量都是有用的，因此我们不希望把它们删掉，这就导致了正则化概念的发生。</p>
+<p>接下来我们会讨论怎样应用正则化和什么叫做正则化均值，然后将开始讨论怎样使用正则化来使学习算法正常工作，并避免过拟合。</p>
+<h1 id="机器学习的正则化"><a href="#机器学习的正则化" class="headerlink" title="机器学习的正则化"></a>机器学习的正则化</h1><p><img src="4.png" alt=""><br>在前面介绍了用二次函数去拟合这些数据，他的拟合效果是很好的，然而我们用更高次的多项式去拟合，最终到的一个曲线，尽管他很好的拟合了训练集，但并不是一个好的结果，因为他过度拟合了数据，所以一般性不好。</p>
+<p><img src="5.png" alt=""><br>然后我们考虑下面的假设，我们想要加上<strong>惩罚项</strong>从而使参数 θ3 和 θ4 足够小，上面函数是我们的优化目标，也就是说我们要尽量减少代价函数的均方差，对于这个函数我们对它添加一些项，加上 1000 乘以 θ3 的平方，再加上 1000 乘以 θ4 的平方，于是出现了下面的式子：</p>
+<p><img src="6.png" alt=""><br>1000 只是我随便写的某个较大的数字而已。现在，如果我们要最小化这个函数，那么为了最小化这个新的代价函数，我们要让 θ3 和 θ4 尽可能小。因为，如果你在原有代价函数的基础上加上 1000 乘以 θ3 这一项 ，那么这个新的代价函数将变得很大，所以，当我们最小化这个新的代价函数时， 我们将使 θ3 的值接近于 0，同样 θ4 的值也接近于 0，就像我们忽略了这两个值一样。如果我们做到这一点（ θ3 和 θ4 接近 0 ），那么我们将得到一个近似的二次函数。</p>
+<p><img src="7.png" alt=""><br>因此，我们最终恰当地拟合了数据，我们所使用的正是二次函数加上一些非常小，贡献很小项（因为这些项的 θ3、 θ4 非常接近于0）。显然，这是一个更好的假设。</p>
+<p><img src="8.png" alt=""><br>正则化背后的思路，如果我们的参数值对应一个较小的值的（参数值较小），那么我们会道道一个形式更简单的假设。</p>
+<p>在上面的例子中，我们的惩罚的只是θ3和θ4，使这两个值均接近于零，从而得到了一个更简单的假设，实际上这个假设类似一个二次函数。</p>
+<p>更简单的讲，如果我们像惩罚θ3和θ4这样惩罚其他参数，那么我们往往可以得到一个相对简单的假设函数。</p>
+<p>==实际上，这些参数的值越小，对应的函数曲线越平滑，也就是更加简单的函数，因此，就不易发生过拟合的问题。==</p>
+<p>为什么越小的参数对应一个相对简单的假设函数，具体看下面这个例子。</p>
+<p>对于房屋价格的预测我们可能又上百个特征，与刚刚所说的多项式例子不同，我们并不知道θ3和θ4是高阶多项式的项，所以，我们有一百个特征，但是我们那并不知道如何选择关联度更好的参数，如何缩小参数的数目等等。</p>
+<p>因此在正则化里，我们要做的事情，就是减小我们的代价函数所有的参数值，因为我们并不知道哪一个或几个要去缩小，所以我们要修改代价函数，在后面添加一项，就像我们在方括号里的这项，当我们添加一个额外的正则化项的时候，我们缩小了每一个参数。</p>
+<p><img src="9.png" alt=""><br>顺便说一下，按照惯例，我们没有去惩罚 θ0，因此 θ0的值是大的。这就是一个约定从 1 到 n 的求和，而不是从 0 到 n 的求和。但其实在实践中这只会有非常小的差异，无论你是否包括这θ0这项。但是按照惯例，通常情况下我们还是只从 θ1 到 θn 进行正则化。</p>
+<p>带λ的的这项就是一个正则化项，并且λ在这里我们称做正则化参数。</p>
+<p>==λ 要做的就是控制在两个不同的目标中的平衡关系。==</p>
+<p><strong>第一个目标就是我们想要使假设函数更好的拟合训练数据</strong></p>
+<p><strong>第二个目标是要保持我们的参数较小通过正则化</strong></p>
+<p>而λ这个正则化参数需要控制的是两者之间的平衡，既平衡拟合训练的目标和保持参数值较小的目标。从而保持假设的形式相对简单，来避免过拟合。</p>
+<p>对于房屋价格预测来说，我们之前所用的非常多的高阶多项式来拟合，我们将会得到一个非常弯曲和复杂的曲线函数，现在只需要通过正则化的优化，就可以得到一个更加合适的曲线，这个曲线不是一个真正的二次函数曲线，而是更加的流畅和简单的一个曲线。这样就得到了对于这个数据集更好的假设函数。</p>
+<p>再一次说明下，这部分内容的确有些难以明白，为什么加上参数的影响可以具有这种效果？但如果你亲自实现了正规化，你将能够看到这种影响的最直观的感受。</p>
+<p><img src="10.png" alt=""><br>在正则化线性回归中，如果正则化参数值λ被设定的非常大，那么会发生什么呢？我们非常大的惩罚参数θ1 θ2 θ3 θ4 … 也就是说，我们最终惩罚θ1 θ2 θ3 θ4 …  在一个非常大的程度，那么我们会使所有这些参数接近于零。</p>
+<p><img src="11.png" alt=""><br>如果我们这么做，那么就意味着我们的假设相当于去掉了这些项，并且使我们只留下了一个简单的假设，这个假设只能表明房屋价格等于θ0的值，那就是类似与一条水平的直线，对于数据来说就是一个欠拟合。这是一个失败的假设直线，对于训练集来说这就是一条平滑的直线，它没有任何趋势，它不会去趋向大部分的训练样本的任何值。</p>
+<p>另一个说法就是这种假设有过于强烈的偏见或者说使高偏差，认为预测的价格只等于θ0，对于数据来说只是一条水平线。</p>
+<p>因此，为了使正则化运行良好，我们应当注意一些方面，应该去选择一个不错的正则化参数λ，当我们以后讲到多重选择时我们将讨论一种方法来自动选择正则化参数 λ，为了使用正则化，接下来我们将把这些概念应用到到线性回归和逻辑回归中去，那么我们就可以让他们避免过度拟合了。</p>
+<h1 id="正则化的线性回归-（Regularized-Linear-Regression）"><a href="#正则化的线性回归-（Regularized-Linear-Regression）" class="headerlink" title="正则化的线性回归 （Regularized Linear Regression）"></a>正则化的线性回归 （Regularized Linear Regression）</h1><p>之前写过线性回归的代价函数如下：</p>
+<p><img src="12.png" alt=""><br>对于线性回归的求解，我们之前运用了两种学习算法，一种基于梯度下降，一种基于正规方程。</p>
+<h2 id="梯度下降"><a href="#梯度下降" class="headerlink" title="梯度下降"></a>梯度下降</h2><p><img src="13.png" alt=""></p>
+<h2 id="正规方程"><a href="#正规方程" class="headerlink" title="正规方程"></a>正规方程</h2><p><img src="14.png" alt=""></p>
+<h3 id="不可逆情况"><a href="#不可逆情况" class="headerlink" title="不可逆情况"></a>不可逆情况</h3><p>当出现样本数量M比特征数N少或等于时，矩阵XTX将出现不可逆或者奇异（singluar）矩阵，用另一个说法就是矩阵的退化（degenerate），这时我们就没办法用正规方程来求 θ。</p>
+<p><img src="15.png" alt=""><br>正则化可以解决这个问题，具体的说只要正则参数是严格大于零，实际上，可以证明上图的蓝括号部分是可逆的（invertable），因此正则化可以解决任何XTX不可逆的问题。</p>
+<p>所以现在可以实现线性回归避免过度拟合的问题，即使是一个相对较小的训练集合里面有很多的特征值。</p>
+<h1 id="正则化的逻辑回归（Regularized-Logistic-Regression）"><a href="#正则化的逻辑回归（Regularized-Logistic-Regression）" class="headerlink" title="正则化的逻辑回归（Regularized Logistic Regression）"></a>正则化的逻辑回归（Regularized Logistic Regression）</h1><p>逻辑回归的正则化实际上和线性回归的正则化十分的相似。</p>
+<p><img src="16.png" alt=""><br>同样使用梯度下降：</p>
+<p><img src="17.png" alt=""><br>如果在高级优化算法中，使用正则化技术的话，那么对于这类算法我们需要自己定义costfunction</p>
+<p><img src="18.png" alt=""><br>这个我们自定义的 costFunction 的输入为向量 θ ，返回值有两项，分别是代价函数 jVal 以及 梯度gradient。</p>
+<p>总之我们需要的就是这个自定义函数costFunction，针对Octave而言，我们可以将这个函数作为参数传入到 fminunc 系统函数中（fminunc 用来求函数的最小值，将@costFunction作为参数代进去，注意 @costFunction 类似于C语言中的函数指针），fminunc返回的是函数 costFunction 在无约束条件下的最小值，即我们提供的代价函数 jVal 的最小值，当然也会返回向量 θ 的解。</p>
+<p>上述方法显然对正则化逻辑回归是适用的。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>从这里开始感觉课程已经有些难度了，关于正则化我也是查阅了其他相关资料才得以明白，尝试写个关于正则化的程序吧。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"><i class="fa fa-tag"></i> 机器学习</a>
+          
+            <a href="/tags/正则化/" rel="tag"><i class="fa fa-tag"></i> 正则化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/09/正则化/" rel="next" title="正则化">
+                <i class="fa fa-chevron-left"></i> 正则化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/15/机器学习（七）/" rel="prev" title="机器学习（七）">
+                机器学习（七） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Voidmort" />
+            
+              <p class="site-author-name" itemprop="name">Voidmort</p>
+              <p class="site-description motion-element" itemprop="description">研究AI，撰写影评，热爱音乐，努力健身</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Voidmort" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:wxj5658@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1749266905" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#欠拟合-under-fitting-和过拟合-over-fitting"><span class="nav-number">1.</span> <span class="nav-text">欠拟合(under fitting)和过拟合(over fitting)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#机器学习的正则化"><span class="nav-number">2.</span> <span class="nav-text">机器学习的正则化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正则化的线性回归-（Regularized-Linear-Regression）"><span class="nav-number">3.</span> <span class="nav-text">正则化的线性回归 （Regularized Linear Regression）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#梯度下降"><span class="nav-number">3.1.</span> <span class="nav-text">梯度下降</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正规方程"><span class="nav-number">3.2.</span> <span class="nav-text">正规方程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#不可逆情况"><span class="nav-number">3.2.1.</span> <span class="nav-text">不可逆情况</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正则化的逻辑回归（Regularized-Logistic-Regression）"><span class="nav-number">4.</span> <span class="nav-text">正则化的逻辑回归（Regularized Logistic Regression）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Voidmort</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":110,"height":220},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>
