@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2018-04-02T10:28:37.409Z</updated>
+  <updated>2018-12-15T08:30:05.970Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -15,6 +15,88 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ex8-anomaly detection and recommendation</title>
+    <link href="https://xvjie.wang/2018/11/20/ex8-anomaly%20detection%20and%20recommendation/"/>
+    <id>https://xvjie.wang/2018/11/20/ex8-anomaly detection and recommendation/</id>
+    <published>2018-11-19T16:00:00.000Z</published>
+    <updated>2018-12-15T08:30:05.970Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;AndrewNg 机器学习习题ex6-anomaly detection and recommendation&lt;/p&gt;
+&lt;p&gt;这是最后一个练习了，共有两个算法，第一个是异常检测，第二个是推荐系统。&lt;/p&gt;
+&lt;h1 id=&quot;异常检测&quot;&gt;&lt;a href=&quot;#异常检测&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="机器学习习题" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ex7-k means and PCA</title>
+    <link href="https://xvjie.wang/2018/11/07/ex7-k%20means%20and%20PCA/"/>
+    <id>https://xvjie.wang/2018/11/07/ex7-k means and PCA/</id>
+    <published>2018-11-06T16:00:00.000Z</published>
+    <updated>2018-12-15T08:18:20.845Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;AndrewNg 机器学习习题ex7-k means and PCA&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="机器学习习题" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ex6-SVM</title>
+    <link href="https://xvjie.wang/2018/11/01/ex6-SVM/"/>
+    <id>https://xvjie.wang/2018/11/01/ex6-SVM/</id>
+    <published>2018-10-31T16:00:00.000Z</published>
+    <updated>2018-12-15T08:18:20.662Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;AndrewNg 机器学习习题ex6-SVM&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot; target=&quot;_blank&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="机器学习习题" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
+    
+  </entry>
   
   <entry>
     <title>GitHub学习笔记</title>
@@ -121,33 +203,6 @@
   </entry>
   
   <entry>
-    <title>独热编码One Hot Encoder</title>
-    <link href="https://xvjie.wang/2018/09/29/%E7%8B%AC%E7%83%AD%E7%BC%96%E7%A0%81One%20Hot%20Encoder/"/>
-    <id>https://xvjie.wang/2018/09/29/独热编码One Hot Encoder/</id>
-    <published>2018-09-28T16:00:00.000Z</published>
-    <updated>2018-10-13T06:03:33.751Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;在机器学习时我们通常要进行归一化数据后再进行训练，还有一些其他处理方法比如使用独热编码。&lt;/p&gt;
-&lt;h1 id=&quot;什么是独热码&quot;&gt;&lt;a href=&quot;#什么是独热码&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-      <category term="OneHotEncoder" scheme="https://xvjie.wang/tags/OneHotEncoder/"/>
-    
-  </entry>
-  
-  <entry>
     <title>ex4-NN back propagation</title>
     <link href="https://xvjie.wang/2018/09/29/ex4-NN%20back%20propagation/"/>
     <id>https://xvjie.wang/2018/09/29/ex4-NN back propagation/</id>
@@ -171,6 +226,33 @@
     
     
       <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>独热编码One Hot Encoder</title>
+    <link href="https://xvjie.wang/2018/09/29/%E7%8B%AC%E7%83%AD%E7%BC%96%E7%A0%81One%20Hot%20Encoder/"/>
+    <id>https://xvjie.wang/2018/09/29/独热编码One Hot Encoder/</id>
+    <published>2018-09-28T16:00:00.000Z</published>
+    <updated>2018-10-13T06:03:33.751Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;在机器学习时我们通常要进行归一化数据后再进行训练，还有一些其他处理方法比如使用独热编码。&lt;/p&gt;
+&lt;h1 id=&quot;什么是独热码&quot;&gt;&lt;a href=&quot;#什么是独热码&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="OneHotEncoder" scheme="https://xvjie.wang/tags/OneHotEncoder/"/>
     
   </entry>
   
@@ -475,89 +557,6 @@
     </summary>
     
       <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>【转】神经网络浅讲：从神经元到深度学习</title>
-    <link href="https://xvjie.wang/2018/05/30/%E3%80%90%E8%BD%AC%E3%80%91%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%B5%85%E8%AE%B2%EF%BC%9A%E4%BB%8E%E7%A5%9E%E7%BB%8F%E5%85%83%E5%88%B0%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    <id>https://xvjie.wang/2018/05/30/【转】神经网络浅讲：从神经元到深度学习/</id>
-    <published>2018-05-29T16:00:00.000Z</published>
-    <updated>2018-08-12T07:39:52.899Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;这又是我常看的大神写的一篇博客，从最初的从机器学习谈起使我入门机器学习，到现在学到了神经网络，又找到了他的博客，希望对我学习神经网络有所帮助。&lt;/p&gt;
-&lt;p&gt;原文地址：&lt;a
-        
-      
-    
-    </summary>
-    
-      <category term="转载" scheme="https://xvjie.wang/categories/%E8%BD%AC%E8%BD%BD/"/>
-    
-    
-      <category term="机器学习，神经网络" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%8C%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>微软笔试算法（一）</title>
-    <link href="https://xvjie.wang/2018/05/29/%E5%BE%AE%E8%BD%AF%E7%AC%94%E8%AF%95%E7%AE%97%E6%B3%95%EF%BC%88%E4%B8%80%EF%BC%89/"/>
-    <id>https://xvjie.wang/2018/05/29/微软笔试算法（一）/</id>
-    <published>2018-05-28T16:00:00.000Z</published>
-    <updated>2018-05-29T13:39:34.189Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;最近求职中接到的好多外包公司的电话，一般我都是拒绝的，其中告知外包到微软的就有三家，有一家说是微软小冰项目，给了我八道算法题，都不是太难，有的在LeetCode上还做过，在这里记录一下，正好也整理下LeetCode上刷过的题。&lt;/p&gt;
-&lt;p&gt;这里记录的算法是只用python
-        
-      
-    
-    </summary>
-    
-      <category term="算法练习" scheme="https://xvjie.wang/categories/%E7%AE%97%E6%B3%95%E7%BB%83%E4%B9%A0/"/>
-    
-    
-      <category term="算法" scheme="https://xvjie.wang/tags/%E7%AE%97%E6%B3%95/"/>
-    
-      <category term="python" scheme="https://xvjie.wang/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>【转】机器学习法则：ML工程的最佳实践</title>
-    <link href="https://xvjie.wang/2018/05/21/%5B%E8%BD%AC%5D%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%B3%95%E5%88%99%EF%BC%9AML%E5%B7%A5%E7%A8%8B%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"/>
-    <id>https://xvjie.wang/2018/05/21/[转]机器学习法则：ML工程的最佳实践/</id>
-    <published>2018-05-20T16:00:00.000Z</published>
-    <updated>2018-08-12T06:34:34.432Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;机器学习法则：ML工程的最佳实践&lt;/p&gt;
-&lt;p&gt;&lt;/p&gt;&lt;p style=&quot;color: rgb(105, 115, 117);font-size: 14px;letter-spacing: 1px;background-color: rgb(254, 255,
-        
-      
-    
-    </summary>
-    
-      <category term="转载" scheme="https://xvjie.wang/categories/%E8%BD%AC%E8%BD%BD/"/>
     
     
       <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
