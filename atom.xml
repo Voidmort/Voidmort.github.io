@@ -203,33 +203,6 @@
   </entry>
   
   <entry>
-    <title>ex4-NN back propagation</title>
-    <link href="https://xvjie.wang/2018/09/29/ex4-NN%20back%20propagation/"/>
-    <id>https://xvjie.wang/2018/09/29/ex4-NN back propagation/</id>
-    <published>2018-09-28T16:00:00.000Z</published>
-    <updated>2018-10-13T06:01:58.462Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;AndrewNg 机器学习习题ex4-NN back propagation&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="机器学习习题" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
     <title>独热编码One Hot Encoder</title>
     <link href="https://xvjie.wang/2018/09/29/%E7%8B%AC%E7%83%AD%E7%BC%96%E7%A0%81One%20Hot%20Encoder/"/>
     <id>https://xvjie.wang/2018/09/29/独热编码One Hot Encoder/</id>
@@ -270,6 +243,33 @@
         
         
           &lt;p&gt;AndrewNg 机器学习习题ex5-bias vs variance&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习习题" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ex4-NN back propagation</title>
+    <link href="https://xvjie.wang/2018/09/29/ex4-NN%20back%20propagation/"/>
+    <id>https://xvjie.wang/2018/09/29/ex4-NN back propagation/</id>
+    <published>2018-09-28T16:00:00.000Z</published>
+    <updated>2018-10-13T06:01:58.462Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;AndrewNg 机器学习习题ex4-NN back propagation&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot;
         
       
