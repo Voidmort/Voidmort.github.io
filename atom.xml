@@ -286,11 +286,11 @@
   </entry>
   
   <entry>
-    <title>ex4-NN back propagation</title>
-    <link href="https://xvjie.wang/2018/09/29/ex4-NN%20back%20propagation/"/>
-    <id>https://xvjie.wang/2018/09/29/ex4-NN back propagation/</id>
+    <title>ex5-bias vs variance</title>
+    <link href="https://xvjie.wang/2018/09/29/ex5-bias%20vs%20variance/"/>
+    <id>https://xvjie.wang/2018/09/29/ex5-bias vs variance/</id>
     <published>2018-09-28T16:00:00.000Z</published>
-    <updated>2018-10-13T06:01:58.462Z</updated>
+    <updated>2018-10-13T06:02:00.631Z</updated>
     
     <summary type="html">
     
@@ -298,7 +298,7 @@
       
         
         
-          &lt;p&gt;AndrewNg 机器学习习题ex4-NN back propagation&lt;/p&gt;
+          &lt;p&gt;AndrewNg 机器学习习题ex5-bias vs variance&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot;
         
       
@@ -313,11 +313,11 @@
   </entry>
   
   <entry>
-    <title>ex5-bias vs variance</title>
-    <link href="https://xvjie.wang/2018/09/29/ex5-bias%20vs%20variance/"/>
-    <id>https://xvjie.wang/2018/09/29/ex5-bias vs variance/</id>
+    <title>ex4-NN back propagation</title>
+    <link href="https://xvjie.wang/2018/09/29/ex4-NN%20back%20propagation/"/>
+    <id>https://xvjie.wang/2018/09/29/ex4-NN back propagation/</id>
     <published>2018-09-28T16:00:00.000Z</published>
-    <updated>2018-10-13T06:02:00.631Z</updated>
+    <updated>2018-10-13T06:01:58.462Z</updated>
     
     <summary type="html">
     
@@ -325,7 +325,7 @@
       
         
         
-          &lt;p&gt;AndrewNg 机器学习习题ex5-bias vs variance&lt;/p&gt;
+          &lt;p&gt;AndrewNg 机器学习习题ex4-NN back propagation&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot;
         
       
@@ -367,33 +367,6 @@
   </entry>
   
   <entry>
-    <title>机器学习总结</title>
-    <link href="https://xvjie.wang/2018/09/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/"/>
-    <id>https://xvjie.wang/2018/09/14/机器学习总结/</id>
-    <published>2018-09-13T16:00:00.000Z</published>
-    <updated>2018-12-31T11:08:21.315Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Andrew Ng的机器学习入门课程已经全部看完了，笔记也写了一些，这里总结所有所学的内容，说实话，现在完全忘记了开始所学的内容了。&lt;/p&gt;
-&lt;h1 id=&quot;什么是机器学习&quot;&gt;&lt;a href=&quot;#什么是机器学习&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
     <title>LeetCode 28.Implement strStr().</title>
     <link href="https://xvjie.wang/2018/09/14/LeetCode%2028.Implement%20strStr()./"/>
     <id>https://xvjie.wang/2018/09/14/LeetCode 28.Implement strStr()./</id>
@@ -421,6 +394,33 @@
       <category term="c" scheme="https://xvjie.wang/tags/c/"/>
     
       <category term="LeetCode" scheme="https://xvjie.wang/tags/LeetCode/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>机器学习总结</title>
+    <link href="https://xvjie.wang/2018/09/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/"/>
+    <id>https://xvjie.wang/2018/09/14/机器学习总结/</id>
+    <published>2018-09-13T16:00:00.000Z</published>
+    <updated>2018-12-31T11:08:21.315Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Andrew Ng的机器学习入门课程已经全部看完了，笔记也写了一些，这里总结所有所学的内容，说实话，现在完全忘记了开始所学的内容了。&lt;/p&gt;
+&lt;h1 id=&quot;什么是机器学习&quot;&gt;&lt;a href=&quot;#什么是机器学习&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   
