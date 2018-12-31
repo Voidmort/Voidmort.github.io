@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2018-12-15T08:30:05.970Z</updated>
+  <updated>2018-12-31T09:15:34.805Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -17,11 +17,67 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>TensorFlow学习前的准备工作</title>
+    <link href="https://xvjie.wang/2018/12/24/tensorflow%E5%AD%A6%E4%B9%A0%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C/"/>
+    <id>https://xvjie.wang/2018/12/24/tensorflow学习前的准备工作/</id>
+    <published>2018-12-24T07:10:00.000Z</published>
+    <updated>2018-12-31T09:15:34.805Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;工欲善其事必先利其器，在学习tensor flow之前需要先学会使用一些工具，首先是jupyter，这之后关于tensor flow的blog也都会写成jupyter格式的。&lt;/p&gt;
+&lt;h1 id=&quot;Jupyter&quot;&gt;&lt;a href=&quot;#Jupyter&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="Tensorflow" scheme="https://xvjie.wang/categories/Tensorflow/"/>
+    
+    
+      <category term="Tensorflow" scheme="https://xvjie.wang/tags/Tensorflow/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Pandas 简介</title>
+    <link href="https://xvjie.wang/2018/12/23/Pandas%20%E7%AE%80%E4%BB%8B/"/>
+    <id>https://xvjie.wang/2018/12/23/Pandas 简介/</id>
+    <published>2018-12-22T16:00:00.000Z</published>
+    <updated>2018-12-31T09:15:34.966Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;这个是学习tensorflow前的准备，&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://pandas.pydata.org/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;pandas&lt;/a&gt; 是一种列存数据分析
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="Pandas" scheme="https://xvjie.wang/tags/Pandas/"/>
+    
+  </entry>
+  
+  <entry>
     <title>ex8-anomaly detection and recommendation</title>
     <link href="https://xvjie.wang/2018/11/20/ex8-anomaly%20detection%20and%20recommendation/"/>
     <id>https://xvjie.wang/2018/11/20/ex8-anomaly detection and recommendation/</id>
     <published>2018-11-19T16:00:00.000Z</published>
-    <updated>2018-12-15T08:30:05.970Z</updated>
+    <updated>2018-12-31T09:17:04.766Z</updated>
     
     <summary type="html">
     
@@ -37,10 +93,10 @@
     
     </summary>
     
-      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+      <category term="机器学习习题" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
     
     
-      <category term="机器学习习题" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   
@@ -49,7 +105,7 @@
     <link href="https://xvjie.wang/2018/11/07/ex7-k%20means%20and%20PCA/"/>
     <id>https://xvjie.wang/2018/11/07/ex7-k means and PCA/</id>
     <published>2018-11-06T16:00:00.000Z</published>
-    <updated>2018-12-15T08:18:20.845Z</updated>
+    <updated>2018-12-31T09:17:10.643Z</updated>
     
     <summary type="html">
     
@@ -64,10 +120,10 @@
     
     </summary>
     
-      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+      <category term="机器学习习题" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
     
     
-      <category term="机器学习习题" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   
@@ -76,7 +132,7 @@
     <link href="https://xvjie.wang/2018/11/01/ex6-SVM/"/>
     <id>https://xvjie.wang/2018/11/01/ex6-SVM/</id>
     <published>2018-10-31T16:00:00.000Z</published>
-    <updated>2018-12-15T08:18:20.662Z</updated>
+    <updated>2018-12-31T09:17:15.464Z</updated>
     
     <summary type="html">
     
@@ -91,10 +147,10 @@
     
     </summary>
     
-      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+      <category term="机器学习习题" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
     
     
-      <category term="机器学习习题" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   
@@ -230,11 +286,11 @@
   </entry>
   
   <entry>
-    <title>ex5-bias vs variance</title>
-    <link href="https://xvjie.wang/2018/09/29/ex5-bias%20vs%20variance/"/>
-    <id>https://xvjie.wang/2018/09/29/ex5-bias vs variance/</id>
+    <title>ex4-NN back propagation</title>
+    <link href="https://xvjie.wang/2018/09/29/ex4-NN%20back%20propagation/"/>
+    <id>https://xvjie.wang/2018/09/29/ex4-NN back propagation/</id>
     <published>2018-09-28T16:00:00.000Z</published>
-    <updated>2018-10-13T06:02:00.631Z</updated>
+    <updated>2018-10-13T06:01:58.462Z</updated>
     
     <summary type="html">
     
@@ -242,7 +298,7 @@
       
         
         
-          &lt;p&gt;AndrewNg 机器学习习题ex5-bias vs variance&lt;/p&gt;
+          &lt;p&gt;AndrewNg 机器学习习题ex4-NN back propagation&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot;
         
       
@@ -257,11 +313,11 @@
   </entry>
   
   <entry>
-    <title>ex4-NN back propagation</title>
-    <link href="https://xvjie.wang/2018/09/29/ex4-NN%20back%20propagation/"/>
-    <id>https://xvjie.wang/2018/09/29/ex4-NN back propagation/</id>
+    <title>ex5-bias vs variance</title>
+    <link href="https://xvjie.wang/2018/09/29/ex5-bias%20vs%20variance/"/>
+    <id>https://xvjie.wang/2018/09/29/ex5-bias vs variance/</id>
     <published>2018-09-28T16:00:00.000Z</published>
-    <updated>2018-10-13T06:01:58.462Z</updated>
+    <updated>2018-10-13T06:02:00.631Z</updated>
     
     <summary type="html">
     
@@ -269,7 +325,7 @@
       
         
         
-          &lt;p&gt;AndrewNg 机器学习习题ex4-NN back propagation&lt;/p&gt;
+          &lt;p&gt;AndrewNg 机器学习习题ex5-bias vs variance&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot;
         
       
@@ -304,6 +360,33 @@
     </summary>
     
       <category term="机器学习习题" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>机器学习总结</title>
+    <link href="https://xvjie.wang/2018/09/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/"/>
+    <id>https://xvjie.wang/2018/09/14/机器学习总结/</id>
+    <published>2018-09-13T16:00:00.000Z</published>
+    <updated>2018-12-31T11:08:21.315Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Andrew Ng的机器学习入门课程已经全部看完了，笔记也写了一些，这里总结所有所学的内容，说实话，现在完全忘记了开始所学的内容了。&lt;/p&gt;
+&lt;h1 id=&quot;什么是机器学习&quot;&gt;&lt;a href=&quot;#什么是机器学习&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
       <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
@@ -469,88 +552,6 @@
         
           &lt;p&gt;十五、异常检测(Anomaly Detection)&lt;/p&gt;
 &lt;h3 id=&quot;15-1-问题的动机&quot;&gt;&lt;a href=&quot;#15-1-问题的动机&quot; class=&quot;headerlink&quot; title=&quot;15.1 问题的动机&quot;&gt;&lt;/a&gt;15.1
-        
-      
-    
-    </summary>
-    
-      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>机器学习（十）</title>
-    <link href="https://xvjie.wang/2018/08/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%EF%BC%89/"/>
-    <id>https://xvjie.wang/2018/08/12/机器学习（十）/</id>
-    <published>2018-08-12T06:55:50.000Z</published>
-    <updated>2018-08-12T11:40:41.992Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;十三、聚类(Clustering)&lt;/p&gt;
-&lt;h3 id=&quot;13-1-无监督学习：简介&quot;&gt;&lt;a href=&quot;#13-1-无监督学习：简介&quot; class=&quot;headerlink&quot; title=&quot;13.1 无监督学习：简介&quot;&gt;&lt;/a&gt;13.1
-        
-      
-    
-    </summary>
-    
-      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>机器学习（九）</title>
-    <link href="https://xvjie.wang/2018/08/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B9%9D%EF%BC%89/"/>
-    <id>https://xvjie.wang/2018/08/12/机器学习（九）/</id>
-    <published>2018-08-12T06:50:50.000Z</published>
-    <updated>2018-08-12T11:10:20.541Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;十二、支持向量机(Support Vector Machines)&lt;/p&gt;
-&lt;h3 id=&quot;12-1-优化目标&quot;&gt;&lt;a href=&quot;#12-1-优化目标&quot; class=&quot;headerlink&quot; title=&quot;12.1 优化目标&quot;&gt;&lt;/a&gt;12.1
-        
-      
-    
-    </summary>
-    
-      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-      <category term="SVM" scheme="https://xvjie.wang/tags/SVM/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>机器学习（八）</title>
-    <link href="https://xvjie.wang/2018/08/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AB%EF%BC%89/"/>
-    <id>https://xvjie.wang/2018/08/12/机器学习（八）/</id>
-    <published>2018-08-12T06:45:50.000Z</published>
-    <updated>2018-08-12T11:10:18.601Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;好吧，从这里开始博客就不是我自己手敲的了，因为一些原因，没有时间再写下去了，但又不想放弃，只能抄一份过来了，感谢Huang Haiguang老师的笔记。&lt;a href=&quot;https://github.com/fengdu78&quot; target=&quot;_blank&quot;
         
       
     
