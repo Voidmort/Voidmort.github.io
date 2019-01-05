@@ -259,33 +259,6 @@
   </entry>
   
   <entry>
-    <title>独热编码One Hot Encoder</title>
-    <link href="https://xvjie.wang/2018/09/29/%E7%8B%AC%E7%83%AD%E7%BC%96%E7%A0%81One%20Hot%20Encoder/"/>
-    <id>https://xvjie.wang/2018/09/29/独热编码One Hot Encoder/</id>
-    <published>2018-09-28T16:00:00.000Z</published>
-    <updated>2018-10-13T06:03:33.751Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;在机器学习时我们通常要进行归一化数据后再进行训练，还有一些其他处理方法比如使用独热编码。&lt;/p&gt;
-&lt;h1 id=&quot;什么是独热码&quot;&gt;&lt;a href=&quot;#什么是独热码&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-      <category term="OneHotEncoder" scheme="https://xvjie.wang/tags/OneHotEncoder/"/>
-    
-  </entry>
-  
-  <entry>
     <title>ex5-bias vs variance</title>
     <link href="https://xvjie.wang/2018/09/29/ex5-bias%20vs%20variance/"/>
     <id>https://xvjie.wang/2018/09/29/ex5-bias vs variance/</id>
@@ -309,6 +282,33 @@
     
     
       <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>独热编码One Hot Encoder</title>
+    <link href="https://xvjie.wang/2018/09/29/%E7%8B%AC%E7%83%AD%E7%BC%96%E7%A0%81One%20Hot%20Encoder/"/>
+    <id>https://xvjie.wang/2018/09/29/独热编码One Hot Encoder/</id>
+    <published>2018-09-28T16:00:00.000Z</published>
+    <updated>2018-10-13T06:03:33.751Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;在机器学习时我们通常要进行归一化数据后再进行训练，还有一些其他处理方法比如使用独热编码。&lt;/p&gt;
+&lt;h1 id=&quot;什么是独热码&quot;&gt;&lt;a href=&quot;#什么是独热码&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="OneHotEncoder" scheme="https://xvjie.wang/tags/OneHotEncoder/"/>
     
   </entry>
   
