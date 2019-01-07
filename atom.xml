@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2018-12-31T09:15:34.805Z</updated>
+  <updated>2019-01-07T04:00:12.336Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -17,11 +17,43 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>LeetCode 16. 3Sum Closest</title>
+    <link href="https://xvjie.wang/2019/01/07/LeetCode%2016.%203Sum%20Closest/"/>
+    <id>https://xvjie.wang/2019/01/07/LeetCode 16. 3Sum Closest/</id>
+    <published>2019-01-06T16:00:00.000Z</published>
+    <updated>2019-01-07T04:00:12.336Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;好久没写C的，写个C复习一下，写个简单的leetcode吧&lt;/p&gt;
+&lt;ol start=&quot;16&quot;&gt;
+&lt;li&gt;3Sum Closest&lt;br&gt;Given an array nums of n integers and an integer target, find
+        
+      
+    
+    </summary>
+    
+      <category term="算法练习" scheme="https://xvjie.wang/categories/%E7%AE%97%E6%B3%95%E7%BB%83%E4%B9%A0/"/>
+    
+    
+      <category term="算法" scheme="https://xvjie.wang/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="c" scheme="https://xvjie.wang/tags/c/"/>
+    
+      <category term="LeetCode" scheme="https://xvjie.wang/tags/LeetCode/"/>
+    
+  </entry>
+  
+  <entry>
     <title>TensorFlow学习前的准备工作</title>
     <link href="https://xvjie.wang/2018/12/24/tensorflow%E5%AD%A6%E4%B9%A0%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C/"/>
     <id>https://xvjie.wang/2018/12/24/tensorflow学习前的准备工作/</id>
     <published>2018-12-24T07:10:00.000Z</published>
-    <updated>2018-12-31T09:15:34.805Z</updated>
+    <updated>2018-12-31T09:15:34.000Z</updated>
     
     <summary type="html">
     
@@ -48,7 +80,7 @@
     <link href="https://xvjie.wang/2018/12/23/Pandas%20%E7%AE%80%E4%BB%8B/"/>
     <id>https://xvjie.wang/2018/12/23/Pandas 简介/</id>
     <published>2018-12-22T16:00:00.000Z</published>
-    <updated>2018-12-31T09:15:34.966Z</updated>
+    <updated>2018-12-31T09:15:34.000Z</updated>
     
     <summary type="html">
     
@@ -77,7 +109,7 @@
     <link href="https://xvjie.wang/2018/11/20/ex8-anomaly%20detection%20and%20recommendation/"/>
     <id>https://xvjie.wang/2018/11/20/ex8-anomaly detection and recommendation/</id>
     <published>2018-11-19T16:00:00.000Z</published>
-    <updated>2018-12-31T09:17:04.766Z</updated>
+    <updated>2018-12-31T09:17:04.000Z</updated>
     
     <summary type="html">
     
@@ -105,7 +137,7 @@
     <link href="https://xvjie.wang/2018/11/07/ex7-k%20means%20and%20PCA/"/>
     <id>https://xvjie.wang/2018/11/07/ex7-k means and PCA/</id>
     <published>2018-11-06T16:00:00.000Z</published>
-    <updated>2018-12-31T09:17:10.643Z</updated>
+    <updated>2018-12-31T09:17:10.000Z</updated>
     
     <summary type="html">
     
@@ -132,7 +164,7 @@
     <link href="https://xvjie.wang/2018/11/01/ex6-SVM/"/>
     <id>https://xvjie.wang/2018/11/01/ex6-SVM/</id>
     <published>2018-10-31T16:00:00.000Z</published>
-    <updated>2018-12-31T09:17:15.464Z</updated>
+    <updated>2018-12-31T09:17:15.000Z</updated>
     
     <summary type="html">
     
@@ -155,62 +187,11 @@
   </entry>
   
   <entry>
-    <title>GitHub学习笔记</title>
-    <link href="https://xvjie.wang/2018/10/13/Git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-    <id>https://xvjie.wang/2018/10/13/Git学习笔记/</id>
-    <published>2018-10-13T05:39:26.219Z</published>
-    <updated>2018-04-02T10:28:37.409Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Git是一个开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。&lt;br&gt;Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。&lt;br&gt;Git 与常用的版本控制工具 CVS, Subversion
-        
-      
-    
-    </summary>
-    
-      <category term="学习笔记" scheme="https://xvjie.wang/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-    
-    
-      <category term="git" scheme="https://xvjie.wang/tags/git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>随便玩玩的玩家</title>
-    <link href="https://xvjie.wang/2018/10/13/%E9%9A%8F%E4%BE%BF%E7%8E%A9%E7%8E%A9%E7%9A%84%E7%8E%A9%E5%AE%B6/"/>
-    <id>https://xvjie.wang/2018/10/13/随便玩玩的玩家/</id>
-    <published>2018-10-13T05:39:25.911Z</published>
-    <updated>2018-04-07T09:10:08.330Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;如果从三岁看哥哥玩马戏团算起，游戏玩了也有二十个年头了，但还是个游戏菜鸟，已经古稀之年的斯皮尔伯格却要拍一部头号玩家，这使我怀着浓厚的兴趣走进了影院。&lt;/p&gt;
-&lt;p&gt;如果说最早看过斯皮尔伯格执导的电影那应该是大白鲨和侏罗纪公园了，但那时我还太小，大概七八岁，并不知道导演什么
-        
-      
-    
-    </summary>
-    
-      <category term="影评" scheme="https://xvjie.wang/categories/%E5%BD%B1%E8%AF%84/"/>
-    
-    
-  </entry>
-  
-  <entry>
     <title>ex2-logistic regression</title>
     <link href="https://xvjie.wang/2018/10/09/ex2-logistic%20regression/"/>
     <id>https://xvjie.wang/2018/10/09/ex2-logistic regression/</id>
     <published>2018-10-08T16:00:00.000Z</published>
-    <updated>2018-10-13T06:02:01.318Z</updated>
+    <updated>2018-10-13T06:02:01.000Z</updated>
     
     <summary type="html">
     
@@ -237,7 +218,7 @@
     <link href="https://xvjie.wang/2018/10/08/ex1-linear%20regression/"/>
     <id>https://xvjie.wang/2018/10/08/ex1-linear regression/</id>
     <published>2018-10-07T16:00:00.000Z</published>
-    <updated>2018-10-13T06:08:52.047Z</updated>
+    <updated>2018-10-13T06:08:52.000Z</updated>
     
     <summary type="html">
     
@@ -263,7 +244,7 @@
     <link href="https://xvjie.wang/2018/09/29/ex5-bias%20vs%20variance/"/>
     <id>https://xvjie.wang/2018/09/29/ex5-bias vs variance/</id>
     <published>2018-09-28T16:00:00.000Z</published>
-    <updated>2018-10-13T06:02:00.631Z</updated>
+    <updated>2018-10-13T06:02:00.000Z</updated>
     
     <summary type="html">
     
@@ -290,7 +271,7 @@
     <link href="https://xvjie.wang/2018/09/29/%E7%8B%AC%E7%83%AD%E7%BC%96%E7%A0%81One%20Hot%20Encoder/"/>
     <id>https://xvjie.wang/2018/09/29/独热编码One Hot Encoder/</id>
     <published>2018-09-28T16:00:00.000Z</published>
-    <updated>2018-10-13T06:03:33.751Z</updated>
+    <updated>2018-10-13T06:03:33.000Z</updated>
     
     <summary type="html">
     
@@ -317,7 +298,7 @@
     <link href="https://xvjie.wang/2018/09/29/ex4-NN%20back%20propagation/"/>
     <id>https://xvjie.wang/2018/09/29/ex4-NN back propagation/</id>
     <published>2018-09-28T16:00:00.000Z</published>
-    <updated>2018-10-13T06:01:58.462Z</updated>
+    <updated>2018-10-13T06:01:58.000Z</updated>
     
     <summary type="html">
     
@@ -344,7 +325,7 @@
     <link href="https://xvjie.wang/2018/09/28/ex3-neural%20network/"/>
     <id>https://xvjie.wang/2018/09/28/ex3-neural network/</id>
     <published>2018-09-27T16:00:00.000Z</published>
-    <updated>2018-10-13T06:02:02.102Z</updated>
+    <updated>2018-10-13T06:02:02.000Z</updated>
     
     <summary type="html">
     
@@ -371,7 +352,7 @@
     <link href="https://xvjie.wang/2018/09/14/LeetCode%2028.Implement%20strStr()./"/>
     <id>https://xvjie.wang/2018/09/14/LeetCode 28.Implement strStr()./</id>
     <published>2018-09-13T16:00:00.000Z</published>
-    <updated>2018-09-16T11:04:13.573Z</updated>
+    <updated>2018-09-16T11:04:13.000Z</updated>
     
     <summary type="html">
     
@@ -402,7 +383,7 @@
     <link href="https://xvjie.wang/2018/09/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/"/>
     <id>https://xvjie.wang/2018/09/14/机器学习总结/</id>
     <published>2018-09-13T16:00:00.000Z</published>
-    <updated>2018-12-31T11:08:21.315Z</updated>
+    <updated>2018-12-31T11:08:21.000Z</updated>
     
     <summary type="html">
     
@@ -429,7 +410,7 @@
     <link href="https://xvjie.wang/2018/08/27/Python%E5%AE%9E%E7%8E%B0%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95/"/>
     <id>https://xvjie.wang/2018/08/27/Python实现异常检测算法/</id>
     <published>2018-08-26T16:00:00.000Z</published>
-    <updated>2018-09-16T11:04:13.740Z</updated>
+    <updated>2018-09-16T11:04:13.000Z</updated>
     
     <summary type="html">
     
@@ -458,7 +439,7 @@
     <link href="https://xvjie.wang/2018/08/21/Python%E5%AE%9E%E7%8E%B0PCA%E9%99%8D%E7%BB%B4%E7%AE%97%E6%B3%95/"/>
     <id>https://xvjie.wang/2018/08/21/Python实现PCA降维算法/</id>
     <published>2018-08-20T16:00:00.000Z</published>
-    <updated>2018-08-25T02:04:36.963Z</updated>
+    <updated>2018-08-25T02:04:36.000Z</updated>
     
     <summary type="html">
     
@@ -487,7 +468,7 @@
     <link href="https://xvjie.wang/2018/08/16/Python%E5%AE%9E%E7%8E%B0K-%E5%9D%87%E5%80%BC%E7%AE%97%E6%B3%95/"/>
     <id>https://xvjie.wang/2018/08/16/Python实现K-均值算法/</id>
     <published>2018-08-15T16:00:00.000Z</published>
-    <updated>2018-08-25T02:03:35.533Z</updated>
+    <updated>2018-08-25T02:03:35.000Z</updated>
     
     <summary type="html">
     
@@ -515,7 +496,7 @@
     <link href="https://xvjie.wang/2018/08/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89/"/>
     <id>https://xvjie.wang/2018/08/12/机器学习（十二）/</id>
     <published>2018-08-12T07:00:50.000Z</published>
-    <updated>2018-08-12T11:45:47.465Z</updated>
+    <updated>2018-08-12T11:45:47.000Z</updated>
     
     <summary type="html">
     
@@ -542,7 +523,7 @@
     <link href="https://xvjie.wang/2018/08/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89/"/>
     <id>https://xvjie.wang/2018/08/12/机器学习（十一）/</id>
     <published>2018-08-12T06:57:50.000Z</published>
-    <updated>2018-08-12T11:49:08.627Z</updated>
+    <updated>2018-08-12T11:49:08.000Z</updated>
     
     <summary type="html">
     
@@ -552,6 +533,33 @@
         
           &lt;p&gt;十五、异常检测(Anomaly Detection)&lt;/p&gt;
 &lt;h3 id=&quot;15-1-问题的动机&quot;&gt;&lt;a href=&quot;#15-1-问题的动机&quot; class=&quot;headerlink&quot; title=&quot;15.1 问题的动机&quot;&gt;&lt;/a&gt;15.1
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>机器学习（十）</title>
+    <link href="https://xvjie.wang/2018/08/12/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%8D%81%EF%BC%89/"/>
+    <id>https://xvjie.wang/2018/08/12/机器学习（十）/</id>
+    <published>2018-08-12T06:55:50.000Z</published>
+    <updated>2018-08-12T11:40:41.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;十三、聚类(Clustering)&lt;/p&gt;
+&lt;h3 id=&quot;13-1-无监督学习：简介&quot;&gt;&lt;a href=&quot;#13-1-无监督学习：简介&quot; class=&quot;headerlink&quot; title=&quot;13.1 无监督学习：简介&quot;&gt;&lt;/a&gt;13.1
         
       
     
