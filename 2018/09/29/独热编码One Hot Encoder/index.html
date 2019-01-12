@@ -460,7 +460,7 @@
 　　</p>
 <h1 id="sklearn中的One-Hot-Encoder"><a href="#sklearn中的One-Hot-Encoder" class="headerlink" title="sklearn中的One Hot Encoder"></a>sklearn中的One Hot Encoder</h1><p><a href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html" target="_blank" rel="noopener">官方文档</a></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> OneHotEncoder</span><br><span class="line">y = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]]).T</span><br><span class="line">encoder = OneHotEncoder(sparse=<span class="keyword">False</span>)</span><br><span class="line">y_onehot = encoder.fit_transform(y)</span><br><span class="line">print(y_onehot)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[[1. 0. 0.]</span><br><span class="line"> [0. 1. 0.]</span><br><span class="line"> [0. 0. 1.]]</span><br></pre></td></tr></table></figure>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="number">1.</span> <span class="number">0.</span> <span class="number">0.</span>]</span><br><span class="line"> [<span class="number">0.</span> <span class="number">1.</span> <span class="number">0.</span>]</span><br><span class="line"> [<span class="number">0.</span> <span class="number">0.</span> <span class="number">1.</span>]]</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -585,7 +585,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">42</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

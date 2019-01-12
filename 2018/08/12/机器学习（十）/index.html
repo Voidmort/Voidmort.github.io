@@ -508,7 +508,7 @@
 <p><img src="fe6dd7acf1a1eddcd09da362ecdf976f.jpg" alt=""></p>
 <p>迭代 10 次</p>
 <p>用$μ^1$,$μ^2$,…,$μ^k$ 来表示聚类中心，用$c^{(1)}$,$c^{(2)}$,…,$c^{(m)}$来存储与第$i$个实例数据最近的聚类中心的索引，<strong>K-均值</strong>算法的伪代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Repeat &#123;</span><br><span class="line"></span><br><span class="line">for i = 1 to m</span><br><span class="line"></span><br><span class="line">c(i) := index (form 1 to K) of cluster centroid closest to x(i)</span><br><span class="line"></span><br><span class="line">for k = 1 to K</span><br><span class="line"></span><br><span class="line">μk := average (mean) of points assigned to cluster k</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Repeat</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i = <span class="number">1</span> <span class="keyword">to</span> m</span><br><span class="line"></span><br><span class="line">c(i) := index (form <span class="number">1</span> <span class="keyword">to</span> K) <span class="keyword">of</span> cluster centroid closest <span class="keyword">to</span> x(i)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> k = <span class="number">1</span> <span class="keyword">to</span> K</span><br><span class="line"></span><br><span class="line">μk := average (mean) <span class="keyword">of</span> points assigned <span class="keyword">to</span> cluster k</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>算法分为两个步骤，第一个<strong>for</strong>循环是赋值步骤，即：对于每一个样例$i$，计算其应该属于的类。第二个<strong>for</strong>循环是聚类中心的移动，即：对于每一个类$K$，重新计算该类的质心。</p>
 <p><strong>K-均值</strong>算法也可以很便利地用于将数据分为许多不同组，即使在没有非常明显区分的组群的情况下也可以。下图所示的数据集包含身高和体重两项特征构成的，利用<strong>K-均值</strong>算法将数据分为三类，用于帮助确定将要生产的T-恤衫的三种尺寸。</p>
 <p><img src="fed50a4e482cf3aae38afeb368141a97.png" alt=""></p>
@@ -763,7 +763,7 @@ $$Sigma=\dfrac {1}{m}\sum^{n}_{i=1}\left( x^{(i)}\right) \left( x^{(i)}\right) ^
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">42</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

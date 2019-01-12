@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="创建和控制张量矢量加法可以对张量执行金典的数学运算，试着创建一些矢量。 12345678910111213141516171819202122232425from __future__ import print_functionimport tensorflow as tftry:  tf.contrib.eager.enable_eager_execution()  print(&quot;TF impo">
+<meta name="keywords" content="Tensorflow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorFlow 2">
+<meta property="og:url" content="https://xvjie.wang/2018/12/28/TensorFlow_2/index.html">
+<meta property="og:site_name" content="Voidmort">
+<meta property="og:description" content="创建和控制张量矢量加法可以对张量执行金典的数学运算，试着创建一些矢量。 12345678910111213141516171819202122232425from __future__ import print_functionimport tensorflow as tftry:  tf.contrib.eager.enable_eager_execution()  print(&quot;TF impo">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-01-12T13:51:09.349Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TensorFlow 2">
+<meta name="twitter:description" content="创建和控制张量矢量加法可以对张量执行金典的数学运算，试着创建一些矢量。 12345678910111213141516171819202122232425from __future__ import print_functionimport tensorflow as tftry:  tf.contrib.eager.enable_eager_execution()  print(&quot;TF impo">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Voidmort" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://xvjie.wang/2018/12/28/TensorFlow_2/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>TensorFlow 2 | Voidmort</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7b96eb7c2717359e36cc8bd8b546997c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/Voidmort" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Voidmort</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xvjie.wang/2018/12/28/TensorFlow_2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Voidmort">
+      <meta itemprop="description" content="研究AI，撰写影评，热爱音乐，努力健身">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Voidmort">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">TensorFlow 2
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-28 15:10:00" itemprop="dateCreated datePublished" datetime="2018-12-28T15:10:00+08:00">2018-12-28</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-12 21:51:09" itemprop="dateModified" datetime="2019-01-12T21:51:09+08:00">2019-01-12</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Tensorflow/" itemprop="url" rel="index"><span itemprop="name">Tensorflow</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="创建和控制张量"><a href="#创建和控制张量" class="headerlink" title="创建和控制张量"></a>创建和控制张量</h1><h2 id="矢量加法"><a href="#矢量加法" class="headerlink" title="矢量加法"></a>矢量加法</h2><p>可以对张量执行金典的数学运算，试着创建一些矢量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">  tf.contrib.eager.enable_eager_execution()</span><br><span class="line">  print(<span class="string">"TF imported with eager execution!"</span>)</span><br><span class="line"><span class="keyword">except</span> ValueError:</span><br><span class="line">  print(<span class="string">"TF already imported with eager execution!"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一个包含质数的‘primes’矢量</span></span><br><span class="line">primes = tf.constant([<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">11</span> ,<span class="number">13</span>], dtype=tf.int32)</span><br><span class="line">print(<span class="string">"primes:"</span>, primes)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一个值全为 1 的 ones 矢量</span></span><br><span class="line">ones = tf.ones([<span class="number">6</span>], dtype=tf.int32)</span><br><span class="line">print(ones)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一个通过对前两个矢量执行元素级加法而创建的矢量。</span></span><br><span class="line">just_beyond_primes = tf.add(primes, ones)</span><br><span class="line">print(just_beyond_primes)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把primes中的元素乘二</span></span><br><span class="line">twos = tf.constant([<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>], dtype=tf.int32)</span><br><span class="line">primes_doubled = primes * twos</span><br><span class="line">print(primes_doubled)</span><br></pre></td></tr></table></figure>
+<pre><code>TF imported with eager execution!
+primes: tf.Tensor([ 2  3  5  7 11 13], shape=(6,), dtype=int32)
+tf.Tensor([1 1 1 1 1 1], shape=(6,), dtype=int32)
+tf.Tensor([ 3  4  6  8 12 14], shape=(6,), dtype=int32)
+tf.Tensor([ 4  6 10 14 22 26], shape=(6,), dtype=int32)
+</code></pre><p>输出的张量不仅会返回值，还会返回形状shape，以及储存在张量中的值的类型。调用numpy方法会以NumPy数组的形式返回。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">some_matrix = tf.constant([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]], dtype=tf.int32)</span><br><span class="line">print(some_matrix)</span><br><span class="line">print(<span class="string">"\nnumpy matrix:\n"</span>, some_matrix.numpy())</span><br></pre></td></tr></table></figure>
+<pre><code>tf.Tensor(
+[[1 2 3]
+ [4 5 6]], shape=(2, 3), dtype=int32)
+
+numpy matrix:
+ [[1 2 3]
+ [4 5 6]]
+</code></pre><h2 id="张量形状"><a href="#张量形状" class="headerlink" title="张量形状"></a>张量形状</h2><p>shape 是用来描述张量维度大小和数量。张量的形状表示为list，其中第 <code>i</code> 个元素表示维度 <code>i</code> 的大小。列表的长度表示张量的阶（即维数）。</p>
+<p>如果是二维的则shape=(行数， 列数)</p>
+<p>例如shape=(n1, n2, n3, …, x, y)<br>则说明 一共有 (n1 x n2 x n3 x ….)个x行y列的数组构成。</p>
+<p>例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 一个标量</span></span><br><span class="line">scalar = tf.zeros([])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一个有三个元素的向量</span></span><br><span class="line">vector = tf.zeros([<span class="number">3</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一个两行三列的矩阵</span></span><br><span class="line">matrix = tf.zeros([<span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line"></span><br><span class="line">matrix2 = tf.zeros([<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line">print(<span class="string">'scalar has shape'</span>, scalar.get_shape(), <span class="string">'and value:\n'</span>, scalar.numpy())</span><br><span class="line">print(<span class="string">'vector has shape'</span>, vector.get_shape(), <span class="string">'and value:\n'</span>, vector.numpy())</span><br><span class="line">print(<span class="string">'matrix has shape'</span>, matrix.get_shape(), <span class="string">'and value:\n'</span>, matrix.numpy())</span><br><span class="line">print(<span class="string">'matrix2 has shape'</span>, matrix2.get_shape(), <span class="string">'and value:\n'</span>, matrix2.numpy())</span><br></pre></td></tr></table></figure>
+<pre><code>scalar has shape () and value:
+ 0.0
+vector has shape (3,) and value:
+ [0. 0. 0.]
+matrix has shape (2, 3) and value:
+ [[0. 0. 0.]
+ [0. 0. 0.]]
+matrix2 has shape (2, 3, 4, 5) and value:
+ [[[[0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0.]]]
+
+
+ [[[0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0.]]
+
+  [[0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0.]
+   [0. 0. 0. 0. 0.]]]]
+</code></pre><h2 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h2><p>在数学中，您只能对形状相同的张量执行元素级运算（例如，<em>相加</em>和<em>等于</em>）。不过，在 TensorFlow 中，您可以对张量执行传统意义上不可行的运算。TensorFlow 支持<strong>广播</strong>（一种借鉴自 NumPy 的概念）。利用广播，元素级运算中的较小数组会增大到与较大数组具有相同的形状。例如，通过广播：</p>
+<ul>
+<li>如果运算需要大小为 <code>[6]</code> 的张量，则大小为 <code>[1]</code> 或 <code>[]</code> 的张量可以作为运算数。</li>
+<li>如果运算需要大小为 <code>[4, 6]</code> 的张量，则以下任何大小的张量都可以作为运算数：<ul>
+<li><code>[1, 6]</code></li>
+<li><code>[6]</code></li>
+<li><code>[]</code></li>
+</ul>
+</li>
+<li><p>如果运算需要大小为 <code>[3, 5, 6]</code> 的张量，则以下任何大小的张量都可以作为运算数：</p>
+<ul>
+<li><code>[1, 5, 6]</code></li>
+<li><code>[3, 1, 6]</code></li>
+<li><code>[3, 5, 1]</code></li>
+<li><code>[1, 1, 1]</code></li>
+<li><code>[5, 6]</code></li>
+<li><code>[1, 6]</code></li>
+<li><code>[6]</code></li>
+<li><code>[1]</code></li>
+<li><code>[]</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>注意：</strong>当张量被广播时，从概念上来说，系统会<strong>复制</strong>其条目（出于性能考虑，实际并不复制。广播专为实现性能优化而设计）。</p>
+<p>有关完整的广播规则集，请参阅简单易懂的 <a href="http://docs.scipy.org/doc/numpy-1.10.1/user/basics.broadcasting.html" target="_blank" rel="noopener">NumPy 广播文档</a>。</p>
+<p>以下代码执行了与之前一样的张量运算，不过使用的是标量值（而不是全包含 <code>1</code> 或全包含 <code>2</code> 的矢量）和广播。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">primes = tf.constant([<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">13</span>], dtype=tf.int32)</span><br><span class="line">print(<span class="string">"primes:"</span>, primes)</span><br><span class="line"></span><br><span class="line">one = tf.constant(<span class="number">1</span>, dtype=tf.int32)</span><br><span class="line">print(<span class="string">"one:"</span>, one)</span><br><span class="line"></span><br><span class="line">just_beyond_primes = tf.add(primes, one)</span><br><span class="line">print(<span class="string">"just_beyond_primes:"</span>, just_beyond_primes)</span><br><span class="line"></span><br><span class="line">two = tf.constant(<span class="number">2</span>, dtype=tf.int32)</span><br><span class="line">primes_doubled = primes * two</span><br><span class="line">print(primes_doubled)</span><br></pre></td></tr></table></figure>
+<pre><code>primes: tf.Tensor([ 2  3  5  7 11 13], shape=(6,), dtype=int32)
+one: tf.Tensor(1, shape=(), dtype=int32)
+just_beyond_primes: tf.Tensor([ 3  4  6  8 12 14], shape=(6,), dtype=int32)
+tf.Tensor([ 4  6 10 14 22 26], shape=(6,), dtype=int32)
+</code></pre><h3 id="练习-1：矢量运算。"><a href="#练习-1：矢量运算。" class="headerlink" title="练习 1：矢量运算。"></a>练习 1：矢量运算。</h3><p>执行矢量运算以创建一个“just_under_primes_squared”矢量，其中第 <code>i</code> 个元素等于 <code>primes</code> 中第 <code>i</code> 个元素的平方减 1。例如，第二个元素为 <code>3 * 3 - 1 = 8</code>。</p>
+<p>使用 <code>tf.multiply</code> 或 <code>tf.pow</code> 操作可求得 <code>primes</code> 矢量中每个元素值的平方。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">solution</span><span class="params">(primes)</span>:</span></span><br><span class="line">    primes_squared = tf.pow(primes, <span class="number">2</span>)  <span class="comment"># or tf.multiply(primes, primes)</span></span><br><span class="line">    one = tf.constant(<span class="number">1</span>, dtype=tf.int32)</span><br><span class="line">    just_under_primes_squared = tf.subtract(primes_squared, one)</span><br><span class="line">    <span class="keyword">return</span> just_under_primes_squared</span><br><span class="line"></span><br><span class="line">primes = tf.constant([<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">13</span>], dtype=tf.int32)</span><br><span class="line">just_under_primes_squared = solution(primes)</span><br><span class="line">print(just_under_primes_squared)</span><br></pre></td></tr></table></figure>
+<pre><code>tf.Tensor([  3   8  24  48 120 168], shape=(6,), dtype=int32)
+</code></pre><h2 id="矩阵乘法"><a href="#矩阵乘法" class="headerlink" title="矩阵乘法"></a>矩阵乘法</h2><p>在线性代数中，当两个矩阵相乘时，第一个矩阵的<em>列</em>数必须等于第二个矩阵的<em>行</em>数。</p>
+<ul>
+<li><code>3x4</code> 矩阵乘以 <code>4x2</code> 矩阵是 <strong>_有效_</strong> 的，可以得出一个 <code>3x2</code> 矩阵。</li>
+<li><code>4x2</code> 矩阵乘以 <code>3x4</code> 矩阵是 <strong>_无效_</strong> 的。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 一个3x4的矩阵</span></span><br><span class="line">x = tf.constant([[<span class="number">5</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">3</span>], [<span class="number">5</span>, <span class="number">1</span>, <span class="number">6</span>, <span class="number">-2</span>], [<span class="number">-1</span>, <span class="number">3</span>, <span class="number">-1</span>, <span class="number">-2</span>]],</span><br><span class="line">                dtype=tf.int32)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一个4x2的矩阵</span></span><br><span class="line">y = tf.constant([[<span class="number">2</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">5</span>], [<span class="number">4</span>, <span class="number">5</span>], [<span class="number">1</span>, <span class="number">6</span>]], dtype=tf.int32)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 结果是一个3x2的矩阵</span></span><br><span class="line">matrix_multiply_result = tf.matmul(x, y)</span><br><span class="line"></span><br><span class="line">print(matrix_multiply_result)</span><br></pre></td></tr></table></figure>
+<pre><code>tf.Tensor(
+[[35 58]
+ [35 33]
+ [ 1 -4]], shape=(3, 2), dtype=int32)
+</code></pre><h2 id="张量变形"><a href="#张量变形" class="headerlink" title="张量变形"></a>张量变形</h2><p>由于张量加法和矩阵乘法均对运算数施加了限制条件，TensorFlow 编程者需要频繁改变张量的形状。</p>
+<p>您可以使用 <code>tf.reshape</code> 方法改变张量的形状。<br>例如，您可以将 8x2 张量变形为 2x8 张量或 4x4 张量(改变形状形成的新矩阵元素数和之前必须一样)：</p>
+<p>此外，您还可以使用 <code>tf.reshape</code> 更改张量的维数（“阶”）。<br>例如，您可以将 8x2 张量变形为三维 2x2x4 张量或一维 16 元素张量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建一个8x2的矩阵</span></span><br><span class="line">matrix = tf.constant(</span><br><span class="line">    [[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>], [<span class="number">5</span>, <span class="number">6</span>], [<span class="number">7</span>, <span class="number">8</span>], [<span class="number">9</span>, <span class="number">10</span>], [<span class="number">11</span>, <span class="number">12</span>], [<span class="number">13</span>, <span class="number">14</span>], [<span class="number">15</span>, <span class="number">16</span>]],</span><br><span class="line">    dtype=tf.int32)</span><br><span class="line"></span><br><span class="line">reshaped_2x8_matrix = tf.reshape(matrix, [<span class="number">2</span>, <span class="number">8</span>])</span><br><span class="line">reshaped_4x4_matrix = tf.reshape(matrix, [<span class="number">4</span>, <span class="number">4</span>])</span><br><span class="line"></span><br><span class="line">print(<span class="string">"Original matrix (8x2):"</span>)</span><br><span class="line">print(matrix.numpy())</span><br><span class="line">print(<span class="string">"Reshaped matrix (2x8):"</span>)</span><br><span class="line">print(reshaped_2x8_matrix.numpy())</span><br><span class="line">print(<span class="string">"Reshaped matrix (4x4):"</span>)</span><br><span class="line">print(reshaped_4x4_matrix.numpy())</span><br><span class="line"></span><br><span class="line">reshaped_2x2x4_tensor = tf.reshape(matrix, [<span class="number">2</span>, <span class="number">2</span>, <span class="number">4</span>])</span><br><span class="line">one_dimensional_vector = tf.reshape(matrix, [<span class="number">16</span>])</span><br><span class="line">print(<span class="string">"Reshaped 3-D tensor (2x2x4):"</span>)</span><br><span class="line">print(reshaped_2x2x4_tensor.numpy())</span><br><span class="line">print(<span class="string">"1-D vector:"</span>)</span><br><span class="line">print(one_dimensional_vector.numpy())</span><br></pre></td></tr></table></figure>
+<pre><code>Original matrix (8x2):
+[[ 1  2]
+ [ 3  4]
+ [ 5  6]
+ [ 7  8]
+ [ 9 10]
+ [11 12]
+ [13 14]
+ [15 16]]
+Reshaped matrix (2x8):
+[[ 1  2  3  4  5  6  7  8]
+ [ 9 10 11 12 13 14 15 16]]
+Reshaped matrix (4x4):
+[[ 1  2  3  4]
+ [ 5  6  7  8]
+ [ 9 10 11 12]
+ [13 14 15 16]]
+Reshaped 3-D tensor (2x2x4):
+[[[ 1  2  3  4]
+  [ 5  6  7  8]]
+
+ [[ 9 10 11 12]
+  [13 14 15 16]]]
+1-D vector:
+[ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16]
+</code></pre><h3 id="练习-2：改变两个张量的形状，使其能够相乘。"><a href="#练习-2：改变两个张量的形状，使其能够相乘。" class="headerlink" title="练习 2：改变两个张量的形状，使其能够相乘。"></a>练习 2：改变两个张量的形状，使其能够相乘。</h3><p>下面两个矢量无法进行矩阵乘法运算：</p>
+<ul>
+<li><code>a = tf.constant([5, 3, 2, 7, 1, 4])</code></li>
+<li><code>b = tf.constant([4, 6, 3])</code></li>
+</ul>
+<p>请改变这两个矢量的形状，使其成为可以进行矩阵乘法运算的运算数。<br>然后，对变形后的张量调用矩阵乘法运算。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">a = tf.constant([<span class="number">5</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">7</span>, <span class="number">1</span>, <span class="number">4</span>])</span><br><span class="line">b = tf.constant([<span class="number">4</span>, <span class="number">6</span>, <span class="number">3</span>])</span><br><span class="line"></span><br><span class="line">reshaped_a = tf.reshape(a, [<span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">reshaped_b = tf.reshape(b, [<span class="number">3</span>, <span class="number">1</span>])</span><br><span class="line">c = tf.matmul(reshaped_a, reshaped_b)</span><br><span class="line"></span><br><span class="line">print(<span class="string">"reshaped_a (2x3):"</span>)</span><br><span class="line">print(reshaped_a.numpy())</span><br><span class="line">print(<span class="string">"reshaped_b (3x1):"</span>)</span><br><span class="line">print(reshaped_b.numpy())</span><br><span class="line">print(<span class="string">"reshaped_a x reshaped_b (2x1):"</span>)</span><br><span class="line">print(c.numpy())</span><br></pre></td></tr></table></figure>
+<pre><code>reshaped_a (2x3):
+[[5 3 2]
+ [7 1 4]]
+reshaped_b (3x1):
+[[4]
+ [6]
+ [3]]
+reshaped_a x reshaped_b (2x1):
+[[44]
+ [46]]
+</code></pre><h2 id="变量、初始化和赋值"><a href="#变量、初始化和赋值" class="headerlink" title="变量、初始化和赋值"></a>变量、初始化和赋值</h2><p>到目前为止，我们执行的所有运算都针对的是静态值 (<code>tf.constant</code>)；调用 <code>numpy()</code> 始终返回同一结果。在 TensorFlow 中可以定义 <code>Variable</code> 对象，它的值是可以更改的。</p>
+<p>创建变量时，您可以明确设置一个初始值，也可以使用初始化程序（例如分布）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建初始值为3的标量变量</span></span><br><span class="line">v = tf.contrib.eager.Variable([<span class="number">3</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个形状为[1,4]的矢量变量，其初始值为随机的</span></span><br><span class="line"><span class="comment"># 从均值为1，标准差为0.35的正态分布中取样</span></span><br><span class="line">w = tf.contrib.eager.Variable(tf.random_normal([<span class="number">1</span>, <span class="number">4</span>], mean=<span class="number">1.0</span>, stddev=<span class="number">0.35</span>))</span><br><span class="line"></span><br><span class="line">print(<span class="string">"v:"</span>, v.numpy())</span><br><span class="line">print(<span class="string">"w:"</span>, w.numpy())</span><br></pre></td></tr></table></figure>
+<pre><code>v: [3]
+w: [[0.7752843 1.516361  1.1726708 0.9872638]]
+</code></pre><p>要更改变量的值，请使用 <code>assign</code> 操作，并且向变量赋予新值时，其形状必须和之前的形状一致。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">v = tf.contrib.eager.Variable([<span class="number">3</span>])</span><br><span class="line">print(v.numpy())</span><br><span class="line"></span><br><span class="line">tf.assign(v, [<span class="number">7</span>])</span><br><span class="line">print(v.numpy())</span><br><span class="line"></span><br><span class="line">v.assign([<span class="number">5</span>])</span><br><span class="line">print(v.numpy())</span><br><span class="line"></span><br><span class="line">v = tf.contrib.eager.Variable([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])</span><br><span class="line">print(v.numpy())</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">  print(<span class="string">"Assigning [7, 8, 9] to v"</span>)</span><br><span class="line">  v.assign([<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>])</span><br><span class="line"><span class="keyword">except</span> ValueError <span class="keyword">as</span> e:</span><br><span class="line">  print(<span class="string">"Exception:"</span>, e)</span><br></pre></td></tr></table></figure>
+<pre><code>[3]
+[7]
+[5]
+[[1 2 3]
+ [4 5 6]]
+Assigning [7, 8, 9] to v
+Exception: Shapes (2, 3) and (3,) are incompatible
+</code></pre><h3 id="练习-3：模拟投掷两个骰子-10-次。"><a href="#练习-3：模拟投掷两个骰子-10-次。" class="headerlink" title="练习 3：模拟投掷两个骰子 10 次。"></a>练习 3：模拟投掷两个骰子 10 次。</h3><p>创建一个骰子模拟，在模拟中生成一个 <code>10x3</code> 二维张量，其中：</p>
+<ul>
+<li>列 <code>1</code> 和 <code>2</code> 均存储一个六面骰子（值为 1-6）的一次投掷值。</li>
+<li>列 <code>3</code> 存储同一行中列 <code>1</code> 和 <code>2</code> 的值的总和。</li>
+</ul>
+<p>例如，第一行中可能会包含以下值：</p>
+<ul>
+<li>列 <code>1</code> 存储 <code>4</code></li>
+<li>列 <code>2</code> 存储 <code>3</code></li>
+<li>列 <code>3</code> 存储 <code>7</code></li>
+</ul>
+<p>要完成此任务，您需要浏览 <a href="https://www.tensorflow.org/api_guides/python/array_ops" target="_blank" rel="noopener">TensorFlow 文档</a>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">die1 = tf.contrib.eager.Variable(</span><br><span class="line">    tf.random_uniform([<span class="number">10</span>, <span class="number">1</span>], minval=<span class="number">1</span>, maxval=<span class="number">7</span>, dtype=tf.int32))</span><br><span class="line">die2 = tf.contrib.eager.Variable(</span><br><span class="line">    tf.random_uniform([<span class="number">10</span>, <span class="number">1</span>], minval=<span class="number">1</span>, maxval=<span class="number">7</span>, dtype=tf.int32))</span><br><span class="line"></span><br><span class="line">dice_sum = tf.add(die1, die2)</span><br><span class="line">resulting_matrix = tf.concat(values=[die1, die2, dice_sum], axis=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">print(resulting_matrix)</span><br></pre></td></tr></table></figure>
+<pre><code>tf.Tensor(
+[[ 2  3  5]
+ [ 5  6 11]
+ [ 3  3  6]
+ [ 5  6 11]
+ [ 2  1  3]
+ [ 6  5 11]
+ [ 1  4  5]
+ [ 1  1  2]
+ [ 4  6 10]
+ [ 5  4  9]], shape=(10, 3), dtype=int32)
+</code></pre>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Tensorflow/" rel="tag"><i class="fa fa-tag"></i> Tensorflow</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/26/TensorFlow_1/" rel="next" title="TensorFlow 1">
+                <i class="fa fa-chevron-left"></i> TensorFlow 1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/29/TensorFlow_3/" rel="prev" title="TensorFlow 3">
+                TensorFlow 3 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Voidmort" />
+            
+              <p class="site-author-name" itemprop="name">Voidmort</p>
+              <p class="site-description motion-element" itemprop="description">研究AI，撰写影评，热爱音乐，努力健身</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">23</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Voidmort" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:wxj5658@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1749266905" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jusanliusha.xyz" title="Jusanliusha" target="_blank">Jusanliusha</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#创建和控制张量"><span class="nav-number">1.</span> <span class="nav-text">创建和控制张量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#矢量加法"><span class="nav-number">1.1.</span> <span class="nav-text">矢量加法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#张量形状"><span class="nav-number">1.2.</span> <span class="nav-text">张量形状</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#广播"><span class="nav-number">1.3.</span> <span class="nav-text">广播</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#练习-1：矢量运算。"><span class="nav-number">1.3.1.</span> <span class="nav-text">练习 1：矢量运算。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵乘法"><span class="nav-number">1.4.</span> <span class="nav-text">矩阵乘法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#张量变形"><span class="nav-number">1.5.</span> <span class="nav-text">张量变形</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#练习-2：改变两个张量的形状，使其能够相乘。"><span class="nav-number">1.5.1.</span> <span class="nav-text">练习 2：改变两个张量的形状，使其能够相乘。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量、初始化和赋值"><span class="nav-number">1.6.</span> <span class="nav-text">变量、初始化和赋值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#练习-3：模拟投掷两个骰子-10-次。"><span class="nav-number">1.6.1.</span> <span class="nav-text">练习 3：模拟投掷两个骰子 10 次。</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Voidmort</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":110,"height":220},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>

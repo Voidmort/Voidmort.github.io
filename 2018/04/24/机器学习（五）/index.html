@@ -490,7 +490,7 @@
 <p>h,表示的就是逻辑回归，带入到函数g中，最终得到的表达式就是</p>
 <p><img src="6.png" alt=""><br>函数h表示的就是当输入特征X时，根据输入的特征计算输出变量Y=1的可能性。假设h(x)=0.7,表示的就是患有恶性肿瘤的概率为0.7</p>
 <h1 id="判定边界-Decision-Boundary"><a href="#判定边界-Decision-Boundary" class="headerlink" title="判定边界(Decision Boundary)"></a>判定边界(Decision Boundary)</h1><p>判定边界能够让我们更好的理解逻辑回归和假设函数在计算什么</p>
-<p><img src="7.png" alt=""><br>上图就是逻辑回归的函数和图像，看一下数学意义：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">当h &gt;= 0.5时,预测结果 y = 1，</span><br><span class="line">当h &lt; 0.5时，预测结果 y = 0,</span><br><span class="line">所以：</span><br><span class="line">当 y = 1 时，h(x) = g(z) &gt;= 0.5 </span><br><span class="line">那么 z &gt;= 0,也就是θtX&gt;=0;</span><br><span class="line">当y=0时，最后得到θtX&lt;0。</span><br></pre></td></tr></table></figure></p>
+<p><img src="7.png" alt=""><br>上图就是逻辑回归的函数和图像，看一下数学意义：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">当h &gt;= <span class="number">0.5</span>时,预测结果 y = <span class="number">1</span>，</span><br><span class="line">当h &lt; <span class="number">0.5</span>时，预测结果 y = <span class="number">0</span>,</span><br><span class="line">所以：</span><br><span class="line">当 y = <span class="number">1</span> 时，h(x) = g(z) &gt;= <span class="number">0.5</span> </span><br><span class="line">那么 z &gt;= <span class="number">0</span>,也就是θtX&gt;=<span class="number">0</span>;</span><br><span class="line">当y=<span class="number">0</span>时，最后得到θtX&lt;<span class="number">0</span>。</span><br></pre></td></tr></table></figure></p>
 <p>具体看下面这个例子</p>
 <p><img src="8.png" alt=""><br>其中的theta的参数分别为-3,1,1<br>存在如上图所示的数据以及表示函数,如果要预测y=1的概率，最后得到的表达式为：</p>
 <p><img src="9.png" alt=""><br>最后得到的结果很明显是一个过（0,3）（3,0）的直线：</p>
@@ -634,7 +634,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">42</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
