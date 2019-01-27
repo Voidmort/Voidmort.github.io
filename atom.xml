@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2019-01-12T13:57:16.724Z</updated>
+  <updated>2019-01-27T03:34:15.896Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Django 部署(Apache)</title>
+    <link href="https://xvjie.wang/2019/01/27/Django%20%E9%83%A8%E7%BD%B2(Apache)/"/>
+    <id>https://xvjie.wang/2019/01/27/Django 部署(Apache)/</id>
+    <published>2019-01-27T02:38:27.000Z</published>
+    <updated>2019-01-27T03:34:15.896Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Django是一个，由Python写成的开放源代码的Web应用框架，在使用apache部署的时候走了好多坑这里记录下。&lt;/p&gt;
+&lt;p&gt;参考：&lt;/p&gt;
+&lt;p&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="Django" scheme="https://xvjie.wang/categories/Django/"/>
+    
+    
+      <category term="Django" scheme="https://xvjie.wang/tags/Django/"/>
+    
+  </entry>
   
   <entry>
     <title>TensorFlow 5</title>
@@ -533,35 +561,6 @@
     
     
       <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python实现异常检测算法</title>
-    <link href="https://xvjie.wang/2018/08/27/Python%E5%AE%9E%E7%8E%B0%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95/"/>
-    <id>https://xvjie.wang/2018/08/27/Python实现异常检测算法/</id>
-    <published>2018-08-26T16:00:00.000Z</published>
-    <updated>2018-09-16T11:04:13.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;应用高斯分布开发异常检测算法，这个比较简单，高斯分布也叫做正态分布，高中就学过，如果我们的数据符合高斯分布或者比较像高斯分布的时候可以使用这个算法，通过训练集计算高斯分布函数，与交叉验证集比较设置合适的Σ，当测试数据小于Σ时则为异常&lt;/p&gt;
-&lt;figure
-        
-      
-    
-    </summary>
-    
-      <category term="机器学习代码实现" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/"/>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-      <category term="python" scheme="https://xvjie.wang/tags/python/"/>
     
   </entry>
   
