@@ -1,0 +1,1788 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="正则化 (Regularization for Simplicity)略 查准率和召回率略 逻辑回归 与在之前的练习中一样，我们将使用加利福尼亚州住房数据集，但这次我们会预测某个城市街区的住房成本是否高昂，从而将其转换成一个二元分类问题。此外，我们还会暂时恢复使用默认特征。 构建二元分类问题数据集的目标是 median_house_value，它是一个数值（连续值）特征。我们可以通过向此连续值使用">
+<meta name="keywords" content="Tensorflow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorFlow 7">
+<meta property="og:url" content="https://xvjie.wang/2019/01/14/TensorFlow_7/index.html">
+<meta property="og:site_name" content="Voidmort">
+<meta property="og:description" content="正则化 (Regularization for Simplicity)略 查准率和召回率略 逻辑回归 与在之前的练习中一样，我们将使用加利福尼亚州住房数据集，但这次我们会预测某个城市街区的住房成本是否高昂，从而将其转换成一个二元分类问题。此外，我们还会暂时恢复使用默认特征。 构建二元分类问题数据集的目标是 median_house_value，它是一个数值（连续值）特征。我们可以通过向此连续值使用">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://xvjie.wang/2019/01/14/TensorFlow_7/ensorFlow_7_15_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/01/14/TensorFlow_7/TensorFlow_7_18_0.png">
+<meta property="og:image" content="https://xvjie.wang/2019/01/14/TensorFlow_7/TensorFlow_7_21_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/01/14/TensorFlow_7/TensorFlow_7_25_0.png">
+<meta property="og:image" content="https://xvjie.wang/2019/01/14/TensorFlow_7/TensorFlow_7_27_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/01/14/TensorFlow_7/TensorFlow_7_35_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/01/14/TensorFlow_7/TensorFlow_7_36_1.png">
+<meta property="og:updated_time" content="2019-02-02T15:09:39.822Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TensorFlow 7">
+<meta name="twitter:description" content="正则化 (Regularization for Simplicity)略 查准率和召回率略 逻辑回归 与在之前的练习中一样，我们将使用加利福尼亚州住房数据集，但这次我们会预测某个城市街区的住房成本是否高昂，从而将其转换成一个二元分类问题。此外，我们还会暂时恢复使用默认特征。 构建二元分类问题数据集的目标是 median_house_value，它是一个数值（连续值）特征。我们可以通过向此连续值使用">
+<meta name="twitter:image" content="https://xvjie.wang/2019/01/14/TensorFlow_7/ensorFlow_7_15_1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Voidmort" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://xvjie.wang/2019/01/14/TensorFlow_7/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>TensorFlow 7 | Voidmort</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7b96eb7c2717359e36cc8bd8b546997c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/Voidmort" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Voidmort</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xvjie.wang/2019/01/14/TensorFlow_7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Voidmort">
+      <meta itemprop="description" content="研究AI，撰写影评，热爱音乐，努力健身">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Voidmort">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">TensorFlow 7
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-01-14 17:10:00" itemprop="dateCreated datePublished" datetime="2019-01-14T17:10:00+08:00">2019-01-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-02 23:09:39" itemprop="dateModified" datetime="2019-02-02T23:09:39+08:00">2019-02-02</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Tensorflow/" itemprop="url" rel="index"><span itemprop="name">Tensorflow</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="正则化-Regularization-for-Simplicity"><a href="#正则化-Regularization-for-Simplicity" class="headerlink" title="正则化 (Regularization for Simplicity)"></a>正则化 (Regularization for Simplicity)</h1><p>略</p>
+<h1 id="查准率和召回率"><a href="#查准率和召回率" class="headerlink" title="查准率和召回率"></a>查准率和召回率</h1><p>略</p>
+<h1 id="逻辑回归"><a href="#逻辑回归" class="headerlink" title="逻辑回归"></a>逻辑回归</h1><p> 与在之前的练习中一样，我们将使用加利福尼亚州住房数据集，但这次我们会预测某个城市街区的住房成本是否高昂，从而将其转换成一个二元分类问题。此外，我们还会暂时恢复使用默认特征。</p>
+<h2 id="构建二元分类问题"><a href="#构建二元分类问题" class="headerlink" title="构建二元分类问题"></a>构建二元分类问题</h2><p>数据集的目标是 <code>median_house_value</code>，它是一个数值（连续值）特征。我们可以通过向此连续值使用阈值来创建一个布尔值标签。</p>
+<p>我们希望通过某个城市街区的特征预测该街区的住房成本是否高昂。为了给训练数据和评估数据准备目标，我们针对房屋价值中位数定义了分类阈值 - 第 75 百分位数（约为 265000）。所有高于此阈值的房屋价值标记为 <code>1</code>，其他值标记为 <code>0</code>。</p>
+<h2 id="设置"><a href="#设置" class="headerlink" title="设置"></a>设置</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> IPython <span class="keyword">import</span> display</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> cm</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> gridspec</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> metrics</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow.python.data <span class="keyword">import</span> Dataset</span><br><span class="line"></span><br><span class="line">tf.logging.set_verbosity(tf.logging.ERROR)</span><br><span class="line">pd.options.display.max_rows = <span class="number">10</span></span><br><span class="line">pd.options.display.float_format = <span class="string">'&#123;:.1f&#125;'</span>.format</span><br><span class="line"></span><br><span class="line">california_housing_dataframe = pd.read_csv(<span class="string">"https://download.mlcc.google.cn/mledu-datasets/california_housing_train.csv"</span>, sep=<span class="string">","</span>)</span><br><span class="line"></span><br><span class="line">california_housing_dataframe = california_housing_dataframe.reindex(</span><br><span class="line">    np.random.permutation(california_housing_dataframe.index))</span><br></pre></td></tr></table></figure>
+<p> 注意以下代码与之前练习中的代码之间稍有不同。我们并没有将 <code>median_house_value</code> 用作目标，而是创建了一个新的二元目标 <code>median_house_value_is_high</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">preprocess_features</span><span class="params">(california_housing_dataframe)</span>:</span></span><br><span class="line">    selected_features = california_housing_dataframe[</span><br><span class="line">    [<span class="string">"latitude"</span>,</span><br><span class="line">     <span class="string">"longitude"</span>,</span><br><span class="line">     <span class="string">"housing_median_age"</span>,</span><br><span class="line">     <span class="string">"total_rooms"</span>,</span><br><span class="line">     <span class="string">"total_bedrooms"</span>,</span><br><span class="line">     <span class="string">"population"</span>,</span><br><span class="line">     <span class="string">"households"</span>,</span><br><span class="line">     <span class="string">"median_income"</span>]]    </span><br><span class="line">    processed_features = selected_features.copy()</span><br><span class="line">    processed_features[<span class="string">"rooms_per_person"</span>] = (</span><br><span class="line">        california_housing_dataframe[<span class="string">"total_rooms"</span>] /</span><br><span class="line">        california_housing_dataframe[<span class="string">"population"</span>])</span><br><span class="line">    <span class="keyword">return</span> processed_features</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">preprocess_targets</span><span class="params">(california_housing_dataframe)</span>:</span></span><br><span class="line">    output_targets = pd.DataFrame()</span><br><span class="line">    output_targets[<span class="string">"median_house_value_is_high"</span>] = (</span><br><span class="line">    california_housing_dataframe[<span class="string">"median_house_value"</span>] &gt; <span class="number">265000</span>).astype(float)</span><br><span class="line">    <span class="keyword">return</span> output_targets</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">training_examples = preprocess_features(california_housing_dataframe.head(<span class="number">12000</span>))</span><br><span class="line">training_targets = preprocess_targets(california_housing_dataframe.head(<span class="number">12000</span>))</span><br><span class="line"></span><br><span class="line">validation_examples = preprocess_features(california_housing_dataframe.tail(<span class="number">5000</span>))</span><br><span class="line">validation_targets = preprocess_targets(california_housing_dataframe.tail(<span class="number">5000</span>))</span><br><span class="line"></span><br><span class="line">print(<span class="string">"Training examples summary:"</span>)</span><br><span class="line">display.display(training_examples.describe())</span><br><span class="line">print(<span class="string">"Validation examples summary:"</span>)</span><br><span class="line">display.display(validation_examples.describe())</span><br><span class="line"></span><br><span class="line">print(<span class="string">"Training targets summary:"</span>)</span><br><span class="line">display.display(training_targets.describe())</span><br><span class="line">print(<span class="string">"Validation targets summary:"</span>)</span><br><span class="line">display.display(validation_targets.describe())</span><br></pre></td></tr></table></figure>
+<pre><code>Training examples summary:
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>housing_median_age</th>
+      <th>total_rooms</th>
+      <th>total_bedrooms</th>
+      <th>population</th>
+      <th>households</th>
+      <th>median_income</th>
+      <th>rooms_per_person</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>12000.0</td>
+      <td>12000.0</td>
+      <td>12000.0</td>
+      <td>12000.0</td>
+      <td>12000.0</td>
+      <td>12000.0</td>
+      <td>12000.0</td>
+      <td>12000.0</td>
+      <td>12000.0</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>35.6</td>
+      <td>-119.6</td>
+      <td>28.6</td>
+      <td>2630.6</td>
+      <td>537.6</td>
+      <td>1426.3</td>
+      <td>499.6</td>
+      <td>3.9</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>2.1</td>
+      <td>2.0</td>
+      <td>12.6</td>
+      <td>2156.5</td>
+      <td>415.3</td>
+      <td>1158.6</td>
+      <td>379.3</td>
+      <td>1.9</td>
+      <td>1.2</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>32.5</td>
+      <td>-124.3</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>6.0</td>
+      <td>1.0</td>
+      <td>0.5</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>33.9</td>
+      <td>-121.8</td>
+      <td>18.0</td>
+      <td>1460.8</td>
+      <td>297.0</td>
+      <td>790.0</td>
+      <td>282.0</td>
+      <td>2.6</td>
+      <td>1.5</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>34.2</td>
+      <td>-118.5</td>
+      <td>29.0</td>
+      <td>2113.5</td>
+      <td>432.0</td>
+      <td>1168.0</td>
+      <td>408.0</td>
+      <td>3.5</td>
+      <td>1.9</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>37.7</td>
+      <td>-118.0</td>
+      <td>37.0</td>
+      <td>3138.2</td>
+      <td>647.0</td>
+      <td>1717.2</td>
+      <td>603.0</td>
+      <td>4.8</td>
+      <td>2.3</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>42.0</td>
+      <td>-114.3</td>
+      <td>52.0</td>
+      <td>37937.0</td>
+      <td>6445.0</td>
+      <td>35682.0</td>
+      <td>6082.0</td>
+      <td>15.0</td>
+      <td>55.2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code>Validation examples summary:
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>housing_median_age</th>
+      <th>total_rooms</th>
+      <th>total_bedrooms</th>
+      <th>population</th>
+      <th>households</th>
+      <th>median_income</th>
+      <th>rooms_per_person</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>5000.0</td>
+      <td>5000.0</td>
+      <td>5000.0</td>
+      <td>5000.0</td>
+      <td>5000.0</td>
+      <td>5000.0</td>
+      <td>5000.0</td>
+      <td>5000.0</td>
+      <td>5000.0</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>35.7</td>
+      <td>-119.6</td>
+      <td>28.6</td>
+      <td>2675.1</td>
+      <td>543.8</td>
+      <td>1437.5</td>
+      <td>505.0</td>
+      <td>3.9</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>2.1</td>
+      <td>2.0</td>
+      <td>12.5</td>
+      <td>2235.0</td>
+      <td>436.1</td>
+      <td>1121.7</td>
+      <td>396.8</td>
+      <td>1.9</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>32.5</td>
+      <td>-124.3</td>
+      <td>2.0</td>
+      <td>12.0</td>
+      <td>4.0</td>
+      <td>3.0</td>
+      <td>3.0</td>
+      <td>0.5</td>
+      <td>0.3</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>33.9</td>
+      <td>-121.8</td>
+      <td>18.0</td>
+      <td>1465.8</td>
+      <td>295.8</td>
+      <td>788.0</td>
+      <td>278.0</td>
+      <td>2.6</td>
+      <td>1.5</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>34.3</td>
+      <td>-118.5</td>
+      <td>28.0</td>
+      <td>2172.0</td>
+      <td>438.0</td>
+      <td>1165.0</td>
+      <td>411.0</td>
+      <td>3.5</td>
+      <td>1.9</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>37.7</td>
+      <td>-118.0</td>
+      <td>37.0</td>
+      <td>3176.0</td>
+      <td>652.0</td>
+      <td>1732.2</td>
+      <td>609.0</td>
+      <td>4.8</td>
+      <td>2.3</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>41.9</td>
+      <td>-114.6</td>
+      <td>52.0</td>
+      <td>32054.0</td>
+      <td>5290.0</td>
+      <td>15507.0</td>
+      <td>5050.0</td>
+      <td>15.0</td>
+      <td>27.1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code>Training targets summary:
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>median_house_value_is_high</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>12000.0</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>0.2</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>0.4</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code>Validation targets summary:
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>median_house_value_is_high</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>5000.0</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>0.3</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>0.4</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="线性回归的表现"><a href="#线性回归的表现" class="headerlink" title="线性回归的表现"></a>线性回归的表现</h2><p>为了交接逻辑回归为什么有效，我们首先训练一个使用线性回归的简单模型。该模型将使用 <code>{0, 1}</code> 中的值为标签，并尝试预测一个尽可能接近 <code>0</code> 或 <code>1</code> 的连续值。此外，我们希望将输出解读为概率，所以最好模型的输出值可以位于 <code>(0, 1)</code> 范围内。然后我们会应用阈值 <code>0.5</code>，以确定标签。</p>
+<p>运行以下单元格，以使用 <a href="https://www.tensorflow.org/api_docs/python/tf/estimator/LinearRegressor" target="_blank" rel="noopener">LinearRegressor</a> 训练线性回归模型。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">construct_feature_columns</span><span class="params">(input_features)</span>:</span></span><br><span class="line">  <span class="string">"""Construct the TensorFlow Feature Columns.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Args:</span></span><br><span class="line"><span class="string">    input_features: The names of the numerical input features to use.</span></span><br><span class="line"><span class="string">  Returns:</span></span><br><span class="line"><span class="string">    A set of feature columns</span></span><br><span class="line"><span class="string">  """</span></span><br><span class="line">  <span class="keyword">return</span> set([tf.feature_column.numeric_column(my_feature)</span><br><span class="line">              <span class="keyword">for</span> my_feature <span class="keyword">in</span> input_features])</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_input_fn</span><span class="params">(features, targets, batch_size=<span class="number">1</span>, shuffle=True, num_epochs=None)</span>:</span></span><br><span class="line">    <span class="string">"""Trains a linear regression model.</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">      features: pandas DataFrame of features</span></span><br><span class="line"><span class="string">      targets: pandas DataFrame of targets</span></span><br><span class="line"><span class="string">      batch_size: Size of batches to be passed to the model</span></span><br><span class="line"><span class="string">      shuffle: True or False. Whether to shuffle the data.</span></span><br><span class="line"><span class="string">      num_epochs: Number of epochs for which data should be repeated. None = repeat indefinitely</span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">      Tuple of (features, labels) for next data batch</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Convert pandas data into a dict of np arrays.</span></span><br><span class="line">    features = &#123;key:np.array(value) <span class="keyword">for</span> key,value <span class="keyword">in</span> dict(features).items()&#125;                                            </span><br><span class="line"> </span><br><span class="line">    <span class="comment"># Construct a dataset, and configure batching/repeating.</span></span><br><span class="line">    ds = Dataset.from_tensor_slices((features,targets)) <span class="comment"># warning: 2GB limit</span></span><br><span class="line">    ds = ds.batch(batch_size).repeat(num_epochs)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Shuffle the data, if specified.</span></span><br><span class="line">    <span class="keyword">if</span> shuffle:</span><br><span class="line">      ds = ds.shuffle(<span class="number">10000</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Return the next batch of data.</span></span><br><span class="line">    features, labels = ds.make_one_shot_iterator().get_next()</span><br><span class="line">    <span class="keyword">return</span> features, labels</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_linear_regressor_model</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    learning_rate,</span></span></span><br><span class="line"><span class="function"><span class="params">    steps,</span></span></span><br><span class="line"><span class="function"><span class="params">    batch_size,</span></span></span><br><span class="line"><span class="function"><span class="params">    training_examples,</span></span></span><br><span class="line"><span class="function"><span class="params">    training_targets,</span></span></span><br><span class="line"><span class="function"><span class="params">    validation_examples,</span></span></span><br><span class="line"><span class="function"><span class="params">    validation_targets)</span>:</span></span><br><span class="line">  <span class="string">"""Trains a linear regression model.</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">  In addition to training, this function also prints training progress information,</span></span><br><span class="line"><span class="string">  as well as a plot of the training and validation loss over time.</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">  Args:</span></span><br><span class="line"><span class="string">    learning_rate: A `float`, the learning rate.</span></span><br><span class="line"><span class="string">    steps: A non-zero `int`, the total number of training steps. A training step</span></span><br><span class="line"><span class="string">      consists of a forward and backward pass using a single batch.</span></span><br><span class="line"><span class="string">    batch_size: A non-zero `int`, the batch size.</span></span><br><span class="line"><span class="string">    training_examples: A `DataFrame` containing one or more columns from</span></span><br><span class="line"><span class="string">      `california_housing_dataframe` to use as input features for training.</span></span><br><span class="line"><span class="string">    training_targets: A `DataFrame` containing exactly one column from</span></span><br><span class="line"><span class="string">      `california_housing_dataframe` to use as target for training.</span></span><br><span class="line"><span class="string">    validation_examples: A `DataFrame` containing one or more columns from</span></span><br><span class="line"><span class="string">      `california_housing_dataframe` to use as input features for validation.</span></span><br><span class="line"><span class="string">    validation_targets: A `DataFrame` containing exactly one column from</span></span><br><span class="line"><span class="string">      `california_housing_dataframe` to use as target for validation.</span></span><br><span class="line"><span class="string">      </span></span><br><span class="line"><span class="string">  Returns:</span></span><br><span class="line"><span class="string">    A `LinearRegressor` object trained on the training data.</span></span><br><span class="line"><span class="string">  """</span></span><br><span class="line"></span><br><span class="line">  periods = <span class="number">10</span></span><br><span class="line">  steps_per_period = steps / periods</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Create a linear regressor object.</span></span><br><span class="line">  my_optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate)</span><br><span class="line">  my_optimizer = tf.contrib.estimator.clip_gradients_by_norm(my_optimizer, <span class="number">5.0</span>)</span><br><span class="line">  linear_regressor = tf.estimator.LinearRegressor(</span><br><span class="line">      feature_columns=construct_feature_columns(training_examples),</span><br><span class="line">      optimizer=my_optimizer</span><br><span class="line">  )</span><br><span class="line">    </span><br><span class="line">  <span class="comment"># Create input functions.  </span></span><br><span class="line">  training_input_fn = <span class="keyword">lambda</span>: my_input_fn(training_examples, </span><br><span class="line">                                          training_targets[<span class="string">"median_house_value_is_high"</span>], </span><br><span class="line">                                          batch_size=batch_size)</span><br><span class="line">  predict_training_input_fn = <span class="keyword">lambda</span>: my_input_fn(training_examples, </span><br><span class="line">                                                  training_targets[<span class="string">"median_house_value_is_high"</span>], </span><br><span class="line">                                                  num_epochs=<span class="number">1</span>, </span><br><span class="line">                                                  shuffle=<span class="keyword">False</span>)</span><br><span class="line">  predict_validation_input_fn = <span class="keyword">lambda</span>: my_input_fn(validation_examples, </span><br><span class="line">                                                    validation_targets[<span class="string">"median_house_value_is_high"</span>], </span><br><span class="line">                                                    num_epochs=<span class="number">1</span>, </span><br><span class="line">                                                    shuffle=<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Train the model, but do so inside a loop so that we can periodically assess</span></span><br><span class="line">  <span class="comment"># loss metrics.</span></span><br><span class="line">  print(<span class="string">"Training model..."</span>)</span><br><span class="line">  print(<span class="string">"RMSE (on training data):"</span>)</span><br><span class="line">  training_rmse = []</span><br><span class="line">  validation_rmse = []</span><br><span class="line">  <span class="keyword">for</span> period <span class="keyword">in</span> range (<span class="number">0</span>, periods):</span><br><span class="line">    <span class="comment"># Train the model, starting from the prior state.</span></span><br><span class="line">    linear_regressor.train(</span><br><span class="line">        input_fn=training_input_fn,</span><br><span class="line">        steps=steps_per_period</span><br><span class="line">    )</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Take a break and compute predictions.</span></span><br><span class="line">    training_predictions = linear_regressor.predict(input_fn=predict_training_input_fn)</span><br><span class="line">    training_predictions = np.array([item[<span class="string">'predictions'</span>][<span class="number">0</span>] <span class="keyword">for</span> item <span class="keyword">in</span> training_predictions])</span><br><span class="line">    </span><br><span class="line">    validation_predictions = linear_regressor.predict(input_fn=predict_validation_input_fn)</span><br><span class="line">    validation_predictions = np.array([item[<span class="string">'predictions'</span>][<span class="number">0</span>] <span class="keyword">for</span> item <span class="keyword">in</span> validation_predictions])</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Compute training and validation loss.</span></span><br><span class="line">    training_root_mean_squared_error = math.sqrt(</span><br><span class="line">        metrics.mean_squared_error(training_predictions, training_targets))</span><br><span class="line">    validation_root_mean_squared_error = math.sqrt(</span><br><span class="line">        metrics.mean_squared_error(validation_predictions, validation_targets))</span><br><span class="line">    <span class="comment"># Occasionally print the current loss.</span></span><br><span class="line">    print(<span class="string">"  period %02d : %0.2f"</span> % (period, training_root_mean_squared_error))</span><br><span class="line">    <span class="comment"># Add the loss metrics from this period to our list.</span></span><br><span class="line">    training_rmse.append(training_root_mean_squared_error)</span><br><span class="line">    validation_rmse.append(validation_root_mean_squared_error)</span><br><span class="line">  print(<span class="string">"Model training finished."</span>)</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Output a graph of loss metrics over periods.</span></span><br><span class="line">  plt.ylabel(<span class="string">"RMSE"</span>)</span><br><span class="line">  plt.xlabel(<span class="string">"Periods"</span>)</span><br><span class="line">  plt.title(<span class="string">"Root Mean Squared Error vs. Periods"</span>)</span><br><span class="line">  plt.tight_layout()</span><br><span class="line">  plt.plot(training_rmse, label=<span class="string">"training"</span>)</span><br><span class="line">  plt.plot(validation_rmse, label=<span class="string">"validation"</span>)</span><br><span class="line">  plt.legend()</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> linear_regressor</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">linear_regressor = train_linear_regressor_model(</span><br><span class="line">    learning_rate=<span class="number">0.000001</span>,</span><br><span class="line">    steps=<span class="number">200</span>,</span><br><span class="line">    batch_size=<span class="number">20</span>,</span><br><span class="line">    training_examples=training_examples,</span><br><span class="line">    training_targets=training_targets,</span><br><span class="line">    validation_examples=validation_examples,</span><br><span class="line">    validation_targets=validation_targets)</span><br></pre></td></tr></table></figure>
+<pre><code>Training model...
+RMSE (on training data):
+  period 00 : 0.45
+  period 01 : 0.45
+  period 02 : 0.45
+  period 03 : 0.45
+  period 04 : 0.46
+  period 05 : 0.44
+  period 06 : 0.44
+  period 07 : 0.44
+  period 08 : 0.45
+  period 09 : 0.44
+Model training finished.
+</code></pre><p><img src="ensorFlow_7_15_1.png" alt="png"></p>
+<h2 id="计算预测的对数损失函数"><a href="#计算预测的对数损失函数" class="headerlink" title="计算预测的对数损失函数"></a>计算预测的对数损失函数</h2><p><strong>检查预测，并确定是否可以使用它们来计算对数损失函数。</strong></p>
+<p><code>LinearRegressor</code> 使用的是 L2 损失，在将输出解读为概率时，它并不能有效地惩罚误分类。例如，对于概率分别为 0.9 和 0.9999 的负分类样本是否被分类为正分类，二者之间的差异应该很大，但 L2 损失并不会明显区分这些情况。</p>
+<p>相比之下，<code>LogLoss</code>（对数损失函数）对这些”置信错误”的惩罚力度更大。请注意，<code>LogLoss</code> 的定义如下：</p>
+<p>$$Log Loss = \sum_{(x,y)\in D} -y \cdot log(y_{pred}) - (1 - y) \cdot log(1 - y_{pred})$$</p>
+<p>但我们首先需要获得预测值。我们可以使用 <code>LinearRegressor.predict</code> 获得预测值。</p>
+<p>我们可以使用预测和相应目标计算 <code>LogLoss</code> 吗？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">predict_validation_input_fn = <span class="keyword">lambda</span>: my_input_fn(validation_examples,</span><br><span class="line">                                                  validation_targets[<span class="string">"median_house_value_is_high"</span>],</span><br><span class="line">                                                  num_epochs=<span class="number">1</span>,</span><br><span class="line">                                                  shuffle=<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">validation_predictions = linear_regressor.predict(input_fn=predict_validation_input_fn)</span><br><span class="line">validation_predictions = np.array([item[<span class="string">'predictions'</span>][<span class="number">0</span>] <span class="keyword">for</span> item <span class="keyword">in</span> validation_predictions])</span><br><span class="line">_ = plt.hist(validation_predictions)</span><br></pre></td></tr></table></figure>
+<p><img src="TensorFlow_7_18_0.png" alt="png"></p>
+<h2 id="训练逻辑回归模型并计算验证集的对数损失函数"><a href="#训练逻辑回归模型并计算验证集的对数损失函数" class="headerlink" title="训练逻辑回归模型并计算验证集的对数损失函数"></a>训练逻辑回归模型并计算验证集的对数损失函数</h2><p>要使用逻辑回归非常简单，用 <a href="https://www.tensorflow.org/api_docs/python/tf/estimator/LinearClassifier" target="_blank" rel="noopener">LinearClassifier</a> 替代 <code>LinearRegressor</code> 即可。完成以下代码。</p>
+<p><strong>注意</strong>：在 <code>LinearClassifier</code> 模型上运行 <code>train()</code> 和 <code>predict()</code> 时，您可以通过返回的字典（例如 <code>predictions[&quot;probabilities&quot;]</code>）中的 <code>&quot;probabilities&quot;</code> 键获取实值预测概率。Sklearn 的 <a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html" target="_blank" rel="noopener">log_loss</a> 函数可基于这些概率计算对数损失函数，非常方便。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_linear_classifier_model</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    learning_rate,</span></span></span><br><span class="line"><span class="function"><span class="params">    steps,</span></span></span><br><span class="line"><span class="function"><span class="params">    batch_size,</span></span></span><br><span class="line"><span class="function"><span class="params">    training_examples,</span></span></span><br><span class="line"><span class="function"><span class="params">    training_targets,</span></span></span><br><span class="line"><span class="function"><span class="params">    validation_examples,</span></span></span><br><span class="line"><span class="function"><span class="params">    validation_targets)</span>:</span></span><br><span class="line">  <span class="string">"""Trains a linear classification model.</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">  In addition to training, this function also prints training progress information,</span></span><br><span class="line"><span class="string">  as well as a plot of the training and validation loss over time.</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">  Args:</span></span><br><span class="line"><span class="string">    learning_rate: A `float`, the learning rate.</span></span><br><span class="line"><span class="string">    steps: A non-zero `int`, the total number of training steps. A training step</span></span><br><span class="line"><span class="string">      consists of a forward and backward pass using a single batch.</span></span><br><span class="line"><span class="string">    batch_size: A non-zero `int`, the batch size.</span></span><br><span class="line"><span class="string">    training_examples: A `DataFrame` containing one or more columns from</span></span><br><span class="line"><span class="string">      `california_housing_dataframe` to use as input features for training.</span></span><br><span class="line"><span class="string">    training_targets: A `DataFrame` containing exactly one column from</span></span><br><span class="line"><span class="string">      `california_housing_dataframe` to use as target for training.</span></span><br><span class="line"><span class="string">    validation_examples: A `DataFrame` containing one or more columns from</span></span><br><span class="line"><span class="string">      `california_housing_dataframe` to use as input features for validation.</span></span><br><span class="line"><span class="string">    validation_targets: A `DataFrame` containing exactly one column from</span></span><br><span class="line"><span class="string">      `california_housing_dataframe` to use as target for validation.</span></span><br><span class="line"><span class="string">      </span></span><br><span class="line"><span class="string">  Returns:</span></span><br><span class="line"><span class="string">    A `LinearClassifier` object trained on the training data.</span></span><br><span class="line"><span class="string">  """</span></span><br><span class="line"></span><br><span class="line">  periods = <span class="number">10</span></span><br><span class="line">  steps_per_period = steps / periods</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Create a linear classifier object.</span></span><br><span class="line">  my_optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate)</span><br><span class="line">  my_optimizer = tf.contrib.estimator.clip_gradients_by_norm(my_optimizer, <span class="number">5.0</span>)  </span><br><span class="line">  linear_classifier = tf.estimator.LinearClassifier(</span><br><span class="line">      feature_columns=construct_feature_columns(training_examples),</span><br><span class="line">      optimizer=my_optimizer</span><br><span class="line">  )</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Create input functions.</span></span><br><span class="line">  training_input_fn = <span class="keyword">lambda</span>: my_input_fn(training_examples, </span><br><span class="line">                                          training_targets[<span class="string">"median_house_value_is_high"</span>], </span><br><span class="line">                                          batch_size=batch_size)</span><br><span class="line">  predict_training_input_fn = <span class="keyword">lambda</span>: my_input_fn(training_examples, </span><br><span class="line">                                                  training_targets[<span class="string">"median_house_value_is_high"</span>], </span><br><span class="line">                                                  num_epochs=<span class="number">1</span>, </span><br><span class="line">                                                  shuffle=<span class="keyword">False</span>)</span><br><span class="line">  predict_validation_input_fn = <span class="keyword">lambda</span>: my_input_fn(validation_examples, </span><br><span class="line">                                                    validation_targets[<span class="string">"median_house_value_is_high"</span>], </span><br><span class="line">                                                    num_epochs=<span class="number">1</span>, </span><br><span class="line">                                                    shuffle=<span class="keyword">False</span>)</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Train the model, but do so inside a loop so that we can periodically assess</span></span><br><span class="line">  <span class="comment"># loss metrics.</span></span><br><span class="line">  print(<span class="string">"Training model..."</span>)</span><br><span class="line">  print(<span class="string">"LogLoss (on training data):"</span>)</span><br><span class="line">  training_log_losses = []</span><br><span class="line">  validation_log_losses = []</span><br><span class="line">  <span class="keyword">for</span> period <span class="keyword">in</span> range (<span class="number">0</span>, periods):</span><br><span class="line">    <span class="comment"># Train the model, starting from the prior state.</span></span><br><span class="line">    linear_classifier.train(</span><br><span class="line">        input_fn=training_input_fn,</span><br><span class="line">        steps=steps_per_period</span><br><span class="line">    )</span><br><span class="line">    <span class="comment"># Take a break and compute predictions.    </span></span><br><span class="line">    training_probabilities = linear_classifier.predict(input_fn=predict_training_input_fn)</span><br><span class="line">    training_probabilities = np.array([item[<span class="string">'probabilities'</span>] <span class="keyword">for</span> item <span class="keyword">in</span> training_probabilities])</span><br><span class="line">    </span><br><span class="line">    validation_probabilities = linear_classifier.predict(input_fn=predict_validation_input_fn)</span><br><span class="line">    validation_probabilities = np.array([item[<span class="string">'probabilities'</span>] <span class="keyword">for</span> item <span class="keyword">in</span> validation_probabilities])</span><br><span class="line">    </span><br><span class="line">    training_log_loss = metrics.log_loss(training_targets, training_probabilities)</span><br><span class="line">    validation_log_loss = metrics.log_loss(validation_targets, validation_probabilities)</span><br><span class="line">    <span class="comment"># Occasionally print the current loss.</span></span><br><span class="line">    print(<span class="string">"  period %02d : %0.2f"</span> % (period, training_log_loss))</span><br><span class="line">    <span class="comment"># Add the loss metrics from this period to our list.</span></span><br><span class="line">    training_log_losses.append(training_log_loss)</span><br><span class="line">    validation_log_losses.append(validation_log_loss)</span><br><span class="line">  print(<span class="string">"Model training finished."</span>)</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Output a graph of loss metrics over periods.</span></span><br><span class="line">  plt.ylabel(<span class="string">"LogLoss"</span>)</span><br><span class="line">  plt.xlabel(<span class="string">"Periods"</span>)</span><br><span class="line">  plt.title(<span class="string">"LogLoss vs. Periods"</span>)</span><br><span class="line">  plt.tight_layout()</span><br><span class="line">  plt.plot(training_log_losses, label=<span class="string">"training"</span>)</span><br><span class="line">  plt.plot(validation_log_losses, label=<span class="string">"validation"</span>)</span><br><span class="line">  plt.legend()</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> linear_classifier</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">linear_classifier = train_linear_classifier_model(</span><br><span class="line">    learning_rate=<span class="number">0.000005</span>,</span><br><span class="line">    steps=<span class="number">500</span>,</span><br><span class="line">    batch_size=<span class="number">20</span>,</span><br><span class="line">    training_examples=training_examples,</span><br><span class="line">    training_targets=training_targets,</span><br><span class="line">    validation_examples=validation_examples,</span><br><span class="line">    validation_targets=validation_targets)</span><br></pre></td></tr></table></figure>
+<pre><code>Training model...
+LogLoss (on training data):
+  period 00 : 0.60
+  period 01 : 0.58
+  period 02 : 0.57
+  period 03 : 0.56
+  period 04 : 0.55
+  period 05 : 0.55
+  period 06 : 0.54
+  period 07 : 0.55
+  period 08 : 0.54
+  period 09 : 0.53
+Model training finished.
+</code></pre><p><img src="TensorFlow_7_21_1.png" alt="png"></p>
+<h2 id="计算查准率并为验证集绘制-ROC-曲线"><a href="#计算查准率并为验证集绘制-ROC-曲线" class="headerlink" title="计算查准率并为验证集绘制 ROC 曲线"></a>计算查准率并为验证集绘制 ROC 曲线</h2><p>分类时非常有用的一些指标包括：模型<a href="https://en.wikipedia.org/wiki/Accuracy_and_precision#In_binary_classification" target="_blank" rel="noopener">准确率</a>、<a href="https://en.wikipedia.org/wiki/Receiver_operating_characteristic" target="_blank" rel="noopener">ROC 曲线</a>和 ROC 曲线下面积 (AUC)。我们会检查这些指标。</p>
+<p><code>LinearClassifier.evaluate</code> 可计算准确率和 AUC 等实用指标。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">evaluation_metrics = linear_classifier.evaluate(input_fn=predict_validation_input_fn)</span><br><span class="line"></span><br><span class="line">print(<span class="string">"AUC on the validation set: %0.2f"</span> % evaluation_metrics[<span class="string">'auc'</span>])</span><br><span class="line">print(<span class="string">"Accuracy on the validation set: %0.2f"</span> % evaluation_metrics[<span class="string">'accuracy'</span>])</span><br></pre></td></tr></table></figure>
+<pre><code>AUC on the validation set: 0.73
+Accuracy on the validation set: 0.76
+</code></pre><p> 您可以使用类别概率（例如由 <code>LinearClassifier.predict</code><br>和 Sklearn 的 <a href="http://scikit-learn.org/stable/modules/model_evaluation.html#roc-metrics" target="_blank" rel="noopener">roc_curve</a> 计算的概率）来获得绘制 ROC 曲线所需的真正例率和假正例率。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">validation_probabilities = linear_classifier.predict(input_fn=predict_validation_input_fn)</span><br><span class="line"><span class="comment"># Get just the probabilities for the positive class.</span></span><br><span class="line">validation_probabilities = np.array([item[<span class="string">'probabilities'</span>][<span class="number">1</span>] <span class="keyword">for</span> item <span class="keyword">in</span> validation_probabilities])</span><br><span class="line"></span><br><span class="line">false_positive_rate, true_positive_rate, thresholds = metrics.roc_curve(</span><br><span class="line">    validation_targets, validation_probabilities)</span><br><span class="line">plt.plot(false_positive_rate, true_positive_rate, label=<span class="string">"our model"</span>)</span><br><span class="line">plt.plot([<span class="number">0</span>, <span class="number">1</span>], [<span class="number">0</span>, <span class="number">1</span>], label=<span class="string">"random classifier"</span>)</span><br><span class="line">_ = plt.legend(loc=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="TensorFlow_7_25_0.png" alt="png"></p>
+<p> <strong>看看您是否可以调整训练的模型的学习设置，以改善 AUC。</strong></p>
+<p>通常情况下，某些指标在提升的同时会损害其他指标，因此您需要找到可以实现理想折中情况的设置。</p>
+<p><strong>验证所有指标是否同时有所提升。</strong></p>
+<p> 一个可能有用的解决方案是，只要不过拟合，就训练更长时间。</p>
+<p>要做到这一点，我们可以增加步数和/或批量大小。</p>
+<p>所有指标同时提升，这样，我们的损失指标就可以很好地代理 AUC 和准确率了。</p>
+<p>注意它是如何进行很多很多次迭代，只是为了再尽量增加一点 AUC。这种情况很常见，但通常情况下，即使只有一点小小的收获，投入的成本也是值得的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># TUNE THE SETTINGS BELOW TO IMPROVE AUC</span></span><br><span class="line">linear_classifier = train_linear_classifier_model(</span><br><span class="line">    learning_rate=<span class="number">0.0000035</span>,</span><br><span class="line">    steps=<span class="number">20000</span>,</span><br><span class="line">    batch_size=<span class="number">500</span>,</span><br><span class="line">    training_examples=training_examples,</span><br><span class="line">    training_targets=training_targets,</span><br><span class="line">    validation_examples=validation_examples,</span><br><span class="line">    validation_targets=validation_targets)</span><br><span class="line"></span><br><span class="line">evaluation_metrics = linear_classifier.evaluate(input_fn=predict_validation_input_fn)</span><br><span class="line"></span><br><span class="line">print(<span class="string">"AUC on the validation set: %0.2f"</span> % evaluation_metrics[<span class="string">'auc'</span>])</span><br><span class="line">print(<span class="string">"Accuracy on the validation set: %0.2f"</span> % evaluation_metrics[<span class="string">'accuracy'</span>])</span><br></pre></td></tr></table></figure>
+<pre><code>Training model...
+LogLoss (on training data):
+  period 00 : 0.50
+  period 01 : 0.49
+  period 02 : 0.48
+  period 03 : 0.48
+  period 04 : 0.48
+  period 05 : 0.47
+  period 06 : 0.47
+  period 07 : 0.47
+  period 08 : 0.47
+  period 09 : 0.47
+Model training finished.
+AUC on the validation set: 0.81
+Accuracy on the validation set: 0.79
+</code></pre><p><img src="TensorFlow_7_27_1.png" alt="png"></p>
+<h1 id="稀疏性和-L1-正则化"><a href="#稀疏性和-L1-正则化" class="headerlink" title="稀疏性和 L1 正则化"></a>稀疏性和 L1 正则化</h1><p> 降低复杂性的一种方法是使用正则化函数，它会使权重正好为零。对于线性模型（例如线性回归），权重为零就相当于完全没有使用相应特征。除了可避免过拟合之外，生成的模型还会更加有效。</p>
+<p>L1 正则化是一种增加稀疏性的好方法。</p>
+<h2 id="设置-1"><a href="#设置-1" class="headerlink" title="设置"></a>设置</h2><p>加载数据并创建特征定义。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_input_fn</span><span class="params">(features, targets, batch_size=<span class="number">1</span>, shuffle=True, num_epochs=None)</span>:</span></span><br><span class="line">    <span class="string">"""Trains a linear regression model.</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">      features: pandas DataFrame of features</span></span><br><span class="line"><span class="string">      targets: pandas DataFrame of targets</span></span><br><span class="line"><span class="string">      batch_size: Size of batches to be passed to the model</span></span><br><span class="line"><span class="string">      shuffle: True or False. Whether to shuffle the data.</span></span><br><span class="line"><span class="string">      num_epochs: Number of epochs for which data should be repeated. None = repeat indefinitely</span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">      Tuple of (features, labels) for next data batch</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">  </span><br><span class="line">    <span class="comment"># Convert pandas data into a dict of np arrays.</span></span><br><span class="line">    features = &#123;key:np.array(value) <span class="keyword">for</span> key,value <span class="keyword">in</span> dict(features).items()&#125;                                            </span><br><span class="line"> </span><br><span class="line">    <span class="comment"># Construct a dataset, and configure batching/repeating.</span></span><br><span class="line">    ds = Dataset.from_tensor_slices((features,targets)) <span class="comment"># warning: 2GB limit</span></span><br><span class="line">    ds = ds.batch(batch_size).repeat(num_epochs)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Shuffle the data, if specified.</span></span><br><span class="line">    <span class="keyword">if</span> shuffle:</span><br><span class="line">      ds = ds.shuffle(<span class="number">10000</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Return the next batch of data.</span></span><br><span class="line">    features, labels = ds.make_one_shot_iterator().get_next()</span><br><span class="line">    <span class="keyword">return</span> features, labels</span><br><span class="line"></span><br><span class="line"><span class="comment"># 分桶</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_quantile_based_buckets</span><span class="params">(feature_values, num_buckets)</span>:</span></span><br><span class="line">  quantiles = feature_values.quantile(</span><br><span class="line">    [(i+<span class="number">1.</span>)/(num_buckets + <span class="number">1.</span>) <span class="keyword">for</span> i <span class="keyword">in</span> range(num_buckets)])</span><br><span class="line">  <span class="keyword">return</span> [quantiles[q] <span class="keyword">for</span> q <span class="keyword">in</span> quantiles.keys()]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构造特征列</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">construct_feature_columns</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="string">"""Construct the TensorFlow Feature Columns.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Returns:</span></span><br><span class="line"><span class="string">    A set of feature columns</span></span><br><span class="line"><span class="string">  """</span></span><br><span class="line"></span><br><span class="line">  bucketized_households = tf.feature_column.bucketized_column(</span><br><span class="line">    tf.feature_column.numeric_column(<span class="string">"households"</span>),</span><br><span class="line">    boundaries=get_quantile_based_buckets(training_examples[<span class="string">"households"</span>], <span class="number">10</span>))</span><br><span class="line">  bucketized_longitude = tf.feature_column.bucketized_column(</span><br><span class="line">    tf.feature_column.numeric_column(<span class="string">"longitude"</span>),</span><br><span class="line">    boundaries=get_quantile_based_buckets(training_examples[<span class="string">"longitude"</span>], <span class="number">50</span>))</span><br><span class="line">  bucketized_latitude = tf.feature_column.bucketized_column(</span><br><span class="line">    tf.feature_column.numeric_column(<span class="string">"latitude"</span>),</span><br><span class="line">    boundaries=get_quantile_based_buckets(training_examples[<span class="string">"latitude"</span>], <span class="number">50</span>))</span><br><span class="line">  bucketized_housing_median_age = tf.feature_column.bucketized_column(</span><br><span class="line">    tf.feature_column.numeric_column(<span class="string">"housing_median_age"</span>),</span><br><span class="line">    boundaries=get_quantile_based_buckets(</span><br><span class="line">      training_examples[<span class="string">"housing_median_age"</span>], <span class="number">10</span>))</span><br><span class="line">  bucketized_total_rooms = tf.feature_column.bucketized_column(</span><br><span class="line">    tf.feature_column.numeric_column(<span class="string">"total_rooms"</span>),</span><br><span class="line">    boundaries=get_quantile_based_buckets(training_examples[<span class="string">"total_rooms"</span>], <span class="number">10</span>))</span><br><span class="line">  bucketized_total_bedrooms = tf.feature_column.bucketized_column(</span><br><span class="line">    tf.feature_column.numeric_column(<span class="string">"total_bedrooms"</span>),</span><br><span class="line">    boundaries=get_quantile_based_buckets(training_examples[<span class="string">"total_bedrooms"</span>], <span class="number">10</span>))</span><br><span class="line">  bucketized_population = tf.feature_column.bucketized_column(</span><br><span class="line">    tf.feature_column.numeric_column(<span class="string">"population"</span>),</span><br><span class="line">    boundaries=get_quantile_based_buckets(training_examples[<span class="string">"population"</span>], <span class="number">10</span>))</span><br><span class="line">  bucketized_median_income = tf.feature_column.bucketized_column(</span><br><span class="line">    tf.feature_column.numeric_column(<span class="string">"median_income"</span>),</span><br><span class="line">    boundaries=get_quantile_based_buckets(training_examples[<span class="string">"median_income"</span>], <span class="number">10</span>))</span><br><span class="line">  bucketized_rooms_per_person = tf.feature_column.bucketized_column(</span><br><span class="line">    tf.feature_column.numeric_column(<span class="string">"rooms_per_person"</span>),</span><br><span class="line">    boundaries=get_quantile_based_buckets(</span><br><span class="line">      training_examples[<span class="string">"rooms_per_person"</span>], <span class="number">10</span>))</span><br><span class="line"></span><br><span class="line">  long_x_lat = tf.feature_column.crossed_column(</span><br><span class="line">    set([bucketized_longitude, bucketized_latitude]), hash_bucket_size=<span class="number">1000</span>)</span><br><span class="line"></span><br><span class="line">  feature_columns = set([</span><br><span class="line">    long_x_lat,</span><br><span class="line">    bucketized_longitude,</span><br><span class="line">    bucketized_latitude,</span><br><span class="line">    bucketized_housing_median_age,</span><br><span class="line">    bucketized_total_rooms,</span><br><span class="line">    bucketized_total_bedrooms,</span><br><span class="line">    bucketized_population,</span><br><span class="line">    bucketized_households,</span><br><span class="line">    bucketized_median_income,</span><br><span class="line">    bucketized_rooms_per_person])</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> feature_columns</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_linear_classifier_model</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    learning_rate,</span></span></span><br><span class="line"><span class="function"><span class="params">    regularization_strength,</span></span></span><br><span class="line"><span class="function"><span class="params">    steps,</span></span></span><br><span class="line"><span class="function"><span class="params">    batch_size,</span></span></span><br><span class="line"><span class="function"><span class="params">    feature_columns,</span></span></span><br><span class="line"><span class="function"><span class="params">    training_examples,</span></span></span><br><span class="line"><span class="function"><span class="params">    training_targets,</span></span></span><br><span class="line"><span class="function"><span class="params">    validation_examples,</span></span></span><br><span class="line"><span class="function"><span class="params">    validation_targets)</span>:</span></span><br><span class="line">  <span class="string">"""Trains a linear regression model.</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">  In addition to training, this function also prints training progress information,</span></span><br><span class="line"><span class="string">  as well as a plot of the training and validation loss over time.</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">  Args:</span></span><br><span class="line"><span class="string">    learning_rate: A `float`, the learning rate.</span></span><br><span class="line"><span class="string">    regularization_strength: A `float` that indicates the strength of the L1</span></span><br><span class="line"><span class="string">       regularization. A value of `0.0` means no regularization.</span></span><br><span class="line"><span class="string">    steps: A non-zero `int`, the total number of training steps. A training step</span></span><br><span class="line"><span class="string">      consists of a forward and backward pass using a single batch.</span></span><br><span class="line"><span class="string">    feature_columns: A `set` specifying the input feature columns to use.</span></span><br><span class="line"><span class="string">    training_examples: A `DataFrame` containing one or more columns from</span></span><br><span class="line"><span class="string">      `california_housing_dataframe` to use as input features for training.</span></span><br><span class="line"><span class="string">    training_targets: A `DataFrame` containing exactly one column from</span></span><br><span class="line"><span class="string">      `california_housing_dataframe` to use as target for training.</span></span><br><span class="line"><span class="string">    validation_examples: A `DataFrame` containing one or more columns from</span></span><br><span class="line"><span class="string">      `california_housing_dataframe` to use as input features for validation.</span></span><br><span class="line"><span class="string">    validation_targets: A `DataFrame` containing exactly one column from</span></span><br><span class="line"><span class="string">      `california_housing_dataframe` to use as target for validation.</span></span><br><span class="line"><span class="string">      </span></span><br><span class="line"><span class="string">  Returns:</span></span><br><span class="line"><span class="string">    A `LinearClassifier` object trained on the training data.</span></span><br><span class="line"><span class="string">  """</span></span><br><span class="line"></span><br><span class="line">  periods = <span class="number">7</span></span><br><span class="line">  steps_per_period = steps / periods</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Create a linear classifier object.</span></span><br><span class="line">  my_optimizer = tf.train.FtrlOptimizer(learning_rate=learning_rate, l1_regularization_strength=regularization_strength)</span><br><span class="line">  my_optimizer = tf.contrib.estimator.clip_gradients_by_norm(my_optimizer, <span class="number">5.0</span>)</span><br><span class="line">  linear_classifier = tf.estimator.LinearClassifier(</span><br><span class="line">      feature_columns=feature_columns,</span><br><span class="line">      optimizer=my_optimizer</span><br><span class="line">  )</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Create input functions.</span></span><br><span class="line">  training_input_fn = <span class="keyword">lambda</span>: my_input_fn(training_examples, </span><br><span class="line">                                          training_targets[<span class="string">"median_house_value_is_high"</span>], </span><br><span class="line">                                          batch_size=batch_size)</span><br><span class="line">  predict_training_input_fn = <span class="keyword">lambda</span>: my_input_fn(training_examples, </span><br><span class="line">                                                  training_targets[<span class="string">"median_house_value_is_high"</span>], </span><br><span class="line">                                                  num_epochs=<span class="number">1</span>, </span><br><span class="line">                                                  shuffle=<span class="keyword">False</span>)</span><br><span class="line">  predict_validation_input_fn = <span class="keyword">lambda</span>: my_input_fn(validation_examples, </span><br><span class="line">                                                    validation_targets[<span class="string">"median_house_value_is_high"</span>], </span><br><span class="line">                                                    num_epochs=<span class="number">1</span>, </span><br><span class="line">                                                    shuffle=<span class="keyword">False</span>)</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Train the model, but do so inside a loop so that we can periodically assess</span></span><br><span class="line">  <span class="comment"># loss metrics.</span></span><br><span class="line">  print(<span class="string">"Training model..."</span>)</span><br><span class="line">  print(<span class="string">"LogLoss (on validation data):"</span>)</span><br><span class="line">  training_log_losses = []</span><br><span class="line">  validation_log_losses = []</span><br><span class="line">  <span class="keyword">for</span> period <span class="keyword">in</span> range (<span class="number">0</span>, periods):</span><br><span class="line">    <span class="comment"># Train the model, starting from the prior state.</span></span><br><span class="line">    linear_classifier.train(</span><br><span class="line">        input_fn=training_input_fn,</span><br><span class="line">        steps=steps_per_period</span><br><span class="line">    )</span><br><span class="line">    <span class="comment"># Take a break and compute predictions.</span></span><br><span class="line">    training_probabilities = linear_classifier.predict(input_fn=predict_training_input_fn)</span><br><span class="line">    training_probabilities = np.array([item[<span class="string">'probabilities'</span>] <span class="keyword">for</span> item <span class="keyword">in</span> training_probabilities])</span><br><span class="line">    </span><br><span class="line">    validation_probabilities = linear_classifier.predict(input_fn=predict_validation_input_fn)</span><br><span class="line">    validation_probabilities = np.array([item[<span class="string">'probabilities'</span>] <span class="keyword">for</span> item <span class="keyword">in</span> validation_probabilities])</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Compute training and validation loss.</span></span><br><span class="line">    training_log_loss = metrics.log_loss(training_targets, training_probabilities)</span><br><span class="line">    validation_log_loss = metrics.log_loss(validation_targets, validation_probabilities)</span><br><span class="line">    <span class="comment"># Occasionally print the current loss.</span></span><br><span class="line">    print(<span class="string">"  period %02d : %0.2f"</span> % (period, validation_log_loss))</span><br><span class="line">    <span class="comment"># Add the loss metrics from this period to our list.</span></span><br><span class="line">    training_log_losses.append(training_log_loss)</span><br><span class="line">    validation_log_losses.append(validation_log_loss)</span><br><span class="line">  print(<span class="string">"Model training finished."</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Output a graph of loss metrics over periods.</span></span><br><span class="line">  plt.ylabel(<span class="string">"LogLoss"</span>)</span><br><span class="line">  plt.xlabel(<span class="string">"Periods"</span>)</span><br><span class="line">  plt.title(<span class="string">"LogLoss vs. Periods"</span>)</span><br><span class="line">  plt.tight_layout()</span><br><span class="line">  plt.plot(training_log_losses, label=<span class="string">"training"</span>)</span><br><span class="line">  plt.plot(validation_log_losses, label=<span class="string">"validation"</span>)</span><br><span class="line">  plt.legend()</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> linear_classifier</span><br></pre></td></tr></table></figure>
+<h2 id="计算模型大小"><a href="#计算模型大小" class="headerlink" title="计算模型大小"></a>计算模型大小</h2><p>要计算模型大小，只需计算非零参数的数量即可。为此，我们在下面提供了一个辅助函数。该函数深入使用了 Estimator API，如果不了解它的工作原理，也不用担心。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">model_size</span><span class="params">(estimator)</span>:</span></span><br><span class="line">  variables = estimator.get_variable_names()</span><br><span class="line">  size = <span class="number">0</span></span><br><span class="line">  <span class="keyword">for</span> variable <span class="keyword">in</span> variables:</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> any(x <span class="keyword">in</span> variable </span><br><span class="line">               <span class="keyword">for</span> x <span class="keyword">in</span> [<span class="string">'global_step'</span>,</span><br><span class="line">                         <span class="string">'centered_bias_weight'</span>,</span><br><span class="line">                         <span class="string">'bias_weight'</span>,</span><br><span class="line">                         <span class="string">'Ftrl'</span>]</span><br><span class="line">              ):</span><br><span class="line">      size += np.count_nonzero(estimator.get_variable_value(variable))</span><br><span class="line">  <span class="keyword">return</span> size</span><br></pre></td></tr></table></figure>
+<h2 id="减小模型大小"><a href="#减小模型大小" class="headerlink" title="减小模型大小"></a>减小模型大小</h2><p>您的团队需要针对 <em>SmartRing</em> 构建一个准确度高的逻辑回归模型，这种指环非常智能，可以感应城市街区的人口统计特征（<code>median_income</code>、<code>avg_rooms</code>、<code>households</code> 等等），并告诉您指定城市街区的住房成本是否高昂。</p>
+<p>由于 SmartRing 很小，因此工程团队已确定它只能处理<strong>参数数量不超过 600 个</strong>的模型。另一方面，产品管理团队也已确定，除非所保留测试集的<strong>对数损失函数低于 0.35</strong>，否则该模型不能发布。</p>
+<p>您可以使用秘密武器“L1 正则化”调整模型，使其同时满足大小和准确率限制条件吗？</p>
+<h3 id="查找合适的正则化系数。"><a href="#查找合适的正则化系数。" class="headerlink" title="查找合适的正则化系数。"></a>查找合适的正则化系数。</h3><p><strong>查找可同时满足以下两种限制条件的 L1 正则化强度参数：模型的参数数量不超过 600 个且验证集的对数损失函数低于 0.35。</strong></p>
+<p>以下代码可帮助您快速开始。您可以通过多种方法向您的模型应用正则化。在此练习中，我们选择使用 <code>FtrlOptimizer</code> 来应用正则化。<code>FtrlOptimizer</code> 是一种设计成使用 L1 正则化比标准梯度下降法得到更好结果的方法。</p>
+<p>重申一次，我们会使用整个数据集来训练该模型，因此预计其运行速度会比通常要慢。</p>
+<p> 正则化强度为 0.1 应该就足够了。请注意，有一个需要做出折中选择的地方：正则化越强，我们获得的模型就越小，但会影响分类损失。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">linear_classifier = train_linear_classifier_model(</span><br><span class="line">    learning_rate=<span class="number">0.1</span>,</span><br><span class="line">    <span class="comment"># TWEAK THE REGULARIZATION VALUE BELOW</span></span><br><span class="line">    regularization_strength=<span class="number">0.0</span>,</span><br><span class="line">    steps=<span class="number">300</span>,</span><br><span class="line">    batch_size=<span class="number">100</span>,</span><br><span class="line">    feature_columns=construct_feature_columns(),</span><br><span class="line">    training_examples=training_examples,</span><br><span class="line">    training_targets=training_targets,</span><br><span class="line">    validation_examples=validation_examples,</span><br><span class="line">    validation_targets=validation_targets)</span><br><span class="line">print(<span class="string">"Model size:"</span>, model_size(linear_classifier))</span><br></pre></td></tr></table></figure>
+<pre><code>Training model...
+LogLoss (on validation data):
+  period 00 : 0.30
+  period 01 : 0.27
+  period 02 : 0.26
+  period 03 : 0.25
+  period 04 : 0.24
+  period 05 : 0.24
+  period 06 : 0.23
+Model training finished.
+Model size: 790
+</code></pre><p><img src="TensorFlow_7_35_1.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">linear_classifier = train_linear_classifier_model(</span><br><span class="line">    learning_rate=<span class="number">0.1</span>,</span><br><span class="line">    regularization_strength=<span class="number">0.1</span>,</span><br><span class="line">    steps=<span class="number">300</span>,</span><br><span class="line">    batch_size=<span class="number">100</span>,</span><br><span class="line">    feature_columns=construct_feature_columns(),</span><br><span class="line">    training_examples=training_examples,</span><br><span class="line">    training_targets=training_targets,</span><br><span class="line">    validation_examples=validation_examples,</span><br><span class="line">    validation_targets=validation_targets)</span><br><span class="line">print(<span class="string">"Model size:"</span>, model_size(linear_classifier))</span><br></pre></td></tr></table></figure>
+<pre><code>Training model...
+LogLoss (on validation data):
+  period 00 : 0.31
+  period 01 : 0.27
+  period 02 : 0.26
+  period 03 : 0.25
+  period 04 : 0.24
+  period 05 : 0.24
+  period 06 : 0.23
+Model training finished.
+Model size: 764
+</code></pre><p><img src="TensorFlow_7_36_1.png" alt="png"></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Tensorflow/" rel="tag"><i class="fa fa-tag"></i> Tensorflow</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/14/TensorFlow_6/" rel="next" title="TensorFlow 6">
+                <i class="fa fa-chevron-left"></i> TensorFlow 6
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/27/Django 部署(Apache)/" rel="prev" title="Django 部署(Apache)">
+                Django 部署(Apache) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Voidmort" />
+            
+              <p class="site-author-name" itemprop="name">Voidmort</p>
+              <p class="site-description motion-element" itemprop="description">研究AI，撰写影评，热爱音乐，努力健身</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">51</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">24</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Voidmort" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:wxj5658@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1749266905" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jusanliusha.xyz" title="Jusanliusha" target="_blank">Jusanliusha</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#正则化-Regularization-for-Simplicity"><span class="nav-number">1.</span> <span class="nav-text">正则化 (Regularization for Simplicity)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#查准率和召回率"><span class="nav-number">2.</span> <span class="nav-text">查准率和召回率</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#逻辑回归"><span class="nav-number">3.</span> <span class="nav-text">逻辑回归</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#构建二元分类问题"><span class="nav-number">3.1.</span> <span class="nav-text">构建二元分类问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置"><span class="nav-number">3.2.</span> <span class="nav-text">设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性回归的表现"><span class="nav-number">3.3.</span> <span class="nav-text">线性回归的表现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算预测的对数损失函数"><span class="nav-number">3.4.</span> <span class="nav-text">计算预测的对数损失函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练逻辑回归模型并计算验证集的对数损失函数"><span class="nav-number">3.5.</span> <span class="nav-text">训练逻辑回归模型并计算验证集的对数损失函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算查准率并为验证集绘制-ROC-曲线"><span class="nav-number">3.6.</span> <span class="nav-text">计算查准率并为验证集绘制 ROC 曲线</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#稀疏性和-L1-正则化"><span class="nav-number">4.</span> <span class="nav-text">稀疏性和 L1 正则化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设置-1"><span class="nav-number">4.1.</span> <span class="nav-text">设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算模型大小"><span class="nav-number">4.2.</span> <span class="nav-text">计算模型大小</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#减小模型大小"><span class="nav-number">4.3.</span> <span class="nav-text">减小模型大小</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查找合适的正则化系数。"><span class="nav-number">4.3.1.</span> <span class="nav-text">查找合适的正则化系数。</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Voidmort</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/kesyoban.model.json"},"display":{"position":"right","width":130,"height":260},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>

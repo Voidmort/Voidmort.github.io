@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2019-01-27T03:34:15.896Z</updated>
+  <updated>2019-02-02T15:10:39.098Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>机器学习术语表</title>
+    <link href="https://xvjie.wang/2019/02/02/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%9C%AF%E8%AF%AD%E8%A1%A8/"/>
+    <id>https://xvjie.wang/2019/02/02/机器学习术语表/</id>
+    <published>2019-02-02T11:10:00.000Z</published>
+    <updated>2019-02-02T15:10:39.098Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;script
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
   
   <entry>
     <title>Django 部署(Apache)</title>
@@ -41,6 +67,58 @@
     
     
       <category term="Django" scheme="https://xvjie.wang/tags/Django/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>TensorFlow 7</title>
+    <link href="https://xvjie.wang/2019/01/14/TensorFlow_7/"/>
+    <id>https://xvjie.wang/2019/01/14/TensorFlow_7/</id>
+    <published>2019-01-14T09:10:00.000Z</published>
+    <updated>2019-02-02T15:09:39.822Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;正则化-Regularization-for-Simplicity&quot;&gt;&lt;a href=&quot;#正则化-Regularization-for-Simplicity&quot; class=&quot;headerlink&quot; title=&quot;正则化 (Regularization for
+        
+      
+    
+    </summary>
+    
+      <category term="Tensorflow" scheme="https://xvjie.wang/categories/Tensorflow/"/>
+    
+    
+      <category term="Tensorflow" scheme="https://xvjie.wang/tags/Tensorflow/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>TensorFlow 6</title>
+    <link href="https://xvjie.wang/2019/01/14/TensorFlow_6/"/>
+    <id>https://xvjie.wang/2019/01/14/TensorFlow_6/</id>
+    <published>2019-01-14T02:10:00.000Z</published>
+    <updated>2019-02-02T15:09:47.262Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;特征组合-Feature-Crosses&quot;&gt;&lt;a href=&quot;#特征组合-Feature-Crosses&quot; class=&quot;headerlink&quot; title=&quot;特征组合 (Feature Crosses)&quot;&gt;&lt;/a&gt;特征组合 (Feature
+        
+      
+    
+    </summary>
+    
+      <category term="Tensorflow" scheme="https://xvjie.wang/categories/Tensorflow/"/>
+    
+    
+      <category term="Tensorflow" scheme="https://xvjie.wang/tags/Tensorflow/"/>
     
   </entry>
   
@@ -473,91 +551,6 @@
     </summary>
     
       <category term="机器学习习题" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ex3-neural network</title>
-    <link href="https://xvjie.wang/2018/09/28/ex3-neural%20network/"/>
-    <id>https://xvjie.wang/2018/09/28/ex3-neural network/</id>
-    <published>2018-09-27T16:00:00.000Z</published>
-    <updated>2018-10-13T06:02:02.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;AndrewNg 机器学习习题ex3-neural network&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="机器学习习题" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>LeetCode 28.Implement strStr().</title>
-    <link href="https://xvjie.wang/2018/09/14/LeetCode%2028.Implement%20strStr()./"/>
-    <id>https://xvjie.wang/2018/09/14/LeetCode 28.Implement strStr()./</id>
-    <published>2018-09-13T16:00:00.000Z</published>
-    <updated>2018-09-16T11:04:13.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;28.Implement strStr().&lt;/p&gt;
-&lt;p&gt;Return the index of the first occurrence of needle in haystack, or -1 if needle is not part of
-        
-      
-    
-    </summary>
-    
-      <category term="算法练习" scheme="https://xvjie.wang/categories/%E7%AE%97%E6%B3%95%E7%BB%83%E4%B9%A0/"/>
-    
-    
-      <category term="算法" scheme="https://xvjie.wang/tags/%E7%AE%97%E6%B3%95/"/>
-    
-      <category term="c" scheme="https://xvjie.wang/tags/c/"/>
-    
-      <category term="LeetCode" scheme="https://xvjie.wang/tags/LeetCode/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>机器学习总结</title>
-    <link href="https://xvjie.wang/2018/09/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/"/>
-    <id>https://xvjie.wang/2018/09/14/机器学习总结/</id>
-    <published>2018-09-13T16:00:00.000Z</published>
-    <updated>2018-12-31T11:08:21.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Andrew Ng的机器学习入门课程已经全部看完了，笔记也写了一些，这里总结所有所学的内容，说实话，现在完全忘记了开始所学的内容了。&lt;/p&gt;
-&lt;h1 id=&quot;什么是机器学习&quot;&gt;&lt;a href=&quot;#什么是机器学习&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
       <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
