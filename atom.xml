@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2019-02-02T15:21:01.230Z</updated>
+  <updated>2019-02-23T11:10:06.871Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -15,6 +15,86 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>TensorFlow 9</title>
+    <link href="https://xvjie.wang/2019/02/21/TensorFlow_9/"/>
+    <id>https://xvjie.wang/2019/02/21/TensorFlow_9/</id>
+    <published>2019-02-21T06:34:00.000Z</published>
+    <updated>2019-02-23T11:10:06.871Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;使用神经网络对手写数字进行分类&quot;&gt;&lt;a href=&quot;#使用神经网络对手写数字进行分类&quot; class=&quot;headerlink&quot; title=&quot;使用神经网络对手写数字进行分类&quot;&gt;&lt;/a&gt;使用神经网络对手写数字进行分类&lt;/h1&gt;&lt;p&gt; &lt;img
+        
+      
+    
+    </summary>
+    
+      <category term="Tensorflow" scheme="https://xvjie.wang/categories/Tensorflow/"/>
+    
+    
+      <category term="Tensorflow" scheme="https://xvjie.wang/tags/Tensorflow/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>TensorFlow 8</title>
+    <link href="https://xvjie.wang/2019/02/20/TensorFlow_8/"/>
+    <id>https://xvjie.wang/2019/02/20/TensorFlow_8/</id>
+    <published>2019-02-20T05:10:00.000Z</published>
+    <updated>2019-02-23T11:10:27.311Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;神经网络简介&quot;&gt;&lt;a href=&quot;#神经网络简介&quot; class=&quot;headerlink&quot; title=&quot;神经网络简介&quot;&gt;&lt;/a&gt;神经网络简介&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;使用 TensorFlow &lt;code&gt;DNNRegressor&lt;/code&gt; 类定义神经网络
+        
+      
+    
+    </summary>
+    
+      <category term="Tensorflow" scheme="https://xvjie.wang/categories/Tensorflow/"/>
+    
+    
+      <category term="Tensorflow" scheme="https://xvjie.wang/tags/Tensorflow/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我的流浪地球</title>
+    <link href="https://xvjie.wang/2019/02/10/%E6%88%91%E7%9A%84%E6%B5%81%E6%B5%AA%E5%9C%B0%E7%90%83/"/>
+    <id>https://xvjie.wang/2019/02/10/我的流浪地球/</id>
+    <published>2019-02-09T16:00:00.000Z</published>
+    <updated>2019-02-17T14:53:39.887Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;pre&gt;&lt;code&gt;二〇一九年二月十号，星期六，农历正月初六，假期的最后一天，明天就要奔赴帝都，开始我的流浪生活。
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;img src=&quot;https://s2.ax1x.com/2019/02/17/kyqmMF.jpg&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="影评" scheme="https://xvjie.wang/categories/%E5%BD%B1%E8%AF%84/"/>
+    
+    
+      <category term="影评" scheme="https://xvjie.wang/tags/%E5%BD%B1%E8%AF%84/"/>
+    
+  </entry>
   
   <entry>
     <title>机器学习术语表</title>
@@ -76,7 +156,7 @@
     <link href="https://xvjie.wang/2019/01/14/TensorFlow_7/"/>
     <id>https://xvjie.wang/2019/01/14/TensorFlow_7/</id>
     <published>2019-01-14T09:10:00.000Z</published>
-    <updated>2019-02-02T15:09:39.822Z</updated>
+    <updated>2019-02-23T11:13:06.032Z</updated>
     
     <summary type="html">
     
@@ -465,87 +545,6 @@
         
         
           &lt;p&gt;AndrewNg 机器学习习题ex1-linear regression&lt;br&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="机器学习习题" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ex5-bias vs variance</title>
-    <link href="https://xvjie.wang/2018/09/29/ex5-bias%20vs%20variance/"/>
-    <id>https://xvjie.wang/2018/09/29/ex5-bias vs variance/</id>
-    <published>2018-09-28T16:00:00.000Z</published>
-    <updated>2018-10-13T06:02:00.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;AndrewNg 机器学习习题ex5-bias vs variance&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="机器学习习题" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>独热编码One Hot Encoder</title>
-    <link href="https://xvjie.wang/2018/09/29/%E7%8B%AC%E7%83%AD%E7%BC%96%E7%A0%81One%20Hot%20Encoder/"/>
-    <id>https://xvjie.wang/2018/09/29/独热编码One Hot Encoder/</id>
-    <published>2018-09-28T16:00:00.000Z</published>
-    <updated>2018-10-13T06:03:33.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;在机器学习时我们通常要进行归一化数据后再进行训练，还有一些其他处理方法比如使用独热编码。&lt;/p&gt;
-&lt;h1 id=&quot;什么是独热码&quot;&gt;&lt;a href=&quot;#什么是独热码&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-      <category term="OneHotEncoder" scheme="https://xvjie.wang/tags/OneHotEncoder/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ex4-NN back propagation</title>
-    <link href="https://xvjie.wang/2018/09/29/ex4-NN%20back%20propagation/"/>
-    <id>https://xvjie.wang/2018/09/29/ex4-NN back propagation/</id>
-    <published>2018-09-28T16:00:00.000Z</published>
-    <updated>2018-10-13T06:01:58.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;AndrewNg 机器学习习题ex4-NN back propagation&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot;
         
       
     

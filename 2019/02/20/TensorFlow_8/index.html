@@ -1,0 +1,1858 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="神经网络简介 使用 TensorFlow DNNRegressor 类定义神经网络 (NN) 及其隐藏层 训练神经网络学习数据集中的非线性规律，并实现比线性回归模型更好的效果  在之前的练习中，我们使用合成特征来帮助模型学习非线性规律。 一组重要的非线性关系是纬度和经度的关系，但也可能存在其他非线性关系。 现在我们从之前练习中的逻辑回归任务回到标准的（线性）回归任务。也就是说，我们将直接预测 me">
+<meta name="keywords" content="Tensorflow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorFlow 8">
+<meta property="og:url" content="https://xvjie.wang/2019/02/20/TensorFlow_8/index.html">
+<meta property="og:site_name" content="Voidmort">
+<meta property="og:description" content="神经网络简介 使用 TensorFlow DNNRegressor 类定义神经网络 (NN) 及其隐藏层 训练神经网络学习数据集中的非线性规律，并实现比线性回归模型更好的效果  在之前的练习中，我们使用合成特征来帮助模型学习非线性规律。 一组重要的非线性关系是纬度和经度的关系，但也可能存在其他非线性关系。 现在我们从之前练习中的逻辑回归任务回到标准的（线性）回归任务。也就是说，我们将直接预测 me">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://xvjie.wang/2019/02/20/TensorFlow_8/TensorFlow_8_10_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/02/20/TensorFlow_8/TensorFlow_8_15_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/02/20/TensorFlow_8/TensorFlow_8_20_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/02/20/TensorFlow_8/TensorFlow_8_22_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/02/20/TensorFlow_8/TensorFlow_8_23_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/02/20/TensorFlow_8/TensorFlow_8_24_0.png">
+<meta property="og:image" content="https://xvjie.wang/2019/02/20/TensorFlow_8/TensorFlow_8_26_0.png">
+<meta property="og:image" content="https://xvjie.wang/2019/02/20/TensorFlow_8/TensorFlow_8_30_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/02/20/TensorFlow_8/TensorFlow_8_32_1.png">
+<meta property="og:updated_time" content="2019-02-23T11:10:27.311Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TensorFlow 8">
+<meta name="twitter:description" content="神经网络简介 使用 TensorFlow DNNRegressor 类定义神经网络 (NN) 及其隐藏层 训练神经网络学习数据集中的非线性规律，并实现比线性回归模型更好的效果  在之前的练习中，我们使用合成特征来帮助模型学习非线性规律。 一组重要的非线性关系是纬度和经度的关系，但也可能存在其他非线性关系。 现在我们从之前练习中的逻辑回归任务回到标准的（线性）回归任务。也就是说，我们将直接预测 me">
+<meta name="twitter:image" content="https://xvjie.wang/2019/02/20/TensorFlow_8/TensorFlow_8_10_1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Voidmort" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://xvjie.wang/2019/02/20/TensorFlow_8/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>TensorFlow 8 | Voidmort</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7b96eb7c2717359e36cc8bd8b546997c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/Voidmort" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Voidmort</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-other">
+    <a href="/other/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-plane"></i> <br />其它</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xvjie.wang/2019/02/20/TensorFlow_8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Voidmort">
+      <meta itemprop="description" content="研究AI，撰写影评，热爱音乐，努力健身">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Voidmort">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">TensorFlow 8
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-02-20 13:10:00" itemprop="dateCreated datePublished" datetime="2019-02-20T13:10:00+08:00">2019-02-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-23 19:10:27" itemprop="dateModified" datetime="2019-02-23T19:10:27+08:00">2019-02-23</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Tensorflow/" itemprop="url" rel="index"><span itemprop="name">Tensorflow</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="神经网络简介"><a href="#神经网络简介" class="headerlink" title="神经网络简介"></a>神经网络简介</h1><ul>
+<li>使用 TensorFlow <code>DNNRegressor</code> 类定义神经网络 (NN) 及其隐藏层</li>
+<li>训练神经网络学习数据集中的非线性规律，并实现比线性回归模型更好的效果</li>
+</ul>
+<p>在之前的练习中，我们使用合成特征来帮助模型学习非线性规律。</p>
+<p>一组重要的非线性关系是纬度和经度的关系，但也可能存在其他非线性关系。</p>
+<p>现在我们从之前练习中的逻辑回归任务回到标准的（线性）回归任务。也就是说，我们将直接预测 <code>median_house_value</code>。</p>
+<h2 id="设置"><a href="#设置" class="headerlink" title="设置"></a>设置</h2><p>加载数据并创建特征定义。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> IPython <span class="keyword">import</span> display</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> cm</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> gridspec</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> metrics</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow.python.data <span class="keyword">import</span> Dataset</span><br><span class="line"></span><br><span class="line">tf.logging.set_verbosity(tf.logging.ERROR)</span><br><span class="line">pd.options.display.max_rows = <span class="number">10</span></span><br><span class="line">pd.options.display.float_format = <span class="string">'&#123;:.1f&#125;'</span>.format</span><br><span class="line"></span><br><span class="line">california_housing_dataframe = pd.read_csv(<span class="string">"https://download.mlcc.google.cn/mledu-datasets/california_housing_train.csv"</span>, sep=<span class="string">","</span>)</span><br><span class="line"></span><br><span class="line">california_housing_dataframe = california_housing_dataframe.reindex(</span><br><span class="line">    np.random.permutation(california_housing_dataframe.index))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">preprocess_features</span><span class="params">(california_housing_dataframe)</span>:</span></span><br><span class="line">  <span class="string">"""Prepares input features from California housing data set.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Args:</span></span><br><span class="line"><span class="string">    california_housing_dataframe: A Pandas DataFrame expected to contain data</span></span><br><span class="line"><span class="string">      from the California housing data set.</span></span><br><span class="line"><span class="string">  Returns:</span></span><br><span class="line"><span class="string">    A DataFrame that contains the features to be used for the model, including</span></span><br><span class="line"><span class="string">    synthetic features.</span></span><br><span class="line"><span class="string">  """</span></span><br><span class="line">  selected_features = california_housing_dataframe[</span><br><span class="line">    [<span class="string">"latitude"</span>,</span><br><span class="line">     <span class="string">"longitude"</span>,</span><br><span class="line">     <span class="string">"housing_median_age"</span>,</span><br><span class="line">     <span class="string">"total_rooms"</span>,</span><br><span class="line">     <span class="string">"total_bedrooms"</span>,</span><br><span class="line">     <span class="string">"population"</span>,</span><br><span class="line">     <span class="string">"households"</span>,</span><br><span class="line">     <span class="string">"median_income"</span>]]</span><br><span class="line">  processed_features = selected_features.copy()</span><br><span class="line">  <span class="comment"># Create a synthetic feature.</span></span><br><span class="line">  processed_features[<span class="string">"rooms_per_person"</span>] = (</span><br><span class="line">    california_housing_dataframe[<span class="string">"total_rooms"</span>] /</span><br><span class="line">    california_housing_dataframe[<span class="string">"population"</span>])</span><br><span class="line">  <span class="keyword">return</span> processed_features</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">preprocess_targets</span><span class="params">(california_housing_dataframe)</span>:</span></span><br><span class="line">  <span class="string">"""Prepares target features (i.e., labels) from California housing data set.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Args:</span></span><br><span class="line"><span class="string">    california_housing_dataframe: A Pandas DataFrame expected to contain data</span></span><br><span class="line"><span class="string">      from the California housing data set.</span></span><br><span class="line"><span class="string">  Returns:</span></span><br><span class="line"><span class="string">    A DataFrame that contains the target feature.</span></span><br><span class="line"><span class="string">  """</span></span><br><span class="line">  output_targets = pd.DataFrame()</span><br><span class="line">  <span class="comment"># Scale the target to be in units of thousands of dollars.</span></span><br><span class="line">  output_targets[<span class="string">"median_house_value"</span>] = (</span><br><span class="line">    california_housing_dataframe[<span class="string">"median_house_value"</span>] / <span class="number">1000.0</span>)</span><br><span class="line">  <span class="keyword">return</span> output_targets</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Choose the first 12000 (out of 17000) examples for training.</span></span><br><span class="line">training_examples = preprocess_features(california_housing_dataframe.head(<span class="number">12000</span>))</span><br><span class="line">training_targets = preprocess_targets(california_housing_dataframe.head(<span class="number">12000</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Choose the last 5000 (out of 17000) examples for validation.</span></span><br><span class="line">validation_examples = preprocess_features(california_housing_dataframe.tail(<span class="number">5000</span>))</span><br><span class="line">validation_targets = preprocess_targets(california_housing_dataframe.tail(<span class="number">5000</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Double-check that we've done the right thing.</span></span><br><span class="line">print(<span class="string">"Training examples summary:"</span>)</span><br><span class="line">display.display(training_examples.describe())</span><br><span class="line">print(<span class="string">"Validation examples summary:"</span>)</span><br><span class="line">display.display(validation_examples.describe())</span><br><span class="line"></span><br><span class="line">print(<span class="string">"Training targets summary:"</span>)</span><br><span class="line">display.display(training_targets.describe())</span><br><span class="line">print(<span class="string">"Validation targets summary:"</span>)</span><br><span class="line">display.display(validation_targets.describe())</span><br></pre></td></tr></table></figure>
+<pre><code>Training examples summary:
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>housing_median_age</th>
+      <th>total_rooms</th>
+      <th>total_bedrooms</th>
+      <th>population</th>
+      <th>households</th>
+      <th>median_income</th>
+      <th>rooms_per_person</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>12000.0</td>
+      <td>12000.0</td>
+      <td>12000.0</td>
+      <td>12000.0</td>
+      <td>12000.0</td>
+      <td>12000.0</td>
+      <td>12000.0</td>
+      <td>12000.0</td>
+      <td>12000.0</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>35.6</td>
+      <td>-119.6</td>
+      <td>28.7</td>
+      <td>2636.9</td>
+      <td>537.9</td>
+      <td>1429.2</td>
+      <td>500.3</td>
+      <td>3.9</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>2.1</td>
+      <td>2.0</td>
+      <td>12.5</td>
+      <td>2187.4</td>
+      <td>422.5</td>
+      <td>1168.5</td>
+      <td>387.3</td>
+      <td>1.9</td>
+      <td>1.1</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>32.5</td>
+      <td>-124.3</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>3.0</td>
+      <td>1.0</td>
+      <td>0.5</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>33.9</td>
+      <td>-121.8</td>
+      <td>18.0</td>
+      <td>1461.0</td>
+      <td>296.8</td>
+      <td>788.0</td>
+      <td>281.0</td>
+      <td>2.6</td>
+      <td>1.5</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>34.2</td>
+      <td>-118.5</td>
+      <td>29.0</td>
+      <td>2116.0</td>
+      <td>431.0</td>
+      <td>1165.0</td>
+      <td>407.5</td>
+      <td>3.5</td>
+      <td>1.9</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>37.7</td>
+      <td>-118.0</td>
+      <td>37.0</td>
+      <td>3127.0</td>
+      <td>645.0</td>
+      <td>1713.0</td>
+      <td>601.0</td>
+      <td>4.8</td>
+      <td>2.3</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>42.0</td>
+      <td>-114.3</td>
+      <td>52.0</td>
+      <td>37937.0</td>
+      <td>6445.0</td>
+      <td>35682.0</td>
+      <td>6082.0</td>
+      <td>15.0</td>
+      <td>55.2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code>Validation examples summary:
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>housing_median_age</th>
+      <th>total_rooms</th>
+      <th>total_bedrooms</th>
+      <th>population</th>
+      <th>households</th>
+      <th>median_income</th>
+      <th>rooms_per_person</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>5000.0</td>
+      <td>5000.0</td>
+      <td>5000.0</td>
+      <td>5000.0</td>
+      <td>5000.0</td>
+      <td>5000.0</td>
+      <td>5000.0</td>
+      <td>5000.0</td>
+      <td>5000.0</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>35.6</td>
+      <td>-119.6</td>
+      <td>28.4</td>
+      <td>2659.9</td>
+      <td>542.9</td>
+      <td>1430.4</td>
+      <td>503.5</td>
+      <td>3.9</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>2.1</td>
+      <td>2.0</td>
+      <td>12.9</td>
+      <td>2162.0</td>
+      <td>419.1</td>
+      <td>1096.8</td>
+      <td>377.9</td>
+      <td>1.9</td>
+      <td>1.3</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>32.6</td>
+      <td>-124.3</td>
+      <td>2.0</td>
+      <td>15.0</td>
+      <td>4.0</td>
+      <td>8.0</td>
+      <td>2.0</td>
+      <td>0.5</td>
+      <td>0.1</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>33.9</td>
+      <td>-121.8</td>
+      <td>18.0</td>
+      <td>1465.8</td>
+      <td>297.0</td>
+      <td>793.0</td>
+      <td>283.0</td>
+      <td>2.6</td>
+      <td>1.5</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>34.2</td>
+      <td>-118.5</td>
+      <td>28.0</td>
+      <td>2154.5</td>
+      <td>439.0</td>
+      <td>1173.0</td>
+      <td>413.0</td>
+      <td>3.5</td>
+      <td>1.9</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>37.7</td>
+      <td>-118.0</td>
+      <td>37.0</td>
+      <td>3216.0</td>
+      <td>658.2</td>
+      <td>1738.0</td>
+      <td>614.0</td>
+      <td>4.7</td>
+      <td>2.3</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>41.9</td>
+      <td>-114.6</td>
+      <td>52.0</td>
+      <td>30401.0</td>
+      <td>4957.0</td>
+      <td>13251.0</td>
+      <td>4339.0</td>
+      <td>15.0</td>
+      <td>52.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code>Training targets summary:
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>median_house_value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>12000.0</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>206.6</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>115.5</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>119.2</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>180.8</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>263.3</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>500.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code>Validation targets summary:
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>median_house_value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>5000.0</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>208.9</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>117.0</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>120.2</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>179.2</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>268.3</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>500.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="构建神经网络"><a href="#构建神经网络" class="headerlink" title="构建神经网络"></a>构建神经网络</h2><p>神经网络由 <a href="https://www.tensorflow.org/api_docs/python/tf/estimator/DNNRegressor" target="_blank" rel="noopener">DNNRegressor</a> 类定义。</p>
+<p>使用 <strong><code>hidden_units</code></strong> 定义神经网络的结构。<code>hidden_units</code> 参数会创建一个整数列表，其中每个整数对应一个隐藏层，表示其中的节点数。以下面的赋值为例：</p>
+<p><code>hidden_units=[3,10]</code></p>
+<p>上述赋值为神经网络指定了两个隐藏层：</p>
+<ul>
+<li>第一个隐藏层包含 3 个节点。</li>
+<li>第二个隐藏层包含 10 个节点。</li>
+</ul>
+<p>如果我们想要添加更多层，可以向该列表添加更多整数。例如，<code>hidden_units=[10,20,30,40]</code> 会创建 4 个分别包含 10、20、30 和 40 个单元的隐藏层。</p>
+<p>默认情况下，所有隐藏层都会使用 ReLu 激活函数，且是全连接层。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">construct_feature_columns</span><span class="params">(input_features)</span>:</span></span><br><span class="line">  <span class="string">"""Construct the TensorFlow Feature Columns.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Args:</span></span><br><span class="line"><span class="string">    input_features: The names of the numerical input features to use.</span></span><br><span class="line"><span class="string">  Returns:</span></span><br><span class="line"><span class="string">    A set of feature columns</span></span><br><span class="line"><span class="string">  """</span> </span><br><span class="line">  <span class="keyword">return</span> set([tf.feature_column.numeric_column(my_feature)</span><br><span class="line">              <span class="keyword">for</span> my_feature <span class="keyword">in</span> input_features])</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_input_fn</span><span class="params">(features, targets, batch_size=<span class="number">1</span>, shuffle=True, num_epochs=None)</span>:</span></span><br><span class="line">    <span class="string">"""Trains a neural net regression model.</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">      features: pandas DataFrame of features</span></span><br><span class="line"><span class="string">      targets: pandas DataFrame of targets</span></span><br><span class="line"><span class="string">      batch_size: Size of batches to be passed to the model</span></span><br><span class="line"><span class="string">      shuffle: True or False. Whether to shuffle the data.</span></span><br><span class="line"><span class="string">      num_epochs: Number of epochs for which data should be repeated. None = repeat indefinitely</span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">      Tuple of (features, labels) for next data batch</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Convert pandas data into a dict of np arrays.</span></span><br><span class="line">    features = &#123;key:np.array(value) <span class="keyword">for</span> key,value <span class="keyword">in</span> dict(features).items()&#125;                                             </span><br><span class="line"> </span><br><span class="line">    <span class="comment"># Construct a dataset, and configure batching/repeating.</span></span><br><span class="line">    ds = Dataset.from_tensor_slices((features,targets)) <span class="comment"># warning: 2GB limit</span></span><br><span class="line">    ds = ds.batch(batch_size).repeat(num_epochs)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Shuffle the data, if specified.</span></span><br><span class="line">    <span class="keyword">if</span> shuffle:</span><br><span class="line">      ds = ds.shuffle(<span class="number">10000</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Return the next batch of data.</span></span><br><span class="line">    features, labels = ds.make_one_shot_iterator().get_next()</span><br><span class="line">    <span class="keyword">return</span> features, labels</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_nn_regression_model</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    learning_rate,</span></span></span><br><span class="line"><span class="function"><span class="params">    steps,</span></span></span><br><span class="line"><span class="function"><span class="params">    batch_size,</span></span></span><br><span class="line"><span class="function"><span class="params">    hidden_units,</span></span></span><br><span class="line"><span class="function"><span class="params">    training_examples,</span></span></span><br><span class="line"><span class="function"><span class="params">    training_targets,</span></span></span><br><span class="line"><span class="function"><span class="params">    validation_examples,</span></span></span><br><span class="line"><span class="function"><span class="params">    validation_targets)</span>:</span></span><br><span class="line">    <span class="string">"""Trains a neural network regression model.</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    In addition to training, this function also prints training progress information,</span></span><br><span class="line"><span class="string">    as well as a plot of the training and validation loss over time.</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">      learning_rate: A `float`, the learning rate.</span></span><br><span class="line"><span class="string">      steps: A non-zero `int`, the total number of training steps. A training step</span></span><br><span class="line"><span class="string">        consists of a forward and backward pass using a single batch.</span></span><br><span class="line"><span class="string">      batch_size: A non-zero `int`, the batch size.</span></span><br><span class="line"><span class="string">      hidden_units: A `list` of int values, specifying the number of neurons in each layer.</span></span><br><span class="line"><span class="string">      training_examples: A `DataFrame` containing one or more columns from</span></span><br><span class="line"><span class="string">        `california_housing_dataframe` to use as input features for training.</span></span><br><span class="line"><span class="string">      training_targets: A `DataFrame` containing exactly one column from</span></span><br><span class="line"><span class="string">        `california_housing_dataframe` to use as target for training.</span></span><br><span class="line"><span class="string">      validation_examples: A `DataFrame` containing one or more columns from</span></span><br><span class="line"><span class="string">        `california_housing_dataframe` to use as input features for validation.</span></span><br><span class="line"><span class="string">      validation_targets: A `DataFrame` containing exactly one column from</span></span><br><span class="line"><span class="string">        `california_housing_dataframe` to use as target for validation.</span></span><br><span class="line"><span class="string">        </span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">      A `DNNRegressor` object trained on the training data.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    periods = <span class="number">10</span></span><br><span class="line">    steps_per_period = steps / periods</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Create a DNNRrgressor object.</span></span><br><span class="line">    my_optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate)</span><br><span class="line">    my_optimizer = tf.contrib.estimator.clip_gradients_by_norm(my_optimizer, <span class="number">5.0</span>)</span><br><span class="line">    dnn_regressor = tf.estimator.DNNRegressor(</span><br><span class="line">        feature_columns=construct_feature_columns(training_examples),</span><br><span class="line">        hidden_units=hidden_units,</span><br><span class="line">        optimizer=my_optimizer</span><br><span class="line">    )</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Create input functions.</span></span><br><span class="line">    training_input_fn = <span class="keyword">lambda</span>: my_input_fn(training_examples, </span><br><span class="line">                                            training_targets[<span class="string">"median_house_value"</span>], </span><br><span class="line">                                            batch_size=batch_size)</span><br><span class="line">    predict_training_input_fn = <span class="keyword">lambda</span>: my_input_fn(training_examples, </span><br><span class="line">                                                    training_targets[<span class="string">"median_house_value"</span>], </span><br><span class="line">                                                    num_epochs=<span class="number">1</span>, </span><br><span class="line">                                                    shuffle=<span class="keyword">False</span>)</span><br><span class="line">    predict_validation_input_fn = <span class="keyword">lambda</span>: my_input_fn(validation_examples, </span><br><span class="line">                                                    validation_targets[<span class="string">"median_house_value"</span>], </span><br><span class="line">                                                    num_epochs=<span class="number">1</span>, </span><br><span class="line">                                                    shuffle=<span class="keyword">False</span>)    </span><br><span class="line">    <span class="comment"># Train the model, but do so inside a loop so that we can periodically assess</span></span><br><span class="line">    <span class="comment"># loss metrics. </span></span><br><span class="line">    print(<span class="string">"Training model..."</span>)</span><br><span class="line">    print(<span class="string">"RMSE (on training data):"</span>)</span><br><span class="line">    </span><br><span class="line">    training_rmse = []</span><br><span class="line">    validation_rmse = []</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> period <span class="keyword">in</span> range(<span class="number">0</span>, periods):</span><br><span class="line">        <span class="comment"># train the model, starting from the prior state.</span></span><br><span class="line">        dnn_regressor.train(</span><br><span class="line">            input_fn=training_input_fn,</span><br><span class="line">            steps=steps_per_period</span><br><span class="line">        )</span><br><span class="line">        <span class="comment"># take abreak and compute perdictions.</span></span><br><span class="line">        training_predictions = dnn_regressor.predict(input_fn=predict_training_input_fn)</span><br><span class="line">        training_predictions = np.array([item[<span class="string">'predictions'</span>][<span class="number">0</span>] <span class="keyword">for</span> item <span class="keyword">in</span> training_predictions])</span><br><span class="line">        </span><br><span class="line">        validation_predictions = dnn_regressor.predict(input_fn=predict_validation_input_fn)</span><br><span class="line">        validation_predictions = np.array([item[<span class="string">'predictions'</span>][<span class="number">0</span>] <span class="keyword">for</span> item <span class="keyword">in</span> validation_predictions])</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># compute training an validation loss</span></span><br><span class="line">        training_root_mean_squared_error = math.sqrt(</span><br><span class="line">            metrics.mean_squared_error(training_predictions, training_targets))</span><br><span class="line">        validation_root_mean_squared_error = math.sqrt(</span><br><span class="line">            metrics.mean_squared_error(validation_predictions, validation_targets))</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># Occasionally print the current loss.</span></span><br><span class="line">        print(<span class="string">"  period %02d : %0.2f"</span> % (period, training_root_mean_squared_error))</span><br><span class="line">        <span class="comment"># Add the loss metrics from this period to our list.</span></span><br><span class="line">        training_rmse.append(training_root_mean_squared_error)</span><br><span class="line">        validation_rmse.append(validation_root_mean_squared_error)   </span><br><span class="line">    </span><br><span class="line">    print(<span class="string">"Model training finished."</span>)</span><br><span class="line">    <span class="comment"># Output a graph of loss metrics over periods.</span></span><br><span class="line">    plt.ylabel(<span class="string">"RMSE"</span>)</span><br><span class="line">    plt.xlabel(<span class="string">"Periods"</span>)</span><br><span class="line">    plt.title(<span class="string">"Root Mean Squared Error vs. Periods"</span>)</span><br><span class="line">    plt.tight_layout()</span><br><span class="line">    plt.plot(training_rmse, label=<span class="string">"training"</span>)</span><br><span class="line">    plt.plot(validation_rmse, label=<span class="string">"validation"</span>)</span><br><span class="line">    plt.legend()</span><br><span class="line"></span><br><span class="line">    print(<span class="string">"Final RMSE (on training data):   %0.2f"</span> % training_root_mean_squared_error)</span><br><span class="line">    print(<span class="string">"Final RMSE (on validation data): %0.2f"</span> % validation_root_mean_squared_error)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> dnn_regressor</span><br></pre></td></tr></table></figure>
+<h2 id="训练神经网络模型"><a href="#训练神经网络模型" class="headerlink" title="训练神经网络模型"></a>训练神经网络模型</h2><p><strong>调整超参数，目标是将 RMSE 降到 110 以下。</strong></p>
+<p>我们已经知道，在使用了很多特征的线性回归练习中，110 左右的 RMSE 已经是相当不错的结果。现在我们将得到比它更好的结果。</p>
+<p>对于神经网络而言，过拟合是一种真正的潜在危险。您可以查看训练数据损失与验证数据损失之间的差值，以帮助判断模型是否有过拟合的趋势。如果差值开始变大，则通常可以肯定存在过拟合。</p>
+<p>下面参数是我写的，也许有更好的参数会获得更低的RMSE。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">dnn_regressor = train_nn_regression_model(</span><br><span class="line">    learning_rate=<span class="number">0.002</span>,</span><br><span class="line">    steps=<span class="number">2000</span>,</span><br><span class="line">    batch_size=<span class="number">100</span>,</span><br><span class="line">    hidden_units=[<span class="number">8</span>, <span class="number">10</span>],</span><br><span class="line">    training_examples=training_examples,</span><br><span class="line">    training_targets=training_targets,</span><br><span class="line">    validation_examples=validation_examples,</span><br><span class="line">    validation_targets=validation_targets)</span><br></pre></td></tr></table></figure>
+<pre><code>Training model...
+RMSE (on training data):
+  period 00 : 153.67
+  period 01 : 136.38
+  period 02 : 119.26
+  period 03 : 106.87
+  period 04 : 107.80
+  period 05 : 106.81
+  period 06 : 107.47
+  period 07 : 109.00
+  period 08 : 104.58
+  period 09 : 106.55
+Model training finished.
+Final RMSE (on training data):   106.55
+Final RMSE (on validation data): 106.82
+</code></pre><p><img src="TensorFlow_8_10_1.png" alt="png"></p>
+<h2 id="用测试数据进行评估"><a href="#用测试数据进行评估" class="headerlink" title="用测试数据进行评估"></a>用测试数据进行评估</h2><p><strong>确认验证效果结果经受得住测试数据的检验。</strong></p>
+<p>获得满意的模型后，用测试数据评估该模型，以与验证效果进行比较。</p>
+<p>测试数据集位于<a href="https://download.mlcc.google.cn/mledu-datasets/california_housing_test.csv" target="_blank" rel="noopener">此处</a>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">california_housing_test_data = pd.read_csv(<span class="string">"https://download.mlcc.google.cn/mledu-datasets/california_housing_test.csv"</span>, sep=<span class="string">","</span>)</span><br><span class="line"></span><br><span class="line">test_examples = preprocess_features(california_housing_test_data)</span><br><span class="line">test_targets = preprocess_targets(california_housing_test_data)</span><br><span class="line"></span><br><span class="line">predict_testing_input_fn = <span class="keyword">lambda</span>: my_input_fn(test_examples, </span><br><span class="line">                                               test_targets[<span class="string">"median_house_value"</span>], </span><br><span class="line">                                               num_epochs=<span class="number">1</span>, </span><br><span class="line">                                               shuffle=<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">test_predictions = dnn_regressor.predict(input_fn=predict_testing_input_fn)</span><br><span class="line">test_predictions = np.array([item[<span class="string">'predictions'</span>][<span class="number">0</span>] <span class="keyword">for</span> item <span class="keyword">in</span> test_predictions])</span><br><span class="line"></span><br><span class="line">root_mean_squared_error = math.sqrt(</span><br><span class="line">    metrics.mean_squared_error(test_predictions, test_targets))</span><br><span class="line"></span><br><span class="line">print(<span class="string">"Final RMSE (on test data): %0.2f"</span> % root_mean_squared_error)</span><br></pre></td></tr></table></figure>
+<pre><code>Final RMSE (on test data): 105.23
+</code></pre><h1 id="提高神经网络性能"><a href="#提高神经网络性能" class="headerlink" title="提高神经网络性能"></a>提高神经网络性能</h1><p> 通过将特征标准化并应用各种优化算法来提高神经网络的性能</p>
+<p><strong>注意</strong>：本练习中介绍的优化方法并非专门针对神经网络；这些方法可有效改进大多数类型的模型。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_nn_regression_model_optimize</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    my_optimizer,</span></span></span><br><span class="line"><span class="function"><span class="params">    steps,</span></span></span><br><span class="line"><span class="function"><span class="params">    batch_size,</span></span></span><br><span class="line"><span class="function"><span class="params">    hidden_units,</span></span></span><br><span class="line"><span class="function"><span class="params">    training_examples,</span></span></span><br><span class="line"><span class="function"><span class="params">    training_targets,</span></span></span><br><span class="line"><span class="function"><span class="params">    validation_examples,</span></span></span><br><span class="line"><span class="function"><span class="params">    validation_targets)</span>:</span></span><br><span class="line">  <span class="string">"""Trains a neural network regression model.</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">  In addition to training, this function also prints training progress information,</span></span><br><span class="line"><span class="string">  as well as a plot of the training and validation loss over time.</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">  Args:</span></span><br><span class="line"><span class="string">    my_optimizer: An instance of `tf.train.Optimizer`, the optimizer to use.</span></span><br><span class="line"><span class="string">    steps: A non-zero `int`, the total number of training steps. A training step</span></span><br><span class="line"><span class="string">      consists of a forward and backward pass using a single batch.</span></span><br><span class="line"><span class="string">    batch_size: A non-zero `int`, the batch size.</span></span><br><span class="line"><span class="string">    hidden_units: A `list` of int values, specifying the number of neurons in each layer.</span></span><br><span class="line"><span class="string">    training_examples: A `DataFrame` containing one or more columns from</span></span><br><span class="line"><span class="string">      `california_housing_dataframe` to use as input features for training.</span></span><br><span class="line"><span class="string">    training_targets: A `DataFrame` containing exactly one column from</span></span><br><span class="line"><span class="string">      `california_housing_dataframe` to use as target for training.</span></span><br><span class="line"><span class="string">    validation_examples: A `DataFrame` containing one or more columns from</span></span><br><span class="line"><span class="string">      `california_housing_dataframe` to use as input features for validation.</span></span><br><span class="line"><span class="string">    validation_targets: A `DataFrame` containing exactly one column from</span></span><br><span class="line"><span class="string">      `california_housing_dataframe` to use as target for validation.</span></span><br><span class="line"><span class="string">      </span></span><br><span class="line"><span class="string">  Returns:</span></span><br><span class="line"><span class="string">    A tuple `(estimator, training_losses, validation_losses)`:</span></span><br><span class="line"><span class="string">      estimator: the trained `DNNRegressor` object.</span></span><br><span class="line"><span class="string">      training_losses: a `list` containing the training loss values taken during training.</span></span><br><span class="line"><span class="string">      validation_losses: a `list` containing the validation loss values taken during training.</span></span><br><span class="line"><span class="string">  """</span></span><br><span class="line"></span><br><span class="line">  periods = <span class="number">10</span></span><br><span class="line">  steps_per_period = steps / periods</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Create a DNNRegressor object.</span></span><br><span class="line">  my_optimizer = tf.contrib.estimator.clip_gradients_by_norm(my_optimizer, <span class="number">5.0</span>)</span><br><span class="line">  dnn_regressor = tf.estimator.DNNRegressor(</span><br><span class="line">      feature_columns=construct_feature_columns(training_examples),</span><br><span class="line">      hidden_units=hidden_units,</span><br><span class="line">      optimizer=my_optimizer</span><br><span class="line">  )</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Create input functions.</span></span><br><span class="line">  training_input_fn = <span class="keyword">lambda</span>: my_input_fn(training_examples, </span><br><span class="line">                                          training_targets[<span class="string">"median_house_value"</span>], </span><br><span class="line">                                          batch_size=batch_size)</span><br><span class="line">  predict_training_input_fn = <span class="keyword">lambda</span>: my_input_fn(training_examples, </span><br><span class="line">                                                  training_targets[<span class="string">"median_house_value"</span>], </span><br><span class="line">                                                  num_epochs=<span class="number">1</span>, </span><br><span class="line">                                                  shuffle=<span class="keyword">False</span>)</span><br><span class="line">  predict_validation_input_fn = <span class="keyword">lambda</span>: my_input_fn(validation_examples, </span><br><span class="line">                                                    validation_targets[<span class="string">"median_house_value"</span>], </span><br><span class="line">                                                    num_epochs=<span class="number">1</span>, </span><br><span class="line">                                                    shuffle=<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Train the model, but do so inside a loop so that we can periodically assess</span></span><br><span class="line">  <span class="comment"># loss metrics.</span></span><br><span class="line">  print(<span class="string">"Training model..."</span>)</span><br><span class="line">  print(<span class="string">"RMSE (on training data):"</span>)</span><br><span class="line">  training_rmse = []</span><br><span class="line">  validation_rmse = []</span><br><span class="line">  <span class="keyword">for</span> period <span class="keyword">in</span> range (<span class="number">0</span>, periods):</span><br><span class="line">    <span class="comment"># Train the model, starting from the prior state.</span></span><br><span class="line">    dnn_regressor.train(</span><br><span class="line">        input_fn=training_input_fn,</span><br><span class="line">        steps=steps_per_period</span><br><span class="line">    )</span><br><span class="line">    <span class="comment"># Take a break and compute predictions.</span></span><br><span class="line">    training_predictions = dnn_regressor.predict(input_fn=predict_training_input_fn)</span><br><span class="line">    training_predictions = np.array([item[<span class="string">'predictions'</span>][<span class="number">0</span>] <span class="keyword">for</span> item <span class="keyword">in</span> training_predictions])</span><br><span class="line">    </span><br><span class="line">    validation_predictions = dnn_regressor.predict(input_fn=predict_validation_input_fn)</span><br><span class="line">    validation_predictions = np.array([item[<span class="string">'predictions'</span>][<span class="number">0</span>] <span class="keyword">for</span> item <span class="keyword">in</span> validation_predictions])</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Compute training and validation loss.</span></span><br><span class="line">    training_root_mean_squared_error = math.sqrt(</span><br><span class="line">        metrics.mean_squared_error(training_predictions, training_targets))</span><br><span class="line">    validation_root_mean_squared_error = math.sqrt(</span><br><span class="line">        metrics.mean_squared_error(validation_predictions, validation_targets))</span><br><span class="line">    <span class="comment"># Occasionally print the current loss.</span></span><br><span class="line">    print(<span class="string">"  period %02d : %0.2f"</span> % (period, training_root_mean_squared_error))</span><br><span class="line">    <span class="comment"># Add the loss metrics from this period to our list.</span></span><br><span class="line">    training_rmse.append(training_root_mean_squared_error)</span><br><span class="line">    validation_rmse.append(validation_root_mean_squared_error)</span><br><span class="line">  print(<span class="string">"Model training finished."</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Output a graph of loss metrics over periods.</span></span><br><span class="line">  plt.ylabel(<span class="string">"RMSE"</span>)</span><br><span class="line">  plt.xlabel(<span class="string">"Periods"</span>)</span><br><span class="line">  plt.title(<span class="string">"Root Mean Squared Error vs. Periods"</span>)</span><br><span class="line">  plt.tight_layout()</span><br><span class="line">  plt.plot(training_rmse, label=<span class="string">"training"</span>)</span><br><span class="line">  plt.plot(validation_rmse, label=<span class="string">"validation"</span>)</span><br><span class="line">  plt.legend()</span><br><span class="line"></span><br><span class="line">  print(<span class="string">"Final RMSE (on training data):   %0.2f"</span> % training_root_mean_squared_error)</span><br><span class="line">  print(<span class="string">"Final RMSE (on validation data): %0.2f"</span> % validation_root_mean_squared_error)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> dnn_regressor, training_rmse, validation_rmse</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">_ = train_nn_regression_model_optimize(</span><br><span class="line">    my_optimizer=tf.train.GradientDescentOptimizer(learning_rate=<span class="number">0.0007</span>),</span><br><span class="line">    steps=<span class="number">5000</span>,</span><br><span class="line">    batch_size=<span class="number">70</span>,</span><br><span class="line">    hidden_units=[<span class="number">10</span>, <span class="number">10</span>],</span><br><span class="line">    training_examples=training_examples,</span><br><span class="line">    training_targets=training_targets,</span><br><span class="line">    validation_examples=validation_examples,</span><br><span class="line">    validation_targets=validation_targets)</span><br></pre></td></tr></table></figure>
+<pre><code>Training model...
+RMSE (on training data):
+  period 00 : 162.48
+  period 01 : 157.66
+  period 02 : 150.85
+  period 03 : 142.03
+  period 04 : 131.60
+  period 05 : 120.72
+  period 06 : 113.46
+  period 07 : 110.01
+  period 08 : 108.28
+  period 09 : 107.34
+Model training finished.
+Final RMSE (on training data):   107.34
+Final RMSE (on validation data): 108.43
+</code></pre><p><img src="TensorFlow_8_15_1.png" alt="png"></p>
+<h2 id="线性缩放"><a href="#线性缩放" class="headerlink" title="线性缩放"></a>线性缩放</h2><p>将输入标准化以使其位于 (-1, 1) 范围内可能是一种良好的标准做法。这样一来，SGD 在一个维度中采用很大步长（或者在另一维度中采用很小步长）时不会受阻。数值优化的爱好者可能会注意到，这种做法与使用预调节器 (Preconditioner) 的想法是有联系的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">linear_scale</span><span class="params">(series)</span>:</span></span><br><span class="line">  min_val = series.min()</span><br><span class="line">  max_val = series.max()</span><br><span class="line">  scale = (max_val - min_val) / <span class="number">2.0</span></span><br><span class="line">  <span class="keyword">return</span> series.apply(<span class="keyword">lambda</span> x:((x - min_val) / scale) - <span class="number">1.0</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="使用线性缩放将特征标准化"><a href="#使用线性缩放将特征标准化" class="headerlink" title="使用线性缩放将特征标准化"></a>使用线性缩放将特征标准化</h2><p><strong>将输入标准化到 (-1, 1) 这一范围内。能达到什么程度的效果？</strong></p>
+<p>一般来说，当输入特征大致位于相同范围时，神经网络的训练效果最好。</p>
+<p>对您的标准化数据进行健全性检查。（如果您忘了将某个特征标准化，会发生什么情况？）</p>
+<p> 由于标准化会使用最小值和最大值，我们必须确保在整个数据集中一次性完成该操作。</p>
+<p>我们之所以可以这样做，是因为我们所有的数据都在一个 DataFrame 中。如果我们有多个数据集，则最好从训练集中导出标准化参数，然后以相同方式将其应用于测试集。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">normalize_linear_scale</span><span class="params">(examples_dataframe)</span>:</span></span><br><span class="line">  <span class="string">"""Returns a version of the input `DataFrame` that has all its features normalized linearly."""</span></span><br><span class="line">  processed_features = pd.DataFrame()</span><br><span class="line">  processed_features[<span class="string">"latitude"</span>] = linear_scale(examples_dataframe[<span class="string">"latitude"</span>])</span><br><span class="line">  processed_features[<span class="string">"longitude"</span>] = linear_scale(examples_dataframe[<span class="string">"longitude"</span>])</span><br><span class="line">  processed_features[<span class="string">"housing_median_age"</span>] = linear_scale(examples_dataframe[<span class="string">"housing_median_age"</span>])</span><br><span class="line">  processed_features[<span class="string">"total_rooms"</span>] = linear_scale(examples_dataframe[<span class="string">"total_rooms"</span>])</span><br><span class="line">  processed_features[<span class="string">"total_bedrooms"</span>] = linear_scale(examples_dataframe[<span class="string">"total_bedrooms"</span>])</span><br><span class="line">  processed_features[<span class="string">"population"</span>] = linear_scale(examples_dataframe[<span class="string">"population"</span>])</span><br><span class="line">  processed_features[<span class="string">"households"</span>] = linear_scale(examples_dataframe[<span class="string">"households"</span>])</span><br><span class="line">  processed_features[<span class="string">"median_income"</span>] = linear_scale(examples_dataframe[<span class="string">"median_income"</span>])</span><br><span class="line">  processed_features[<span class="string">"rooms_per_person"</span>] = linear_scale(examples_dataframe[<span class="string">"rooms_per_person"</span>])</span><br><span class="line">  <span class="keyword">return</span> processed_features</span><br><span class="line"></span><br><span class="line">normalized_dataframe = normalize_linear_scale(preprocess_features(california_housing_dataframe))</span><br><span class="line">normalized_training_examples = normalized_dataframe.head(<span class="number">12000</span>)</span><br><span class="line">normalized_validation_examples = normalized_dataframe.tail(<span class="number">5000</span>)</span><br><span class="line"></span><br><span class="line">_ = train_nn_regression_model_optimize(</span><br><span class="line">    my_optimizer=tf.train.GradientDescentOptimizer(learning_rate=<span class="number">0.005</span>),</span><br><span class="line">    steps=<span class="number">2000</span>,</span><br><span class="line">    batch_size=<span class="number">50</span>,</span><br><span class="line">    hidden_units=[<span class="number">10</span>, <span class="number">10</span>],</span><br><span class="line">    training_examples=normalized_training_examples,</span><br><span class="line">    training_targets=training_targets,</span><br><span class="line">    validation_examples=normalized_validation_examples,</span><br><span class="line">    validation_targets=validation_targets)</span><br></pre></td></tr></table></figure>
+<pre><code>Training model...
+RMSE (on training data):
+  period 00 : 163.23
+  period 01 : 115.65
+  period 02 : 106.20
+  period 03 : 91.27
+  period 04 : 79.65
+  period 05 : 76.10
+  period 06 : 74.00
+  period 07 : 72.52
+  period 08 : 71.52
+  period 09 : 70.72
+Model training finished.
+Final RMSE (on training data):   70.72
+Final RMSE (on validation data): 72.52
+</code></pre><p><img src="TensorFlow_8_20_1.png" alt="png"></p>
+<p>尝试其他优化器</p>
+<p><strong> 使用 AdaGrad 和 Adam 优化器并对比其效果。</strong></p>
+<p>AdaGrad 优化器是一种备选方案。AdaGrad 的核心是灵活地修改模型中每个系数的学习率，从而单调降低有效的学习率。该优化器对于凸优化问题非常有效，但不一定适合非凸优化问题的神经网络训练。您可以通过指定 <code>AdagradOptimizer</code>（而不是 <code>GradientDescentOptimizer</code>）来使用 AdaGrad。请注意，对于 AdaGrad，您可能需要使用较大的学习率。</p>
+<p>对于非凸优化问题，Adam 有时比 AdaGrad 更有效。要使用 Adam，请调用 <code>tf.train.AdamOptimizer</code> 方法。此方法将几个可选超参数作为参数，但我们的解决方案仅指定其中一个 (<code>learning_rate</code>)。在应用设置中，您应该谨慎指定和调整可选超参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 首先，我们来尝试 AdaGrad。</span></span><br><span class="line">_, adagrad_training_losses, adagrad_validation_losses = train_nn_regression_model_optimize(</span><br><span class="line">    my_optimizer=tf.train.AdagradOptimizer(learning_rate=<span class="number">0.5</span>),</span><br><span class="line">    steps=<span class="number">500</span>,</span><br><span class="line">    batch_size=<span class="number">100</span>,</span><br><span class="line">    hidden_units=[<span class="number">10</span>, <span class="number">10</span>],</span><br><span class="line">    training_examples=normalized_training_examples,</span><br><span class="line">    training_targets=training_targets,</span><br><span class="line">    validation_examples=normalized_validation_examples,</span><br><span class="line">    validation_targets=validation_targets)</span><br></pre></td></tr></table></figure>
+<pre><code>Training model...
+RMSE (on training data):
+  period 00 : 84.89
+  period 01 : 72.08
+  period 02 : 71.06
+  period 03 : 71.18
+  period 04 : 69.57
+  period 05 : 72.57
+  period 06 : 69.04
+  period 07 : 67.49
+  period 08 : 68.83
+  period 09 : 69.24
+Model training finished.
+Final RMSE (on training data):   69.24
+Final RMSE (on validation data): 71.91
+</code></pre><p><img src="TensorFlow_8_22_1.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment"># 现在，我们来尝试 Adam。</span></span><br><span class="line">_, adam_training_losses, adam_validation_losses = train_nn_regression_model_optimize(</span><br><span class="line">    my_optimizer=tf.train.AdamOptimizer(learning_rate=<span class="number">0.009</span>),</span><br><span class="line">    steps=<span class="number">500</span>,</span><br><span class="line">    batch_size=<span class="number">100</span>,</span><br><span class="line">    hidden_units=[<span class="number">10</span>, <span class="number">10</span>],</span><br><span class="line">    training_examples=normalized_training_examples,</span><br><span class="line">    training_targets=training_targets,</span><br><span class="line">    validation_examples=normalized_validation_examples,</span><br><span class="line">    validation_targets=validation_targets)</span><br></pre></td></tr></table></figure>
+<pre><code>Training model...
+RMSE (on training data):
+  period 00 : 171.53
+  period 01 : 108.88
+  period 02 : 100.89
+  period 03 : 88.85
+  period 04 : 76.59
+  period 05 : 72.77
+  period 06 : 70.84
+  period 07 : 70.29
+  period 08 : 69.79
+  period 09 : 68.84
+Model training finished.
+Final RMSE (on training data):   68.84
+Final RMSE (on validation data): 70.98
+</code></pre><p><img src="TensorFlow_8_23_1.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 我们并排输出损失指标的图表。</span></span><br><span class="line">plt.ylabel(<span class="string">"RMSE"</span>)</span><br><span class="line">plt.xlabel(<span class="string">"Periods"</span>)</span><br><span class="line">plt.title(<span class="string">"Root Mean Squared Error vs. Periods"</span>)</span><br><span class="line">plt.plot(adagrad_training_losses, label=<span class="string">'Adagrad training'</span>)</span><br><span class="line">plt.plot(adagrad_validation_losses, label=<span class="string">'Adagrad validation'</span>)</span><br><span class="line">plt.plot(adam_training_losses, label=<span class="string">'Adam training'</span>)</span><br><span class="line">plt.plot(adam_validation_losses, label=<span class="string">'Adam validation'</span>)</span><br><span class="line">_ = plt.legend()</span><br></pre></td></tr></table></figure>
+<p><img src="TensorFlow_8_24_0.png" alt="png"></p>
+<h2 id="尝试其他标准化方法"><a href="#尝试其他标准化方法" class="headerlink" title="尝试其他标准化方法"></a>尝试其他标准化方法</h2><p><strong>尝试对各种特征使用其他标准化方法，以进一步提高性能。</strong></p>
+<p>如果仔细查看转换后数据的汇总统计信息，您可能会注意到，对某些特征进行线性缩放会使其聚集到接近 <code>-1</code> 的位置。</p>
+<p>例如，很多特征的中位数约为 <code>-0.8</code>，而不是 <code>0.0</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_ = training_examples.hist(bins=<span class="number">20</span>, figsize=(<span class="number">18</span>, <span class="number">12</span>), xlabelsize=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="TensorFlow_8_26_0.png" alt="png"></p>
+<p> 通过选择其他方式来转换这些特征，我们可能会获得更好的效果。</p>
+<p>例如，对数缩放可能对某些特征有帮助。或者，截取极端值可能会使剩余部分的信息更加丰富。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">log_normalize</span><span class="params">(series)</span>:</span></span><br><span class="line">  <span class="keyword">return</span> series.apply(<span class="keyword">lambda</span> x:math.log(x+<span class="number">1.0</span>))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">clip</span><span class="params">(series, clip_to_min, clip_to_max)</span>:</span></span><br><span class="line">  <span class="keyword">return</span> series.apply(<span class="keyword">lambda</span> x:(</span><br><span class="line">    min(max(x, clip_to_min), clip_to_max)))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">z_score_normalize</span><span class="params">(series)</span>:</span></span><br><span class="line">  mean = series.mean()</span><br><span class="line">  std_dv = series.std()</span><br><span class="line">  <span class="keyword">return</span> series.apply(<span class="keyword">lambda</span> x:(x - mean) / std_dv)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">binary_threshold</span><span class="params">(series, threshold)</span>:</span></span><br><span class="line">  <span class="keyword">return</span> series.apply(<span class="keyword">lambda</span> x:(<span class="number">1</span> <span class="keyword">if</span> x &gt; threshold <span class="keyword">else</span> <span class="number">0</span>))</span><br></pre></td></tr></table></figure>
+<p> 上述部分包含一些额外的标准化函数。</p>
+<p>请注意，如果您将目标标准化，则需要将网络的预测结果非标准化，以便比较损失函数的值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">normalize</span><span class="params">(examples_dataframe)</span>:</span></span><br><span class="line">  <span class="string">"""Returns a version of the input `DataFrame` that has all its features normalized."""</span></span><br><span class="line">  processed_features = pd.DataFrame()</span><br><span class="line"></span><br><span class="line">  processed_features[<span class="string">"households"</span>] = log_normalize(examples_dataframe[<span class="string">"households"</span>])</span><br><span class="line">  processed_features[<span class="string">"median_income"</span>] = log_normalize(examples_dataframe[<span class="string">"median_income"</span>])</span><br><span class="line">  processed_features[<span class="string">"total_bedrooms"</span>] = log_normalize(examples_dataframe[<span class="string">"total_bedrooms"</span>])</span><br><span class="line">  </span><br><span class="line">  processed_features[<span class="string">"latitude"</span>] = linear_scale(examples_dataframe[<span class="string">"latitude"</span>])</span><br><span class="line">  processed_features[<span class="string">"longitude"</span>] = linear_scale(examples_dataframe[<span class="string">"longitude"</span>])</span><br><span class="line">  processed_features[<span class="string">"housing_median_age"</span>] = linear_scale(examples_dataframe[<span class="string">"housing_median_age"</span>])</span><br><span class="line"></span><br><span class="line">  processed_features[<span class="string">"population"</span>] = linear_scale(clip(examples_dataframe[<span class="string">"population"</span>], <span class="number">0</span>, <span class="number">5000</span>))</span><br><span class="line">  processed_features[<span class="string">"rooms_per_person"</span>] = linear_scale(clip(examples_dataframe[<span class="string">"rooms_per_person"</span>], <span class="number">0</span>, <span class="number">5</span>))</span><br><span class="line">  processed_features[<span class="string">"total_rooms"</span>] = linear_scale(clip(examples_dataframe[<span class="string">"total_rooms"</span>], <span class="number">0</span>, <span class="number">10000</span>))</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> processed_features</span><br><span class="line"></span><br><span class="line">normalized_dataframe = normalize(preprocess_features(california_housing_dataframe))</span><br><span class="line">normalized_training_examples = normalized_dataframe.head(<span class="number">12000</span>)</span><br><span class="line">normalized_validation_examples = normalized_dataframe.tail(<span class="number">5000</span>)</span><br><span class="line"></span><br><span class="line">_ = train_nn_regression_model_optimize(</span><br><span class="line">    my_optimizer=tf.train.AdagradOptimizer(learning_rate=<span class="number">0.15</span>),</span><br><span class="line">    steps=<span class="number">1000</span>,</span><br><span class="line">    batch_size=<span class="number">50</span>,</span><br><span class="line">    hidden_units=[<span class="number">10</span>, <span class="number">10</span>],</span><br><span class="line">    training_examples=normalized_training_examples,</span><br><span class="line">    training_targets=training_targets,</span><br><span class="line">    validation_examples=normalized_validation_examples,</span><br><span class="line">    validation_targets=validation_targets)</span><br></pre></td></tr></table></figure>
+<pre><code>Training model...
+RMSE (on training data):
+  period 00 : 89.38
+  period 01 : 75.15
+  period 02 : 72.35
+  period 03 : 70.70
+  period 04 : 70.95
+  period 05 : 69.13
+  period 06 : 68.46
+  period 07 : 68.42
+  period 08 : 68.68
+  period 09 : 67.93
+Model training finished.
+Final RMSE (on training data):   67.93
+Final RMSE (on validation data): 69.55
+</code></pre><p><img src="TensorFlow_8_30_1.png" alt="png"></p>
+<h2 id="仅使用纬度和经度特征"><a href="#仅使用纬度和经度特征" class="headerlink" title="仅使用纬度和经度特征"></a>仅使用纬度和经度特征</h2><p><strong>训练仅使用纬度和经度作为特征的神经网络模型。</strong></p>
+<p>房地产商喜欢说，地段是房价的唯一重要特征。<br>我们来看看能否通过训练仅使用纬度和经度作为特征的模型来证实这一点。</p>
+<p>只有我们的神经网络模型可以从纬度和经度中学会复杂的非线性规律，才能达到我们想要的效果。</p>
+<p><strong>注意</strong>：我们可能需要一个网络结构，其层数比我们之前在练习中使用的要多。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">location_location_location</span><span class="params">(examples_dataframe)</span>:</span></span><br><span class="line">  <span class="string">"""Returns a version of the input `DataFrame` that keeps only the latitude and longitude."""</span></span><br><span class="line">  processed_features = pd.DataFrame()</span><br><span class="line">  processed_features[<span class="string">"latitude"</span>] = linear_scale(examples_dataframe[<span class="string">"latitude"</span>])</span><br><span class="line">  processed_features[<span class="string">"longitude"</span>] = linear_scale(examples_dataframe[<span class="string">"longitude"</span>])</span><br><span class="line">  <span class="keyword">return</span> processed_features</span><br><span class="line"></span><br><span class="line">lll_dataframe = location_location_location(preprocess_features(california_housing_dataframe))</span><br><span class="line">lll_training_examples = lll_dataframe.head(<span class="number">12000</span>)</span><br><span class="line">lll_validation_examples = lll_dataframe.tail(<span class="number">5000</span>)</span><br><span class="line"></span><br><span class="line">_ = train_nn_regression_model_optimize(</span><br><span class="line">    my_optimizer=tf.train.AdagradOptimizer(learning_rate=<span class="number">0.05</span>),</span><br><span class="line">    steps=<span class="number">500</span>,</span><br><span class="line">    batch_size=<span class="number">50</span>,</span><br><span class="line">    hidden_units=[<span class="number">10</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>],</span><br><span class="line">    training_examples=lll_training_examples,</span><br><span class="line">    training_targets=training_targets,</span><br><span class="line">    validation_examples=lll_validation_examples,</span><br><span class="line">    validation_targets=validation_targets)</span><br></pre></td></tr></table></figure>
+<pre><code>Training model...
+RMSE (on training data):
+  period 00 : 157.77
+  period 01 : 107.67
+  period 02 : 105.43
+  period 03 : 104.46
+  period 04 : 103.15
+  period 05 : 101.82
+  period 06 : 101.01
+  period 07 : 100.61
+  period 08 : 100.10
+  period 09 : 99.77
+Model training finished.
+Final RMSE (on training data):   99.77
+Final RMSE (on validation data): 100.48
+</code></pre><p><img src="TensorFlow_8_32_1.png" alt="png"></p>
+<p>最好使纬度和经度保持标准化状态，对于只有两个特征的模型，结果并不算太糟。当然，地产价值在短距离内仍然可能有较大差异。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Tensorflow/" rel="tag"><i class="fa fa-tag"></i> Tensorflow</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/10/我的流浪地球/" rel="next" title="我的流浪地球">
+                <i class="fa fa-chevron-left"></i> 我的流浪地球
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/21/TensorFlow_9/" rel="prev" title="TensorFlow 9">
+                TensorFlow 9 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Voidmort" />
+            
+              <p class="site-author-name" itemprop="name">Voidmort</p>
+              <p class="site-description motion-element" itemprop="description">研究AI，撰写影评，热爱音乐，努力健身</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">54</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Voidmort" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:wxj5658@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1749266905" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jusanliusha.xyz" title="Jusanliusha" target="_blank">Jusanliusha</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#神经网络简介"><span class="nav-number">1.</span> <span class="nav-text">神经网络简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设置"><span class="nav-number">1.1.</span> <span class="nav-text">设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建神经网络"><span class="nav-number">1.2.</span> <span class="nav-text">构建神经网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练神经网络模型"><span class="nav-number">1.3.</span> <span class="nav-text">训练神经网络模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用测试数据进行评估"><span class="nav-number">1.4.</span> <span class="nav-text">用测试数据进行评估</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#提高神经网络性能"><span class="nav-number">2.</span> <span class="nav-text">提高神经网络性能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#线性缩放"><span class="nav-number">2.1.</span> <span class="nav-text">线性缩放</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用线性缩放将特征标准化"><span class="nav-number">2.2.</span> <span class="nav-text">使用线性缩放将特征标准化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#尝试其他标准化方法"><span class="nav-number">2.3.</span> <span class="nav-text">尝试其他标准化方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#仅使用纬度和经度特征"><span class="nav-number">2.4.</span> <span class="nav-text">仅使用纬度和经度特征</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Voidmort</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/kesyoban.model.json"},"display":{"position":"right","width":130,"height":260},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>

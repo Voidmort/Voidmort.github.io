@@ -1,0 +1,2304 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="使用神经网络对手写数字进行分类   训练线性模型和神经网络，以对传统 MNIST 数据集中的手写数字进行分类 比较线性分类模型和神经网络分类模型的效果 可视化神经网络隐藏层的权重 我们的目标是将每个输入图片与正确的数字相对应。我们会创建一个包含几个隐藏层的神经网络，并在顶部放置一个归一化指数层，以选出最合适的类别。 设置  首先，我们下载数据集、导入 TensorFlow 和其他实用工具，并将数据">
+<meta name="keywords" content="Tensorflow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorFlow 9">
+<meta property="og:url" content="https://xvjie.wang/2019/02/21/TensorFlow_9/index.html">
+<meta property="og:site_name" content="Voidmort">
+<meta property="og:description" content="使用神经网络对手写数字进行分类   训练线性模型和神经网络，以对传统 MNIST 数据集中的手写数字进行分类 比较线性分类模型和神经网络分类模型的效果 可视化神经网络隐藏层的权重 我们的目标是将每个输入图片与正确的数字相对应。我们会创建一个包含几个隐藏层的神经网络，并在顶部放置一个归一化指数层，以选出最合适的类别。 设置  首先，我们下载数据集、导入 TensorFlow 和其他实用工具，并将数据">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://www.tensorflow.org/versions/r0.11/images/MNIST.png">
+<meta property="og:image" content="https://www.tensorflow.org/versions/r0.11/images/MNIST-Matrix.png">
+<meta property="og:image" content="https://xvjie.wang/2019/02/21/TensorFlow_9/TensorFlow_9_11_0.png">
+<meta property="og:image" content="https://xvjie.wang/2019/02/21/TensorFlow_9/TensorFlow_9_18_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/02/21/TensorFlow_9/TensorFlow_9_18_2.png">
+<meta property="og:image" content="https://xvjie.wang/2019/02/21/TensorFlow_9/TensorFlow_9_22_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/02/21/TensorFlow_9/TensorFlow_9_22_2.png">
+<meta property="og:image" content="https://xvjie.wang/2019/02/21/TensorFlow_9/TensorFlow_9_27_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/02/21/TensorFlow_9/TensorFlow_9_29_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/02/21/TensorFlow_9/TensorFlow_9_29_2.png">
+<meta property="og:image" content="https://xvjie.wang/2019/02/21/TensorFlow_9/TensorFlow_9_30_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/02/21/TensorFlow_9/TensorFlow_9_31_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/02/21/TensorFlow_9/TensorFlow_9_31_2.png">
+<meta property="og:image" content="https://xvjie.wang/2019/02/21/TensorFlow_9/TensorFlow_9_32_1.png">
+<meta property="og:updated_time" content="2019-02-23T11:10:06.871Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TensorFlow 9">
+<meta name="twitter:description" content="使用神经网络对手写数字进行分类   训练线性模型和神经网络，以对传统 MNIST 数据集中的手写数字进行分类 比较线性分类模型和神经网络分类模型的效果 可视化神经网络隐藏层的权重 我们的目标是将每个输入图片与正确的数字相对应。我们会创建一个包含几个隐藏层的神经网络，并在顶部放置一个归一化指数层，以选出最合适的类别。 设置  首先，我们下载数据集、导入 TensorFlow 和其他实用工具，并将数据">
+<meta name="twitter:image" content="https://www.tensorflow.org/versions/r0.11/images/MNIST.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Voidmort" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://xvjie.wang/2019/02/21/TensorFlow_9/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>TensorFlow 9 | Voidmort</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7b96eb7c2717359e36cc8bd8b546997c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/Voidmort" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Voidmort</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-other">
+    <a href="/other/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-plane"></i> <br />其它</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xvjie.wang/2019/02/21/TensorFlow_9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Voidmort">
+      <meta itemprop="description" content="研究AI，撰写影评，热爱音乐，努力健身">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Voidmort">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">TensorFlow 9
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-02-21 14:34:00" itemprop="dateCreated datePublished" datetime="2019-02-21T14:34:00+08:00">2019-02-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-02-23 19:10:06" itemprop="dateModified" datetime="2019-02-23T19:10:06+08:00">2019-02-23</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Tensorflow/" itemprop="url" rel="index"><span itemprop="name">Tensorflow</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="使用神经网络对手写数字进行分类"><a href="#使用神经网络对手写数字进行分类" class="headerlink" title="使用神经网络对手写数字进行分类"></a>使用神经网络对手写数字进行分类</h1><p> <img src="https://www.tensorflow.org/versions/r0.11/images/MNIST.png" alt="img"></p>
+<ul>
+<li>训练线性模型和神经网络，以对传统 <a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">MNIST</a> 数据集中的手写数字进行分类</li>
+<li>比较线性分类模型和神经网络分类模型的效果</li>
+<li><p>可视化神经网络隐藏层的权重</p>
+<p>我们的目标是将每个输入图片与正确的数字相对应。我们会创建一个包含几个隐藏层的神经网络，并在顶部放置一个归一化指数层，以选出最合适的类别。</p>
+<h2 id="设置"><a href="#设置" class="headerlink" title="设置"></a>设置</h2></li>
+</ul>
+<p>首先，我们下载数据集、导入 TensorFlow 和其他实用工具，并将数据加载到 <em>Pandas</em> <code>DataFrame</code>。请注意，此数据是原始 MNIST 训练数据的样本；我们随机选择了 20000 行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> glob</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> IPython <span class="keyword">import</span> display</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> cm</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> gridspec</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> metrics</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow.python.data <span class="keyword">import</span> Dataset</span><br><span class="line"></span><br><span class="line">tf.logging.set_verbosity(tf.logging.ERROR)</span><br><span class="line">pd.options.display.max_rows = <span class="number">10</span></span><br><span class="line">pd.options.display.float_format = <span class="string">'&#123;:.1f&#125;'</span>.format</span><br><span class="line"></span><br><span class="line">mnist_dataframe = pd.read_csv(</span><br><span class="line">  <span class="string">"https://download.mlcc.google.cn/mledu-datasets/mnist_train_small.csv"</span>,</span><br><span class="line">  sep=<span class="string">","</span>,</span><br><span class="line">  header=<span class="keyword">None</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Use just the first 10,000 records for training/validation.</span></span><br><span class="line">mnist_dataframe = mnist_dataframe.head(<span class="number">10000</span>)</span><br><span class="line"></span><br><span class="line">mnist_dataframe = mnist_dataframe.reindex(np.random.permutation(mnist_dataframe.index))</span><br><span class="line">mnist_dataframe.head()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>...</th>
+      <th>775</th>
+      <th>776</th>
+      <th>777</th>
+      <th>778</th>
+      <th>779</th>
+      <th>780</th>
+      <th>781</th>
+      <th>782</th>
+      <th>783</th>
+      <th>784</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>5456</th>
+      <td>8</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>934</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2662</th>
+      <td>8</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>9385</th>
+      <td>4</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>157</th>
+      <td>8</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 785 columns</p>
+</div>
+
+<p> 第一列中包含类别标签。其余列中包含特征值，每个像素对应一个特征值，有 <code>28×28=784</code> 个像素值，其中大部分像素值都为零；您也许需要花一分钟时间来确认它们不<em>全部</em>为零。</p>
+<p>  <img src="https://www.tensorflow.org/versions/r0.11/images/MNIST-Matrix.png" alt="img"></p>
+<p>   这些样本都是分辨率相对较低、对比度相对较高的手写数字图片。<code>0-9</code> 这十个数字中的每个可能出现的数字均由唯一的类别标签表示。因此，这是一个具有 10 个类别的多类别分类问题。</p>
+<p>现在，我们解析一下标签和特征，并查看几个样本。注意 <code>loc</code> 的使用，借助 <code>loc</code>，我们能够基于原来的位置抽出各列，因为此数据集中没有标题行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_labels_and_features</span><span class="params">(dataset)</span>:</span></span><br><span class="line">  <span class="string">"""Extracts labels and features.</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">  This is a good place to scale or transform the features if needed.</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">  Args:</span></span><br><span class="line"><span class="string">    dataset: A Pandas `Dataframe`, containing the label on the first column and</span></span><br><span class="line"><span class="string">      monochrome pixel values on the remaining columns, in row major order.</span></span><br><span class="line"><span class="string">  Returns:</span></span><br><span class="line"><span class="string">    A `tuple` `(labels, features)`:</span></span><br><span class="line"><span class="string">      labels: A Pandas `Series`.</span></span><br><span class="line"><span class="string">      features: A Pandas `DataFrame`.</span></span><br><span class="line"><span class="string">  """</span></span><br><span class="line">  labels = dataset[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">  <span class="comment"># DataFrame.loc index ranges are inclusive at both ends.</span></span><br><span class="line">  features = dataset.loc[:,<span class="number">1</span>:<span class="number">784</span>]</span><br><span class="line">  <span class="comment"># Scale the data to [0, 1] by dividing out the max value, 255.</span></span><br><span class="line">  features = features / <span class="number">255</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> labels, features</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">training_targets, training_examples = parse_labels_and_features(mnist_dataframe[:<span class="number">7500</span>])</span><br><span class="line">training_examples.describe()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>10</th>
+      <th>...</th>
+      <th>775</th>
+      <th>776</th>
+      <th>777</th>
+      <th>778</th>
+      <th>779</th>
+      <th>780</th>
+      <th>781</th>
+      <th>782</th>
+      <th>783</th>
+      <th>784</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>7500.0</td>
+      <td>7500.0</td>
+      <td>7500.0</td>
+      <td>7500.0</td>
+      <td>7500.0</td>
+      <td>7500.0</td>
+      <td>7500.0</td>
+      <td>7500.0</td>
+      <td>7500.0</td>
+      <td>7500.0</td>
+      <td>...</td>
+      <td>7500.0</td>
+      <td>7500.0</td>
+      <td>7500.0</td>
+      <td>7500.0</td>
+      <td>7500.0</td>
+      <td>7500.0</td>
+      <td>7500.0</td>
+      <td>7500.0</td>
+      <td>7500.0</td>
+      <td>7500.0</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.8</td>
+      <td>0.2</td>
+      <td>1.0</td>
+      <td>0.2</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>8 rows × 784 columns</p>
+</div>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">validation_targets, validation_examples = parse_labels_and_features(mnist_dataframe[<span class="number">7500</span>:<span class="number">10000</span>])</span><br><span class="line">validation_examples.describe()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>10</th>
+      <th>...</th>
+      <th>775</th>
+      <th>776</th>
+      <th>777</th>
+      <th>778</th>
+      <th>779</th>
+      <th>780</th>
+      <th>781</th>
+      <th>782</th>
+      <th>783</th>
+      <th>784</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>2500.0</td>
+      <td>2500.0</td>
+      <td>2500.0</td>
+      <td>2500.0</td>
+      <td>2500.0</td>
+      <td>2500.0</td>
+      <td>2500.0</td>
+      <td>2500.0</td>
+      <td>2500.0</td>
+      <td>2500.0</td>
+      <td>...</td>
+      <td>2500.0</td>
+      <td>2500.0</td>
+      <td>2500.0</td>
+      <td>2500.0</td>
+      <td>2500.0</td>
+      <td>2500.0</td>
+      <td>2500.0</td>
+      <td>2500.0</td>
+      <td>2500.0</td>
+      <td>2500.0</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>0.8</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>8 rows × 784 columns</p>
+</div>
+
+<p> 显示一个随机样本及其对应的标签。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rand_example = np.random.choice(training_examples.index)</span><br><span class="line">_, ax = plt.subplots()</span><br><span class="line">ax.matshow(training_examples.loc[rand_example].values.reshape(<span class="number">28</span>, <span class="number">28</span>))</span><br><span class="line">ax.set_title(<span class="string">"Label: %i"</span> % training_targets.loc[rand_example])</span><br><span class="line">ax.grid(<span class="keyword">False</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="TensorFlow_9_11_0.png" alt="png"></p>
+<h2 id="为-MNIST-构建线性模型"><a href="#为-MNIST-构建线性模型" class="headerlink" title="为 MNIST 构建线性模型"></a>为 MNIST 构建线性模型</h2><p>首先，我们创建一个基准模型，作为比较对象。<code>LinearClassifier</code> 可提供一组 <em>k</em> 类一对多分类器，每个类别（共 <em>k</em> 个）对应一个分类器。</p>
+<p>您会发现，除了报告准确率和绘制对数损失函数随时间变化情况的曲线图之外，我们还展示了一个<a href="https://en.wikipedia.org/wiki/Confusion_matrix" target="_blank" rel="noopener"><strong>混淆矩阵</strong></a>。混淆矩阵会显示错误分类为其他类别的类别。哪些数字相互之间容易混淆？</p>
+<p>另请注意，我们会使用 <code>log_loss</code> 函数跟踪模型的错误。不应将此函数与用于训练的 <code>LinearClassifier</code> 内部损失函数相混淆。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">construct_feature_columns</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="string">"""Construct the TensorFlow Feature Columns.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Returns:</span></span><br><span class="line"><span class="string">    A set of feature columns</span></span><br><span class="line"><span class="string">  """</span> </span><br><span class="line">  </span><br><span class="line">  <span class="comment"># There are 784 pixels in each image. </span></span><br><span class="line">  <span class="keyword">return</span> set([tf.feature_column.numeric_column(<span class="string">'pixels'</span>, shape=<span class="number">784</span>)])</span><br></pre></td></tr></table></figure>
+<p> 在本次练习中，我们会对训练和预测使用单独的输入函数，并将这些函数分别嵌套在 <code>create_training_input_fn()</code> 和 <code>create_predict_input_fn()</code> 中，这样一来，我们就可以调用这些函数，以返回相应的 <code>_input_fn</code>，并将其传递到 <code>.train()</code> 和 <code>.predict()</code> 调用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_training_input_fn</span><span class="params">(features, labels, batch_size, num_epochs=None, shuffle=True)</span>:</span></span><br><span class="line">  <span class="string">"""A custom input_fn for sending MNIST data to the estimator for training.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Args:</span></span><br><span class="line"><span class="string">    features: The training features.</span></span><br><span class="line"><span class="string">    labels: The training labels.</span></span><br><span class="line"><span class="string">    batch_size: Batch size to use during training.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Returns:</span></span><br><span class="line"><span class="string">    A function that returns batches of training features and labels during</span></span><br><span class="line"><span class="string">    training.</span></span><br><span class="line"><span class="string">  """</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">_input_fn</span><span class="params">(num_epochs=None, shuffle=True)</span>:</span></span><br><span class="line">    <span class="comment"># Input pipelines are reset with each call to .train(). To ensure model</span></span><br><span class="line">    <span class="comment"># gets a good sampling of data, even when number of steps is small, we </span></span><br><span class="line">    <span class="comment"># shuffle all the data before creating the Dataset object</span></span><br><span class="line">    idx = np.random.permutation(features.index)</span><br><span class="line">    raw_features = &#123;<span class="string">"pixels"</span>:features.reindex(idx)&#125;</span><br><span class="line">    raw_targets = np.array(labels[idx])</span><br><span class="line">   </span><br><span class="line">    ds = Dataset.from_tensor_slices((raw_features,raw_targets)) <span class="comment"># warning: 2GB limit</span></span><br><span class="line">    ds = ds.batch(batch_size).repeat(num_epochs)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> shuffle:</span><br><span class="line">      ds = ds.shuffle(<span class="number">10000</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Return the next batch of data.</span></span><br><span class="line">    feature_batch, label_batch = ds.make_one_shot_iterator().get_next()</span><br><span class="line">    <span class="keyword">return</span> feature_batch, label_batch</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> _input_fn</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_predict_input_fn</span><span class="params">(features, labels, batch_size)</span>:</span></span><br><span class="line">  <span class="string">"""A custom input_fn for sending mnist data to the estimator for predictions.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Args:</span></span><br><span class="line"><span class="string">    features: The features to base predictions on.</span></span><br><span class="line"><span class="string">    labels: The labels of the prediction examples.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Returns:</span></span><br><span class="line"><span class="string">    A function that returns features and labels for predictions.</span></span><br><span class="line"><span class="string">  """</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">_input_fn</span><span class="params">()</span>:</span></span><br><span class="line">    raw_features = &#123;<span class="string">"pixels"</span>: features.values&#125;</span><br><span class="line">    raw_targets = np.array(labels)</span><br><span class="line">    </span><br><span class="line">    ds = Dataset.from_tensor_slices((raw_features, raw_targets)) <span class="comment"># warning: 2GB limit</span></span><br><span class="line">    ds = ds.batch(batch_size)</span><br><span class="line">    </span><br><span class="line">        </span><br><span class="line">    <span class="comment"># Return the next batch of data.</span></span><br><span class="line">    feature_batch, label_batch = ds.make_one_shot_iterator().get_next()</span><br><span class="line">    <span class="keyword">return</span> feature_batch, label_batch</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> _input_fn</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_linear_classification_model</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    learning_rate,</span></span></span><br><span class="line"><span class="function"><span class="params">    steps,</span></span></span><br><span class="line"><span class="function"><span class="params">    batch_size,</span></span></span><br><span class="line"><span class="function"><span class="params">    training_examples,</span></span></span><br><span class="line"><span class="function"><span class="params">    training_targets,</span></span></span><br><span class="line"><span class="function"><span class="params">    validation_examples,</span></span></span><br><span class="line"><span class="function"><span class="params">    validation_targets)</span>:</span></span><br><span class="line">  <span class="string">"""Trains a linear classification model for the MNIST digits dataset.</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">  In addition to training, this function also prints training progress information,</span></span><br><span class="line"><span class="string">  a plot of the training and validation loss over time, and a confusion</span></span><br><span class="line"><span class="string">  matrix.</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">  Args:</span></span><br><span class="line"><span class="string">    learning_rate: A `float`, the learning rate to use.</span></span><br><span class="line"><span class="string">    steps: A non-zero `int`, the total number of training steps. A training step</span></span><br><span class="line"><span class="string">      consists of a forward and backward pass using a single batch.</span></span><br><span class="line"><span class="string">    batch_size: A non-zero `int`, the batch size.</span></span><br><span class="line"><span class="string">    training_examples: A `DataFrame` containing the training features.</span></span><br><span class="line"><span class="string">    training_targets: A `DataFrame` containing the training labels.</span></span><br><span class="line"><span class="string">    validation_examples: A `DataFrame` containing the validation features.</span></span><br><span class="line"><span class="string">    validation_targets: A `DataFrame` containing the validation labels.</span></span><br><span class="line"><span class="string">      </span></span><br><span class="line"><span class="string">  Returns:</span></span><br><span class="line"><span class="string">    The trained `LinearClassifier` object.</span></span><br><span class="line"><span class="string">  """</span></span><br><span class="line"></span><br><span class="line">  periods = <span class="number">10</span></span><br><span class="line"></span><br><span class="line">  steps_per_period = steps / periods  </span><br><span class="line">  <span class="comment"># Create the input functions.</span></span><br><span class="line">  predict_training_input_fn = create_predict_input_fn(</span><br><span class="line">    training_examples, training_targets, batch_size)</span><br><span class="line">  predict_validation_input_fn = create_predict_input_fn(</span><br><span class="line">    validation_examples, validation_targets, batch_size)</span><br><span class="line">  training_input_fn = create_training_input_fn(</span><br><span class="line">    training_examples, training_targets, batch_size)</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Create a LinearClassifier object.</span></span><br><span class="line">  my_optimizer = tf.train.AdagradOptimizer(learning_rate=learning_rate)</span><br><span class="line">  my_optimizer = tf.contrib.estimator.clip_gradients_by_norm(my_optimizer, <span class="number">5.0</span>)</span><br><span class="line">  classifier = tf.estimator.LinearClassifier(</span><br><span class="line">      feature_columns=construct_feature_columns(),</span><br><span class="line">      n_classes=<span class="number">10</span>,</span><br><span class="line">      optimizer=my_optimizer,</span><br><span class="line">      config=tf.estimator.RunConfig(keep_checkpoint_max=<span class="number">1</span>)</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Train the model, but do so inside a loop so that we can periodically assess</span></span><br><span class="line">  <span class="comment"># loss metrics.</span></span><br><span class="line">  print(<span class="string">"Training model..."</span>)</span><br><span class="line">  print(<span class="string">"LogLoss error (on validation data):"</span>)</span><br><span class="line">  training_errors = []</span><br><span class="line">  validation_errors = []</span><br><span class="line">  <span class="keyword">for</span> period <span class="keyword">in</span> range (<span class="number">0</span>, periods):</span><br><span class="line">    <span class="comment"># Train the model, starting from the prior state.</span></span><br><span class="line">    classifier.train(</span><br><span class="line">        input_fn=training_input_fn,</span><br><span class="line">        steps=steps_per_period</span><br><span class="line">    )</span><br><span class="line">  </span><br><span class="line">    <span class="comment"># Take a break and compute probabilities.</span></span><br><span class="line">    training_predictions = list(classifier.predict(input_fn=predict_training_input_fn))</span><br><span class="line">    training_probabilities = np.array([item[<span class="string">'probabilities'</span>] <span class="keyword">for</span> item <span class="keyword">in</span> training_predictions])</span><br><span class="line">    training_pred_class_id = np.array([item[<span class="string">'class_ids'</span>][<span class="number">0</span>] <span class="keyword">for</span> item <span class="keyword">in</span> training_predictions])</span><br><span class="line">    training_pred_one_hot = tf.keras.utils.to_categorical(training_pred_class_id,<span class="number">10</span>)</span><br><span class="line">        </span><br><span class="line">    validation_predictions = list(classifier.predict(input_fn=predict_validation_input_fn))</span><br><span class="line">    validation_probabilities = np.array([item[<span class="string">'probabilities'</span>] <span class="keyword">for</span> item <span class="keyword">in</span> validation_predictions])    </span><br><span class="line">    validation_pred_class_id = np.array([item[<span class="string">'class_ids'</span>][<span class="number">0</span>] <span class="keyword">for</span> item <span class="keyword">in</span> validation_predictions])</span><br><span class="line">    validation_pred_one_hot = tf.keras.utils.to_categorical(validation_pred_class_id,<span class="number">10</span>)    </span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Compute training and validation errors.</span></span><br><span class="line">    training_log_loss = metrics.log_loss(training_targets, training_pred_one_hot)</span><br><span class="line">    validation_log_loss = metrics.log_loss(validation_targets, validation_pred_one_hot)</span><br><span class="line">    <span class="comment"># Occasionally print the current loss.</span></span><br><span class="line">    print(<span class="string">"  period %02d : %0.2f"</span> % (period, validation_log_loss))</span><br><span class="line">    <span class="comment"># Add the loss metrics from this period to our list.</span></span><br><span class="line">    training_errors.append(training_log_loss)</span><br><span class="line">    validation_errors.append(validation_log_loss)</span><br><span class="line">  print(<span class="string">"Model training finished."</span>)</span><br><span class="line">  <span class="comment"># Remove event files to save disk space.</span></span><br><span class="line">  _ = map(os.remove, glob.glob(os.path.join(classifier.model_dir, <span class="string">'events.out.tfevents*'</span>)))</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Calculate final predictions (not probabilities, as above).</span></span><br><span class="line">  final_predictions = classifier.predict(input_fn=predict_validation_input_fn)</span><br><span class="line">  final_predictions = np.array([item[<span class="string">'class_ids'</span>][<span class="number">0</span>] <span class="keyword">for</span> item <span class="keyword">in</span> final_predictions])</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  accuracy = metrics.accuracy_score(validation_targets, final_predictions)</span><br><span class="line">  print(<span class="string">"Final accuracy (on validation data): %0.2f"</span> % accuracy)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Output a graph of loss metrics over periods.</span></span><br><span class="line">  plt.ylabel(<span class="string">"LogLoss"</span>)</span><br><span class="line">  plt.xlabel(<span class="string">"Periods"</span>)</span><br><span class="line">  plt.title(<span class="string">"LogLoss vs. Periods"</span>)</span><br><span class="line">  plt.plot(training_errors, label=<span class="string">"training"</span>)</span><br><span class="line">  plt.plot(validation_errors, label=<span class="string">"validation"</span>)</span><br><span class="line">  plt.legend()</span><br><span class="line">  plt.show()</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Output a plot of the confusion matrix.</span></span><br><span class="line">  cm = metrics.confusion_matrix(validation_targets, final_predictions)</span><br><span class="line">  <span class="comment"># Normalize the confusion matrix by row (i.e by the number of samples</span></span><br><span class="line">  <span class="comment"># in each class).</span></span><br><span class="line">  cm_normalized = cm.astype(<span class="string">"float"</span>) / cm.sum(axis=<span class="number">1</span>)[:, np.newaxis]</span><br><span class="line">  ax = sns.heatmap(cm_normalized, cmap=<span class="string">"bone_r"</span>)</span><br><span class="line">  ax.set_aspect(<span class="number">1</span>)</span><br><span class="line">  plt.title(<span class="string">"Confusion matrix"</span>)</span><br><span class="line">  plt.ylabel(<span class="string">"True label"</span>)</span><br><span class="line">  plt.xlabel(<span class="string">"Predicted label"</span>)</span><br><span class="line">  plt.show()</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> classifier</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">_ = train_linear_classification_model(</span><br><span class="line">    learning_rate=<span class="number">0.03</span>,</span><br><span class="line">    steps=<span class="number">1000</span>,</span><br><span class="line">    batch_size=<span class="number">30</span>,</span><br><span class="line">    training_examples=training_examples,</span><br><span class="line">    training_targets=training_targets,</span><br><span class="line">    validation_examples=validation_examples,</span><br><span class="line">    validation_targets=validation_targets)</span><br></pre></td></tr></table></figure>
+<pre><code>Training model...
+LogLoss error (on validation data):
+  period 00 : 4.39
+  period 01 : 4.01
+  period 02 : 3.77
+  period 03 : 3.84
+  period 04 : 3.70
+  period 05 : 3.59
+  period 06 : 3.65
+  period 07 : 3.54
+  period 08 : 3.50
+  period 09 : 3.55
+Model training finished.
+Final accuracy (on validation data): 0.90
+</code></pre><p><img src="TensorFlow_9_18_1.png" alt="png"></p>
+<p><img src="TensorFlow_9_18_2.png" alt="png"></p>
+<h2 id="使用神经网络替换线性分类器"><a href="#使用神经网络替换线性分类器" class="headerlink" title="使用神经网络替换线性分类器"></a>使用神经网络替换线性分类器</h2><p><strong>使用 <a href="https://www.tensorflow.org/api_docs/python/tf/estimator/DNNClassifier" target="_blank" rel="noopener"><code>DNNClassifier</code></a> 替换上面的 LinearClassifier，并查找可实现 0.95 或更高准确率的参数组合。</strong></p>
+<p>您可能希望尝试 Dropout 等其他正则化方法。这些额外的正则化方法已记录在 <code>DNNClassifier</code> 类的注释中。</p>
+<p> 除了神经网络专用配置（例如隐藏单元的超参数）之外，以下代码与原始的 <code>LinearClassifer</code> 训练代码几乎完全相同。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_nn_classification_model</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    learning_rate,</span></span></span><br><span class="line"><span class="function"><span class="params">    steps,</span></span></span><br><span class="line"><span class="function"><span class="params">    batch_size,</span></span></span><br><span class="line"><span class="function"><span class="params">    hidden_units,</span></span></span><br><span class="line"><span class="function"><span class="params">    training_examples,</span></span></span><br><span class="line"><span class="function"><span class="params">    training_targets,</span></span></span><br><span class="line"><span class="function"><span class="params">    validation_examples,</span></span></span><br><span class="line"><span class="function"><span class="params">    validation_targets)</span>:</span></span><br><span class="line">  <span class="string">"""Trains a neural network classification model for the MNIST digits dataset.</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">  In addition to training, this function also prints training progress information,</span></span><br><span class="line"><span class="string">  a plot of the training and validation loss over time, as well as a confusion</span></span><br><span class="line"><span class="string">  matrix.</span></span><br><span class="line"><span class="string">  </span></span><br><span class="line"><span class="string">  Args:</span></span><br><span class="line"><span class="string">    learning_rate: A `float`, the learning rate to use.</span></span><br><span class="line"><span class="string">    steps: A non-zero `int`, the total number of training steps. A training step</span></span><br><span class="line"><span class="string">      consists of a forward and backward pass using a single batch.</span></span><br><span class="line"><span class="string">    batch_size: A non-zero `int`, the batch size.</span></span><br><span class="line"><span class="string">    hidden_units: A `list` of int values, specifying the number of neurons in each layer.</span></span><br><span class="line"><span class="string">    training_examples: A `DataFrame` containing the training features.</span></span><br><span class="line"><span class="string">    training_targets: A `DataFrame` containing the training labels.</span></span><br><span class="line"><span class="string">    validation_examples: A `DataFrame` containing the validation features.</span></span><br><span class="line"><span class="string">    validation_targets: A `DataFrame` containing the validation labels.</span></span><br><span class="line"><span class="string">      </span></span><br><span class="line"><span class="string">  Returns:</span></span><br><span class="line"><span class="string">    The trained `DNNClassifier` object.</span></span><br><span class="line"><span class="string">  """</span></span><br><span class="line"></span><br><span class="line">  periods = <span class="number">10</span></span><br><span class="line">  <span class="comment"># Caution: input pipelines are reset with each call to train. </span></span><br><span class="line">  <span class="comment"># If the number of steps is small, your model may never see most of the data.  </span></span><br><span class="line">  <span class="comment"># So with multiple `.train` calls like this you may want to control the length </span></span><br><span class="line">  <span class="comment"># of training with num_epochs passed to the input_fn. Or, you can do a really-big shuffle, </span></span><br><span class="line">  <span class="comment"># or since it's in-memory data, shuffle all the data in the `input_fn`.</span></span><br><span class="line">  steps_per_period = steps / periods  </span><br><span class="line">    </span><br><span class="line">  <span class="comment"># Create the input functions.</span></span><br><span class="line">  predict_training_input_fn = create_predict_input_fn(</span><br><span class="line">    training_examples, training_targets, batch_size)</span><br><span class="line">  predict_validation_input_fn = create_predict_input_fn(</span><br><span class="line">    validation_examples, validation_targets, batch_size)</span><br><span class="line">  training_input_fn = create_training_input_fn(</span><br><span class="line">    training_examples, training_targets, batch_size)</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Create feature columns.</span></span><br><span class="line">  feature_columns = [tf.feature_column.numeric_column(<span class="string">'pixels'</span>, shape=<span class="number">784</span>)]</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Create a DNNClassifier object.</span></span><br><span class="line">  my_optimizer = tf.train.AdagradOptimizer(learning_rate=learning_rate)</span><br><span class="line">  my_optimizer = tf.contrib.estimator.clip_gradients_by_norm(my_optimizer, <span class="number">5.0</span>)</span><br><span class="line">  classifier = tf.estimator.DNNClassifier(</span><br><span class="line">      feature_columns=feature_columns,</span><br><span class="line">      n_classes=<span class="number">10</span>,</span><br><span class="line">      hidden_units=hidden_units,</span><br><span class="line">      optimizer=my_optimizer,</span><br><span class="line">      config=tf.contrib.learn.RunConfig(keep_checkpoint_max=<span class="number">1</span>)</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Train the model, but do so inside a loop so that we can periodically assess</span></span><br><span class="line">  <span class="comment"># loss metrics.</span></span><br><span class="line">  print(<span class="string">"Training model..."</span>)</span><br><span class="line">  print(<span class="string">"LogLoss error (on validation data):"</span>)</span><br><span class="line">  training_errors = []</span><br><span class="line">  validation_errors = []</span><br><span class="line">  <span class="keyword">for</span> period <span class="keyword">in</span> range (<span class="number">0</span>, periods):</span><br><span class="line">    <span class="comment"># Train the model, starting from the prior state.</span></span><br><span class="line">    classifier.train(</span><br><span class="line">        input_fn=training_input_fn,</span><br><span class="line">        steps=steps_per_period</span><br><span class="line">    )</span><br><span class="line">  </span><br><span class="line">    <span class="comment"># Take a break and compute probabilities.</span></span><br><span class="line">    training_predictions = list(classifier.predict(input_fn=predict_training_input_fn))</span><br><span class="line">    training_probabilities = np.array([item[<span class="string">'probabilities'</span>] <span class="keyword">for</span> item <span class="keyword">in</span> training_predictions])</span><br><span class="line">    training_pred_class_id = np.array([item[<span class="string">'class_ids'</span>][<span class="number">0</span>] <span class="keyword">for</span> item <span class="keyword">in</span> training_predictions])</span><br><span class="line">    training_pred_one_hot = tf.keras.utils.to_categorical(training_pred_class_id,<span class="number">10</span>)</span><br><span class="line">        </span><br><span class="line">    validation_predictions = list(classifier.predict(input_fn=predict_validation_input_fn))</span><br><span class="line">    validation_probabilities = np.array([item[<span class="string">'probabilities'</span>] <span class="keyword">for</span> item <span class="keyword">in</span> validation_predictions])    </span><br><span class="line">    validation_pred_class_id = np.array([item[<span class="string">'class_ids'</span>][<span class="number">0</span>] <span class="keyword">for</span> item <span class="keyword">in</span> validation_predictions])</span><br><span class="line">    validation_pred_one_hot = tf.keras.utils.to_categorical(validation_pred_class_id,<span class="number">10</span>)    </span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Compute training and validation errors.</span></span><br><span class="line">    training_log_loss = metrics.log_loss(training_targets, training_pred_one_hot)</span><br><span class="line">    validation_log_loss = metrics.log_loss(validation_targets, validation_pred_one_hot)</span><br><span class="line">    <span class="comment"># Occasionally print the current loss.</span></span><br><span class="line">    print(<span class="string">"  period %02d : %0.2f"</span> % (period, validation_log_loss))</span><br><span class="line">    <span class="comment"># Add the loss metrics from this period to our list.</span></span><br><span class="line">    training_errors.append(training_log_loss)</span><br><span class="line">    validation_errors.append(validation_log_loss)</span><br><span class="line">  print(<span class="string">"Model training finished."</span>)</span><br><span class="line">  <span class="comment"># Remove event files to save disk space.</span></span><br><span class="line">  _ = map(os.remove, glob.glob(os.path.join(classifier.model_dir, <span class="string">'events.out.tfevents*'</span>)))</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Calculate final predictions (not probabilities, as above).</span></span><br><span class="line">  final_predictions = classifier.predict(input_fn=predict_validation_input_fn)</span><br><span class="line">  final_predictions = np.array([item[<span class="string">'class_ids'</span>][<span class="number">0</span>] <span class="keyword">for</span> item <span class="keyword">in</span> final_predictions])</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  accuracy = metrics.accuracy_score(validation_targets, final_predictions)</span><br><span class="line">  print(<span class="string">"Final accuracy (on validation data): %0.2f"</span> % accuracy)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Output a graph of loss metrics over periods.</span></span><br><span class="line">  plt.ylabel(<span class="string">"LogLoss"</span>)</span><br><span class="line">  plt.xlabel(<span class="string">"Periods"</span>)</span><br><span class="line">  plt.title(<span class="string">"LogLoss vs. Periods"</span>)</span><br><span class="line">  plt.plot(training_errors, label=<span class="string">"training"</span>)</span><br><span class="line">  plt.plot(validation_errors, label=<span class="string">"validation"</span>)</span><br><span class="line">  plt.legend()</span><br><span class="line">  plt.show()</span><br><span class="line">  </span><br><span class="line">  <span class="comment"># Output a plot of the confusion matrix.</span></span><br><span class="line">  cm = metrics.confusion_matrix(validation_targets, final_predictions)</span><br><span class="line">  <span class="comment"># Normalize the confusion matrix by row (i.e by the number of samples</span></span><br><span class="line">  <span class="comment"># in each class).</span></span><br><span class="line">  cm_normalized = cm.astype(<span class="string">"float"</span>) / cm.sum(axis=<span class="number">1</span>)[:, np.newaxis]</span><br><span class="line">  ax = sns.heatmap(cm_normalized, cmap=<span class="string">"bone_r"</span>)</span><br><span class="line">  ax.set_aspect(<span class="number">1</span>)</span><br><span class="line">  plt.title(<span class="string">"Confusion matrix"</span>)</span><br><span class="line">  plt.ylabel(<span class="string">"True label"</span>)</span><br><span class="line">  plt.xlabel(<span class="string">"Predicted label"</span>)</span><br><span class="line">  plt.show()</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> classifier</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">classifier = train_nn_classification_model(</span><br><span class="line">    learning_rate=<span class="number">0.05</span>,</span><br><span class="line">    steps=<span class="number">1000</span>,</span><br><span class="line">    batch_size=<span class="number">30</span>,</span><br><span class="line">    hidden_units=[<span class="number">100</span>, <span class="number">100</span>],</span><br><span class="line">    training_examples=training_examples,</span><br><span class="line">    training_targets=training_targets,</span><br><span class="line">    validation_examples=validation_examples,</span><br><span class="line">    validation_targets=validation_targets)</span><br></pre></td></tr></table></figure>
+<pre><code>Training model...
+LogLoss error (on validation data):
+  period 00 : 4.01
+  period 01 : 3.45
+  period 02 : 3.01
+  period 03 : 3.19
+  period 04 : 2.62
+  period 05 : 2.29
+  period 06 : 2.17
+  period 07 : 2.11
+  period 08 : 2.06
+  period 09 : 2.00
+Model training finished.
+Final accuracy (on validation data): 0.94
+</code></pre><p><img src="TensorFlow_9_22_1.png" alt="png"></p>
+<p><img src="TensorFlow_9_22_2.png" alt="png"></p>
+<p> 接下来，我们来验证测试集的准确率。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mnist_test_dataframe = pd.read_csv(</span><br><span class="line">  <span class="string">"https://download.mlcc.google.cn/mledu-datasets/mnist_test.csv"</span>,</span><br><span class="line">  sep=<span class="string">","</span>,</span><br><span class="line">  header=<span class="keyword">None</span>)</span><br><span class="line"></span><br><span class="line">test_targets, test_examples = parse_labels_and_features(mnist_test_dataframe)</span><br><span class="line">test_examples.describe()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>10</th>
+      <th>...</th>
+      <th>775</th>
+      <th>776</th>
+      <th>777</th>
+      <th>778</th>
+      <th>779</th>
+      <th>780</th>
+      <th>781</th>
+      <th>782</th>
+      <th>783</th>
+      <th>784</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>10000.0</td>
+      <td>10000.0</td>
+      <td>10000.0</td>
+      <td>10000.0</td>
+      <td>10000.0</td>
+      <td>10000.0</td>
+      <td>10000.0</td>
+      <td>10000.0</td>
+      <td>10000.0</td>
+      <td>10000.0</td>
+      <td>...</td>
+      <td>10000.0</td>
+      <td>10000.0</td>
+      <td>10000.0</td>
+      <td>10000.0</td>
+      <td>10000.0</td>
+      <td>10000.0</td>
+      <td>10000.0</td>
+      <td>10000.0</td>
+      <td>10000.0</td>
+      <td>10000.0</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.6</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>8 rows × 784 columns</p>
+</div>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">predict_test_input_fn = create_predict_input_fn(</span><br><span class="line">    test_examples, test_targets, batch_size=<span class="number">100</span>)</span><br><span class="line"></span><br><span class="line">test_predictions = classifier.predict(input_fn=predict_test_input_fn)</span><br><span class="line">test_predictions = np.array([item[<span class="string">'class_ids'</span>][<span class="number">0</span>] <span class="keyword">for</span> item <span class="keyword">in</span> test_predictions])</span><br><span class="line">  </span><br><span class="line">accuracy = metrics.accuracy_score(test_targets, test_predictions)</span><br><span class="line">print(<span class="string">"Accuracy on test data: %0.2f"</span> % accuracy)</span><br></pre></td></tr></table></figure>
+<pre><code>Accuracy on test data: 0.95
+</code></pre><h2 id="可视化第一个隐藏层的权重。"><a href="#可视化第一个隐藏层的权重。" class="headerlink" title="可视化第一个隐藏层的权重。"></a>可视化第一个隐藏层的权重。</h2><p>我们来花几分钟时间看看模型的 <code>weights_</code> 属性，以深入探索我们的神经网络，并了解它学到了哪些规律。</p>
+<p>模型的输入层有 <code>784</code> 个权重，对应于 <code>28×28</code> 像素输入图片。第一个隐藏层将有 <code>784×N</code> 个权重，其中 <code>N</code> 指的是该层中的节点数。我们可以将这些权重重新变回 <code>28×28</code> 像素的图片，具体方法是将 <code>N</code> 个 <code>1×784</code> 权重数组<em>变形</em>为 <code>N</code> 个 <code>28×28</code> 大小数组。</p>
+<p>运行以下单元格，绘制权重曲线图。请注意，此单元格要求名为 “classifier” 的 <code>DNNClassifier</code> 已经过训练。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">print(classifier.get_variable_names())</span><br><span class="line"></span><br><span class="line">weights0 = classifier.get_variable_value(<span class="string">"dnn/hiddenlayer_0/kernel"</span>)</span><br><span class="line"></span><br><span class="line">print(<span class="string">"weights0 shape:"</span>, weights0.shape)</span><br><span class="line"></span><br><span class="line">num_nodes = weights0.shape[<span class="number">1</span>]</span><br><span class="line">num_rows = int(math.ceil(num_nodes / <span class="number">10.0</span>))</span><br><span class="line">fig, axes = plt.subplots(num_rows, <span class="number">10</span>, figsize=(<span class="number">20</span>, <span class="number">2</span> * num_rows))</span><br><span class="line"><span class="keyword">for</span> coef, ax <span class="keyword">in</span> zip(weights0.T, axes.ravel()):</span><br><span class="line">    <span class="comment"># Weights in coef is reshaped from 1x784 to 28x28.</span></span><br><span class="line">    ax.matshow(coef.reshape(<span class="number">28</span>, <span class="number">28</span>), cmap=plt.cm.pink)</span><br><span class="line">    ax.set_xticks(())</span><br><span class="line">    ax.set_yticks(())</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<pre><code>[&apos;dnn/hiddenlayer_0/bias&apos;, &apos;dnn/hiddenlayer_0/bias/t_0/Adagrad&apos;, &apos;dnn/hiddenlayer_0/kernel&apos;, &apos;dnn/hiddenlayer_0/kernel/t_0/Adagrad&apos;, &apos;dnn/hiddenlayer_1/bias&apos;, &apos;dnn/hiddenlayer_1/bias/t_0/Adagrad&apos;, &apos;dnn/hiddenlayer_1/kernel&apos;, &apos;dnn/hiddenlayer_1/kernel/t_0/Adagrad&apos;, &apos;dnn/logits/bias&apos;, &apos;dnn/logits/bias/t_0/Adagrad&apos;, &apos;dnn/logits/kernel&apos;, &apos;dnn/logits/kernel/t_0/Adagrad&apos;, &apos;global_step&apos;]
+weights0 shape: (784, 100)
+</code></pre><p><img src="TensorFlow_9_27_1.png" alt="png"></p>
+<p> 神经网络的第一个隐藏层应该会对一些级别特别低的特征进行建模，因此可视化权重可能只显示一些模糊的区域，也可能只显示数字的某几个部分。此外，您可能还会看到一些基本上是噪点（这些噪点要么不收敛，要么被更高的层忽略）的神经元。</p>
+<p>在迭代不同的次数后停止训练并查看效果，可能会发现有趣的结果。</p>
+<p><strong>分别用 10、100 和 1000 步训练分类器。然后重新运行此可视化。</strong></p>
+<p>您看到不同级别的收敛之间有哪些直观上的差异？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">classifier = train_nn_classification_model(</span><br><span class="line">    learning_rate=<span class="number">0.05</span>,</span><br><span class="line">    steps=<span class="number">10</span>,</span><br><span class="line">    batch_size=<span class="number">30</span>,</span><br><span class="line">    hidden_units=[<span class="number">100</span>, <span class="number">100</span>],</span><br><span class="line">    training_examples=training_examples,</span><br><span class="line">    training_targets=training_targets,</span><br><span class="line">    validation_examples=validation_examples,</span><br><span class="line">    validation_targets=validation_targets)</span><br></pre></td></tr></table></figure>
+<pre><code>Training model...
+LogLoss error (on validation data):
+  period 00 : 29.18
+  period 01 : 28.72
+  period 02 : 21.72
+  period 03 : 27.76
+  period 04 : 21.00
+  period 05 : 22.31
+  period 06 : 17.28
+  period 07 : 15.51
+  period 08 : 20.03
+  period 09 : 13.90
+Model training finished.
+Final accuracy (on validation data): 0.60
+</code></pre><p><img src="TensorFlow_9_29_1.png" alt="png"></p>
+<p><img src="TensorFlow_9_29_2.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">print(classifier.get_variable_names())</span><br><span class="line"></span><br><span class="line">weights0 = classifier.get_variable_value(<span class="string">"dnn/hiddenlayer_0/kernel"</span>)</span><br><span class="line"></span><br><span class="line">print(<span class="string">"weights0 shape:"</span>, weights0.shape)</span><br><span class="line"></span><br><span class="line">num_nodes = weights0.shape[<span class="number">1</span>]</span><br><span class="line">num_rows = int(math.ceil(num_nodes / <span class="number">10.0</span>))</span><br><span class="line">fig, axes = plt.subplots(num_rows, <span class="number">10</span>, figsize=(<span class="number">20</span>, <span class="number">2</span> * num_rows))</span><br><span class="line"><span class="keyword">for</span> coef, ax <span class="keyword">in</span> zip(weights0.T, axes.ravel()):</span><br><span class="line">    <span class="comment"># Weights in coef is reshaped from 1x784 to 28x28.</span></span><br><span class="line">    ax.matshow(coef.reshape(<span class="number">28</span>, <span class="number">28</span>), cmap=plt.cm.pink)</span><br><span class="line">    ax.set_xticks(())</span><br><span class="line">    ax.set_yticks(())</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<pre><code>[&apos;dnn/hiddenlayer_0/bias&apos;, &apos;dnn/hiddenlayer_0/bias/t_0/Adagrad&apos;, &apos;dnn/hiddenlayer_0/kernel&apos;, &apos;dnn/hiddenlayer_0/kernel/t_0/Adagrad&apos;, &apos;dnn/hiddenlayer_1/bias&apos;, &apos;dnn/hiddenlayer_1/bias/t_0/Adagrad&apos;, &apos;dnn/hiddenlayer_1/kernel&apos;, &apos;dnn/hiddenlayer_1/kernel/t_0/Adagrad&apos;, &apos;dnn/logits/bias&apos;, &apos;dnn/logits/bias/t_0/Adagrad&apos;, &apos;dnn/logits/kernel&apos;, &apos;dnn/logits/kernel/t_0/Adagrad&apos;, &apos;global_step&apos;]
+weights0 shape: (784, 100)
+</code></pre><p><img src="TensorFlow_9_30_1.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">classifier = train_nn_classification_model(</span><br><span class="line">    learning_rate=<span class="number">0.05</span>,</span><br><span class="line">    steps=<span class="number">100</span>,</span><br><span class="line">    batch_size=<span class="number">30</span>,</span><br><span class="line">    hidden_units=[<span class="number">100</span>, <span class="number">100</span>],</span><br><span class="line">    training_examples=training_examples,</span><br><span class="line">    training_targets=training_targets,</span><br><span class="line">    validation_examples=validation_examples,</span><br><span class="line">    validation_targets=validation_targets)</span><br></pre></td></tr></table></figure>
+<pre><code>Training model...
+LogLoss error (on validation data):
+  period 00 : 18.72
+  period 01 : 10.71
+  period 02 : 7.58
+  period 03 : 8.70
+  period 04 : 5.79
+  period 05 : 5.21
+  period 06 : 5.40
+  period 07 : 6.05
+  period 08 : 5.75
+  period 09 : 3.95
+Model training finished.
+Final accuracy (on validation data): 0.89
+</code></pre><p><img src="TensorFlow_9_31_1.png" alt="png"></p>
+<p><img src="TensorFlow_9_31_2.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">print(classifier.get_variable_names())</span><br><span class="line"></span><br><span class="line">weights0 = classifier.get_variable_value(<span class="string">"dnn/hiddenlayer_0/kernel"</span>)</span><br><span class="line"></span><br><span class="line">print(<span class="string">"weights0 shape:"</span>, weights0.shape)</span><br><span class="line"></span><br><span class="line">num_nodes = weights0.shape[<span class="number">1</span>]</span><br><span class="line">num_rows = int(math.ceil(num_nodes / <span class="number">10.0</span>))</span><br><span class="line">fig, axes = plt.subplots(num_rows, <span class="number">10</span>, figsize=(<span class="number">20</span>, <span class="number">2</span> * num_rows))</span><br><span class="line"><span class="keyword">for</span> coef, ax <span class="keyword">in</span> zip(weights0.T, axes.ravel()):</span><br><span class="line">    <span class="comment"># Weights in coef is reshaped from 1x784 to 28x28.</span></span><br><span class="line">    ax.matshow(coef.reshape(<span class="number">28</span>, <span class="number">28</span>), cmap=plt.cm.pink)</span><br><span class="line">    ax.set_xticks(())</span><br><span class="line">    ax.set_yticks(())</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<pre><code>[&apos;dnn/hiddenlayer_0/bias&apos;, &apos;dnn/hiddenlayer_0/bias/t_0/Adagrad&apos;, &apos;dnn/hiddenlayer_0/kernel&apos;, &apos;dnn/hiddenlayer_0/kernel/t_0/Adagrad&apos;, &apos;dnn/hiddenlayer_1/bias&apos;, &apos;dnn/hiddenlayer_1/bias/t_0/Adagrad&apos;, &apos;dnn/hiddenlayer_1/kernel&apos;, &apos;dnn/hiddenlayer_1/kernel/t_0/Adagrad&apos;, &apos;dnn/logits/bias&apos;, &apos;dnn/logits/bias/t_0/Adagrad&apos;, &apos;dnn/logits/kernel&apos;, &apos;dnn/logits/kernel/t_0/Adagrad&apos;, &apos;global_step&apos;]
+weights0 shape: (784, 100)
+</code></pre><p><img src="TensorFlow_9_32_1.png" alt="png"></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Tensorflow/" rel="tag"><i class="fa fa-tag"></i> Tensorflow</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/20/TensorFlow_8/" rel="next" title="TensorFlow 8">
+                <i class="fa fa-chevron-left"></i> TensorFlow 8
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Voidmort" />
+            
+              <p class="site-author-name" itemprop="name">Voidmort</p>
+              <p class="site-description motion-element" itemprop="description">研究AI，撰写影评，热爱音乐，努力健身</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">54</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Voidmort" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:wxj5658@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1749266905" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jusanliusha.xyz" title="Jusanliusha" target="_blank">Jusanliusha</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用神经网络对手写数字进行分类"><span class="nav-number">1.</span> <span class="nav-text">使用神经网络对手写数字进行分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设置"><span class="nav-number">1.1.</span> <span class="nav-text">设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为-MNIST-构建线性模型"><span class="nav-number">1.2.</span> <span class="nav-text">为 MNIST 构建线性模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用神经网络替换线性分类器"><span class="nav-number">1.3.</span> <span class="nav-text">使用神经网络替换线性分类器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可视化第一个隐藏层的权重。"><span class="nav-number">1.4.</span> <span class="nav-text">可视化第一个隐藏层的权重。</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Voidmort</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/kesyoban.model.json"},"display":{"position":"right","width":130,"height":260},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>
