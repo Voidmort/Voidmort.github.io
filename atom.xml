@@ -97,33 +97,6 @@
   </entry>
   
   <entry>
-    <title>机器学习术语表</title>
-    <link href="https://xvjie.wang/2019/02/02/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%9C%AF%E8%AF%AD%E8%A1%A8/"/>
-    <id>https://xvjie.wang/2019/02/02/机器学习术语表/</id>
-    <published>2019-02-02T11:10:00.000Z</published>
-    <updated>2019-02-02T15:21:01.230Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          
-&lt;script
-        
-      
-    
-    </summary>
-    
-      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Django 部署(Apache)</title>
     <link href="https://xvjie.wang/2019/01/27/Django%20%E9%83%A8%E7%BD%B2(Apache)/"/>
     <id>https://xvjie.wang/2019/01/27/Django 部署(Apache)/</id>
@@ -148,6 +121,33 @@
     
     
       <category term="Django" scheme="https://xvjie.wang/tags/Django/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>机器学习术语表</title>
+    <link href="https://xvjie.wang/2019/01/19/MachineLearningGlossary/"/>
+    <id>https://xvjie.wang/2019/01/19/MachineLearningGlossary/</id>
+    <published>2019-01-18T16:00:00.000Z</published>
+    <updated>2019-02-23T12:02:15.171Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          
+&lt;script
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   
