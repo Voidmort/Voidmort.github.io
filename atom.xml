@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2019-02-23T11:10:06.871Z</updated>
+  <updated>2019-03-27T14:55:41.866Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -15,6 +15,59 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>激活函数（Activation functions）</title>
+    <link href="https://xvjie.wang/2019/03/27/%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0%EF%BC%88Activation%20functions%EF%BC%89/"/>
+    <id>https://xvjie.wang/2019/03/27/激活函数（Activation functions）/</id>
+    <published>2019-03-26T16:00:00.000Z</published>
+    <updated>2019-03-27T14:55:41.866Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;在使用神经网络时，需要决定使用哪种激活函数作用在隐藏层上，哪种用在输出节点上。普通的激活函数有sigmoid, tanh, Relu和Relu的优化版Leaky Relu。&lt;/p&gt;
+&lt;h1 id=&quot;为什么需要非线性激活函数&quot;&gt;&lt;a href=&quot;#为什么需要非线性激活函数&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="激活函数" scheme="https://xvjie.wang/tags/%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>TensorFlow 10</title>
+    <link href="https://xvjie.wang/2019/02/25/TensorFlow_10/"/>
+    <id>https://xvjie.wang/2019/02/25/TensorFlow_10/</id>
+    <published>2019-02-25T08:51:00.000Z</published>
+    <updated>2019-03-19T13:59:46.177Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;稀疏数据和嵌入简介&quot;&gt;&lt;a href=&quot;#稀疏数据和嵌入简介&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="Tensorflow" scheme="https://xvjie.wang/categories/Tensorflow/"/>
+    
+    
+      <category term="Tensorflow" scheme="https://xvjie.wang/tags/Tensorflow/"/>
+    
+  </entry>
   
   <entry>
     <title>TensorFlow 9</title>
@@ -74,7 +127,7 @@
     <link href="https://xvjie.wang/2019/02/10/%E6%88%91%E7%9A%84%E6%B5%81%E6%B5%AA%E5%9C%B0%E7%90%83/"/>
     <id>https://xvjie.wang/2019/02/10/我的流浪地球/</id>
     <published>2019-02-09T16:00:00.000Z</published>
-    <updated>2019-02-17T14:53:39.887Z</updated>
+    <updated>2019-03-27T14:33:47.730Z</updated>
     
     <summary type="html">
     
@@ -492,59 +545,6 @@
         
           &lt;p&gt;AndrewNg 机器学习习题ex6-SVM&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot; target=&quot;_blank&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="机器学习习题" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ex2-logistic regression</title>
-    <link href="https://xvjie.wang/2018/10/09/ex2-logistic%20regression/"/>
-    <id>https://xvjie.wang/2018/10/09/ex2-logistic regression/</id>
-    <published>2018-10-08T16:00:00.000Z</published>
-    <updated>2018-10-13T06:02:01.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;AndrewNg 机器学习习题ex2-logistic regression&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="机器学习习题" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ex1-linear regression</title>
-    <link href="https://xvjie.wang/2018/10/08/ex1-linear%20regression/"/>
-    <id>https://xvjie.wang/2018/10/08/ex1-linear regression/</id>
-    <published>2018-10-07T16:00:00.000Z</published>
-    <updated>2018-10-13T06:08:52.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;AndrewNg 机器学习习题ex1-linear regression&lt;br&gt;&lt;a href=&quot;https://github.com/Voidmort/Machine-Learning-Python-Code/tree/master/Data&quot;
         
       
     
