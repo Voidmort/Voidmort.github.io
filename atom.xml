@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2019-04-22T14:38:40.454Z</updated>
+  <updated>2019-06-02T09:08:15.893Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://xvjie.wang/2019/04/04/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%82%E6%95%B0%E8%B0%83%E8%AF%95/"/>
     <id>https://xvjie.wang/2019/04/04/深度学习的参数调试/</id>
     <published>2019-04-03T16:00:00.000Z</published>
-    <updated>2019-04-22T14:38:40.454Z</updated>
+    <updated>2019-06-02T09:08:15.893Z</updated>
     
     <summary type="html">
     
@@ -37,8 +37,6 @@
     
       <category term="深度学习" scheme="https://xvjie.wang/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
     
-      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
     
       <category term="深度学习" scheme="https://xvjie.wang/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
     
@@ -49,7 +47,7 @@
     <link href="https://xvjie.wang/2019/04/04/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AD%96%E7%95%A5/"/>
     <id>https://xvjie.wang/2019/04/04/机器学习策略/</id>
     <published>2019-04-03T16:00:00.000Z</published>
-    <updated>2019-04-22T14:33:11.974Z</updated>
+    <updated>2019-06-02T09:08:26.637Z</updated>
     
     <summary type="html">
     
@@ -64,8 +62,6 @@
     </summary>
     
       <category term="深度学习" scheme="https://xvjie.wang/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
       <category term="深度学习" scheme="https://xvjie.wang/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
