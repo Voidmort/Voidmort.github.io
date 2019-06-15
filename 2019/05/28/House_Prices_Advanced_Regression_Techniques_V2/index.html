@@ -1,0 +1,3882 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Kaggle Competition 的练习 房价预测 12# 安装 vecstack!pip install vecstack 1234567891011121314151617181920212223242526272829# 数据分析库import pandas as pdimport numpy as npimport random# 数据可视化import seaborn as sns">
+<meta name="keywords" content="Kaggle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="House Prices Advanced Regression Techniques V2">
+<meta property="og:url" content="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques_V2/index.html">
+<meta property="og:site_name" content="Voidmort">
+<meta property="og:description" content="Kaggle Competition 的练习 房价预测 12# 安装 vecstack!pip install vecstack 1234567891011121314151617181920212223242526272829# 数据分析库import pandas as pdimport numpy as npimport random# 数据可视化import seaborn as sns">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://storage.googleapis.com/kaggle-competitions/kaggle/5407/media/housesbanner.png">
+<meta property="og:image" content="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques_V2/House_Prices_Advanced_Regression_Techniques_V2_13_0.png">
+<meta property="og:image" content="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques_V2/House_Prices_Advanced_Regression_Techniques_V2_13_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques_V2/House_Prices_Advanced_Regression_Techniques_V2_14_0.png">
+<meta property="og:image" content="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques_V2/House_Prices_Advanced_Regression_Techniques_V2_14_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques_V2/House_Prices_Advanced_Regression_Techniques_V2_35_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques_V2/House_Prices_Advanced_Regression_Techniques_V2_38_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques_V2/House_Prices_Advanced_Regression_Techniques_V2_41_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques_V2/House_Prices_Advanced_Regression_Techniques_V2_44_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques_V2/score.png">
+<meta property="og:image" content="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques_V2/House_Prices_Advanced_Regression_Techniques_V2_99_1.png">
+<meta property="og:image" content="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques_V2/House_Prices_Advanced_Regression_Techniques_V2_100_1.png">
+<meta property="og:updated_time" content="2019-06-15T11:46:15.296Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="House Prices Advanced Regression Techniques V2">
+<meta name="twitter:description" content="Kaggle Competition 的练习 房价预测 12# 安装 vecstack!pip install vecstack 1234567891011121314151617181920212223242526272829# 数据分析库import pandas as pdimport numpy as npimport random# 数据可视化import seaborn as sns">
+<meta name="twitter:image" content="https://storage.googleapis.com/kaggle-competitions/kaggle/5407/media/housesbanner.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Voidmort" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques_V2/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>House Prices Advanced Regression Techniques V2 | Voidmort</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7b96eb7c2717359e36cc8bd8b546997c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/Voidmort" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Voidmort</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-other">
+    <a href="/other/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-plane"></i> <br />其它</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques_V2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Voidmort">
+      <meta itemprop="description" content="研究AI，撰写影评，热爱音乐，努力健身">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Voidmort">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">House Prices Advanced Regression Techniques V2
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-28 00:00:00" itemprop="dateCreated datePublished" datetime="2019-05-28T00:00:00+08:00">2019-05-28</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-15 19:46:15" itemprop="dateModified" datetime="2019-06-15T19:46:15+08:00">2019-06-15</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Kaggle/" itemprop="url" rel="index"><span itemprop="name">Kaggle</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://storage.googleapis.com/kaggle-competitions/kaggle/5407/media/housesbanner.png" alt="替代文字"></p>
+<p>Kaggle Competition 的练习</p>
+<p><a href="https://www.kaggle.com/c/house-prices-advanced-regression-techniques" target="_blank" rel="noopener">房价预测</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装 vecstack</span></span><br><span class="line">!pip install vecstack</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 数据分析库</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据可视化</span></span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">plt.style.use(<span class="string">'ggplot'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 机器学习库</span></span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> OneHotEncoder</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression</span><br><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC, LinearSVC</span><br><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestRegressor, AdaBoostRegressor, GradientBoostingRegressor, BaggingRegressor</span><br><span class="line"><span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.naive_bayes <span class="keyword">import</span> GaussianNB</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> Perceptron</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> SGDClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> DecisionTreeClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> r2_score, mean_squared_error</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> RandomizedSearchCV, cross_val_score, StratifiedKFold, learning_curve, KFold, train_test_split</span><br><span class="line"></span><br><span class="line"><span class="comment"># Ensemble Models</span></span><br><span class="line"><span class="keyword">from</span> xgboost <span class="keyword">import</span> XGBRegressor</span><br><span class="line"><span class="keyword">from</span> lightgbm <span class="keyword">import</span> LGBMRegressor</span><br><span class="line"></span><br><span class="line"><span class="comment"># Package for stacking models</span></span><br><span class="line"><span class="keyword">from</span> vecstack <span class="keyword">import</span> stacking</span><br></pre></td></tr></table></figure>
+<h1 id="导入数据"><a href="#导入数据" class="headerlink" title="导入数据"></a>导入数据</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">train = pd.read_csv(<span class="string">'/train.csv'</span>, index_col=<span class="string">'Id'</span>)</span><br><span class="line">test = pd.read_csv(<span class="string">'/test.csv'</span>, index_col=<span class="string">'Id'</span>)</span><br><span class="line"></span><br><span class="line">train.head()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSSubClass</th>
+      <th>MSZoning</th>
+      <th>LotFrontage</th>
+      <th>LotArea</th>
+      <th>Street</th>
+      <th>Alley</th>
+      <th>LotShape</th>
+      <th>LandContour</th>
+      <th>Utilities</th>
+      <th>LotConfig</th>
+      <th>LandSlope</th>
+      <th>Neighborhood</th>
+      <th>Condition1</th>
+      <th>Condition2</th>
+      <th>BldgType</th>
+      <th>HouseStyle</th>
+      <th>OverallQual</th>
+      <th>OverallCond</th>
+      <th>YearBuilt</th>
+      <th>YearRemodAdd</th>
+      <th>RoofStyle</th>
+      <th>RoofMatl</th>
+      <th>Exterior1st</th>
+      <th>Exterior2nd</th>
+      <th>MasVnrType</th>
+      <th>MasVnrArea</th>
+      <th>ExterQual</th>
+      <th>ExterCond</th>
+      <th>Foundation</th>
+      <th>BsmtQual</th>
+      <th>BsmtCond</th>
+      <th>BsmtExposure</th>
+      <th>BsmtFinType1</th>
+      <th>BsmtFinSF1</th>
+      <th>BsmtFinType2</th>
+      <th>BsmtFinSF2</th>
+      <th>BsmtUnfSF</th>
+      <th>TotalBsmtSF</th>
+      <th>Heating</th>
+      <th>HeatingQC</th>
+      <th>CentralAir</th>
+      <th>Electrical</th>
+      <th>1stFlrSF</th>
+      <th>2ndFlrSF</th>
+      <th>LowQualFinSF</th>
+      <th>GrLivArea</th>
+      <th>BsmtFullBath</th>
+      <th>BsmtHalfBath</th>
+      <th>FullBath</th>
+      <th>HalfBath</th>
+      <th>BedroomAbvGr</th>
+      <th>KitchenAbvGr</th>
+      <th>KitchenQual</th>
+      <th>TotRmsAbvGrd</th>
+      <th>Functional</th>
+      <th>Fireplaces</th>
+      <th>FireplaceQu</th>
+      <th>GarageType</th>
+      <th>GarageYrBlt</th>
+      <th>GarageFinish</th>
+      <th>GarageCars</th>
+      <th>GarageArea</th>
+      <th>GarageQual</th>
+      <th>GarageCond</th>
+      <th>PavedDrive</th>
+      <th>WoodDeckSF</th>
+      <th>OpenPorchSF</th>
+      <th>EnclosedPorch</th>
+      <th>3SsnPorch</th>
+      <th>ScreenPorch</th>
+      <th>PoolArea</th>
+      <th>PoolQC</th>
+      <th>Fence</th>
+      <th>MiscFeature</th>
+      <th>MiscVal</th>
+      <th>MoSold</th>
+      <th>YrSold</th>
+      <th>SaleType</th>
+      <th>SaleCondition</th>
+      <th>SalePrice</th>
+    </tr>
+    <tr>
+      <th>Id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>60</td>
+      <td>RL</td>
+      <td>65.0</td>
+      <td>8450</td>
+      <td>Pave</td>
+      <td>NaN</td>
+      <td>Reg</td>
+      <td>Lvl</td>
+      <td>AllPub</td>
+      <td>Inside</td>
+      <td>Gtl</td>
+      <td>CollgCr</td>
+      <td>Norm</td>
+      <td>Norm</td>
+      <td>1Fam</td>
+      <td>2Story</td>
+      <td>7</td>
+      <td>5</td>
+      <td>2003</td>
+      <td>2003</td>
+      <td>Gable</td>
+      <td>CompShg</td>
+      <td>VinylSd</td>
+      <td>VinylSd</td>
+      <td>BrkFace</td>
+      <td>196.0</td>
+      <td>Gd</td>
+      <td>TA</td>
+      <td>PConc</td>
+      <td>Gd</td>
+      <td>TA</td>
+      <td>No</td>
+      <td>GLQ</td>
+      <td>706</td>
+      <td>Unf</td>
+      <td>0</td>
+      <td>150</td>
+      <td>856</td>
+      <td>GasA</td>
+      <td>Ex</td>
+      <td>Y</td>
+      <td>SBrkr</td>
+      <td>856</td>
+      <td>854</td>
+      <td>0</td>
+      <td>1710</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>Gd</td>
+      <td>8</td>
+      <td>Typ</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>Attchd</td>
+      <td>2003.0</td>
+      <td>RFn</td>
+      <td>2</td>
+      <td>548</td>
+      <td>TA</td>
+      <td>TA</td>
+      <td>Y</td>
+      <td>0</td>
+      <td>61</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2008</td>
+      <td>WD</td>
+      <td>Normal</td>
+      <td>208500</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>20</td>
+      <td>RL</td>
+      <td>80.0</td>
+      <td>9600</td>
+      <td>Pave</td>
+      <td>NaN</td>
+      <td>Reg</td>
+      <td>Lvl</td>
+      <td>AllPub</td>
+      <td>FR2</td>
+      <td>Gtl</td>
+      <td>Veenker</td>
+      <td>Feedr</td>
+      <td>Norm</td>
+      <td>1Fam</td>
+      <td>1Story</td>
+      <td>6</td>
+      <td>8</td>
+      <td>1976</td>
+      <td>1976</td>
+      <td>Gable</td>
+      <td>CompShg</td>
+      <td>MetalSd</td>
+      <td>MetalSd</td>
+      <td>None</td>
+      <td>0.0</td>
+      <td>TA</td>
+      <td>TA</td>
+      <td>CBlock</td>
+      <td>Gd</td>
+      <td>TA</td>
+      <td>Gd</td>
+      <td>ALQ</td>
+      <td>978</td>
+      <td>Unf</td>
+      <td>0</td>
+      <td>284</td>
+      <td>1262</td>
+      <td>GasA</td>
+      <td>Ex</td>
+      <td>Y</td>
+      <td>SBrkr</td>
+      <td>1262</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1262</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>TA</td>
+      <td>6</td>
+      <td>Typ</td>
+      <td>1</td>
+      <td>TA</td>
+      <td>Attchd</td>
+      <td>1976.0</td>
+      <td>RFn</td>
+      <td>2</td>
+      <td>460</td>
+      <td>TA</td>
+      <td>TA</td>
+      <td>Y</td>
+      <td>298</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>5</td>
+      <td>2007</td>
+      <td>WD</td>
+      <td>Normal</td>
+      <td>181500</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>60</td>
+      <td>RL</td>
+      <td>68.0</td>
+      <td>11250</td>
+      <td>Pave</td>
+      <td>NaN</td>
+      <td>IR1</td>
+      <td>Lvl</td>
+      <td>AllPub</td>
+      <td>Inside</td>
+      <td>Gtl</td>
+      <td>CollgCr</td>
+      <td>Norm</td>
+      <td>Norm</td>
+      <td>1Fam</td>
+      <td>2Story</td>
+      <td>7</td>
+      <td>5</td>
+      <td>2001</td>
+      <td>2002</td>
+      <td>Gable</td>
+      <td>CompShg</td>
+      <td>VinylSd</td>
+      <td>VinylSd</td>
+      <td>BrkFace</td>
+      <td>162.0</td>
+      <td>Gd</td>
+      <td>TA</td>
+      <td>PConc</td>
+      <td>Gd</td>
+      <td>TA</td>
+      <td>Mn</td>
+      <td>GLQ</td>
+      <td>486</td>
+      <td>Unf</td>
+      <td>0</td>
+      <td>434</td>
+      <td>920</td>
+      <td>GasA</td>
+      <td>Ex</td>
+      <td>Y</td>
+      <td>SBrkr</td>
+      <td>920</td>
+      <td>866</td>
+      <td>0</td>
+      <td>1786</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>Gd</td>
+      <td>6</td>
+      <td>Typ</td>
+      <td>1</td>
+      <td>TA</td>
+      <td>Attchd</td>
+      <td>2001.0</td>
+      <td>RFn</td>
+      <td>2</td>
+      <td>608</td>
+      <td>TA</td>
+      <td>TA</td>
+      <td>Y</td>
+      <td>0</td>
+      <td>42</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>9</td>
+      <td>2008</td>
+      <td>WD</td>
+      <td>Normal</td>
+      <td>223500</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>70</td>
+      <td>RL</td>
+      <td>60.0</td>
+      <td>9550</td>
+      <td>Pave</td>
+      <td>NaN</td>
+      <td>IR1</td>
+      <td>Lvl</td>
+      <td>AllPub</td>
+      <td>Corner</td>
+      <td>Gtl</td>
+      <td>Crawfor</td>
+      <td>Norm</td>
+      <td>Norm</td>
+      <td>1Fam</td>
+      <td>2Story</td>
+      <td>7</td>
+      <td>5</td>
+      <td>1915</td>
+      <td>1970</td>
+      <td>Gable</td>
+      <td>CompShg</td>
+      <td>Wd Sdng</td>
+      <td>Wd Shng</td>
+      <td>None</td>
+      <td>0.0</td>
+      <td>TA</td>
+      <td>TA</td>
+      <td>BrkTil</td>
+      <td>TA</td>
+      <td>Gd</td>
+      <td>No</td>
+      <td>ALQ</td>
+      <td>216</td>
+      <td>Unf</td>
+      <td>0</td>
+      <td>540</td>
+      <td>756</td>
+      <td>GasA</td>
+      <td>Gd</td>
+      <td>Y</td>
+      <td>SBrkr</td>
+      <td>961</td>
+      <td>756</td>
+      <td>0</td>
+      <td>1717</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>Gd</td>
+      <td>7</td>
+      <td>Typ</td>
+      <td>1</td>
+      <td>Gd</td>
+      <td>Detchd</td>
+      <td>1998.0</td>
+      <td>Unf</td>
+      <td>3</td>
+      <td>642</td>
+      <td>TA</td>
+      <td>TA</td>
+      <td>Y</td>
+      <td>0</td>
+      <td>35</td>
+      <td>272</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2006</td>
+      <td>WD</td>
+      <td>Abnorml</td>
+      <td>140000</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>60</td>
+      <td>RL</td>
+      <td>84.0</td>
+      <td>14260</td>
+      <td>Pave</td>
+      <td>NaN</td>
+      <td>IR1</td>
+      <td>Lvl</td>
+      <td>AllPub</td>
+      <td>FR2</td>
+      <td>Gtl</td>
+      <td>NoRidge</td>
+      <td>Norm</td>
+      <td>Norm</td>
+      <td>1Fam</td>
+      <td>2Story</td>
+      <td>8</td>
+      <td>5</td>
+      <td>2000</td>
+      <td>2000</td>
+      <td>Gable</td>
+      <td>CompShg</td>
+      <td>VinylSd</td>
+      <td>VinylSd</td>
+      <td>BrkFace</td>
+      <td>350.0</td>
+      <td>Gd</td>
+      <td>TA</td>
+      <td>PConc</td>
+      <td>Gd</td>
+      <td>TA</td>
+      <td>Av</td>
+      <td>GLQ</td>
+      <td>655</td>
+      <td>Unf</td>
+      <td>0</td>
+      <td>490</td>
+      <td>1145</td>
+      <td>GasA</td>
+      <td>Ex</td>
+      <td>Y</td>
+      <td>SBrkr</td>
+      <td>1145</td>
+      <td>1053</td>
+      <td>0</td>
+      <td>2198</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+      <td>4</td>
+      <td>1</td>
+      <td>Gd</td>
+      <td>9</td>
+      <td>Typ</td>
+      <td>1</td>
+      <td>TA</td>
+      <td>Attchd</td>
+      <td>2000.0</td>
+      <td>RFn</td>
+      <td>3</td>
+      <td>836</td>
+      <td>TA</td>
+      <td>TA</td>
+      <td>Y</td>
+      <td>192</td>
+      <td>84</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>12</td>
+      <td>2008</td>
+      <td>WD</td>
+      <td>Normal</td>
+      <td>250000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h1 id="浏览数据"><a href="#浏览数据" class="headerlink" title="浏览数据"></a>浏览数据</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train.info()</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;class &apos;pandas.core.frame.DataFrame&apos;&gt;
+Int64Index: 1460 entries, 1 to 1460
+Data columns (total 80 columns):
+MSSubClass       1460 non-null int64
+MSZoning         1460 non-null object
+LotFrontage      1201 non-null float64
+LotArea          1460 non-null int64
+Street           1460 non-null object
+Alley            91 non-null object
+LotShape         1460 non-null object
+LandContour      1460 non-null object
+Utilities        1460 non-null object
+LotConfig        1460 non-null object
+LandSlope        1460 non-null object
+Neighborhood     1460 non-null object
+Condition1       1460 non-null object
+Condition2       1460 non-null object
+BldgType         1460 non-null object
+HouseStyle       1460 non-null object
+OverallQual      1460 non-null int64
+OverallCond      1460 non-null int64
+YearBuilt        1460 non-null int64
+YearRemodAdd     1460 non-null int64
+RoofStyle        1460 non-null object
+RoofMatl         1460 non-null object
+Exterior1st      1460 non-null object
+Exterior2nd      1460 non-null object
+MasVnrType       1452 non-null object
+MasVnrArea       1452 non-null float64
+ExterQual        1460 non-null object
+ExterCond        1460 non-null object
+Foundation       1460 non-null object
+BsmtQual         1423 non-null object
+BsmtCond         1423 non-null object
+BsmtExposure     1422 non-null object
+BsmtFinType1     1423 non-null object
+BsmtFinSF1       1460 non-null int64
+BsmtFinType2     1422 non-null object
+BsmtFinSF2       1460 non-null int64
+BsmtUnfSF        1460 non-null int64
+TotalBsmtSF      1460 non-null int64
+Heating          1460 non-null object
+HeatingQC        1460 non-null object
+CentralAir       1460 non-null object
+Electrical       1459 non-null object
+1stFlrSF         1460 non-null int64
+2ndFlrSF         1460 non-null int64
+LowQualFinSF     1460 non-null int64
+GrLivArea        1460 non-null int64
+BsmtFullBath     1460 non-null int64
+BsmtHalfBath     1460 non-null int64
+FullBath         1460 non-null int64
+HalfBath         1460 non-null int64
+BedroomAbvGr     1460 non-null int64
+KitchenAbvGr     1460 non-null int64
+KitchenQual      1460 non-null object
+TotRmsAbvGrd     1460 non-null int64
+Functional       1460 non-null object
+Fireplaces       1460 non-null int64
+FireplaceQu      770 non-null object
+GarageType       1379 non-null object
+GarageYrBlt      1379 non-null float64
+GarageFinish     1379 non-null object
+GarageCars       1460 non-null int64
+GarageArea       1460 non-null int64
+GarageQual       1379 non-null object
+GarageCond       1379 non-null object
+PavedDrive       1460 non-null object
+WoodDeckSF       1460 non-null int64
+OpenPorchSF      1460 non-null int64
+EnclosedPorch    1460 non-null int64
+3SsnPorch        1460 non-null int64
+ScreenPorch      1460 non-null int64
+PoolArea         1460 non-null int64
+PoolQC           7 non-null object
+Fence            281 non-null object
+MiscFeature      54 non-null object
+MiscVal          1460 non-null int64
+MoSold           1460 non-null int64
+YrSold           1460 non-null int64
+SaleType         1460 non-null object
+SaleCondition    1460 non-null object
+SalePrice        1460 non-null int64
+dtypes: float64(3), int64(34), object(43)
+memory usage: 923.9+ KB
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train.describe(include=<span class="string">"O"</span>)</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSZoning</th>
+      <th>Street</th>
+      <th>Alley</th>
+      <th>LotShape</th>
+      <th>LandContour</th>
+      <th>Utilities</th>
+      <th>LotConfig</th>
+      <th>LandSlope</th>
+      <th>Neighborhood</th>
+      <th>Condition1</th>
+      <th>Condition2</th>
+      <th>BldgType</th>
+      <th>HouseStyle</th>
+      <th>RoofStyle</th>
+      <th>RoofMatl</th>
+      <th>Exterior1st</th>
+      <th>Exterior2nd</th>
+      <th>MasVnrType</th>
+      <th>ExterQual</th>
+      <th>ExterCond</th>
+      <th>Foundation</th>
+      <th>BsmtQual</th>
+      <th>BsmtCond</th>
+      <th>BsmtExposure</th>
+      <th>BsmtFinType1</th>
+      <th>BsmtFinType2</th>
+      <th>Heating</th>
+      <th>HeatingQC</th>
+      <th>CentralAir</th>
+      <th>Electrical</th>
+      <th>KitchenQual</th>
+      <th>Functional</th>
+      <th>FireplaceQu</th>
+      <th>GarageType</th>
+      <th>GarageFinish</th>
+      <th>GarageQual</th>
+      <th>GarageCond</th>
+      <th>PavedDrive</th>
+      <th>PoolQC</th>
+      <th>Fence</th>
+      <th>MiscFeature</th>
+      <th>SaleType</th>
+      <th>SaleCondition</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>1460</td>
+      <td>1460</td>
+      <td>91</td>
+      <td>1460</td>
+      <td>1460</td>
+      <td>1460</td>
+      <td>1460</td>
+      <td>1460</td>
+      <td>1460</td>
+      <td>1460</td>
+      <td>1460</td>
+      <td>1460</td>
+      <td>1460</td>
+      <td>1460</td>
+      <td>1460</td>
+      <td>1460</td>
+      <td>1460</td>
+      <td>1452</td>
+      <td>1460</td>
+      <td>1460</td>
+      <td>1460</td>
+      <td>1423</td>
+      <td>1423</td>
+      <td>1422</td>
+      <td>1423</td>
+      <td>1422</td>
+      <td>1460</td>
+      <td>1460</td>
+      <td>1460</td>
+      <td>1459</td>
+      <td>1460</td>
+      <td>1460</td>
+      <td>770</td>
+      <td>1379</td>
+      <td>1379</td>
+      <td>1379</td>
+      <td>1379</td>
+      <td>1460</td>
+      <td>7</td>
+      <td>281</td>
+      <td>54</td>
+      <td>1460</td>
+      <td>1460</td>
+    </tr>
+    <tr>
+      <th>unique</th>
+      <td>5</td>
+      <td>2</td>
+      <td>2</td>
+      <td>4</td>
+      <td>4</td>
+      <td>2</td>
+      <td>5</td>
+      <td>3</td>
+      <td>25</td>
+      <td>9</td>
+      <td>8</td>
+      <td>5</td>
+      <td>8</td>
+      <td>6</td>
+      <td>8</td>
+      <td>15</td>
+      <td>16</td>
+      <td>4</td>
+      <td>4</td>
+      <td>5</td>
+      <td>6</td>
+      <td>4</td>
+      <td>4</td>
+      <td>4</td>
+      <td>6</td>
+      <td>6</td>
+      <td>6</td>
+      <td>5</td>
+      <td>2</td>
+      <td>5</td>
+      <td>4</td>
+      <td>7</td>
+      <td>5</td>
+      <td>6</td>
+      <td>3</td>
+      <td>5</td>
+      <td>5</td>
+      <td>3</td>
+      <td>3</td>
+      <td>4</td>
+      <td>4</td>
+      <td>9</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>top</th>
+      <td>RL</td>
+      <td>Pave</td>
+      <td>Grvl</td>
+      <td>Reg</td>
+      <td>Lvl</td>
+      <td>AllPub</td>
+      <td>Inside</td>
+      <td>Gtl</td>
+      <td>NAmes</td>
+      <td>Norm</td>
+      <td>Norm</td>
+      <td>1Fam</td>
+      <td>1Story</td>
+      <td>Gable</td>
+      <td>CompShg</td>
+      <td>VinylSd</td>
+      <td>VinylSd</td>
+      <td>None</td>
+      <td>TA</td>
+      <td>TA</td>
+      <td>PConc</td>
+      <td>TA</td>
+      <td>TA</td>
+      <td>No</td>
+      <td>Unf</td>
+      <td>Unf</td>
+      <td>GasA</td>
+      <td>Ex</td>
+      <td>Y</td>
+      <td>SBrkr</td>
+      <td>TA</td>
+      <td>Typ</td>
+      <td>Gd</td>
+      <td>Attchd</td>
+      <td>Unf</td>
+      <td>TA</td>
+      <td>TA</td>
+      <td>Y</td>
+      <td>Gd</td>
+      <td>MnPrv</td>
+      <td>Shed</td>
+      <td>WD</td>
+      <td>Normal</td>
+    </tr>
+    <tr>
+      <th>freq</th>
+      <td>1151</td>
+      <td>1454</td>
+      <td>50</td>
+      <td>925</td>
+      <td>1311</td>
+      <td>1459</td>
+      <td>1052</td>
+      <td>1382</td>
+      <td>225</td>
+      <td>1260</td>
+      <td>1445</td>
+      <td>1220</td>
+      <td>726</td>
+      <td>1141</td>
+      <td>1434</td>
+      <td>515</td>
+      <td>504</td>
+      <td>864</td>
+      <td>906</td>
+      <td>1282</td>
+      <td>647</td>
+      <td>649</td>
+      <td>1311</td>
+      <td>953</td>
+      <td>430</td>
+      <td>1256</td>
+      <td>1428</td>
+      <td>741</td>
+      <td>1365</td>
+      <td>1334</td>
+      <td>735</td>
+      <td>1360</td>
+      <td>380</td>
+      <td>870</td>
+      <td>605</td>
+      <td>1311</td>
+      <td>1326</td>
+      <td>1340</td>
+      <td>3</td>
+      <td>157</td>
+      <td>49</td>
+      <td>1267</td>
+      <td>1198</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="检查缺失数据"><a href="#检查缺失数据" class="headerlink" title="检查缺失数据"></a>检查缺失数据</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">train_missing = train.isnull().sum()</span><br><span class="line">train_missing = train_missing[train_missing &gt; <span class="number">0</span>]</span><br><span class="line">train_missing</span><br></pre></td></tr></table></figure>
+<pre><code>LotFrontage      259
+Alley           1369
+MasVnrType         8
+MasVnrArea         8
+BsmtQual          37
+BsmtCond          37
+BsmtExposure      38
+BsmtFinType1      37
+BsmtFinType2      38
+Electrical         1
+FireplaceQu      690
+GarageType        81
+GarageYrBlt       81
+GarageFinish      81
+GarageQual        81
+GarageCond        81
+PoolQC          1453
+Fence           1179
+MiscFeature     1406
+dtype: int64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">test_missing = test.isnull().sum()</span><br><span class="line">test_missing = test_missing[test_missing &gt; <span class="number">0</span>]</span><br><span class="line">test_missing</span><br></pre></td></tr></table></figure>
+<pre><code>MSZoning           4
+LotFrontage      227
+Alley           1352
+Utilities          2
+Exterior1st        1
+Exterior2nd        1
+MasVnrType        16
+MasVnrArea        15
+BsmtQual          44
+BsmtCond          45
+BsmtExposure      44
+BsmtFinType1      42
+BsmtFinSF1         1
+BsmtFinType2      42
+BsmtFinSF2         1
+BsmtUnfSF          1
+TotalBsmtSF        1
+BsmtFullBath       2
+BsmtHalfBath       2
+KitchenQual        1
+Functional         2
+FireplaceQu      730
+GarageType        76
+GarageYrBlt       78
+GarageFinish      78
+GarageCars         1
+GarageArea         1
+GarageQual        78
+GarageCond        78
+PoolQC          1456
+Fence           1169
+MiscFeature     1408
+SaleType           1
+dtype: int64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 可视化缺失数据</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_missing</span><span class="params">(df)</span>:</span></span><br><span class="line">    <span class="comment"># 寻找缺失的列</span></span><br><span class="line">    missing = df.isnull().sum()</span><br><span class="line">    missing = missing[missing &gt; <span class="number">0</span>]</span><br><span class="line">    missing.sort_values(inplace=<span class="keyword">True</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 画出缺失值的柱状图。</span></span><br><span class="line">    missing.plot.bar(figsize=(<span class="number">10</span>,<span class="number">8</span>))</span><br><span class="line">    plt.xlabel(<span class="string">'Columns with missing values'</span>)</span><br><span class="line">    plt.ylabel(<span class="string">'Count'</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 搜索缺失值</span></span><br><span class="line">    <span class="keyword">import</span> missingno <span class="keyword">as</span> msno</span><br><span class="line">    msno.matrix(df=df, figsize=(<span class="number">10</span>,<span class="number">8</span>))</span><br><span class="line">    <span class="comment"># 查看相关性</span></span><br><span class="line">    <span class="comment">#msno.heatmap(df=df,figsize=(10,8))</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plot_missing(train)</span><br></pre></td></tr></table></figure>
+<p><img src="House_Prices_Advanced_Regression_Techniques_V2_13_0.png" alt="png"></p>
+<p><img src="House_Prices_Advanced_Regression_Techniques_V2_13_1.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plot_missing(test)</span><br></pre></td></tr></table></figure>
+<p><img src="House_Prices_Advanced_Regression_Techniques_V2_14_0.png" alt="png"></p>
+<p><img src="House_Prices_Advanced_Regression_Techniques_V2_14_1.png" alt="png"></p>
+<h1 id="分析概要"><a href="#分析概要" class="headerlink" title="分析概要"></a>分析概要</h1><p>以下是缺失比较多的feature</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Feature</th>
+<th style="text-align:center">Train miss</th>
+<th style="text-align:center">Test miss</th>
+<th style="text-align:center">Dispos </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">LotFrontage</td>
+<td style="text-align:center">259</td>
+<td style="text-align:center">227</td>
+<td style="text-align:center">填个中位数吧</td>
+</tr>
+<tr>
+<td style="text-align:center">Alley</td>
+<td style="text-align:center">1369</td>
+<td style="text-align:center">1352</td>
+<td style="text-align:center">删除 </td>
+</tr>
+<tr>
+<td style="text-align:center">FireplaceQu</td>
+<td style="text-align:center">690</td>
+<td style="text-align:center">730</td>
+<td style="text-align:center">fireplaceQU 和 fireplaces 有关 缺失项貌似都是没有fireplace的</td>
+</tr>
+<tr>
+<td style="text-align:center">PoolQC</td>
+<td style="text-align:center">1453</td>
+<td style="text-align:center">1456</td>
+<td style="text-align:center">删除</td>
+</tr>
+<tr>
+<td style="text-align:center">Fence</td>
+<td style="text-align:center">1179</td>
+<td style="text-align:center">1169</td>
+<td style="text-align:center">删除</td>
+</tr>
+<tr>
+<td style="text-align:center">MiscFeature</td>
+<td style="text-align:center">1406</td>
+<td style="text-align:center">1408</td>
+<td style="text-align:center">删除</td>
+</tr>
+</tbody>
+</table>
+<h1 id="处理缺失值"><a href="#处理缺失值" class="headerlink" title="处理缺失值"></a>处理缺失值</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除缺失过多的feature</span></span><br><span class="line">train = train.drop([<span class="string">'Alley'</span>, <span class="string">'PoolQC'</span>, <span class="string">'MiscFeature'</span>, <span class="string">'Fence'</span>], axis=<span class="number">1</span>)</span><br><span class="line">test = test.drop([<span class="string">'Alley'</span>, <span class="string">'PoolQC'</span>, <span class="string">'MiscFeature'</span>, <span class="string">'Fence'</span>], axis=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># FireplaceQu 缺失的都认为是没有的</span></span><br><span class="line">train[<span class="string">'FireplaceQu'</span>] = train[<span class="string">'FireplaceQu'</span>].fillna(<span class="string">'NA'</span>)</span><br><span class="line">test[<span class="string">'FireplaceQu'</span>] = test[<span class="string">'FireplaceQu'</span>].fillna(<span class="string">'NA'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 填充其他缺失值</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fill_missing_values</span><span class="params">(df)</span>:</span></span><br><span class="line">    <span class="comment"># 查找缺失值</span></span><br><span class="line">    missing = df.isnull().sum()</span><br><span class="line">    missing = missing[missing &gt; <span class="number">0</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> column <span class="keyword">in</span> missing.index:</span><br><span class="line">        <span class="comment"># 类型为 object 的填众数</span></span><br><span class="line">        <span class="keyword">if</span> df[column].dtype == <span class="string">'object'</span>:</span><br><span class="line">            df[column].fillna(df[column].value_counts().index[<span class="number">0</span>], inplace=<span class="keyword">True</span>)</span><br><span class="line">        <span class="comment"># 其他类型填中位数</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            df[column].fillna(df[column].median(), inplace=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fill_missing_values(train)</span><br><span class="line">train.isnull().sum().max()</span><br></pre></td></tr></table></figure>
+<pre><code>0
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fill_missing_values(test)</span><br><span class="line">test.isnull().sum().max()</span><br></pre></td></tr></table></figure>
+<pre><code>0
+</code></pre><p>好的，已经没有缺失数据了。</p>
+<h2 id="整理-description-文件"><a href="#整理-description-文件" class="headerlink" title="整理 description 文件"></a>整理 description 文件</h2><p>数据描述文件记录了所有特征所代表的含义，其中许多特征是字符串，现在我们要整理为个字典，便于我们查询。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">description_dict = &#123;&#125;</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'/data_description.txt'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> description:</span><br><span class="line">    description_data = description.read()</span><br><span class="line">    description.close()</span><br><span class="line">    </span><br><span class="line">description_data = description_data.split(<span class="string">'\n'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> description_data:</span><br><span class="line">    <span class="keyword">if</span> <span class="string">':'</span> <span class="keyword">in</span> i:</span><br><span class="line">        key = i.split(<span class="string">':'</span>)[<span class="number">0</span>]</span><br><span class="line">        description_dict[key] = []</span><br><span class="line">    <span class="keyword">elif</span> i.split() <span class="keyword">and</span> <span class="string">'       '</span> <span class="keyword">in</span> i:</span><br><span class="line">        value = i.split()[<span class="number">0</span>]</span><br><span class="line">        description_dict[key].append(value)</span><br><span class="line"></span><br><span class="line">print(description_dict)</span><br></pre></td></tr></table></figure>
+<pre><code>{&apos;MSSubClass&apos;: [&apos;20&apos;, &apos;30&apos;, &apos;40&apos;, &apos;45&apos;, &apos;50&apos;, &apos;60&apos;, &apos;70&apos;, &apos;75&apos;, &apos;80&apos;, &apos;85&apos;, &apos;90&apos;, &apos;120&apos;, &apos;150&apos;, &apos;160&apos;, &apos;180&apos;, &apos;190&apos;], &apos;MSZoning&apos;: [&apos;A&apos;, &apos;C&apos;, &apos;FV&apos;, &apos;I&apos;, &apos;RH&apos;, &apos;RL&apos;, &apos;RP&apos;, &apos;RM&apos;], &apos;LotFrontage&apos;: [], &apos;LotArea&apos;: [], &apos;Street&apos;: [&apos;Grvl&apos;, &apos;Pave&apos;], &apos;Alley&apos;: [&apos;Grvl&apos;, &apos;Pave&apos;, &apos;NA&apos;], &apos;LotShape&apos;: [&apos;Reg&apos;, &apos;IR1&apos;, &apos;IR2&apos;, &apos;IR3&apos;], &apos;LandContour&apos;: [&apos;Lvl&apos;, &apos;Bnk&apos;, &apos;HLS&apos;, &apos;Low&apos;], &apos;Utilities&apos;: [&apos;AllPub&apos;, &apos;NoSewr&apos;, &apos;NoSeWa&apos;, &apos;ELO&apos;], &apos;LotConfig&apos;: [&apos;Inside&apos;, &apos;Corner&apos;, &apos;CulDSac&apos;, &apos;FR2&apos;, &apos;FR3&apos;], &apos;LandSlope&apos;: [&apos;Gtl&apos;, &apos;Mod&apos;, &apos;Sev&apos;], &apos;Neighborhood&apos;: [&apos;Blmngtn&apos;, &apos;Blueste&apos;, &apos;BrDale&apos;, &apos;BrkSide&apos;, &apos;ClearCr&apos;, &apos;CollgCr&apos;, &apos;Crawfor&apos;, &apos;Edwards&apos;, &apos;Gilbert&apos;, &apos;IDOTRR&apos;, &apos;MeadowV&apos;, &apos;Mitchel&apos;, &apos;Names&apos;, &apos;NoRidge&apos;, &apos;NPkVill&apos;, &apos;NridgHt&apos;, &apos;NWAmes&apos;, &apos;OldTown&apos;, &apos;SWISU&apos;, &apos;Sawyer&apos;, &apos;SawyerW&apos;, &apos;Somerst&apos;, &apos;StoneBr&apos;, &apos;Timber&apos;, &apos;Veenker&apos;], &apos;Condition1&apos;: [&apos;Artery&apos;, &apos;Feedr&apos;, &apos;Norm&apos;, &apos;RRNn&apos;, &apos;RRAn&apos;, &apos;PosN&apos;, &apos;PosA&apos;, &apos;RRNe&apos;, &apos;RRAe&apos;], &apos;Condition2&apos;: [&apos;Artery&apos;, &apos;Feedr&apos;, &apos;Norm&apos;, &apos;RRNn&apos;, &apos;RRAn&apos;, &apos;PosN&apos;, &apos;PosA&apos;, &apos;RRNe&apos;, &apos;RRAe&apos;], &apos;BldgType&apos;: [&apos;1Fam&apos;, &apos;2FmCon&apos;, &apos;Duplx&apos;, &apos;TwnhsE&apos;, &apos;TwnhsI&apos;], &apos;HouseStyle&apos;: [&apos;1Story&apos;], &apos;       1.5Fin\tOne and one-half story&apos;: [], &apos;       1.5Unf\tOne and one-half story&apos;: [&apos;2Story&apos;], &apos;       2.5Fin\tTwo and one-half story&apos;: [], &apos;       2.5Unf\tTwo and one-half story&apos;: [&apos;SFoyer&apos;, &apos;SLvl&apos;], &apos;OverallQual&apos;: [&apos;10&apos;, &apos;9&apos;, &apos;8&apos;, &apos;7&apos;, &apos;6&apos;, &apos;5&apos;, &apos;4&apos;, &apos;3&apos;, &apos;2&apos;, &apos;1&apos;], &apos;OverallCond&apos;: [&apos;10&apos;, &apos;9&apos;, &apos;8&apos;, &apos;7&apos;, &apos;6&apos;, &apos;5&apos;, &apos;4&apos;, &apos;3&apos;, &apos;2&apos;, &apos;1&apos;], &apos;YearBuilt&apos;: [], &apos;YearRemodAdd&apos;: [], &apos;RoofStyle&apos;: [&apos;Flat&apos;, &apos;Gable&apos;, &apos;Gambrel&apos;, &apos;Hip&apos;, &apos;Mansard&apos;, &apos;Shed&apos;], &apos;RoofMatl&apos;: [&apos;ClyTile&apos;, &apos;CompShg&apos;, &apos;Membran&apos;, &apos;Metal&apos;, &apos;Roll&apos;, &apos;Tar&amp;Grv&apos;, &apos;WdShake&apos;, &apos;WdShngl&apos;], &apos;Exterior1st&apos;: [&apos;AsbShng&apos;, &apos;AsphShn&apos;, &apos;BrkComm&apos;, &apos;BrkFace&apos;, &apos;CBlock&apos;, &apos;CemntBd&apos;, &apos;HdBoard&apos;, &apos;ImStucc&apos;, &apos;MetalSd&apos;, &apos;Other&apos;, &apos;Plywood&apos;, &apos;PreCast&apos;, &apos;Stone&apos;, &apos;Stucco&apos;, &apos;VinylSd&apos;, &apos;Wd&apos;, &apos;WdShing&apos;], &apos;Exterior2nd&apos;: [&apos;AsbShng&apos;, &apos;AsphShn&apos;, &apos;BrkComm&apos;, &apos;BrkFace&apos;, &apos;CBlock&apos;, &apos;CemntBd&apos;, &apos;HdBoard&apos;, &apos;ImStucc&apos;, &apos;MetalSd&apos;, &apos;Other&apos;, &apos;Plywood&apos;, &apos;PreCast&apos;, &apos;Stone&apos;, &apos;Stucco&apos;, &apos;VinylSd&apos;, &apos;Wd&apos;, &apos;WdShing&apos;], &apos;MasVnrType&apos;: [&apos;BrkCmn&apos;, &apos;BrkFace&apos;, &apos;CBlock&apos;, &apos;None&apos;, &apos;Stone&apos;], &apos;MasVnrArea&apos;: [], &apos;ExterQual&apos;: [&apos;Ex&apos;, &apos;Gd&apos;, &apos;TA&apos;, &apos;Fa&apos;, &apos;Po&apos;], &apos;ExterCond&apos;: [&apos;Ex&apos;, &apos;Gd&apos;, &apos;TA&apos;, &apos;Fa&apos;, &apos;Po&apos;], &apos;Foundation&apos;: [&apos;BrkTil&apos;, &apos;CBlock&apos;, &apos;PConc&apos;, &apos;Slab&apos;, &apos;Stone&apos;, &apos;Wood&apos;], &apos;BsmtQual&apos;: [&apos;Ex&apos;, &apos;Gd&apos;, &apos;TA&apos;, &apos;Fa&apos;, &apos;Po&apos;, &apos;NA&apos;], &apos;BsmtCond&apos;: [&apos;Ex&apos;, &apos;Gd&apos;, &apos;TA&apos;, &apos;Fa&apos;, &apos;Po&apos;, &apos;NA&apos;], &apos;BsmtExposure&apos;: [&apos;Gd&apos;, &apos;Av&apos;, &apos;Mn&apos;, &apos;No&apos;, &apos;NA&apos;], &apos;BsmtFinType1&apos;: [&apos;GLQ&apos;, &apos;ALQ&apos;, &apos;BLQ&apos;, &apos;Rec&apos;, &apos;LwQ&apos;, &apos;Unf&apos;, &apos;NA&apos;], &apos;BsmtFinSF1&apos;: [], &apos;BsmtFinType2&apos;: [&apos;GLQ&apos;, &apos;ALQ&apos;, &apos;BLQ&apos;, &apos;Rec&apos;, &apos;LwQ&apos;, &apos;Unf&apos;, &apos;NA&apos;], &apos;BsmtFinSF2&apos;: [], &apos;BsmtUnfSF&apos;: [], &apos;TotalBsmtSF&apos;: [], &apos;Heating&apos;: [&apos;Floor&apos;, &apos;GasA&apos;, &apos;GasW&apos;, &apos;Grav&apos;, &apos;OthW&apos;, &apos;Wall&apos;], &apos;HeatingQC&apos;: [&apos;Ex&apos;, &apos;Gd&apos;, &apos;TA&apos;, &apos;Fa&apos;, &apos;Po&apos;], &apos;CentralAir&apos;: [&apos;N&apos;, &apos;Y&apos;], &apos;Electrical&apos;: [&apos;SBrkr&apos;, &apos;FuseA&apos;, &apos;FuseF&apos;, &apos;FuseP&apos;, &apos;Mix&apos;], &apos;1stFlrSF&apos;: [], &apos;2ndFlrSF&apos;: [], &apos;LowQualFinSF&apos;: [], &apos;GrLivArea&apos;: [], &apos;BsmtFullBath&apos;: [], &apos;BsmtHalfBath&apos;: [], &apos;FullBath&apos;: [], &apos;HalfBath&apos;: [], &apos;Bedroom&apos;: [], &apos;Kitchen&apos;: [], &apos;KitchenQual&apos;: [&apos;Ex&apos;, &apos;Gd&apos;, &apos;TA&apos;, &apos;Fa&apos;, &apos;Po&apos;], &apos;TotRmsAbvGrd&apos;: [], &apos;Functional&apos;: [&apos;Typ&apos;, &apos;Min1&apos;, &apos;Min2&apos;, &apos;Mod&apos;, &apos;Maj1&apos;, &apos;Maj2&apos;, &apos;Sev&apos;, &apos;Sal&apos;], &apos;Fireplaces&apos;: [], &apos;FireplaceQu&apos;: [&apos;Ex&apos;, &apos;Gd&apos;, &apos;TA&apos;, &apos;Fa&apos;, &apos;Po&apos;, &apos;NA&apos;], &apos;GarageType&apos;: [&apos;2Types&apos;, &apos;Attchd&apos;, &apos;Basment&apos;, &apos;BuiltIn&apos;, &apos;CarPort&apos;, &apos;Detchd&apos;, &apos;NA&apos;], &apos;GarageYrBlt&apos;: [], &apos;GarageFinish&apos;: [&apos;Fin&apos;, &apos;RFn&apos;, &apos;Unf&apos;, &apos;NA&apos;], &apos;GarageCars&apos;: [], &apos;GarageArea&apos;: [], &apos;GarageQual&apos;: [&apos;Ex&apos;, &apos;Gd&apos;, &apos;TA&apos;, &apos;Fa&apos;, &apos;Po&apos;, &apos;NA&apos;], &apos;GarageCond&apos;: [&apos;Ex&apos;, &apos;Gd&apos;, &apos;TA&apos;, &apos;Fa&apos;, &apos;Po&apos;, &apos;NA&apos;], &apos;PavedDrive&apos;: [&apos;Y&apos;, &apos;P&apos;, &apos;N&apos;], &apos;WoodDeckSF&apos;: [], &apos;OpenPorchSF&apos;: [], &apos;EnclosedPorch&apos;: [], &apos;3SsnPorch&apos;: [], &apos;ScreenPorch&apos;: [], &apos;PoolArea&apos;: [], &apos;PoolQC&apos;: [&apos;Ex&apos;, &apos;Gd&apos;, &apos;TA&apos;, &apos;Fa&apos;, &apos;NA&apos;], &apos;Fence&apos;: [&apos;GdPrv&apos;, &apos;MnPrv&apos;, &apos;GdWo&apos;, &apos;MnWw&apos;, &apos;NA&apos;], &apos;MiscFeature&apos;: [&apos;Elev&apos;, &apos;Gar2&apos;, &apos;Othr&apos;, &apos;Shed&apos;, &apos;TenC&apos;, &apos;NA&apos;], &apos;MiscVal&apos;: [], &apos;MoSold&apos;: [], &apos;YrSold&apos;: [], &apos;SaleType&apos;: [&apos;WD&apos;, &apos;CWD&apos;, &apos;VWD&apos;, &apos;New&apos;, &apos;COD&apos;, &apos;Con&apos;, &apos;ConLw&apos;, &apos;ConLI&apos;, &apos;ConLD&apos;, &apos;Oth&apos;], &apos;SaleCondition&apos;: [&apos;Normal&apos;, &apos;Abnorml&apos;, &apos;AdjLand&apos;, &apos;Alloca&apos;, &apos;Family&apos;, &apos;Partial&apos;]}
+</code></pre><h2 id="字符串类型的-feature-重编码"><a href="#字符串类型的-feature-重编码" class="headerlink" title="字符串类型的 feature 重编码"></a>字符串类型的 feature 重编码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这个函数的作用是得到数据集中非数字的feature column</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_object_column</span><span class="params">(df)</span>:</span></span><br><span class="line">    object_column = []</span><br><span class="line">    <span class="keyword">for</span> column <span class="keyword">in</span> df.columns:</span><br><span class="line">        <span class="keyword">if</span> df[column].dtype == <span class="string">'object'</span>:</span><br><span class="line">            object_column.append(column)</span><br><span class="line">    <span class="keyword">return</span> object_column</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#object_column = get_object_column(train)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这个函数的作用是把 description_dict 中的 value 转换为对应数字的字典</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_map</span><span class="params">(map_list, end_index=<span class="number">1</span>)</span>:</span></span><br><span class="line">    d = &#123;&#125;</span><br><span class="line">    j = len(map_list) - end_index</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> map_list:</span><br><span class="line">        d[i] = j</span><br><span class="line">        j -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> d</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">preprocess_order_feature</span><span class="params">(df)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> get_object_column(df):</span><br><span class="line">        order_map = generate_map(description_dict[i], <span class="number">0</span>)</span><br><span class="line">        df[i] = df[i].map(order_map)</span><br><span class="line">        df[i] = df[i].fillna(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> df</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">train = preprocess_order_feature(train)</span><br><span class="line">test = preprocess_order_feature(test)</span><br></pre></td></tr></table></figure>
+<h1 id="观察数据"><a href="#观察数据" class="headerlink" title="观察数据"></a>观察数据</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train.describe()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSSubClass</th>
+      <th>MSZoning</th>
+      <th>LotFrontage</th>
+      <th>LotArea</th>
+      <th>Street</th>
+      <th>LotShape</th>
+      <th>LandContour</th>
+      <th>Utilities</th>
+      <th>LotConfig</th>
+      <th>LandSlope</th>
+      <th>Neighborhood</th>
+      <th>Condition1</th>
+      <th>Condition2</th>
+      <th>BldgType</th>
+      <th>HouseStyle</th>
+      <th>OverallQual</th>
+      <th>OverallCond</th>
+      <th>YearBuilt</th>
+      <th>YearRemodAdd</th>
+      <th>RoofStyle</th>
+      <th>RoofMatl</th>
+      <th>Exterior1st</th>
+      <th>Exterior2nd</th>
+      <th>MasVnrType</th>
+      <th>MasVnrArea</th>
+      <th>ExterQual</th>
+      <th>ExterCond</th>
+      <th>Foundation</th>
+      <th>BsmtQual</th>
+      <th>BsmtCond</th>
+      <th>BsmtExposure</th>
+      <th>BsmtFinType1</th>
+      <th>BsmtFinSF1</th>
+      <th>BsmtFinType2</th>
+      <th>BsmtFinSF2</th>
+      <th>BsmtUnfSF</th>
+      <th>TotalBsmtSF</th>
+      <th>Heating</th>
+      <th>HeatingQC</th>
+      <th>CentralAir</th>
+      <th>Electrical</th>
+      <th>1stFlrSF</th>
+      <th>2ndFlrSF</th>
+      <th>LowQualFinSF</th>
+      <th>GrLivArea</th>
+      <th>BsmtFullBath</th>
+      <th>BsmtHalfBath</th>
+      <th>FullBath</th>
+      <th>HalfBath</th>
+      <th>BedroomAbvGr</th>
+      <th>KitchenAbvGr</th>
+      <th>KitchenQual</th>
+      <th>TotRmsAbvGrd</th>
+      <th>Functional</th>
+      <th>Fireplaces</th>
+      <th>FireplaceQu</th>
+      <th>GarageType</th>
+      <th>GarageYrBlt</th>
+      <th>GarageFinish</th>
+      <th>GarageCars</th>
+      <th>GarageArea</th>
+      <th>GarageQual</th>
+      <th>GarageCond</th>
+      <th>PavedDrive</th>
+      <th>WoodDeckSF</th>
+      <th>OpenPorchSF</th>
+      <th>EnclosedPorch</th>
+      <th>3SsnPorch</th>
+      <th>ScreenPorch</th>
+      <th>PoolArea</th>
+      <th>MiscVal</th>
+      <th>MoSold</th>
+      <th>YrSold</th>
+      <th>SaleType</th>
+      <th>SaleCondition</th>
+      <th>SalePrice</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.00000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>56.897260</td>
+      <td>2.825342</td>
+      <td>69.863699</td>
+      <td>10516.828082</td>
+      <td>1.004110</td>
+      <td>3.591781</td>
+      <td>3.814384</td>
+      <td>3.998630</td>
+      <td>4.583562</td>
+      <td>2.937671</td>
+      <td>10.747945</td>
+      <td>6.969178</td>
+      <td>6.993151</td>
+      <td>4.334247</td>
+      <td>0.497260</td>
+      <td>6.099315</td>
+      <td>5.575342</td>
+      <td>1971.267808</td>
+      <td>1984.865753</td>
+      <td>4.589726</td>
+      <td>6.924658</td>
+      <td>5.958904</td>
+      <td>5.271918</td>
+      <td>2.552740</td>
+      <td>103.117123</td>
+      <td>3.39589</td>
+      <td>3.083562</td>
+      <td>4.603425</td>
+      <td>4.565068</td>
+      <td>4.010959</td>
+      <td>2.656164</td>
+      <td>4.571233</td>
+      <td>443.639726</td>
+      <td>2.273288</td>
+      <td>46.549315</td>
+      <td>567.240411</td>
+      <td>1057.429452</td>
+      <td>4.963699</td>
+      <td>4.145205</td>
+      <td>1.065068</td>
+      <td>4.889726</td>
+      <td>1162.626712</td>
+      <td>346.992466</td>
+      <td>5.844521</td>
+      <td>1515.463699</td>
+      <td>0.425342</td>
+      <td>0.057534</td>
+      <td>1.565068</td>
+      <td>0.382877</td>
+      <td>2.866438</td>
+      <td>1.046575</td>
+      <td>3.511644</td>
+      <td>6.517808</td>
+      <td>7.841781</td>
+      <td>0.613014</td>
+      <td>2.825342</td>
+      <td>4.791781</td>
+      <td>1978.589041</td>
+      <td>2.771233</td>
+      <td>1.767123</td>
+      <td>472.980137</td>
+      <td>3.976712</td>
+      <td>3.975342</td>
+      <td>2.856164</td>
+      <td>94.244521</td>
+      <td>46.660274</td>
+      <td>21.954110</td>
+      <td>3.409589</td>
+      <td>15.060959</td>
+      <td>2.758904</td>
+      <td>43.489041</td>
+      <td>6.321918</td>
+      <td>2007.815753</td>
+      <td>9.509589</td>
+      <td>5.417808</td>
+      <td>180921.195890</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>42.300571</td>
+      <td>1.020174</td>
+      <td>22.027677</td>
+      <td>9981.264932</td>
+      <td>0.063996</td>
+      <td>0.582296</td>
+      <td>0.606509</td>
+      <td>0.052342</td>
+      <td>0.773448</td>
+      <td>0.276232</td>
+      <td>7.565716</td>
+      <td>0.878349</td>
+      <td>0.248272</td>
+      <td>1.555218</td>
+      <td>0.500164</td>
+      <td>1.382997</td>
+      <td>1.112799</td>
+      <td>30.202904</td>
+      <td>20.645407</td>
+      <td>0.834998</td>
+      <td>0.599127</td>
+      <td>4.426038</td>
+      <td>4.263353</td>
+      <td>1.046204</td>
+      <td>180.731373</td>
+      <td>0.57428</td>
+      <td>0.351054</td>
+      <td>0.722394</td>
+      <td>0.678071</td>
+      <td>0.284178</td>
+      <td>1.039123</td>
+      <td>2.070649</td>
+      <td>456.098091</td>
+      <td>0.869859</td>
+      <td>161.319273</td>
+      <td>441.866955</td>
+      <td>438.705324</td>
+      <td>0.295124</td>
+      <td>0.959501</td>
+      <td>0.246731</td>
+      <td>0.394658</td>
+      <td>386.587738</td>
+      <td>436.528436</td>
+      <td>48.623081</td>
+      <td>525.480383</td>
+      <td>0.518911</td>
+      <td>0.238753</td>
+      <td>0.550916</td>
+      <td>0.502885</td>
+      <td>0.815778</td>
+      <td>0.220338</td>
+      <td>0.663760</td>
+      <td>1.625393</td>
+      <td>0.667698</td>
+      <td>0.644666</td>
+      <td>1.810877</td>
+      <td>1.759864</td>
+      <td>23.997022</td>
+      <td>0.811835</td>
+      <td>0.747315</td>
+      <td>213.804841</td>
+      <td>0.241665</td>
+      <td>0.232860</td>
+      <td>0.496592</td>
+      <td>125.338794</td>
+      <td>66.256028</td>
+      <td>61.119149</td>
+      <td>29.317331</td>
+      <td>55.757415</td>
+      <td>40.177307</td>
+      <td>496.123024</td>
+      <td>2.703626</td>
+      <td>1.328095</td>
+      <td>1.368616</td>
+      <td>1.475209</td>
+      <td>79442.502883</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>20.000000</td>
+      <td>0.000000</td>
+      <td>21.000000</td>
+      <td>1300.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>2.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1872.000000</td>
+      <td>1950.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>2.00000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>334.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>334.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>2.000000</td>
+      <td>1900.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>2006.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>34900.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>20.000000</td>
+      <td>3.000000</td>
+      <td>60.000000</td>
+      <td>7553.500000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>3.000000</td>
+      <td>4.000000</td>
+      <td>7.000000</td>
+      <td>7.000000</td>
+      <td>5.000000</td>
+      <td>0.000000</td>
+      <td>5.000000</td>
+      <td>5.000000</td>
+      <td>1954.000000</td>
+      <td>1967.000000</td>
+      <td>5.000000</td>
+      <td>7.000000</td>
+      <td>3.000000</td>
+      <td>3.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>3.00000</td>
+      <td>3.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>223.000000</td>
+      <td>795.750000</td>
+      <td>5.000000</td>
+      <td>3.000000</td>
+      <td>1.000000</td>
+      <td>5.000000</td>
+      <td>882.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1129.500000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>5.000000</td>
+      <td>8.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>2.000000</td>
+      <td>1962.000000</td>
+      <td>2.000000</td>
+      <td>1.000000</td>
+      <td>334.500000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>3.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>5.000000</td>
+      <td>2007.000000</td>
+      <td>10.000000</td>
+      <td>6.000000</td>
+      <td>129975.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>50.000000</td>
+      <td>3.000000</td>
+      <td>69.000000</td>
+      <td>9478.500000</td>
+      <td>1.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>5.000000</td>
+      <td>3.000000</td>
+      <td>10.000000</td>
+      <td>7.000000</td>
+      <td>7.000000</td>
+      <td>5.000000</td>
+      <td>0.000000</td>
+      <td>6.000000</td>
+      <td>5.000000</td>
+      <td>1973.000000</td>
+      <td>1994.000000</td>
+      <td>5.000000</td>
+      <td>7.000000</td>
+      <td>3.000000</td>
+      <td>3.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>3.00000</td>
+      <td>3.000000</td>
+      <td>5.000000</td>
+      <td>5.000000</td>
+      <td>4.000000</td>
+      <td>2.000000</td>
+      <td>5.000000</td>
+      <td>383.500000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>477.500000</td>
+      <td>991.500000</td>
+      <td>5.000000</td>
+      <td>5.000000</td>
+      <td>1.000000</td>
+      <td>5.000000</td>
+      <td>1087.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1464.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>3.000000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>6.000000</td>
+      <td>8.000000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>6.000000</td>
+      <td>1980.000000</td>
+      <td>3.000000</td>
+      <td>2.000000</td>
+      <td>480.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>3.000000</td>
+      <td>0.000000</td>
+      <td>25.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>6.000000</td>
+      <td>2008.000000</td>
+      <td>10.000000</td>
+      <td>6.000000</td>
+      <td>163000.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>70.000000</td>
+      <td>3.000000</td>
+      <td>79.000000</td>
+      <td>11601.500000</td>
+      <td>1.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>5.000000</td>
+      <td>3.000000</td>
+      <td>18.000000</td>
+      <td>7.000000</td>
+      <td>7.000000</td>
+      <td>5.000000</td>
+      <td>1.000000</td>
+      <td>7.000000</td>
+      <td>6.000000</td>
+      <td>2000.000000</td>
+      <td>2004.000000</td>
+      <td>5.000000</td>
+      <td>7.000000</td>
+      <td>9.000000</td>
+      <td>9.000000</td>
+      <td>4.000000</td>
+      <td>164.250000</td>
+      <td>4.00000</td>
+      <td>3.000000</td>
+      <td>5.000000</td>
+      <td>5.000000</td>
+      <td>4.000000</td>
+      <td>3.000000</td>
+      <td>7.000000</td>
+      <td>712.250000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>808.000000</td>
+      <td>1298.250000</td>
+      <td>5.000000</td>
+      <td>5.000000</td>
+      <td>1.000000</td>
+      <td>5.000000</td>
+      <td>1391.250000</td>
+      <td>728.000000</td>
+      <td>0.000000</td>
+      <td>1776.750000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>1.000000</td>
+      <td>4.000000</td>
+      <td>7.000000</td>
+      <td>8.000000</td>
+      <td>1.000000</td>
+      <td>5.000000</td>
+      <td>6.000000</td>
+      <td>2001.000000</td>
+      <td>3.000000</td>
+      <td>2.000000</td>
+      <td>576.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>3.000000</td>
+      <td>168.000000</td>
+      <td>68.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>8.000000</td>
+      <td>2009.000000</td>
+      <td>10.000000</td>
+      <td>6.000000</td>
+      <td>214000.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>190.000000</td>
+      <td>6.000000</td>
+      <td>313.000000</td>
+      <td>215245.000000</td>
+      <td>2.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>5.000000</td>
+      <td>3.000000</td>
+      <td>25.000000</td>
+      <td>9.000000</td>
+      <td>9.000000</td>
+      <td>5.000000</td>
+      <td>1.000000</td>
+      <td>10.000000</td>
+      <td>9.000000</td>
+      <td>2010.000000</td>
+      <td>2010.000000</td>
+      <td>6.000000</td>
+      <td>8.000000</td>
+      <td>17.000000</td>
+      <td>17.000000</td>
+      <td>5.000000</td>
+      <td>1600.000000</td>
+      <td>5.00000</td>
+      <td>5.000000</td>
+      <td>6.000000</td>
+      <td>6.000000</td>
+      <td>5.000000</td>
+      <td>5.000000</td>
+      <td>7.000000</td>
+      <td>5644.000000</td>
+      <td>7.000000</td>
+      <td>1474.000000</td>
+      <td>2336.000000</td>
+      <td>6110.000000</td>
+      <td>6.000000</td>
+      <td>5.000000</td>
+      <td>2.000000</td>
+      <td>5.000000</td>
+      <td>4692.000000</td>
+      <td>2065.000000</td>
+      <td>572.000000</td>
+      <td>5642.000000</td>
+      <td>3.000000</td>
+      <td>2.000000</td>
+      <td>3.000000</td>
+      <td>2.000000</td>
+      <td>8.000000</td>
+      <td>3.000000</td>
+      <td>5.000000</td>
+      <td>14.000000</td>
+      <td>8.000000</td>
+      <td>3.000000</td>
+      <td>6.000000</td>
+      <td>7.000000</td>
+      <td>2010.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>1418.000000</td>
+      <td>6.000000</td>
+      <td>6.000000</td>
+      <td>3.000000</td>
+      <td>857.000000</td>
+      <td>547.000000</td>
+      <td>552.000000</td>
+      <td>508.000000</td>
+      <td>480.000000</td>
+      <td>738.000000</td>
+      <td>15500.000000</td>
+      <td>12.000000</td>
+      <td>2010.000000</td>
+      <td>10.000000</td>
+      <td>6.000000</td>
+      <td>755000.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="观察-feature-之间的相关性"><a href="#观察-feature-之间的相关性" class="headerlink" title="观察 feature 之间的相关性"></a>观察 feature 之间的相关性</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">corr_mat = train[[<span class="string">"SalePrice"</span>,<span class="string">"MSSubClass"</span>,<span class="string">"MSZoning"</span>,<span class="string">"LotFrontage"</span>,<span class="string">"LotArea"</span>, <span class="string">"BldgType"</span>,</span><br><span class="line">                       <span class="string">"OverallQual"</span>, <span class="string">"OverallCond"</span>,<span class="string">"YearBuilt"</span>, <span class="string">"BedroomAbvGr"</span>, <span class="string">"PoolArea"</span>, <span class="string">"GarageArea"</span>,</span><br><span class="line">                       <span class="string">"SaleType"</span>, <span class="string">"MoSold"</span>]].corr()</span><br><span class="line"><span class="comment"># corr_mat = train.corr()</span></span><br><span class="line">f, ax = plt.subplots(figsize=(<span class="number">16</span>, <span class="number">8</span>))</span><br><span class="line">sns.heatmap(corr_mat, vmax=<span class="number">1</span> , square=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fb6c086fa20&gt;
+</code></pre><p><img src="House_Prices_Advanced_Regression_Techniques_V2_35_1.png" alt="png"></p>
+<p>观察热力图，颜色越浅相关性越大。关于热力图-&gt; <a href="https://www.youtube.com/watch?v=oMtDyOn2TCc" target="_blank" rel="noopener">this video</a>.</p>
+<h2 id="观察年限和售价的规律"><a href="#观察年限和售价的规律" class="headerlink" title="观察年限和售价的规律"></a>观察年限和售价的规律</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f, ax = plt.subplots(figsize=(<span class="number">16</span>, <span class="number">8</span>))</span><br><span class="line">sns.lineplot(x=<span class="string">'YearBuilt'</span>, y=<span class="string">'SalePrice'</span>, data=train)</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fb6a5211320&gt;
+</code></pre><p><img src="House_Prices_Advanced_Regression_Techniques_V2_38_1.png" alt="png"></p>
+<p>在二十世纪的时候价格增长迅速。</p>
+<h2 id="综合质量和售价有明显的相关性"><a href="#综合质量和售价有明显的相关性" class="headerlink" title="综合质量和售价有明显的相关性"></a>综合质量和售价有明显的相关性</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f, ax = plt.subplots(figsize=(<span class="number">12</span>, <span class="number">8</span>))</span><br><span class="line">sns.lineplot(x=<span class="string">'OverallQual'</span>, y=<span class="string">'SalePrice'</span>, color=<span class="string">'green'</span>,data=train)</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fb6a3e6d8d0&gt;
+</code></pre><p><img src="House_Prices_Advanced_Regression_Techniques_V2_41_1.png" alt="png"></p>
+<p>我们可以看到，随着房屋整体质量的提高，销售价格快速上涨，这是非常合理的。</p>
+<h2 id="观察售价"><a href="#观察售价" class="headerlink" title="观察售价"></a>观察售价</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f, ax = plt.subplots(figsize=(<span class="number">10</span>, <span class="number">6</span>))</span><br><span class="line">sns.distplot(train[<span class="string">'SalePrice'</span>])</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fb6a25cdba8&gt;
+</code></pre><p><img src="House_Prices_Advanced_Regression_Techniques_V2_44_1.png" alt="png"></p>
+<p>大部分的房屋售价在 100000 到  200000 之间。</p>
+<h1 id="构建预测模型"><a href="#构建预测模型" class="headerlink" title="构建预测模型"></a>构建预测模型</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">X = train.drop(<span class="string">'SalePrice'</span>, axis=<span class="number">1</span>)</span><br><span class="line">y = np.ravel(np.array(train[[<span class="string">'SalePrice'</span>]]))</span><br><span class="line">print(y.shape)</span><br><span class="line">y</span><br></pre></td></tr></table></figure>
+<pre><code>(1460,)
+
+
+
+
+
+array([208500, 181500, 223500, ..., 266500, 142125, 147500])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Use train_test_split from sci-kit learn to segment our data into train and a local testset</span></span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.2</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="定义评估函数"><a href="#定义评估函数" class="headerlink" title="定义评估函数"></a>定义评估函数</h2><p>评估函数基于预测值的对数与观察到的销售价格的对数之间的均方根误差(RMSE)。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rmse</span><span class="params">(y, y_pred)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> np.sqrt(mean_squared_error(np.log(y), np.log(y_pred)))</span><br></pre></td></tr></table></figure>
+<h2 id="随机森林"><a href="#随机森林" class="headerlink" title="随机森林"></a>随机森林</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">random_forest = RandomForestRegressor(n_estimators=<span class="number">1200</span>,</span><br><span class="line">                                      max_depth=<span class="number">15</span>,</span><br><span class="line">                                      min_samples_split=<span class="number">5</span>,</span><br><span class="line">                                      min_samples_leaf=<span class="number">5</span>,</span><br><span class="line">                                      max_features=<span class="keyword">None</span>,</span><br><span class="line">                                      random_state=<span class="number">42</span>,</span><br><span class="line">                                      oob_score=<span class="keyword">True</span>)</span><br><span class="line">kf = KFold(n_splits=<span class="number">5</span>)</span><br><span class="line">y_pred = cross_val_score(random_forest, X, y, cv=kf)</span><br><span class="line">y_pred.mean()</span><br></pre></td></tr></table></figure>
+<pre><code>0.8500001566166802
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">random_forest.fit(X, y)</span><br></pre></td></tr></table></figure>
+<pre><code>RandomForestRegressor(bootstrap=True, criterion=&apos;mse&apos;, max_depth=15,
+                      max_features=None, max_leaf_nodes=None,
+                      min_impurity_decrease=0.0, min_impurity_split=None,
+                      min_samples_leaf=5, min_samples_split=5,
+                      min_weight_fraction_leaf=0.0, n_estimators=1200,
+                      n_jobs=None, oob_score=True, random_state=42, verbose=0,
+                      warm_start=False)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rf_pred = random_forest.predict(test)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rf_pred</span><br></pre></td></tr></table></figure>
+<pre><code>array([126945.71699684, 153924.56961003, 182182.80294353, ...,
+       156066.28489667, 117296.65091637, 224995.13115853])
+</code></pre><h2 id="XG-Boost"><a href="#XG-Boost" class="headerlink" title="XG Boost"></a>XG Boost</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">xg_boost = XGBRegressor(learning_rate=<span class="number">0.01</span>,</span><br><span class="line">                        n_estimators=<span class="number">6000</span>,</span><br><span class="line">                        max_depth=<span class="number">4</span>, </span><br><span class="line">                        min_child_weight=<span class="number">1</span>,</span><br><span class="line">                        gamma=<span class="number">0.6</span>,</span><br><span class="line">                        subsample=<span class="number">0.7</span>,</span><br><span class="line">                        colsample_bytree=<span class="number">0.2</span>,</span><br><span class="line">                        objective=<span class="string">'reg:linear'</span>,</span><br><span class="line">                        nthread=<span class="number">-1</span>,</span><br><span class="line">                        scale_pos_weight=<span class="number">1</span>,</span><br><span class="line">                        seed=<span class="number">27</span>,</span><br><span class="line">                        reg_alpha=<span class="number">0.00006</span>)</span><br><span class="line"></span><br><span class="line">kf = KFold(n_splits=<span class="number">5</span>)</span><br><span class="line">y_pred = cross_val_score(xg_boost, X, y, cv=kf)</span><br><span class="line">y_pred.mean()</span><br></pre></td></tr></table></figure>
+<pre><code>[03:11:43] WARNING: /workspace/src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+[03:11:51] WARNING: /workspace/src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+[03:11:59] WARNING: /workspace/src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+[03:12:06] WARNING: /workspace/src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+[03:12:13] WARNING: /workspace/src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+
+
+
+
+
+0.8959027545454475
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xg_boost.fit(X, y)</span><br></pre></td></tr></table></figure>
+<pre><code>[03:12:21] WARNING: /workspace/src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+
+
+
+
+
+XGBRegressor(base_score=0.5, booster=&apos;gbtree&apos;, colsample_bylevel=1,
+             colsample_bynode=1, colsample_bytree=0.2, gamma=0.6,
+             importance_type=&apos;gain&apos;, learning_rate=0.01, max_delta_step=0,
+             max_depth=4, min_child_weight=1, missing=None, n_estimators=6000,
+             n_jobs=1, nthread=-1, objective=&apos;reg:linear&apos;, random_state=0,
+             reg_alpha=6e-05, reg_lambda=1, scale_pos_weight=1, seed=27,
+             silent=None, subsample=0.7, verbosity=1)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xgb_pred = xg_boost.predict(test)</span><br><span class="line">xgb_pred</span><br></pre></td></tr></table></figure>
+<pre><code>array([127263.77 , 163056.02 , 193208.25 , ..., 173218.75 , 115712.914,
+       211616.88 ], dtype=float32)
+</code></pre><h2 id="Gradient-Boost-Regressor-GBM"><a href="#Gradient-Boost-Regressor-GBM" class="headerlink" title="Gradient Boost Regressor(GBM)"></a>Gradient Boost Regressor(GBM)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">g_boost = GradientBoostingRegressor(n_estimators=<span class="number">6000</span>,</span><br><span class="line">                                    learning_rate=<span class="number">0.01</span>,</span><br><span class="line">                                    max_depth=<span class="number">5</span>,</span><br><span class="line">                                    max_features=<span class="string">'sqrt'</span>,</span><br><span class="line">                                    min_samples_leaf=<span class="number">15</span>,</span><br><span class="line">                                    min_samples_split=<span class="number">10</span>,</span><br><span class="line">                                    loss=<span class="string">'ls'</span>,</span><br><span class="line">                                    random_state=<span class="number">42</span></span><br><span class="line">                                    )</span><br><span class="line"></span><br><span class="line">kf = KFold(n_splits=<span class="number">5</span>)</span><br><span class="line">y_pred = cross_val_score(g_boost, X, y, cv=kf)</span><br><span class="line">y_pred.mean()</span><br></pre></td></tr></table></figure>
+<pre><code>0.8905525972502479
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g_boost.fit(X, y)</span><br></pre></td></tr></table></figure>
+<pre><code>GradientBoostingRegressor(alpha=0.9, criterion=&apos;friedman_mse&apos;, init=None,
+                          learning_rate=0.01, loss=&apos;ls&apos;, max_depth=5,
+                          max_features=&apos;sqrt&apos;, max_leaf_nodes=None,
+                          min_impurity_decrease=0.0, min_impurity_split=None,
+                          min_samples_leaf=15, min_samples_split=10,
+                          min_weight_fraction_leaf=0.0, n_estimators=6000,
+                          n_iter_no_change=None, presort=&apos;auto&apos;,
+                          random_state=42, subsample=1.0, tol=0.0001,
+                          validation_fraction=0.1, verbose=0, warm_start=False)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gbm_pred = g_boost.predict(test)</span><br><span class="line">gbm_pred</span><br></pre></td></tr></table></figure>
+<pre><code>array([125909.87154943, 163184.8652622 , 187872.72372976, ...,
+       176429.22616544, 119620.23912638, 211953.00041747])
+</code></pre><h2 id="Light-GBM"><a href="#Light-GBM" class="headerlink" title="Light GBM"></a>Light GBM</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">lightgbm = LGBMRegressor(objective=<span class="string">'regression'</span>,</span><br><span class="line">                         num_leaves=<span class="number">6</span>,</span><br><span class="line">                         learning_rate=<span class="number">0.01</span>,</span><br><span class="line">                         n_estimators=<span class="number">6400</span>,</span><br><span class="line">                         verbose=<span class="number">-1</span>,</span><br><span class="line">                         bagging_fraction=<span class="number">0.8</span>,</span><br><span class="line">                         bagging_freq=<span class="number">4</span>,</span><br><span class="line">                         bagging_seed=<span class="number">6</span>,</span><br><span class="line">                         feature_fraction=<span class="number">0.2</span>,</span><br><span class="line">                         feature_fraction_seed=<span class="number">7</span></span><br><span class="line">                         )</span><br><span class="line">kf = KFold(n_splits=<span class="number">5</span>)</span><br><span class="line">y_pred = cross_val_score(lightgbm, X, y, cv=kf)</span><br><span class="line">y_pred.mean()</span><br></pre></td></tr></table></figure>
+<pre><code>0.8881867437856128
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lightgbm.fit(X,y)</span><br></pre></td></tr></table></figure>
+<pre><code>LGBMRegressor(bagging_fraction=0.8, bagging_freq=4, bagging_seed=6,
+              boosting_type=&apos;gbdt&apos;, class_weight=None, colsample_bytree=1.0,
+              feature_fraction=0.2, feature_fraction_seed=7,
+              importance_type=&apos;split&apos;, learning_rate=0.01, max_depth=-1,
+              min_child_samples=20, min_child_weight=0.001, min_split_gain=0.0,
+              n_estimators=6400, n_jobs=-1, num_leaves=6,
+              objective=&apos;regression&apos;, random_state=None, reg_alpha=0.0,
+              reg_lambda=0.0, silent=True, subsample=1.0,
+              subsample_for_bin=200000, subsample_freq=0, verbose=-1)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lgb_pred = lightgbm.predict(test)</span><br><span class="line">lgb_pred</span><br></pre></td></tr></table></figure>
+<pre><code>array([124759.4703253 , 161206.70919126, 187680.444818  , ...,
+       168310.83365532, 123698.90457326, 206480.92047866])
+</code></pre><h2 id="Logistic-Regression"><a href="#Logistic-Regression" class="headerlink" title="Logistic Regression"></a>Logistic Regression</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">logreg = LogisticRegression()</span><br><span class="line">kf = KFold(n_splits=<span class="number">5</span>)</span><br><span class="line">y_pred = cross_val_score(logreg, X, y, cv=kf)</span><br><span class="line">y_pred.mean()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logreg.fit(X, y)</span><br></pre></td></tr></table></figure>
+<pre><code>/usr/local/lib/python3.6/dist-packages/sklearn/linear_model/logistic.py:432: FutureWarning: Default solver will be changed to &apos;lbfgs&apos; in 0.22. Specify a solver to silence this warning.
+  FutureWarning)
+/usr/local/lib/python3.6/dist-packages/sklearn/linear_model/logistic.py:469: FutureWarning: Default multi_class will be changed to &apos;auto&apos; in 0.22. Specify the multi_class option to silence this warning.
+  &quot;this warning.&quot;, FutureWarning)
+/usr/local/lib/python3.6/dist-packages/sklearn/svm/base.py:929: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
+  &quot;the number of iterations.&quot;, ConvergenceWarning)
+
+
+
+
+
+LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+                   intercept_scaling=1, l1_ratio=None, max_iter=100,
+                   multi_class=&apos;warn&apos;, n_jobs=None, penalty=&apos;l2&apos;,
+                   random_state=None, solver=&apos;warn&apos;, tol=0.0001, verbose=0,
+                   warm_start=False)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">round(logreg.score(X, y) * <span class="number">100</span>, <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>88.9
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">log_pred = logreg.predict(test)</span><br><span class="line">log_pred</span><br></pre></td></tr></table></figure>
+<pre><code>array([135500, 128950, 175000, ..., 133900, 190000, 187500])
+</code></pre><h1 id="模型的叠加"><a href="#模型的叠加" class="headerlink" title="模型的叠加"></a>模型的叠加</h1><p>叠加(也称为元集成)是一种模型集成技术，用于组合来自多个预测模型的信息，生成性能更好的新模型。在这个项目中，我们使用名为vecstack的python包，它可以帮助我们对前面导入的模型进行堆栈。它实际上非常容易使用，可以查看文档了解更多信息。<a href="https://github.com/vecxoz/vecstack" target="_blank" rel="noopener">vecstack</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">models = [g_boost, xg_boost, lightgbm, random_forest]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Strain, S_test = stacking(models,</span><br><span class="line">                          X_train,</span><br><span class="line">                          y_train,</span><br><span class="line">                          X_test,</span><br><span class="line">                          regression=<span class="keyword">True</span>,</span><br><span class="line">                          mode=<span class="string">'oof_pred_bag'</span>,</span><br><span class="line">                          metric=rmse,</span><br><span class="line">                          n_folds=<span class="number">5</span>,</span><br><span class="line">                          random_state=<span class="number">25</span>,</span><br><span class="line">                          verbose=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>task:         [regression]
+metric:       [rmse]
+mode:         [oof_pred_bag]
+n_models:     [4]
+
+model  0:     [GradientBoostingRegressor]
+    fold  0:  [0.12653004]
+    fold  1:  [0.13818165]
+    fold  2:  [0.10747644]
+    fold  3:  [0.14980732]
+    fold  4:  [0.11127270]
+    ----
+    MEAN:     [0.12665363] + [0.01595833]
+    FULL:     [0.12764756]
+
+model  1:     [XGBRegressor]
+[03:23:54] WARNING: /workspace/src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+    fold  0:  [0.11631560]
+[03:24:00] WARNING: /workspace/src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+    fold  1:  [0.14701253]
+[03:24:06] WARNING: /workspace/src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+    fold  2:  [0.10450330]
+[03:24:12] WARNING: /workspace/src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+    fold  3:  [0.14328067]
+[03:24:18] WARNING: /workspace/src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+    fold  4:  [0.10632026]
+    ----
+    MEAN:     [0.12348647] + [0.01817552]
+    FULL:     [0.12481458]
+
+model  2:     [LGBMRegressor]
+    fold  0:  [0.12668239]
+    fold  1:  [0.14251415]
+    fold  2:  [0.11409004]
+    fold  3:  [0.15394461]
+    fold  4:  [0.11576550]
+    ----
+    MEAN:     [0.13059934] + [0.01545902]
+    FULL:     [0.13150292]
+
+model  3:     [RandomForestRegressor]
+    fold  0:  [0.13803357]
+    fold  1:  [0.16746496]
+    fold  2:  [0.13370269]
+    fold  3:  [0.17907099]
+    fold  4:  [0.13625091]
+    ----
+    MEAN:     [0.15090463] + [0.01867560]
+    FULL:     [0.15204350]
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Strain, S_test</span><br></pre></td></tr></table></figure>
+<pre><code>(array([[145154.57609501, 140247.640625  , 144708.92814448,
+         136304.80002144],
+        [441586.84575012, 453786.875     , 476049.8262998 ,
+         433615.5690085 ],
+        [205559.38156983, 199459.953125  , 204548.62741617,
+         189012.87710637],
+        ...,
+        [229773.83814053, 245324.03125   , 222988.34529258,
+         233726.54189435],
+        [ 78529.68615301,  81706.46875   ,  74919.86211206,
+          94651.91862458],
+        [126564.42955093, 118016.921875  , 131591.97464745,
+         134449.34870648]]),
+ array([[156946.11019358, 162235.903125  , 156274.58204718,
+         174271.19166786],
+        [168719.74644755, 171368.26875   , 172660.15892698,
+         168988.4858204 ],
+        [165875.73697659, 167827.703125  , 166511.09786993,
+         144720.7621456 ],
+        ...,
+        [235105.18179731, 240780.803125  , 236012.18528746,
+         224310.44197611],
+        [311340.99357469, 306275.29375   , 305036.50098821,
+         319953.95931372],
+        [100400.26285948,  97430.8671875 ,  97576.05463032,
+         109458.70614352]]))
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Initialize 2nd level model</span></span><br><span class="line">xgb_lev2 = XGBRegressor(learning_rate=<span class="number">0.1</span>, </span><br><span class="line">                        n_estimators=<span class="number">500</span>,</span><br><span class="line">                        max_depth=<span class="number">3</span>,</span><br><span class="line">                        n_jobs=<span class="number">-1</span>,</span><br><span class="line">                        random_state=<span class="number">17</span></span><br><span class="line">                       )</span><br><span class="line"></span><br><span class="line"><span class="comment"># Fit the 2nd level model on the output of level 1</span></span><br><span class="line">xgb_lev2.fit(Strain, y_train)</span><br></pre></td></tr></table></figure>
+<pre><code>[03:25:26] WARNING: /workspace/src/objective/regression_obj.cu:152: reg:linear is now deprecated in favor of reg:squarederror.
+
+
+
+
+
+XGBRegressor(base_score=0.5, booster=&apos;gbtree&apos;, colsample_bylevel=1,
+             colsample_bynode=1, colsample_bytree=1, gamma=0,
+             importance_type=&apos;gain&apos;, learning_rate=0.1, max_delta_step=0,
+             max_depth=3, min_child_weight=1, missing=None, n_estimators=500,
+             n_jobs=-1, nthread=None, objective=&apos;reg:linear&apos;, random_state=17,
+             reg_alpha=0, reg_lambda=1, scale_pos_weight=1, seed=None,
+             silent=None, subsample=1, verbosity=1)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Make predictions on the localized test set</span></span><br><span class="line">stacked_pred = xgb_lev2.predict(S_test)</span><br><span class="line">print(<span class="string">"RMSE of Stacked Model: &#123;&#125;"</span>.format(rmse(y_test,stacked_pred)))</span><br></pre></td></tr></table></figure>
+<pre><code>RMSE of Stacked Model: 0.12290530277450722
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">y1_pred_L1 = models[<span class="number">0</span>].predict(test)</span><br><span class="line">y2_pred_L1 = models[<span class="number">1</span>].predict(test)</span><br><span class="line">y3_pred_L1 = models[<span class="number">2</span>].predict(test)</span><br><span class="line">y4_pred_L1 = models[<span class="number">3</span>].predict(test)</span><br><span class="line">S_test_L1 = np.c_[y1_pred_L1, y2_pred_L1, y3_pred_L1, y4_pred_L1]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test_stacked_pred = xgb_lev2.predict(S_test_L1)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Save the predictions in form of a dataframe</span></span><br><span class="line">submission = pd.DataFrame()</span><br><span class="line"></span><br><span class="line">submission[<span class="string">'Id'</span>] = np.array(test.index)</span><br><span class="line">submission[<span class="string">'SalePrice'</span>] = test_stacked_pred</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">submission.to_csv(<span class="string">'/submissionV2.csv'</span>, index=<span class="keyword">False</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="混合较好得分的-submission"><a href="#混合较好得分的-submission" class="headerlink" title="混合较好得分的 submission"></a>混合较好得分的 submission</h1><p>因为不知道最终的测试集合的正真数据是什么，只能一遍一遍提交去蒙，看到别人的方法是混合他人较好的提交去验证，尝试下看看。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">submission_v1 = pd.read_csv(<span class="string">'/House_price_submission_v44.csv'</span>)</span><br><span class="line">submission_v2 = pd.read_csv(<span class="string">'/submissionV19.csv'</span>)</span><br><span class="line">submission_v3 = pd.read_csv(<span class="string">'/blended_submission.csv'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">final_blend = <span class="number">0.5</span>*submission_v1.SalePrice.values + <span class="number">0.2</span>*submission_v2.SalePrice.values + <span class="number">0.3</span>*submission_v3.SalePrice.values</span><br><span class="line"></span><br><span class="line">blended_submission = pd.DataFrame()</span><br><span class="line"></span><br><span class="line">blended_submission[<span class="string">'Id'</span>] = submission_v1.Id.values</span><br><span class="line">blended_submission[<span class="string">'SalePrice'</span>] = final_blend</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">blended_submission.to_csv(<span class="string">'/submissionV20.csv'</span>, index=<span class="keyword">False</span>)</span><br><span class="line">blended_submission</span><br></pre></td></tr></table></figure>
+<p><img src="score.png" alt="Top4"></p>
+<p>呃，就这样吧，最终和前十名差不到0.004。</p>
+<h1 id="用-Tensorfolw-试试"><a href="#用-Tensorfolw-试试" class="headerlink" title="用 Tensorfolw 试试"></a>用 Tensorfolw 试试</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow.python.data <span class="keyword">import</span> Dataset</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> metrics</span><br><span class="line">tf.logging.set_verbosity(tf.logging.ERROR)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">correlation_dataframe = train.copy()</span><br><span class="line">saleprice_corr = correlation_dataframe.corr()[<span class="string">'SalePrice'</span>]</span><br><span class="line">saleprice_corr = saleprice_corr[saleprice_corr &gt; <span class="number">0</span>]</span><br><span class="line">corr_feature = saleprice_corr.index</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">corr_feature</span><br></pre></td></tr></table></figure>
+<pre><code>Index([&apos;MSZoning&apos;, &apos;LotFrontage&apos;, &apos;LotArea&apos;, &apos;Utilities&apos;, &apos;BldgType&apos;,
+       &apos;OverallQual&apos;, &apos;YearBuilt&apos;, &apos;YearRemodAdd&apos;, &apos;MasVnrType&apos;, &apos;MasVnrArea&apos;,
+       &apos;ExterQual&apos;, &apos;ExterCond&apos;, &apos;BsmtQual&apos;, &apos;BsmtCond&apos;, &apos;BsmtExposure&apos;,
+       &apos;BsmtFinType1&apos;, &apos;BsmtFinSF1&apos;, &apos;BsmtUnfSF&apos;, &apos;TotalBsmtSF&apos;, &apos;Heating&apos;,
+       &apos;HeatingQC&apos;, &apos;Electrical&apos;, &apos;1stFlrSF&apos;, &apos;2ndFlrSF&apos;, &apos;GrLivArea&apos;,
+       &apos;BsmtFullBath&apos;, &apos;FullBath&apos;, &apos;HalfBath&apos;, &apos;BedroomAbvGr&apos;, &apos;KitchenQual&apos;,
+       &apos;TotRmsAbvGrd&apos;, &apos;Functional&apos;, &apos;Fireplaces&apos;, &apos;FireplaceQu&apos;, &apos;GarageType&apos;,
+       &apos;GarageYrBlt&apos;, &apos;GarageFinish&apos;, &apos;GarageCars&apos;, &apos;GarageArea&apos;, &apos;GarageQual&apos;,
+       &apos;GarageCond&apos;, &apos;PavedDrive&apos;, &apos;WoodDeckSF&apos;, &apos;OpenPorchSF&apos;, &apos;3SsnPorch&apos;,
+       &apos;ScreenPorch&apos;, &apos;PoolArea&apos;, &apos;MoSold&apos;, &apos;SalePrice&apos;],
+      dtype=&apos;object&apos;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">preprocess_feature</span><span class="params">(df, corr_feature)</span>:</span></span><br><span class="line">    newdf = pd.DataFrame()</span><br><span class="line">    <span class="keyword">for</span> feature <span class="keyword">in</span> corr_feature:</span><br><span class="line">        newdf[feature] = df[feature]</span><br><span class="line">    <span class="keyword">return</span> newdf</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">X = preprocess_feature(train, corr_feature).drop(<span class="string">'SalePrice'</span>, axis=<span class="number">1</span>)</span><br><span class="line">y = np.ravel(np.array(train[[<span class="string">'SalePrice'</span>]]))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X.describe()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSZoning</th>
+      <th>LotFrontage</th>
+      <th>LotArea</th>
+      <th>Utilities</th>
+      <th>BldgType</th>
+      <th>OverallQual</th>
+      <th>YearBuilt</th>
+      <th>YearRemodAdd</th>
+      <th>MasVnrType</th>
+      <th>MasVnrArea</th>
+      <th>ExterQual</th>
+      <th>ExterCond</th>
+      <th>BsmtQual</th>
+      <th>BsmtCond</th>
+      <th>BsmtExposure</th>
+      <th>BsmtFinType1</th>
+      <th>BsmtFinSF1</th>
+      <th>BsmtUnfSF</th>
+      <th>TotalBsmtSF</th>
+      <th>Heating</th>
+      <th>HeatingQC</th>
+      <th>Electrical</th>
+      <th>1stFlrSF</th>
+      <th>2ndFlrSF</th>
+      <th>GrLivArea</th>
+      <th>BsmtFullBath</th>
+      <th>FullBath</th>
+      <th>HalfBath</th>
+      <th>BedroomAbvGr</th>
+      <th>KitchenQual</th>
+      <th>TotRmsAbvGrd</th>
+      <th>Functional</th>
+      <th>Fireplaces</th>
+      <th>FireplaceQu</th>
+      <th>GarageType</th>
+      <th>GarageYrBlt</th>
+      <th>GarageFinish</th>
+      <th>GarageCars</th>
+      <th>GarageArea</th>
+      <th>GarageQual</th>
+      <th>GarageCond</th>
+      <th>PavedDrive</th>
+      <th>WoodDeckSF</th>
+      <th>OpenPorchSF</th>
+      <th>3SsnPorch</th>
+      <th>ScreenPorch</th>
+      <th>PoolArea</th>
+      <th>MoSold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.00000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+      <td>1460.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>2.825342</td>
+      <td>69.863699</td>
+      <td>10516.828082</td>
+      <td>3.998630</td>
+      <td>4.334247</td>
+      <td>6.099315</td>
+      <td>1971.267808</td>
+      <td>1984.865753</td>
+      <td>2.552740</td>
+      <td>103.117123</td>
+      <td>3.39589</td>
+      <td>3.083562</td>
+      <td>4.565068</td>
+      <td>4.010959</td>
+      <td>2.656164</td>
+      <td>4.571233</td>
+      <td>443.639726</td>
+      <td>567.240411</td>
+      <td>1057.429452</td>
+      <td>4.963699</td>
+      <td>4.145205</td>
+      <td>4.889726</td>
+      <td>1162.626712</td>
+      <td>346.992466</td>
+      <td>1515.463699</td>
+      <td>0.425342</td>
+      <td>1.565068</td>
+      <td>0.382877</td>
+      <td>2.866438</td>
+      <td>3.511644</td>
+      <td>6.517808</td>
+      <td>7.841781</td>
+      <td>0.613014</td>
+      <td>2.825342</td>
+      <td>4.791781</td>
+      <td>1978.589041</td>
+      <td>2.771233</td>
+      <td>1.767123</td>
+      <td>472.980137</td>
+      <td>3.976712</td>
+      <td>3.975342</td>
+      <td>2.856164</td>
+      <td>94.244521</td>
+      <td>46.660274</td>
+      <td>3.409589</td>
+      <td>15.060959</td>
+      <td>2.758904</td>
+      <td>6.321918</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>1.020174</td>
+      <td>22.027677</td>
+      <td>9981.264932</td>
+      <td>0.052342</td>
+      <td>1.555218</td>
+      <td>1.382997</td>
+      <td>30.202904</td>
+      <td>20.645407</td>
+      <td>1.046204</td>
+      <td>180.731373</td>
+      <td>0.57428</td>
+      <td>0.351054</td>
+      <td>0.678071</td>
+      <td>0.284178</td>
+      <td>1.039123</td>
+      <td>2.070649</td>
+      <td>456.098091</td>
+      <td>441.866955</td>
+      <td>438.705324</td>
+      <td>0.295124</td>
+      <td>0.959501</td>
+      <td>0.394658</td>
+      <td>386.587738</td>
+      <td>436.528436</td>
+      <td>525.480383</td>
+      <td>0.518911</td>
+      <td>0.550916</td>
+      <td>0.502885</td>
+      <td>0.815778</td>
+      <td>0.663760</td>
+      <td>1.625393</td>
+      <td>0.667698</td>
+      <td>0.644666</td>
+      <td>1.810877</td>
+      <td>1.759864</td>
+      <td>23.997022</td>
+      <td>0.811835</td>
+      <td>0.747315</td>
+      <td>213.804841</td>
+      <td>0.241665</td>
+      <td>0.232860</td>
+      <td>0.496592</td>
+      <td>125.338794</td>
+      <td>66.256028</td>
+      <td>29.317331</td>
+      <td>55.757415</td>
+      <td>40.177307</td>
+      <td>2.703626</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+      <td>21.000000</td>
+      <td>1300.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>1872.000000</td>
+      <td>1950.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>2.00000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>334.000000</td>
+      <td>0.000000</td>
+      <td>334.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>2.000000</td>
+      <td>1900.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>3.000000</td>
+      <td>60.000000</td>
+      <td>7553.500000</td>
+      <td>4.000000</td>
+      <td>5.000000</td>
+      <td>5.000000</td>
+      <td>1954.000000</td>
+      <td>1967.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>3.00000</td>
+      <td>3.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>223.000000</td>
+      <td>795.750000</td>
+      <td>5.000000</td>
+      <td>3.000000</td>
+      <td>5.000000</td>
+      <td>882.000000</td>
+      <td>0.000000</td>
+      <td>1129.500000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>3.000000</td>
+      <td>5.000000</td>
+      <td>8.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>2.000000</td>
+      <td>1962.000000</td>
+      <td>2.000000</td>
+      <td>1.000000</td>
+      <td>334.500000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>3.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>5.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>3.000000</td>
+      <td>69.000000</td>
+      <td>9478.500000</td>
+      <td>4.000000</td>
+      <td>5.000000</td>
+      <td>6.000000</td>
+      <td>1973.000000</td>
+      <td>1994.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>3.00000</td>
+      <td>3.000000</td>
+      <td>5.000000</td>
+      <td>4.000000</td>
+      <td>2.000000</td>
+      <td>5.000000</td>
+      <td>383.500000</td>
+      <td>477.500000</td>
+      <td>991.500000</td>
+      <td>5.000000</td>
+      <td>5.000000</td>
+      <td>5.000000</td>
+      <td>1087.000000</td>
+      <td>0.000000</td>
+      <td>1464.000000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+      <td>0.000000</td>
+      <td>3.000000</td>
+      <td>3.000000</td>
+      <td>6.000000</td>
+      <td>8.000000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>6.000000</td>
+      <td>1980.000000</td>
+      <td>3.000000</td>
+      <td>2.000000</td>
+      <td>480.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>3.000000</td>
+      <td>0.000000</td>
+      <td>25.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>6.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>3.000000</td>
+      <td>79.000000</td>
+      <td>11601.500000</td>
+      <td>4.000000</td>
+      <td>5.000000</td>
+      <td>7.000000</td>
+      <td>2000.000000</td>
+      <td>2004.000000</td>
+      <td>4.000000</td>
+      <td>164.250000</td>
+      <td>4.00000</td>
+      <td>3.000000</td>
+      <td>5.000000</td>
+      <td>4.000000</td>
+      <td>3.000000</td>
+      <td>7.000000</td>
+      <td>712.250000</td>
+      <td>808.000000</td>
+      <td>1298.250000</td>
+      <td>5.000000</td>
+      <td>5.000000</td>
+      <td>5.000000</td>
+      <td>1391.250000</td>
+      <td>728.000000</td>
+      <td>1776.750000</td>
+      <td>1.000000</td>
+      <td>2.000000</td>
+      <td>1.000000</td>
+      <td>3.000000</td>
+      <td>4.000000</td>
+      <td>7.000000</td>
+      <td>8.000000</td>
+      <td>1.000000</td>
+      <td>5.000000</td>
+      <td>6.000000</td>
+      <td>2001.000000</td>
+      <td>3.000000</td>
+      <td>2.000000</td>
+      <td>576.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>3.000000</td>
+      <td>168.000000</td>
+      <td>68.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>8.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>6.000000</td>
+      <td>313.000000</td>
+      <td>215245.000000</td>
+      <td>4.000000</td>
+      <td>5.000000</td>
+      <td>10.000000</td>
+      <td>2010.000000</td>
+      <td>2010.000000</td>
+      <td>5.000000</td>
+      <td>1600.000000</td>
+      <td>5.00000</td>
+      <td>5.000000</td>
+      <td>6.000000</td>
+      <td>5.000000</td>
+      <td>5.000000</td>
+      <td>7.000000</td>
+      <td>5644.000000</td>
+      <td>2336.000000</td>
+      <td>6110.000000</td>
+      <td>6.000000</td>
+      <td>5.000000</td>
+      <td>5.000000</td>
+      <td>4692.000000</td>
+      <td>2065.000000</td>
+      <td>5642.000000</td>
+      <td>3.000000</td>
+      <td>3.000000</td>
+      <td>2.000000</td>
+      <td>8.000000</td>
+      <td>5.000000</td>
+      <td>14.000000</td>
+      <td>8.000000</td>
+      <td>3.000000</td>
+      <td>6.000000</td>
+      <td>7.000000</td>
+      <td>2010.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>1418.000000</td>
+      <td>6.000000</td>
+      <td>6.000000</td>
+      <td>3.000000</td>
+      <td>857.000000</td>
+      <td>547.000000</td>
+      <td>508.000000</td>
+      <td>480.000000</td>
+      <td>738.000000</td>
+      <td>12.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_input_fn</span><span class="params">(features, targets, batch_size=<span class="number">1</span>, shuffle=True, num_epochs=None)</span>:</span></span><br><span class="line">    features = &#123;key: np.array(value) <span class="keyword">for</span> key, value <span class="keyword">in</span> dict(features).items()&#125;</span><br><span class="line">    </span><br><span class="line">    ds = Dataset.from_tensor_slices((features, targets))</span><br><span class="line">    ds = ds.batch(batch_size).repeat(num_epochs)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> shuffle:</span><br><span class="line">        ds = ds.shuffle(<span class="number">10000</span>)</span><br><span class="line">    </span><br><span class="line">    features, labels = ds.make_one_shot_iterator().get_next()</span><br><span class="line">    <span class="keyword">return</span> features, labels</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">construct_feature_columns</span><span class="params">(input_features)</span>:</span></span><br><span class="line">    <span class="string">"""构造TensorFlow特征列</span></span><br><span class="line"><span class="string">        参数:</span></span><br><span class="line"><span class="string">            input_features:要使用的数字输入特性的名称。</span></span><br><span class="line"><span class="string">        返回:</span></span><br><span class="line"><span class="string">            一个 feature columns 集合</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">return</span> set([tf.feature_column.numeric_column(my_feature) </span><br><span class="line">                <span class="keyword">for</span> my_feature <span class="keyword">in</span> input_features])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_model</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    learning_rate,</span></span></span><br><span class="line"><span class="function"><span class="params">    strps,</span></span></span><br><span class="line"><span class="function"><span class="params">    batch_size,</span></span></span><br><span class="line"><span class="function"><span class="params">    training_examples,</span></span></span><br><span class="line"><span class="function"><span class="params">    training_targets,</span></span></span><br><span class="line"><span class="function"><span class="params">    validation_examples,</span></span></span><br><span class="line"><span class="function"><span class="params">    validation_targets)</span>:</span></span><br><span class="line">    <span class="string">"""训练多元特征的线性回归模型</span></span><br><span class="line"><span class="string">        除训练外，此功能还打印训练进度信息，</span></span><br><span class="line"><span class="string">        以及随着时间的推移而失去的训练和验证。</span></span><br><span class="line"><span class="string">    参数:</span></span><br><span class="line"><span class="string">        learning_rate:一个float，表示学习率</span></span><br><span class="line"><span class="string">        steps:一个非零的int，训练步骤的总数。训练步骤</span></span><br><span class="line"><span class="string">            由使用单个批处理的向前和向后传递组成。</span></span><br><span class="line"><span class="string">        batch_size:一个非零的int</span></span><br><span class="line"><span class="string">        training_example: DataFrame 包含一个或多个列</span></span><br><span class="line"><span class="string">        '  california_housing_dataframe '作为训练的输入feature</span></span><br><span class="line"><span class="string">        training_targets:一个' DataFrame '，它只包含一列</span></span><br><span class="line"><span class="string">        ' california_housing_dataframe '作为训练的目标。</span></span><br><span class="line"><span class="string">        validation_example: ' DataFrame '包含一个或多个列</span></span><br><span class="line"><span class="string">        ' california_housing_dataframe '作为验证的输入feature</span></span><br><span class="line"><span class="string">        validation_targets: ' DataFrame '，仅包含来自其中的一列</span></span><br><span class="line"><span class="string">        ' california_housing_dataframe '作为验证的目标。</span></span><br><span class="line"><span class="string">    返回:</span></span><br><span class="line"><span class="string">        在训练数据上训练的“线性回归器”对象</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    periods = <span class="number">10</span></span><br><span class="line">    steps_per_period = strps / periods</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 创建一个线性回归对象</span></span><br><span class="line">    my_optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate)</span><br><span class="line">    my_optimizer = tf.contrib.estimator.clip_gradients_by_norm(my_optimizer, <span class="number">5.0</span>)</span><br><span class="line">    linear_regressor = tf.estimator.LinearRegressor(</span><br><span class="line">        feature_columns=construct_feature_columns(training_examples),</span><br><span class="line">        optimizer=my_optimizer</span><br><span class="line">    )</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 创建输入函数</span></span><br><span class="line">    training_input_fn = <span class="keyword">lambda</span>: my_input_fn(</span><br><span class="line">        training_examples,</span><br><span class="line">        training_targets,</span><br><span class="line">        batch_size=batch_size)</span><br><span class="line">    </span><br><span class="line">    predict_training_input_fn = <span class="keyword">lambda</span>: my_input_fn(</span><br><span class="line">      training_examples, </span><br><span class="line">      training_targets, </span><br><span class="line">      num_epochs=<span class="number">1</span>, </span><br><span class="line">      shuffle=<span class="keyword">False</span>)</span><br><span class="line">    </span><br><span class="line">    predict_validation_input_fn = <span class="keyword">lambda</span>: my_input_fn(</span><br><span class="line">        validation_examples, </span><br><span class="line">        validation_targets,</span><br><span class="line">        num_epochs=<span class="number">1</span>,</span><br><span class="line">        shuffle=<span class="keyword">False</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#训练模型，但要在循环中进行，这样我们才能定期评估</span></span><br><span class="line">    <span class="comment">#损失指标</span></span><br><span class="line">    print(<span class="string">"Training model..."</span>)</span><br><span class="line">    print(<span class="string">"RMSE (on training data):"</span>)</span><br><span class="line">    training_rmse = []</span><br><span class="line">    validation_rmse = []</span><br><span class="line">    <span class="keyword">for</span> period <span class="keyword">in</span> range (<span class="number">0</span>, periods):</span><br><span class="line">      <span class="comment"># Train the model, starting from the prior state.</span></span><br><span class="line">      linear_regressor.train(</span><br><span class="line">          input_fn=training_input_fn,</span><br><span class="line">          steps=steps_per_period,</span><br><span class="line">      )</span><br><span class="line">      <span class="comment"># Take a break and compute predictions.</span></span><br><span class="line">      training_predictions = linear_regressor.predict(input_fn=predict_training_input_fn)</span><br><span class="line">      training_predictions = np.array([item[<span class="string">'predictions'</span>][<span class="number">0</span>] <span class="keyword">for</span> item <span class="keyword">in</span> training_predictions])</span><br><span class="line">      </span><br><span class="line">      validation_predictions = linear_regressor.predict(input_fn=predict_validation_input_fn)</span><br><span class="line">      validation_predictions = np.array([item[<span class="string">'predictions'</span>][<span class="number">0</span>] <span class="keyword">for</span> item <span class="keyword">in</span> validation_predictions])</span><br><span class="line">      </span><br><span class="line"></span><br><span class="line">      <span class="comment"># Compute training and validation loss.</span></span><br><span class="line">      training_root_mean_squared_error = math.sqrt(</span><br><span class="line">          metrics.mean_squared_error(training_predictions, training_targets))</span><br><span class="line">      validation_root_mean_squared_error = math.sqrt(</span><br><span class="line">          metrics.mean_squared_error(validation_predictions, validation_targets))</span><br><span class="line">      <span class="comment"># Occasionally print the current loss.</span></span><br><span class="line">      print(<span class="string">"  period %02d : %0.2f"</span> % (period, training_root_mean_squared_error))</span><br><span class="line">      <span class="comment"># Add the loss metrics from this period to our list.</span></span><br><span class="line">      training_rmse.append(training_root_mean_squared_error)</span><br><span class="line">      validation_rmse.append(validation_root_mean_squared_error)</span><br><span class="line">    print(<span class="string">"Model training finished."</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Output a graph of loss metrics over periods.</span></span><br><span class="line">    plt.ylabel(<span class="string">"RMSE"</span>)</span><br><span class="line">    plt.xlabel(<span class="string">"Periods"</span>)</span><br><span class="line">    plt.title(<span class="string">"Root Mean Squared Error vs. Periods"</span>)</span><br><span class="line">    plt.tight_layout()</span><br><span class="line">    plt.plot(training_rmse, label=<span class="string">"training"</span>)</span><br><span class="line">    plt.plot(validation_rmse, label=<span class="string">"validation"</span>)</span><br><span class="line">    plt.legend()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> linear_regressor</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">linear_regressor = train_model(</span><br><span class="line">    learning_rate=<span class="number">0.5</span>,</span><br><span class="line">    strps=<span class="number">200</span>,</span><br><span class="line">    batch_size=<span class="number">5</span>,</span><br><span class="line">    training_examples=X_train,</span><br><span class="line">    training_targets=y_train,</span><br><span class="line">    validation_examples=X_test,</span><br><span class="line">    validation_targets=y_test)</span><br></pre></td></tr></table></figure>
+<pre><code>Training model...
+RMSE (on training data):
+  period 00 : 115236.06
+  period 01 : 135729.29
+  period 02 : 94007.13
+  period 03 : 94940.56
+  period 04 : 78776.40
+  period 05 : 73407.86
+  period 06 : 79100.02
+  period 07 : 76995.32
+  period 08 : 94657.55
+  period 09 : 55721.83
+Model training finished.
+</code></pre><p><img src="House_Prices_Advanced_Regression_Techniques_V2_99_1.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">linear_regressor2 = train_model(</span><br><span class="line">    learning_rate=<span class="number">0.25</span>,</span><br><span class="line">    strps=<span class="number">500</span>,</span><br><span class="line">    batch_size=<span class="number">5</span>,</span><br><span class="line">    training_examples=X_train,</span><br><span class="line">    training_targets=y_train,</span><br><span class="line">    validation_examples=X_test,</span><br><span class="line">    validation_targets=y_test)</span><br></pre></td></tr></table></figure>
+<pre><code>Training model...
+RMSE (on training data):
+  period 00 : 126663.18
+  period 01 : 89900.76
+  period 02 : 67300.53
+  period 03 : 73597.13
+  period 04 : 59429.95
+  period 05 : 60645.34
+  period 06 : 57056.42
+  period 07 : 55974.51
+  period 08 : 59490.64
+  period 09 : 59963.44
+Model training finished.
+</code></pre><p><img src="House_Prices_Advanced_Regression_Techniques_V2_100_1.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">predict_test_input_fn = <span class="keyword">lambda</span>: my_input_fn(</span><br><span class="line">      test, </span><br><span class="line">      test, </span><br><span class="line">      num_epochs=<span class="number">1</span>, </span><br><span class="line">      shuffle=<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">test_predictions = linear_regressor.predict(input_fn=predict_test_input_fn)</span><br><span class="line">test_predictions = np.array([item[<span class="string">'predictions'</span>][<span class="number">0</span>] <span class="keyword">for</span> item <span class="keyword">in</span> test_predictions])</span><br><span class="line">test_predictions</span><br></pre></td></tr></table></figure>
+<pre><code>array([152403.8 , 178793.02, 186845.23, ..., 203018.39, 142496.02,
+       197809.12], dtype=float32)
+</code></pre><p>就先这样吧。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Kaggle/" rel="tag"><i class="fa fa-tag"></i> Kaggle</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/04/机器学习策略/" rel="next" title="机器学习策略">
+                <i class="fa fa-chevron-left"></i> 机器学习策略
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/28/House_Prices_Advanced_Regression_Techniques/" rel="prev" title="House Prices Advanced Regression Techniques">
+                House Prices Advanced Regression Techniques <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Voidmort" />
+            
+              <p class="site-author-name" itemprop="name">Voidmort</p>
+              <p class="site-description motion-element" itemprop="description">研究AI，撰写影评，热爱音乐，努力健身</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">62</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Voidmort" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:wxj5658@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1749266905" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jusanliusha.xyz" title="Jusanliusha" target="_blank">Jusanliusha</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#导入数据"><span class="nav-number">1.</span> <span class="nav-text">导入数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#浏览数据"><span class="nav-number">2.</span> <span class="nav-text">浏览数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#检查缺失数据"><span class="nav-number">2.1.</span> <span class="nav-text">检查缺失数据</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分析概要"><span class="nav-number">3.</span> <span class="nav-text">分析概要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#处理缺失值"><span class="nav-number">4.</span> <span class="nav-text">处理缺失值</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#整理-description-文件"><span class="nav-number">4.1.</span> <span class="nav-text">整理 description 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串类型的-feature-重编码"><span class="nav-number">4.2.</span> <span class="nav-text">字符串类型的 feature 重编码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#观察数据"><span class="nav-number">5.</span> <span class="nav-text">观察数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#观察-feature-之间的相关性"><span class="nav-number">5.1.</span> <span class="nav-text">观察 feature 之间的相关性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#观察年限和售价的规律"><span class="nav-number">5.2.</span> <span class="nav-text">观察年限和售价的规律</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#综合质量和售价有明显的相关性"><span class="nav-number">5.3.</span> <span class="nav-text">综合质量和售价有明显的相关性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#观察售价"><span class="nav-number">5.4.</span> <span class="nav-text">观察售价</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#构建预测模型"><span class="nav-number">6.</span> <span class="nav-text">构建预测模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义评估函数"><span class="nav-number">6.1.</span> <span class="nav-text">定义评估函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#随机森林"><span class="nav-number">6.2.</span> <span class="nav-text">随机森林</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XG-Boost"><span class="nav-number">6.3.</span> <span class="nav-text">XG Boost</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gradient-Boost-Regressor-GBM"><span class="nav-number">6.4.</span> <span class="nav-text">Gradient Boost Regressor(GBM)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Light-GBM"><span class="nav-number">6.5.</span> <span class="nav-text">Light GBM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Logistic-Regression"><span class="nav-number">6.6.</span> <span class="nav-text">Logistic Regression</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模型的叠加"><span class="nav-number">7.</span> <span class="nav-text">模型的叠加</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#混合较好得分的-submission"><span class="nav-number">8.</span> <span class="nav-text">混合较好得分的 submission</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用-Tensorfolw-试试"><span class="nav-number">9.</span> <span class="nav-text">用 Tensorfolw 试试</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Voidmort</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/kesyoban.model.json"},"display":{"position":"right","width":130,"height":260},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>

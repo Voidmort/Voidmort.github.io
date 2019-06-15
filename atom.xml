@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2019-06-02T09:08:15.893Z</updated>
+  <updated>2019-06-15T11:38:19.287Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>深度学习的参数调试</title>
-    <link href="https://xvjie.wang/2019/04/04/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%82%E6%95%B0%E8%B0%83%E8%AF%95/"/>
-    <id>https://xvjie.wang/2019/04/04/深度学习的参数调试/</id>
-    <published>2019-04-03T16:00:00.000Z</published>
-    <updated>2019-06-02T09:08:15.893Z</updated>
+    <title>CodeForces978C Letters</title>
+    <link href="https://xvjie.wang/2019/06/10/CodeForces978C%20Letters/"/>
+    <id>https://xvjie.wang/2019/06/10/CodeForces978C Letters/</id>
+    <published>2019-06-09T16:00:00.000Z</published>
+    <updated>2019-06-15T11:38:19.287Z</updated>
     
     <summary type="html">
     
@@ -29,16 +29,102 @@
       
         
         
-          &lt;p&gt;在构建神经网络模型时，有许多的参数需要去调试，比如&lt;strong&gt;learning rate&lt;/strong&gt;
+          &lt;p&gt;There are  dormitories in Berland State University, they are numbered with integers from  to . Each dormitory consists of rooms, there
         
       
     
     </summary>
     
-      <category term="深度学习" scheme="https://xvjie.wang/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+      <category term="算法练习" scheme="https://xvjie.wang/categories/%E7%AE%97%E6%B3%95%E7%BB%83%E4%B9%A0/"/>
     
     
-      <category term="深度学习" scheme="https://xvjie.wang/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+      <category term="算法" scheme="https://xvjie.wang/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="c" scheme="https://xvjie.wang/tags/c/"/>
+    
+      <category term="LeetCode" scheme="https://xvjie.wang/tags/LeetCode/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Titanic Machine Learning from Disaster</title>
+    <link href="https://xvjie.wang/2019/05/28/Titanic_Machine_Learning_from_Disaster.2/"/>
+    <id>https://xvjie.wang/2019/05/28/Titanic_Machine_Learning_from_Disaster.2/</id>
+    <published>2019-05-27T16:00:00.000Z</published>
+    <updated>2019-06-15T11:45:25.936Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Kaggle Competition 的练习&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.kaggle.com/c/titanic&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;泰坦尼克号：从灾难中学习机器&lt;/a&gt;&lt;/p&gt;
+&lt;figure
+        
+      
+    
+    </summary>
+    
+      <category term="Kaggle" scheme="https://xvjie.wang/categories/Kaggle/"/>
+    
+    
+      <category term="Kaggle" scheme="https://xvjie.wang/tags/Kaggle/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>House Prices Advanced Regression Techniques</title>
+    <link href="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques/"/>
+    <id>https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques/</id>
+    <published>2019-05-27T16:00:00.000Z</published>
+    <updated>2019-06-15T11:46:10.648Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Kaggle Competition 的练习&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.kaggle.com/c/house-prices-advanced-regression-techniques&quot; target=&quot;_blank&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="Kaggle" scheme="https://xvjie.wang/categories/Kaggle/"/>
+    
+    
+      <category term="Kaggle" scheme="https://xvjie.wang/tags/Kaggle/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>House Prices Advanced Regression Techniques V2</title>
+    <link href="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques_V2/"/>
+    <id>https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques_V2/</id>
+    <published>2019-05-27T16:00:00.000Z</published>
+    <updated>2019-06-15T11:46:15.296Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://storage.googleapis.com/kaggle-competitions/kaggle/5407/media/housesbanner.png&quot; alt=&quot;替代文字&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Kaggle Competition
+        
+      
+    
+    </summary>
+    
+      <category term="Kaggle" scheme="https://xvjie.wang/categories/Kaggle/"/>
+    
+    
+      <category term="Kaggle" scheme="https://xvjie.wang/tags/Kaggle/"/>
     
   </entry>
   
@@ -56,6 +142,32 @@
         
         
           &lt;p&gt;当我们的系统达到了90%的准确率时，觉得还是不够好，我们有很多想法去改善我们的系统，比如，去收集更多的训练数据，收集更多不同姿势图片丰富样本的多样性，或者更多的反例集。或者再用梯度下降训练算法，训练久一点。或者尝试用一个完全不同的优化算法，比如Adam优化算法。或者尝试使用
+        
+      
+    
+    </summary>
+    
+      <category term="深度学习" scheme="https://xvjie.wang/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="深度学习" scheme="https://xvjie.wang/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>深度学习的参数调试</title>
+    <link href="https://xvjie.wang/2019/04/04/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%82%E6%95%B0%E8%B0%83%E8%AF%95/"/>
+    <id>https://xvjie.wang/2019/04/04/深度学习的参数调试/</id>
+    <published>2019-04-03T16:00:00.000Z</published>
+    <updated>2019-06-02T09:08:15.893Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;在构建神经网络模型时，有许多的参数需要去调试，比如&lt;strong&gt;learning rate&lt;/strong&gt;
         
       
     
@@ -442,116 +554,6 @@
     
     
       <category term="Tensorflow" scheme="https://xvjie.wang/tags/Tensorflow/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TensorFlow 1</title>
-    <link href="https://xvjie.wang/2018/12/26/TensorFlow_1/"/>
-    <id>https://xvjie.wang/2018/12/26/TensorFlow_1/</id>
-    <published>2018-12-26T07:10:00.000Z</published>
-    <updated>2019-01-13T12:32:09.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;Hello-World&quot;&gt;&lt;a href=&quot;#Hello-World&quot; class=&quot;headerlink&quot; title=&quot;Hello World&quot;&gt;&lt;/a&gt;Hello
-        
-      
-    
-    </summary>
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/categories/Tensorflow/"/>
-    
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/tags/Tensorflow/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TensorFlow学习前的准备工作</title>
-    <link href="https://xvjie.wang/2018/12/24/tensorflow%E5%AD%A6%E4%B9%A0%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C/"/>
-    <id>https://xvjie.wang/2018/12/24/tensorflow学习前的准备工作/</id>
-    <published>2018-12-24T07:10:00.000Z</published>
-    <updated>2018-12-31T09:15:34.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;工欲善其事必先利其器，在学习tensor flow之前需要先学会使用一些工具，首先是jupyter，这之后关于tensor flow的blog也都会写成jupyter格式的。&lt;/p&gt;
-&lt;h1 id=&quot;Jupyter&quot;&gt;&lt;a href=&quot;#Jupyter&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/categories/Tensorflow/"/>
-    
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/tags/Tensorflow/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Pandas 简介</title>
-    <link href="https://xvjie.wang/2018/12/23/Pandas%20%E7%AE%80%E4%BB%8B/"/>
-    <id>https://xvjie.wang/2018/12/23/Pandas 简介/</id>
-    <published>2018-12-22T16:00:00.000Z</published>
-    <updated>2018-12-31T09:15:34.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;这个是学习tensorflow前的准备，&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;http://pandas.pydata.org/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;pandas&lt;/a&gt; 是一种列存数据分析
-        
-      
-    
-    </summary>
-    
-      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-      <category term="Pandas" scheme="https://xvjie.wang/tags/Pandas/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ex8-anomaly detection and recommendation</title>
-    <link href="https://xvjie.wang/2018/11/20/ex8-anomaly%20detection%20and%20recommendation/"/>
-    <id>https://xvjie.wang/2018/11/20/ex8-anomaly detection and recommendation/</id>
-    <published>2018-11-19T16:00:00.000Z</published>
-    <updated>2018-12-31T09:17:04.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;AndrewNg 机器学习习题ex6-anomaly detection and recommendation&lt;/p&gt;
-&lt;p&gt;这是最后一个练习了，共有两个算法，第一个是异常检测，第二个是推荐系统。&lt;/p&gt;
-&lt;h1 id=&quot;异常检测&quot;&gt;&lt;a href=&quot;#异常检测&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="机器学习习题" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%A0%E9%A2%98/"/>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   

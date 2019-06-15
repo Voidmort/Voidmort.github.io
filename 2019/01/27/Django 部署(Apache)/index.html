@@ -478,7 +478,7 @@
 <li>已经使用Django搭建好web服务，如何搭建看<a href="http://www.runoob.com/django/django-tutorial.html" target="_blank" rel="noopener">Django教程</a>。</li>
 </ol>
 <p>这里只记录部署apache的坑了，其他上面都有详细讲解，就略了。</p>
-<h1 id="安装apache2和mod-wsgi"><a href="#安装apache2和mod-wsgi" class="headerlink" title="安装apache2和mod_wsgi"></a>安装apache2和mod_wsgi</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install apache2</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash"> Python 2</span></span><br><span class="line">sudo apt-get install libapache2-mod-wsgi</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash"> Python 3</span></span><br><span class="line">sudo apt-get install libapache2-mod-wsgi-py3</span><br></pre></td></tr></table></figure>
+<h1 id="安装apache2和mod-wsgi"><a href="#安装apache2和mod-wsgi" class="headerlink" title="安装apache2和mod_wsgi"></a>安装apache2和mod_wsgi</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install apache2</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span> Python 2</span><br><span class="line">sudo apt-get install libapache2-mod-wsgi</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span> Python 3</span><br><span class="line">sudo apt-get install libapache2-mod-wsgi-py3</span><br></pre></td></tr></table></figure>
 <p><strong>看版本！！！（非常重要）</strong></p>
 <p>版本不同在配置上有区别，推荐使用比较新的版本，也就是2.4以上，如果是1，下面的配置是不一样的！！！<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apachectl -v</span><br><span class="line"></span><br><span class="line">Server version: Apache/2.4.18 (Ubuntu)</span><br><span class="line">Server built:   2018-06-07T19:43:03</span><br></pre></td></tr></table></figure></p>
 <p>先别急着配置，看看能不能正常启动</p>
@@ -653,7 +653,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">58</span>
+                    <span class="site-state-item-count">62</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -690,7 +690,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">12</span>
+                      
+                    
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -757,7 +759,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">27</span>
+                      
+                    
+                    <span class="site-state-item-count">28</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

@@ -1,0 +1,3351 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Kaggle Competition 的练习 泰坦尼克号：从灾难中学习机器 12345678910111213141516171819202122# 数据分析库import pandas as pdimport numpy as npimport random# 数据可视化import seaborn as snsimport matplotlib.pyplot as plt# 机器学习库from">
+<meta name="keywords" content="Kaggle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Titanic Machine Learning from Disaster">
+<meta property="og:url" content="https://xvjie.wang/2019/05/28/Titanic_Machine_Learning_from_Disaster.2/index.html">
+<meta property="og:site_name" content="Voidmort">
+<meta property="og:description" content="Kaggle Competition 的练习 泰坦尼克号：从灾难中学习机器 12345678910111213141516171819202122# 数据分析库import pandas as pdimport numpy as npimport random# 数据可视化import seaborn as snsimport matplotlib.pyplot as plt# 机器学习库from">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://xvjie.wang/2019/05/28/Titanic_Machine_Learning_from_Disaster.2/Titanic_Machine_Learning_from_Disaster_30_2.png">
+<meta property="og:updated_time" content="2019-06-15T11:45:25.936Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Titanic Machine Learning from Disaster">
+<meta name="twitter:description" content="Kaggle Competition 的练习 泰坦尼克号：从灾难中学习机器 12345678910111213141516171819202122# 数据分析库import pandas as pdimport numpy as npimport random# 数据可视化import seaborn as snsimport matplotlib.pyplot as plt# 机器学习库from">
+<meta name="twitter:image" content="https://xvjie.wang/2019/05/28/Titanic_Machine_Learning_from_Disaster.2/Titanic_Machine_Learning_from_Disaster_30_2.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Voidmort" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://xvjie.wang/2019/05/28/Titanic_Machine_Learning_from_Disaster.2/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Titanic Machine Learning from Disaster | Voidmort</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7b96eb7c2717359e36cc8bd8b546997c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/Voidmort" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Voidmort</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-other">
+    <a href="/other/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-plane"></i> <br />其它</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xvjie.wang/2019/05/28/Titanic_Machine_Learning_from_Disaster.2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Voidmort">
+      <meta itemprop="description" content="研究AI，撰写影评，热爱音乐，努力健身">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Voidmort">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Titanic Machine Learning from Disaster
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-28 00:00:00" itemprop="dateCreated datePublished" datetime="2019-05-28T00:00:00+08:00">2019-05-28</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-15 19:45:25" itemprop="dateModified" datetime="2019-06-15T19:45:25+08:00">2019-06-15</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Kaggle/" itemprop="url" rel="index"><span itemprop="name">Kaggle</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Kaggle Competition 的练习</p>
+<p><a href="https://www.kaggle.com/c/titanic" target="_blank" rel="noopener">泰坦尼克号：从灾难中学习机器</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 数据分析库</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据可视化</span></span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 机器学习库</span></span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> OneHotEncoder</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression</span><br><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC, LinearSVC</span><br><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.naive_bayes <span class="keyword">import</span> GaussianNB</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> Perceptron</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> SGDClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> DecisionTreeClassifier</span><br><span class="line"></span><br><span class="line">pd.options.display.max_rows = <span class="number">10</span>  <span class="comment"># 最大显示行数</span></span><br><span class="line">pd.options.display.float_format = <span class="string">'&#123;:.5f&#125;'</span>.format  <span class="comment"># 精确度 保留一位小数</span></span><br></pre></td></tr></table></figure>
+<h1 id="加载数据"><a href="#加载数据" class="headerlink" title="加载数据"></a>加载数据</h1><p>首先加载浏览数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">train_df = pd.read_csv(<span class="string">'/train.csv'</span>)</span><br><span class="line">test_df = pd.read_csv(<span class="string">'/test.csv'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_df.head()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Braund, Mr. Owen Harris</td>
+      <td>male</td>
+      <td>22.00000</td>
+      <td>1</td>
+      <td>0</td>
+      <td>A/5 21171</td>
+      <td>7.25000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
+      <td>female</td>
+      <td>38.00000</td>
+      <td>1</td>
+      <td>0</td>
+      <td>PC 17599</td>
+      <td>71.28330</td>
+      <td>C85</td>
+      <td>C</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Heikkinen, Miss. Laina</td>
+      <td>female</td>
+      <td>26.00000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>STON/O2. 3101282</td>
+      <td>7.92500</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
+      <td>female</td>
+      <td>35.00000</td>
+      <td>1</td>
+      <td>0</td>
+      <td>113803</td>
+      <td>53.10000</td>
+      <td>C123</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Allen, Mr. William Henry</td>
+      <td>male</td>
+      <td>35.00000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>373450</td>
+      <td>8.05000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test_df.head()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Ticket</th>
+      <th>Fare</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>892</td>
+      <td>3</td>
+      <td>Kelly, Mr. James</td>
+      <td>male</td>
+      <td>34.50000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>330911</td>
+      <td>7.82920</td>
+      <td>NaN</td>
+      <td>Q</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>893</td>
+      <td>3</td>
+      <td>Wilkes, Mrs. James (Ellen Needs)</td>
+      <td>female</td>
+      <td>47.00000</td>
+      <td>1</td>
+      <td>0</td>
+      <td>363272</td>
+      <td>7.00000</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>894</td>
+      <td>2</td>
+      <td>Myles, Mr. Thomas Francis</td>
+      <td>male</td>
+      <td>62.00000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>240276</td>
+      <td>9.68750</td>
+      <td>NaN</td>
+      <td>Q</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>895</td>
+      <td>3</td>
+      <td>Wirz, Mr. Albert</td>
+      <td>male</td>
+      <td>27.00000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>315154</td>
+      <td>8.66250</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>896</td>
+      <td>3</td>
+      <td>Hirvonen, Mrs. Alexander (Helga E Lindqvist)</td>
+      <td>female</td>
+      <td>22.00000</td>
+      <td>1</td>
+      <td>1</td>
+      <td>3101298</td>
+      <td>12.28750</td>
+      <td>NaN</td>
+      <td>S</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_df.describe()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>891.00000</td>
+      <td>891.00000</td>
+      <td>891.00000</td>
+      <td>714.00000</td>
+      <td>891.00000</td>
+      <td>891.00000</td>
+      <td>891.00000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>446.00000</td>
+      <td>0.38384</td>
+      <td>2.30864</td>
+      <td>29.69912</td>
+      <td>0.52301</td>
+      <td>0.38159</td>
+      <td>32.20421</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>257.35384</td>
+      <td>0.48659</td>
+      <td>0.83607</td>
+      <td>14.52650</td>
+      <td>1.10274</td>
+      <td>0.80606</td>
+      <td>49.69343</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1.00000</td>
+      <td>0.00000</td>
+      <td>1.00000</td>
+      <td>0.42000</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>223.50000</td>
+      <td>0.00000</td>
+      <td>2.00000</td>
+      <td>20.12500</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+      <td>7.91040</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>446.00000</td>
+      <td>0.00000</td>
+      <td>3.00000</td>
+      <td>28.00000</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+      <td>14.45420</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>668.50000</td>
+      <td>1.00000</td>
+      <td>3.00000</td>
+      <td>38.00000</td>
+      <td>1.00000</td>
+      <td>0.00000</td>
+      <td>31.00000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>891.00000</td>
+      <td>1.00000</td>
+      <td>3.00000</td>
+      <td>80.00000</td>
+      <td>8.00000</td>
+      <td>6.00000</td>
+      <td>512.32920</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test_df.describe()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Pclass</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>418.00000</td>
+      <td>418.00000</td>
+      <td>332.00000</td>
+      <td>418.00000</td>
+      <td>418.00000</td>
+      <td>417.00000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>1100.50000</td>
+      <td>2.26555</td>
+      <td>30.27259</td>
+      <td>0.44737</td>
+      <td>0.39234</td>
+      <td>35.62719</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>120.81046</td>
+      <td>0.84184</td>
+      <td>14.18121</td>
+      <td>0.89676</td>
+      <td>0.98143</td>
+      <td>55.90758</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>892.00000</td>
+      <td>1.00000</td>
+      <td>0.17000</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>996.25000</td>
+      <td>1.00000</td>
+      <td>21.00000</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+      <td>7.89580</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>1100.50000</td>
+      <td>3.00000</td>
+      <td>27.00000</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+      <td>14.45420</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>1204.75000</td>
+      <td>3.00000</td>
+      <td>39.00000</td>
+      <td>1.00000</td>
+      <td>0.00000</td>
+      <td>31.50000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>1309.00000</td>
+      <td>3.00000</td>
+      <td>76.00000</td>
+      <td>8.00000</td>
+      <td>9.00000</td>
+      <td>512.32920</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>训练集有 PassengerId    Survived    Pclass    Name    Sex    Age    SibSp    Parch    Ticket    Fare    Cabin    Embarked 共十二列数据，测试集中没有的Survived就是我们要预测的值。</p>
+<h2 id="检查数据"><a href="#检查数据" class="headerlink" title="检查数据"></a>检查数据</h2><p>检查数据类型和缺失情况。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">train_df.info()</span><br><span class="line">print(<span class="string">'_'</span>*<span class="number">40</span>)</span><br><span class="line">test_df.info()</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;class &apos;pandas.core.frame.DataFrame&apos;&gt;
+RangeIndex: 891 entries, 0 to 890
+Data columns (total 12 columns):
+PassengerId    891 non-null int64
+Survived       891 non-null int64
+Pclass         891 non-null int64
+Name           891 non-null object
+Sex            891 non-null object
+Age            714 non-null float64
+SibSp          891 non-null int64
+Parch          891 non-null int64
+Ticket         891 non-null object
+Fare           891 non-null float64
+Cabin          204 non-null object
+Embarked       889 non-null object
+dtypes: float64(2), int64(5), object(5)
+memory usage: 83.6+ KB
+________________________________________
+&lt;class &apos;pandas.core.frame.DataFrame&apos;&gt;
+RangeIndex: 418 entries, 0 to 417
+Data columns (total 11 columns):
+PassengerId    418 non-null int64
+Pclass         418 non-null int64
+Name           418 non-null object
+Sex            418 non-null object
+Age            332 non-null float64
+SibSp          418 non-null int64
+Parch          418 non-null int64
+Ticket         418 non-null object
+Fare           417 non-null float64
+Cabin          91 non-null object
+Embarked       418 non-null object
+dtypes: float64(2), int64(4), object(5)
+memory usage: 36.0+ KB
+</code></pre><p>观察发现，Age Cabin Embarked 存在缺失，并且数据类型既有数字也有字符串。测试集中 Fare 缺失了一个。</p>
+<h2 id="观察特征的分布"><a href="#观察特征的分布" class="headerlink" title="观察特征的分布"></a>观察特征的分布</h2><pre><code>Name 是唯一的共 891
+Sex 有两种，male 占 64.7%（top=male, freq/count=64.7%）
+Ticket 不同的种类比较多
+Cabin 有许多乘客在同一个 cabin
+Embarked 有三种大多数是 S
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_df.describe(include=[<span class="string">"O"</span>])</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Ticket</th>
+      <th>Cabin</th>
+      <th>Embarked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>891</td>
+      <td>891</td>
+      <td>891</td>
+      <td>204</td>
+      <td>889</td>
+    </tr>
+    <tr>
+      <th>unique</th>
+      <td>891</td>
+      <td>2</td>
+      <td>681</td>
+      <td>147</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>top</th>
+      <td>Renouf, Mr. Peter Henry</td>
+      <td>male</td>
+      <td>1601</td>
+      <td>C23 C25 C27</td>
+      <td>S</td>
+    </tr>
+    <tr>
+      <th>freq</th>
+      <td>1</td>
+      <td>577</td>
+      <td>7</td>
+      <td>4</td>
+      <td>644</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h1 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h1><p>在训练集中存在着缺失值和错误值，所以要筛选出有价值的特征，填充缺失的数据。</p>
+<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><p>首先删除没有价值或价值比较低的特征。</p>
+<p>根据我们的假设和决定，我们先放弃 Cabin 和 Ticket 。</p>
+<p>我们对训练和测试数据集执行相同的操作以保持其一致。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">"Before"</span>, train_df.shape, test_df.shape)</span><br><span class="line"></span><br><span class="line">train_df = train_df.drop([<span class="string">"Ticket"</span>, <span class="string">"Cabin"</span>], axis=<span class="number">1</span>)</span><br><span class="line">test_df = test_df.drop([<span class="string">"Ticket"</span>, <span class="string">"Cabin"</span>], axis=<span class="number">1</span>)</span><br><span class="line">combine = [train_df, test_df]</span><br><span class="line"></span><br><span class="line"><span class="string">"After"</span>, train_df.shape, test_df.shape, combine[<span class="number">0</span>].shape, combine[<span class="number">1</span>].shape</span><br></pre></td></tr></table></figure>
+<pre><code>Before (891, 12) (418, 11)
+
+
+
+
+
+(&apos;After&apos;, (891, 10), (418, 9), (891, 10), (418, 9))
+</code></pre><h2 id="Name"><a href="#Name" class="headerlink" title="Name"></a>Name</h2><p>首先观察到 Name 都是唯一的并且在 Name 中间存在称谓，提取出名字中间的称谓。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> dataset <span class="keyword">in</span> combine:</span><br><span class="line">    dataset[<span class="string">"Title"</span>] = dataset.Name.str.extract(<span class="string">' ([A-Za-z]+)\.'</span>, expand=<span class="keyword">False</span>)</span><br><span class="line">    </span><br><span class="line">pd.crosstab(train_df[<span class="string">"Title"</span>], train_df[<span class="string">"Sex"</span>])</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Sex</th>
+      <th>female</th>
+      <th>male</th>
+    </tr>
+    <tr>
+      <th>Title</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Capt</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Col</th>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>Countess</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Don</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Dr</th>
+      <td>1</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>Mr</th>
+      <td>0</td>
+      <td>517</td>
+    </tr>
+    <tr>
+      <th>Mrs</th>
+      <td>125</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Ms</th>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Rev</th>
+      <td>0</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>Sir</th>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>17 rows × 2 columns</p>
+</div>
+
+<p>把称呼替换为更为常见的，不常见的定义为 Rare</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> dataset <span class="keyword">in</span> combine:</span><br><span class="line">    dataset[<span class="string">"Title"</span>] = dataset[<span class="string">"Title"</span>].replace([<span class="string">"Lady"</span>, <span class="string">"Countess"</span>, <span class="string">"Capt"</span>, <span class="string">"Col"</span>, \</span><br><span class="line">                                                 <span class="string">"Don"</span>, <span class="string">"Dr"</span>, <span class="string">"Major"</span>, <span class="string">"Rev"</span>, <span class="string">"Sir"</span>, \</span><br><span class="line">                                                 <span class="string">"Jonkheer"</span>, <span class="string">"Dona"</span>], <span class="string">"Rare"</span>)</span><br><span class="line">    dataset[<span class="string">"Title"</span>] = dataset[<span class="string">"Title"</span>].replace(<span class="string">"Mlle"</span>, <span class="string">"Miss"</span>)</span><br><span class="line">    dataset[<span class="string">"Title"</span>] = dataset[<span class="string">"Title"</span>].replace(<span class="string">"Ms"</span>, <span class="string">"Miss"</span>)</span><br><span class="line">    dataset[<span class="string">"Title"</span>] = dataset[<span class="string">"Title"</span>].replace(<span class="string">"Mme"</span>, <span class="string">"Mrs"</span>)</span><br><span class="line"></span><br><span class="line">train_df[[<span class="string">"Title"</span>, <span class="string">"Survived"</span>]].groupby([<span class="string">"Title"</span>], as_index=<span class="keyword">False</span>).mean()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Title</th>
+      <th>Survived</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Master</td>
+      <td>0.57500</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Miss</td>
+      <td>0.70270</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Mr</td>
+      <td>0.15667</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Mrs</td>
+      <td>0.79365</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Rare</td>
+      <td>0.34783</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>把 Titles 转换为数字</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">title_mapping = &#123;<span class="string">"Mr"</span>: <span class="number">1</span>, <span class="string">"Miss"</span>: <span class="number">2</span>, <span class="string">"Mrs"</span>: <span class="number">3</span>, <span class="string">"Master"</span>: <span class="number">4</span>, <span class="string">"Rare"</span>: <span class="number">5</span>&#125;</span><br><span class="line"><span class="keyword">for</span> dataset <span class="keyword">in</span> combine:</span><br><span class="line">    dataset[<span class="string">"Title"</span>] = dataset[<span class="string">"Title"</span>].map(title_mapping)</span><br><span class="line">    dataset[<span class="string">"Title"</span>] = dataset[<span class="string">"Title"</span>].fillna(<span class="number">0</span>) <span class="comment"># 缺失值补0</span></span><br><span class="line"></span><br><span class="line">train_df.head()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Name</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+      <th>Embarked</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Braund, Mr. Owen Harris</td>
+      <td>male</td>
+      <td>22.00000</td>
+      <td>1</td>
+      <td>0</td>
+      <td>7.25000</td>
+      <td>S</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>
+      <td>female</td>
+      <td>38.00000</td>
+      <td>1</td>
+      <td>0</td>
+      <td>71.28330</td>
+      <td>C</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Heikkinen, Miss. Laina</td>
+      <td>female</td>
+      <td>26.00000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7.92500</td>
+      <td>S</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>
+      <td>female</td>
+      <td>35.00000</td>
+      <td>1</td>
+      <td>0</td>
+      <td>53.10000</td>
+      <td>S</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0</td>
+      <td>3</td>
+      <td>Allen, Mr. William Henry</td>
+      <td>male</td>
+      <td>35.00000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>8.05000</td>
+      <td>S</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>现在可以删除 Name 和 PassengerId了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">train_df = train_df.drop([<span class="string">"Name"</span>, <span class="string">"PassengerId"</span>], axis=<span class="number">1</span>)</span><br><span class="line">test_df = test_df.drop([<span class="string">"Name"</span>], axis=<span class="number">1</span>)</span><br><span class="line">combine = [train_df, test_df]</span><br><span class="line">train_df.shape, test_df.shape</span><br></pre></td></tr></table></figure>
+<pre><code>((891, 9), (418, 9))
+</code></pre><h2 id="Sex"><a href="#Sex" class="headerlink" title="Sex"></a>Sex</h2><p>将包含字符串的特征转换为数值。这是大多数模型算法所必需的。这样做也将有助于我们实现功能完成目标。</p>
+<p>让我们首先将 Sex 特征转换为一个新的 feature，其中 female = 1，male = 0。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> dataset <span class="keyword">in</span> combine:</span><br><span class="line">    dataset[<span class="string">"Sex"</span>] = dataset[<span class="string">"Sex"</span>].map(&#123;<span class="string">"female"</span>: <span class="number">1</span>, <span class="string">"male"</span>: <span class="number">0</span>&#125;).astype(int)</span><br><span class="line"></span><br><span class="line">train_df.head()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+      <th>Embarked</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>22.00000</td>
+      <td>1</td>
+      <td>0</td>
+      <td>7.25000</td>
+      <td>S</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>38.00000</td>
+      <td>1</td>
+      <td>0</td>
+      <td>71.28330</td>
+      <td>C</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>26.00000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7.92500</td>
+      <td>S</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>35.00000</td>
+      <td>1</td>
+      <td>0</td>
+      <td>53.10000</td>
+      <td>S</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>35.00000</td>
+      <td>0</td>
+      <td>0</td>
+      <td>8.05000</td>
+      <td>S</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="Age"><a href="#Age" class="headerlink" title="Age"></a>Age</h2><p>现在处理缺少值或空值的问题。<br>我们首先处理 Age 。</p>
+<p>可以考虑三种方法来完成特征的填充。</p>
+<ol>
+<li><p>一种简单的方法是在均值的标准差之间生成随机数。</p>
+</li>
+<li><p>使用其他相关特征猜测缺失值。在这个例子中，我们注意到 Age，Gender 和 Pclass 之间的相关性。用猜年龄值中位值跨越套 Pclass 和性别特征组合年龄。因此，Pclass 的中位数年龄 = 1且性别 = 0，Pclass = 1 且性别 = 1，依此类推……</p>
+</li>
+<li><p>结合方法1和2因此，不是基于中位数来猜测年龄值，而是根据Pclass和Gender组合的集合使用均值和标准差之间的随机数。</p>
+</li>
+</ol>
+<p>方法1和3将随机噪声引入我们的模型。多次执行的结果可能会有所不同。我们选择方法2。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grid = sns.FacetGrid(train_df, row=<span class="string">"Pclass"</span>, col=<span class="string">"Sex"</span>, size=<span class="number">2.2</span>, aspect=<span class="number">1.6</span>)</span><br><span class="line">grid.map(plt.hist, <span class="string">"Age"</span>, alpha=<span class="number">0.5</span>, bins=<span class="number">20</span>)</span><br><span class="line">grid.add_legend()</span><br></pre></td></tr></table></figure>
+<pre><code>/usr/local/lib/python3.6/dist-packages/seaborn/axisgrid.py:230: UserWarning: The `size` paramter has been renamed to `height`; please update your code.
+  warnings.warn(msg, UserWarning)
+
+
+
+
+
+&lt;seaborn.axisgrid.FacetGrid at 0x7f3b28420a90&gt;
+</code></pre><p><img src="Titanic_Machine_Learning_from_Disaster_30_2.png" alt="png"></p>
+<p>首先准备一个空数组，猜测 Age 和 Pclass × Geender 有关系</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">guess_ages = np.zeros((<span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line">guess_ages</span><br></pre></td></tr></table></figure>
+<pre><code>array([[0., 0., 0.],
+       [0., 0., 0.]])
+</code></pre><p>现在我们迭代 Sex(0,1) 和 Pclass(1,2,3) 来猜测这六种组合的 Age。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> dataset <span class="keyword">in</span> combine:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">2</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">3</span>):</span><br><span class="line">            guess_df = dataset[(dataset[<span class="string">"Sex"</span>] == i) &amp; (dataset[<span class="string">"Pclass"</span>] == j+<span class="number">1</span>)][<span class="string">"Age"</span>].dropna()</span><br><span class="line">            age_guess = guess_df.median()</span><br><span class="line">            guess_ages[i, j] = int(age_guess/<span class="number">0.5</span> + <span class="number">0.5</span>) * <span class="number">0.5</span></span><br><span class="line">            </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">2</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">3</span>):</span><br><span class="line">            dataset.loc[(dataset.Age.isnull()) &amp; (dataset.Sex == i) &amp; (dataset.Pclass == j+<span class="number">1</span>), <span class="string">"Age"</span>] = guess_ages[i, j]</span><br><span class="line">    </span><br><span class="line">    dataset[<span class="string">"Age"</span>] = dataset[<span class="string">"Age"</span>].astype(int)</span><br><span class="line">    </span><br><span class="line">train_df.head()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+      <th>Embarked</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>22</td>
+      <td>1</td>
+      <td>0</td>
+      <td>7.25000</td>
+      <td>S</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>38</td>
+      <td>1</td>
+      <td>0</td>
+      <td>71.28330</td>
+      <td>C</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>26</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7.92500</td>
+      <td>S</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>35</td>
+      <td>1</td>
+      <td>0</td>
+      <td>53.10000</td>
+      <td>S</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>35</td>
+      <td>0</td>
+      <td>0</td>
+      <td>8.05000</td>
+      <td>S</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>让我们创建 AgeBand，并确定与存活的相关性。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 把Age分为5箱</span></span><br><span class="line">train_df[<span class="string">"AgeBand"</span>] = pd.cut(train_df[<span class="string">"Age"</span>], <span class="number">5</span>)</span><br><span class="line">train_df[[<span class="string">"AgeBand"</span>, <span class="string">"Survived"</span>]].groupby([<span class="string">"AgeBand"</span>], as_index=<span class="keyword">False</span>).mean().sort_values(by=<span class="string">"AgeBand"</span>, ascending=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>AgeBand</th>
+      <th>Survived</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>(-0.08, 16.0]</td>
+      <td>0.55000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>(16.0, 32.0]</td>
+      <td>0.33737</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>(32.0, 48.0]</td>
+      <td>0.41204</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>(48.0, 64.0]</td>
+      <td>0.43478</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>(64.0, 80.0]</td>
+      <td>0.09091</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>用这个频率来把 Age 分为五箱来替代原 Age。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> dataset <span class="keyword">in</span> combine:</span><br><span class="line">    dataset.loc[dataset[<span class="string">"Age"</span>] &lt;= <span class="number">16</span>, <span class="string">"Age"</span>] = <span class="number">0</span></span><br><span class="line">    dataset.loc[(dataset[<span class="string">"Age"</span>] &gt; <span class="number">16</span>) &amp; (dataset[<span class="string">"Age"</span>] &lt;= <span class="number">32</span>), <span class="string">"Age"</span>] = <span class="number">1</span></span><br><span class="line">    dataset.loc[(dataset[<span class="string">"Age"</span>] &gt; <span class="number">32</span>) &amp; (dataset[<span class="string">"Age"</span>] &lt;= <span class="number">48</span>), <span class="string">"Age"</span>] = <span class="number">2</span></span><br><span class="line">    dataset.loc[(dataset[<span class="string">"Age"</span>] &gt; <span class="number">48</span>) &amp; (dataset[<span class="string">"Age"</span>] &lt;= <span class="number">64</span>), <span class="string">"Age"</span>] = <span class="number">3</span></span><br><span class="line">    dataset.loc[dataset[<span class="string">"Age"</span>] &gt; <span class="number">64</span>, <span class="string">"Age"</span>] = <span class="number">4</span></span><br><span class="line"></span><br><span class="line">train_df.head()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+      <th>Embarked</th>
+      <th>Title</th>
+      <th>AgeBand</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>7.25000</td>
+      <td>S</td>
+      <td>1</td>
+      <td>(16.0, 32.0]</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>71.28330</td>
+      <td>C</td>
+      <td>3</td>
+      <td>(32.0, 48.0]</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7.92500</td>
+      <td>S</td>
+      <td>2</td>
+      <td>(16.0, 32.0]</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>53.10000</td>
+      <td>S</td>
+      <td>3</td>
+      <td>(32.0, 48.0]</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>8.05000</td>
+      <td>S</td>
+      <td>1</td>
+      <td>(32.0, 48.0]</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>移除 AgeBand feature</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">train_df = train_df.drop([<span class="string">"AgeBand"</span>], axis=<span class="number">1</span>)</span><br><span class="line">combine = [train_df, test_df]</span><br><span class="line">train_df.head()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+      <th>Embarked</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>7.25000</td>
+      <td>S</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>71.28330</td>
+      <td>C</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7.92500</td>
+      <td>S</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>53.10000</td>
+      <td>S</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>8.05000</td>
+      <td>S</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="Embarked"><a href="#Embarked" class="headerlink" title="Embarked"></a>Embarked</h2><p>Embarked 特征取值为 S、Q、C。我们的训练数据集有两个缺失的值。用最常见的 Embarked 来填充（众数填充）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">freq_port = train_df.Embarked.dropna().mode()[<span class="number">0</span>] <span class="comment"># 返回出现次数最多的值（众数）</span></span><br><span class="line">freq_port</span><br></pre></td></tr></table></figure>
+<pre><code>&apos;S&apos;
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> dataset <span class="keyword">in</span> combine:</span><br><span class="line">    dataset[<span class="string">"Embarked"</span>] = dataset[<span class="string">"Embarked"</span>].fillna(freq_port)</span><br><span class="line">    </span><br><span class="line">train_df[[<span class="string">"Embarked"</span>, <span class="string">"Survived"</span>]].groupby([<span class="string">"Embarked"</span>], as_index=<span class="keyword">False</span>).mean().sort_values(by=<span class="string">"Survived"</span>, ascending=<span class="keyword">False</span>)</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Embarked</th>
+      <th>Survived</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>C</td>
+      <td>0.55357</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Q</td>
+      <td>0.38961</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>S</td>
+      <td>0.33901</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>现在，我们可以把 Embarked 转换为一个新的数字序列。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> dataset <span class="keyword">in</span> combine:</span><br><span class="line">    dataset[<span class="string">"Embarked"</span>] = dataset[<span class="string">"Embarked"</span>].map( &#123;<span class="string">"S"</span>: <span class="number">0</span>, <span class="string">"C"</span>: <span class="number">1</span>, <span class="string">"Q"</span>: <span class="number">2</span>&#125; ).astype(int)</span><br><span class="line"></span><br><span class="line">train_df.head()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+      <th>Embarked</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>7.25000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>71.28330</td>
+      <td>1</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7.92500</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>53.10000</td>
+      <td>0</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>8.05000</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="Fare"><a href="#Fare" class="headerlink" title="Fare"></a>Fare</h2><p>现在，我们可以使用 df.fillna 填充 test dataset 中 Fare 的单个缺失值，使用 median （中位数）来填充。我们只需要一行代码就可以做到这一点。</p>
+<p>注意，我们并没有创建一个中间的新特性，也没有对相关性进行任何进一步的分析来猜测缺失的特性，因为我们只是替换了一个值。以达到了模型算法对非空值运算的要求。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test_df[<span class="string">"Fare"</span>].fillna(test_df[<span class="string">"Fare"</span>].dropna().median(), inplace=<span class="keyword">True</span>)</span><br><span class="line">test_df.head()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PassengerId</th>
+      <th>Pclass</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+      <th>Embarked</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>892</td>
+      <td>3</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>7.82920</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>893</td>
+      <td>3</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>7.00000</td>
+      <td>0</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>894</td>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>9.68750</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>895</td>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>8.66250</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>896</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>12.28750</td>
+      <td>0</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>创建一个 FareBand</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">train_df[<span class="string">"FareBand"</span>] = pd.qcut(train_df[<span class="string">"Fare"</span>], <span class="number">4</span>)</span><br><span class="line">train_df[[<span class="string">"FareBand"</span>, <span class="string">"Survived"</span>]].groupby([<span class="string">"FareBand"</span>], as_index=<span class="keyword">False</span>).mean().sort_values(by=<span class="string">"FareBand"</span>, ascending=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>FareBand</th>
+      <th>Survived</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>(-0.001, 7.91]</td>
+      <td>0.19731</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>(7.91, 14.454]</td>
+      <td>0.30357</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>(14.454, 31.0]</td>
+      <td>0.45495</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>(31.0, 512.329]</td>
+      <td>0.58108</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>基于 FareBand 将 Fare 转换为序列值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> dataset <span class="keyword">in</span> combine:</span><br><span class="line">    dataset.loc[dataset[<span class="string">"Fare"</span>] &lt;= <span class="number">7.91</span>, <span class="string">"Fare"</span>] = <span class="number">0</span></span><br><span class="line">    dataset.loc[(dataset[<span class="string">"Fare"</span>] &gt; <span class="number">7.91</span>) &amp; (dataset[<span class="string">"Fare"</span>] &lt;= <span class="number">14.454</span>), <span class="string">"Fare"</span>] = <span class="number">1</span></span><br><span class="line">    dataset.loc[(dataset[<span class="string">"Fare"</span>] &gt; <span class="number">14.454</span>) &amp; (dataset[<span class="string">"Fare"</span>] &lt;= <span class="number">31</span>), <span class="string">"Fare"</span>] = <span class="number">2</span></span><br><span class="line">    dataset.loc[dataset[<span class="string">"Fare"</span>] &gt; <span class="number">31</span>, <span class="string">"Fare"</span>] = <span class="number">3</span></span><br><span class="line">    dataset[<span class="string">"Fare"</span>] = dataset[<span class="string">"Fare"</span>].astype(int)</span><br><span class="line"></span><br><span class="line">train_df = train_df.drop([<span class="string">"FareBand"</span>], axis=<span class="number">1</span>)</span><br><span class="line">combine = [train_df, test_df]</span><br><span class="line">train_df.head()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Survived</th>
+      <th>Pclass</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+      <th>Embarked</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h1 id="模型预测"><a href="#模型预测" class="headerlink" title="模型预测"></a>模型预测</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">X_train = train_df.drop(<span class="string">"Survived"</span>, axis=<span class="number">1</span>)</span><br><span class="line">Y_train = train_df[<span class="string">"Survived"</span>]</span><br><span class="line">X_test = test_df.drop(<span class="string">"PassengerId"</span>, axis=<span class="number">1</span>).copy()</span><br><span class="line">X_train.shape, Y_train.shape, X_test.shape</span><br></pre></td></tr></table></figure>
+<pre><code>((891, 8), (891,), (418, 8))
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">X_train.describe()</span><br><span class="line">X_test</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Pclass</th>
+      <th>Sex</th>
+      <th>Age</th>
+      <th>SibSp</th>
+      <th>Parch</th>
+      <th>Fare</th>
+      <th>Embarked</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>413</th>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>414</th>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>415</th>
+      <td>3</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>416</th>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>417</th>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
+<p>418 rows × 8 columns</p>
+</div>
+
+<p>现在，我们准备训练一个模型并预测。有60多种预测建模算法可供选择。我们必须了解问题的类型和解决方案的需求，以便将范围缩小到我们可以评估的几个选定的模型。</p>
+<p>我们的问题是一个分类和回归问题。我们想要确定输出(Survived or not)与其他变量或特性(Gender, Age, Port……)之间的关系。这是一个监督学习。有了这两个标准 —— 监督学习加上分类和回归，我们可以把模型的选择范围缩小到几个。</p>
+<p>这些包括:</p>
+<ul>
+<li>逻辑回归</li>
+<li>KNN或k近邻</li>
+<li>支持向量机</li>
+<li>朴素贝叶斯分类器</li>
+<li>决策树</li>
+<li>随机森林</li>
+<li>感知器</li>
+<li>随机梯度下降</li>
+<li>RVM 相关向量机</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 逻辑回归</span></span><br><span class="line"></span><br><span class="line">logreg = LogisticRegression()</span><br><span class="line">logreg.fit(X_train, Y_train)</span><br><span class="line">Y_pred = logreg.predict(X_test)</span><br><span class="line">acc_log = round(logreg.score(X_train, Y_train) * <span class="number">100</span>, <span class="number">2</span>)</span><br><span class="line">acc_log</span><br></pre></td></tr></table></figure>
+<pre><code>/usr/local/lib/python3.6/dist-packages/sklearn/linear_model/logistic.py:432: FutureWarning: Default solver will be changed to &apos;lbfgs&apos; in 0.22. Specify a solver to silence this warning.
+  FutureWarning)
+
+
+
+
+
+81.37
+</code></pre><p>我们可以使用逻辑回归来验证和检查我们的预测。可以通过计算决策函数中特征的系数来实现。</p>
+<p>正系数增加了响应的 log-odds (从而增加了概率)，负系数减少了响应的 log-odds (从而减少了概率)。<br>性别是正系数最高的，说明随着性别值的增加(男性: 0 女性:1)，存活的概率增加最多。<br>相反，随着 Pclass 的增加，生存概率下降。<br>这样，Age 是一个很好的人工特征，因为它与存活有第二高的负相关。<br>Title 也是第二高的正相关。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">coeff_df = pd.DataFrame(train_df.columns.delete(<span class="number">0</span>))</span><br><span class="line">coeff_df.columns = [<span class="string">'Feature'</span>]</span><br><span class="line">coeff_df[<span class="string">"Correlation"</span>] = pd.Series(logreg.coef_[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">coeff_df.sort_values(by=<span class="string">'Correlation'</span>, ascending=<span class="keyword">False</span>)</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Feature</th>
+      <th>Correlation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>Sex</td>
+      <td>2.19360</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Title</td>
+      <td>0.49431</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Fare</td>
+      <td>0.31180</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Embarked</td>
+      <td>0.24051</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Parch</td>
+      <td>-0.25322</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>SibSp</td>
+      <td>-0.50649</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Age</td>
+      <td>-0.65716</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Pclass</td>
+      <td>-0.91037</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>其次，我们使用支持向量机建模，这是监督学习的算法，用于数据分类和回归分析。给定一组训练样本，每个样本都被标记为属于两个类别中的一个或另一个类别，SVM训练算法建立一个模型，将新的测试样本分配给其中一个类别或另一个类别，使其成为一个非概率二元线性分类器。</p>
+<p>该模型生成的评分高于逻辑回归模型。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Support Vector Machines</span></span><br><span class="line"></span><br><span class="line">svm = SVC()</span><br><span class="line">svm.fit(X_train, Y_train)</span><br><span class="line">Y_pred = svm.predict(X_test)</span><br><span class="line">acc_svm = round(svm.score(X_train, Y_train) * <span class="number">100</span>, <span class="number">2</span>)</span><br><span class="line">acc_svm</span><br></pre></td></tr></table></figure>
+<pre><code>/usr/local/lib/python3.6/dist-packages/sklearn/svm/base.py:193: FutureWarning: The default value of gamma will change from &apos;auto&apos; to &apos;scale&apos; in version 0.22 to account better for unscaled features. Set gamma explicitly to &apos;auto&apos; or &apos;scale&apos; to avoid this warning.
+  &quot;avoid this warning.&quot;, FutureWarning)
+
+
+
+
+
+83.73
+</code></pre><p>在模式识别中，k近邻算法(简称k-NN)是一种用于分类和回归的非参数算法。一个样本由它的邻居的多数投票来分类，这个样本被分配到它的k个最近邻居中最常见的类(k是一个正整数，通常很小)。如果 k = 1，那么对象就被简单地分配给那个最近邻居的类。</p>
+<p>KNN得分优于logistic回归，但低于SVM。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># KNN</span></span><br><span class="line"></span><br><span class="line">knn = KNeighborsClassifier(n_neighbors = <span class="number">3</span>)</span><br><span class="line">knn.fit(X_train, Y_train)</span><br><span class="line">Y_pred = knn.predict(X_test)</span><br><span class="line">acc_knn = round(knn.score(X_train, Y_train) * <span class="number">100</span>, <span class="number">2</span>)</span><br><span class="line">acc_knn</span><br></pre></td></tr></table></figure>
+<pre><code>84.4
+</code></pre><p>在机器学习中，朴素贝叶斯分类器是一组基于贝叶斯定理的简单概率分类器，特征之间具有强(朴素)独立性假设。朴素贝叶斯分类器是高度可伸缩的，在一个学习问题中需要一些参数在变量(特征)的数量上是线性的。</p>
+<p>模型生成的置信度评分是目前评价模型中最低的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Gaussian Naive Bayes</span></span><br><span class="line"></span><br><span class="line">gaussian = GaussianNB()</span><br><span class="line">gaussian.fit(X_train, Y_train)</span><br><span class="line">Y_pred = gaussian.predict(X_test)</span><br><span class="line">acc_gaussian = round(gaussian.score(X_train, Y_train) * <span class="number">100</span>, <span class="number">2</span>)</span><br><span class="line">acc_gaussian</span><br></pre></td></tr></table></figure>
+<pre><code>80.13
+</code></pre><p>感知器是一种二进制分类器的监督学习算法(函数，它可以决定一个输入是否属于某个特定的类，由一个数字向量表示)。它是一种线性分类器，即基于一组权值与特征向量相结合的线性预测函数进行预测的分类算法。该算法允许在线学习，每次处理训练集中的一个元素。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Perceptron</span></span><br><span class="line"></span><br><span class="line">perceptron = Perceptron()</span><br><span class="line">perceptron.fit(X_train, Y_train)</span><br><span class="line">Y_pred = perceptron.predict(X_test)</span><br><span class="line">acc_perceptron = round(perceptron.score(X_train, Y_train) * <span class="number">100</span>, <span class="number">2</span>)</span><br><span class="line">acc_perceptron</span><br></pre></td></tr></table></figure>
+<pre><code>80.58
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Linear SVC</span></span><br><span class="line"></span><br><span class="line">linear_svc = LinearSVC()</span><br><span class="line">linear_svc.fit(X_train, Y_train)</span><br><span class="line">Y_pred = linear_svc.predict(X_test)</span><br><span class="line">acc_linear_svc = round(linear_svc.score(X_train, Y_train) * <span class="number">100</span>, <span class="number">2</span>)</span><br><span class="line">acc_linear_svc</span><br></pre></td></tr></table></figure>
+<pre><code>/usr/local/lib/python3.6/dist-packages/sklearn/svm/base.py:929: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.
+  &quot;the number of iterations.&quot;, ConvergenceWarning)
+
+
+
+
+
+81.14
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Stochastic Gradient Descent</span></span><br><span class="line"></span><br><span class="line">sgd = SGDClassifier()</span><br><span class="line">sgd.fit(X_train, Y_train)</span><br><span class="line">Y_pred = sgd.predict(X_test)</span><br><span class="line">acc_sgd = round(sgd.score(X_train, Y_train) * <span class="number">100</span>, <span class="number">2</span>)</span><br><span class="line">acc_sgd</span><br></pre></td></tr></table></figure>
+<pre><code>80.92
+</code></pre><p>使用决策树作为预测模型，是一种十分常用的分类方法。他是一种监管学习，所谓监管学习就是给定一堆样本，每个样本都有一组属性和一个类别，这些类别是事先确定的，那么通过学习得到一个分类器，这个分类器能够对新出现的对象给出正确的分类。</p>
+<p>目前模型中最高的评分。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Decision Tree</span></span><br><span class="line"></span><br><span class="line">decision_tree = DecisionTreeClassifier()</span><br><span class="line">decision_tree.fit(X_train, Y_train)</span><br><span class="line">Y_pred = decision_tree.predict(X_test)</span><br><span class="line">acc_decision_tree = round(decision_tree.score(X_train, Y_train) * <span class="number">100</span>, <span class="number">2</span>)</span><br><span class="line">acc_decision_tree</span><br></pre></td></tr></table></figure>
+<pre><code>89.0
+</code></pre><p>下一个模型随机森林是最受欢迎的之一。一个包含多个决策树的分类器， 并且其输出的类别是由个别树输出的类别的众数而定。</p>
+<p>模型目前评分中最高的。我们决定使用这个模型的输出(Y_pred)提交结果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Random Forest</span></span><br><span class="line"></span><br><span class="line">random_forest = RandomForestClassifier(n_estimators=<span class="number">100</span>)</span><br><span class="line">random_forest.fit(X_train, Y_train)</span><br><span class="line">Y_pred = random_forest.predict(X_test)</span><br><span class="line">random_forest.score(X_train, Y_train)</span><br><span class="line">acc_random_forest = round(random_forest.score(X_train, Y_train) * <span class="number">100</span>, <span class="number">2</span>)</span><br><span class="line">acc_random_forest</span><br></pre></td></tr></table></figure>
+<pre><code>89.0
+</code></pre><h2 id="模型评价"><a href="#模型评价" class="headerlink" title="模型评价"></a>模型评价</h2><p>现在我们可以对所有模型的评估进行排序，以选择最适合我们问题的模型。在决策树和随机森林得分相同的情况下，我们选择随机森林来纠正决策树对训练集过度拟合的习惯。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">models = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">"Model"</span>: [<span class="string">"Support Vector Machines"</span>, <span class="string">"KNN"</span>, <span class="string">"Logistic Regression"</span>,</span><br><span class="line">              <span class="string">"Random Forest"</span>, <span class="string">"Naive Bayes"</span>, <span class="string">"Percep tron"</span>,</span><br><span class="line">              <span class="string">"Stochastic Gradient Decent"</span>, <span class="string">"Linear SVC"</span>, <span class="string">"Decision Tree"</span>],</span><br><span class="line">    <span class="string">"Score"</span>: [acc_svm, acc_knn, acc_log, acc_random_forest, acc_gaussian,</span><br><span class="line">              acc_perceptron, acc_sgd, acc_linear_svc, acc_decision_tree]</span><br><span class="line">    &#125;)</span><br><span class="line">models.sort_values(by=<span class="string">"Score"</span>, ascending=<span class="keyword">False</span>)</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Model</th>
+      <th>Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>Random Forest</td>
+      <td>89.00000</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Decision Tree</td>
+      <td>89.00000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>KNN</td>
+      <td>84.40000</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>Support Vector Machines</td>
+      <td>83.73000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Logistic Regression</td>
+      <td>81.37000</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Linear SVC</td>
+      <td>81.14000</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Stochastic Gradient Decent</td>
+      <td>80.92000</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Percep tron</td>
+      <td>80.58000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Naive Bayes</td>
+      <td>80.13000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 保存结果</span></span><br><span class="line"></span><br><span class="line">submission = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">"PassengerId"</span>: test_df[<span class="string">"PassengerId"</span>],</span><br><span class="line">    <span class="string">"Survived"</span>: Y_pred</span><br><span class="line">    &#125;)</span><br><span class="line">submission.to_csv(<span class="string">"/submission.csv"</span>, index=<span class="keyword">False</span>)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Kaggle/" rel="tag"><i class="fa fa-tag"></i> Kaggle</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/28/House_Prices_Advanced_Regression_Techniques/" rel="next" title="House Prices Advanced Regression Techniques">
+                <i class="fa fa-chevron-left"></i> House Prices Advanced Regression Techniques
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/10/CodeForces978C Letters/" rel="prev" title="CodeForces978C Letters">
+                CodeForces978C Letters <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Voidmort" />
+            
+              <p class="site-author-name" itemprop="name">Voidmort</p>
+              <p class="site-description motion-element" itemprop="description">研究AI，撰写影评，热爱音乐，努力健身</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">62</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Voidmort" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:wxj5658@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1749266905" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jusanliusha.xyz" title="Jusanliusha" target="_blank">Jusanliusha</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#加载数据"><span class="nav-number">1.</span> <span class="nav-text">加载数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#检查数据"><span class="nav-number">1.1.</span> <span class="nav-text">检查数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#观察特征的分布"><span class="nav-number">1.2.</span> <span class="nav-text">观察特征的分布</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据预处理"><span class="nav-number">2.</span> <span class="nav-text">数据预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#删除"><span class="nav-number">2.1.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Name"><span class="nav-number">2.2.</span> <span class="nav-text">Name</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sex"><span class="nav-number">2.3.</span> <span class="nav-text">Sex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Age"><span class="nav-number">2.4.</span> <span class="nav-text">Age</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Embarked"><span class="nav-number">2.5.</span> <span class="nav-text">Embarked</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fare"><span class="nav-number">2.6.</span> <span class="nav-text">Fare</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模型预测"><span class="nav-number">3.</span> <span class="nav-text">模型预测</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#模型评价"><span class="nav-number">3.1.</span> <span class="nav-text">模型评价</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Voidmort</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/kesyoban.model.json"},"display":{"position":"right","width":130,"height":260},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>
