@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2019-06-15T11:38:19.287Z</updated>
+  <updated>2019-08-11T11:53:31.456Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -15,6 +15,86 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Python 进度条 tqdm</title>
+    <link href="https://xvjie.wang/2019/07/26/Python%20%E8%BF%9B%E5%BA%A6%E6%9D%A1%20tqdm/"/>
+    <id>https://xvjie.wang/2019/07/26/Python 进度条 tqdm/</id>
+    <published>2019-07-25T16:00:00.000Z</published>
+    <updated>2019-08-11T11:53:31.456Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;tqdm是Python中专门用于进度条美化的模块，通过在非while的循环体内嵌入tqdm，可以得到一个能更好展现程序运行过程的提示进度条，本文就将针对tqdm的基本用法进行介绍。&lt;/p&gt;
+&lt;h1 id=&quot;基本用法&quot;&gt;&lt;a href=&quot;#基本用法&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="python库" scheme="https://xvjie.wang/tags/python%E5%BA%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>微博爬虫</title>
+    <link href="https://xvjie.wang/2019/07/25/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BE%AE%E5%8D%9A%E7%88%AC%E8%99%AB/"/>
+    <id>https://xvjie.wang/2019/07/25/简单的微博爬虫/</id>
+    <published>2019-07-24T16:00:00.000Z</published>
+    <updated>2019-08-11T11:35:12.803Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;准备写论文了，需要爬取些互联网的数据进行分析下，Pyhton爬虫是一个比较简单的方法，虽然有许多的爬虫框架但是我并不需要太复杂的爬虫，所以决定从零开始写一个简单的爬虫爬一下微博和评论。&lt;/p&gt;
+&lt;h1 id=&quot;准备工具&quot;&gt;&lt;a href=&quot;#准备工具&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="爬虫" scheme="https://xvjie.wang/categories/%E7%88%AC%E8%99%AB/"/>
+    
+    
+      <category term="python" scheme="https://xvjie.wang/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>文本相似度</title>
+    <link href="https://xvjie.wang/2019/07/18/%E6%96%87%E6%9C%AC%E7%9B%B8%E4%BC%BC%E5%BA%A6/"/>
+    <id>https://xvjie.wang/2019/07/18/文本相似度/</id>
+    <published>2019-07-17T16:00:00.000Z</published>
+    <updated>2019-08-11T11:51:31.832Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;如何对比两个文本的相似度，这里记录几个简单计算文本距离的方法。&lt;/p&gt;
+&lt;p&gt;规定，结果为0-1的浮点数，0为完全不相关，1为完全正相关&lt;/p&gt;
+&lt;h1 id=&quot;分词&quot;&gt;&lt;a href=&quot;#分词&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习代码实现" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/"/>
+    
+    
+      <category term="python" scheme="https://xvjie.wang/tags/python/"/>
+    
+  </entry>
   
   <entry>
     <title>CodeForces978C Letters</title>
@@ -75,33 +155,6 @@
   </entry>
   
   <entry>
-    <title>House Prices Advanced Regression Techniques</title>
-    <link href="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques/"/>
-    <id>https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques/</id>
-    <published>2019-05-27T16:00:00.000Z</published>
-    <updated>2019-06-15T11:46:10.648Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Kaggle Competition 的练习&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.kaggle.com/c/house-prices-advanced-regression-techniques&quot; target=&quot;_blank&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="Kaggle" scheme="https://xvjie.wang/categories/Kaggle/"/>
-    
-    
-      <category term="Kaggle" scheme="https://xvjie.wang/tags/Kaggle/"/>
-    
-  </entry>
-  
-  <entry>
     <title>House Prices Advanced Regression Techniques V2</title>
     <link href="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques_V2/"/>
     <id>https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques_V2/</id>
@@ -129,11 +182,11 @@
   </entry>
   
   <entry>
-    <title>机器学习策略</title>
-    <link href="https://xvjie.wang/2019/04/04/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AD%96%E7%95%A5/"/>
-    <id>https://xvjie.wang/2019/04/04/机器学习策略/</id>
-    <published>2019-04-03T16:00:00.000Z</published>
-    <updated>2019-06-02T09:08:26.637Z</updated>
+    <title>House Prices Advanced Regression Techniques</title>
+    <link href="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques/"/>
+    <id>https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques/</id>
+    <published>2019-05-27T16:00:00.000Z</published>
+    <updated>2019-06-15T11:46:10.648Z</updated>
     
     <summary type="html">
     
@@ -141,16 +194,17 @@
       
         
         
-          &lt;p&gt;当我们的系统达到了90%的准确率时，觉得还是不够好，我们有很多想法去改善我们的系统，比如，去收集更多的训练数据，收集更多不同姿势图片丰富样本的多样性，或者更多的反例集。或者再用梯度下降训练算法，训练久一点。或者尝试用一个完全不同的优化算法，比如Adam优化算法。或者尝试使用
+          &lt;p&gt;Kaggle Competition 的练习&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.kaggle.com/c/house-prices-advanced-regression-techniques&quot; target=&quot;_blank&quot;
         
       
     
     </summary>
     
-      <category term="深度学习" scheme="https://xvjie.wang/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+      <category term="Kaggle" scheme="https://xvjie.wang/categories/Kaggle/"/>
     
     
-      <category term="深度学习" scheme="https://xvjie.wang/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+      <category term="Kaggle" scheme="https://xvjie.wang/tags/Kaggle/"/>
     
   </entry>
   
@@ -168,6 +222,32 @@
         
         
           &lt;p&gt;在构建神经网络模型时，有许多的参数需要去调试，比如&lt;strong&gt;learning rate&lt;/strong&gt;
+        
+      
+    
+    </summary>
+    
+      <category term="深度学习" scheme="https://xvjie.wang/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="深度学习" scheme="https://xvjie.wang/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>机器学习策略</title>
+    <link href="https://xvjie.wang/2019/04/04/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AD%96%E7%95%A5/"/>
+    <id>https://xvjie.wang/2019/04/04/机器学习策略/</id>
+    <published>2019-04-03T16:00:00.000Z</published>
+    <updated>2019-06-02T09:08:26.637Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;当我们的系统达到了90%的准确率时，觉得还是不够好，我们有很多想法去改善我们的系统，比如，去收集更多的训练数据，收集更多不同姿势图片丰富样本的多样性，或者更多的反例集。或者再用梯度下降训练算法，训练久一点。或者尝试用一个完全不同的优化算法，比如Adam优化算法。或者尝试使用
         
       
     
@@ -461,90 +541,6 @@
         
           &lt;h1 id=&quot;验证&quot;&gt;&lt;a href=&quot;#验证&quot; class=&quot;headerlink&quot; title=&quot;验证&quot;&gt;&lt;/a&gt;验证&lt;/h1&gt;&lt;p&gt;通常我们会把数据分配为三分，训练集，交叉验证集和测试集，这样做的好处是为了避免过拟合，能够更好的泛化。&lt;/p&gt;
 &lt;p&gt;&lt;img
-        
-      
-    
-    </summary>
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/categories/Tensorflow/"/>
-    
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/tags/Tensorflow/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>LeetCode 16. 3Sum Closest</title>
-    <link href="https://xvjie.wang/2019/01/07/LeetCode%2016.%203Sum%20Closest/"/>
-    <id>https://xvjie.wang/2019/01/07/LeetCode 16. 3Sum Closest/</id>
-    <published>2019-01-06T16:00:00.000Z</published>
-    <updated>2019-01-07T04:00:12.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;好久没写C的，写个C复习一下，写个简单的leetcode吧&lt;/p&gt;
-&lt;ol start=&quot;16&quot;&gt;
-&lt;li&gt;3Sum Closest&lt;br&gt;Given an array nums of n integers and an integer target, find
-        
-      
-    
-    </summary>
-    
-      <category term="算法练习" scheme="https://xvjie.wang/categories/%E7%AE%97%E6%B3%95%E7%BB%83%E4%B9%A0/"/>
-    
-    
-      <category term="算法" scheme="https://xvjie.wang/tags/%E7%AE%97%E6%B3%95/"/>
-    
-      <category term="c" scheme="https://xvjie.wang/tags/c/"/>
-    
-      <category term="LeetCode" scheme="https://xvjie.wang/tags/LeetCode/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TensorFlow 3</title>
-    <link href="https://xvjie.wang/2018/12/29/TensorFlow_3/"/>
-    <id>https://xvjie.wang/2018/12/29/TensorFlow_3/</id>
-    <published>2018-12-29T07:10:00.000Z</published>
-    <updated>2019-01-13T12:37:19.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;使用TensorFlow的基本步骤&quot;&gt;&lt;a href=&quot;#使用TensorFlow的基本步骤&quot; class=&quot;headerlink&quot; title=&quot;使用TensorFlow的基本步骤&quot;&gt;&lt;/a&gt;使用TensorFlow的基本步骤&lt;/h1&gt;&lt;h1
-        
-      
-    
-    </summary>
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/categories/Tensorflow/"/>
-    
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/tags/Tensorflow/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TensorFlow 2</title>
-    <link href="https://xvjie.wang/2018/12/28/TensorFlow_2/"/>
-    <id>https://xvjie.wang/2018/12/28/TensorFlow_2/</id>
-    <published>2018-12-28T07:10:00.000Z</published>
-    <updated>2019-01-12T13:51:09.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;创建和控制张量&quot;&gt;&lt;a href=&quot;#创建和控制张量&quot; class=&quot;headerlink&quot; title=&quot;创建和控制张量&quot;&gt;&lt;/a&gt;创建和控制张量&lt;/h1&gt;&lt;h2 id=&quot;矢量加法&quot;&gt;&lt;a href=&quot;#矢量加法&quot; class=&quot;headerlink&quot;
         
       
     
