@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2019-08-11T11:53:31.456Z</updated>
+  <updated>2020-01-29T03:41:04.808Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>埃及分数</title>
+    <link href="https://xvjie.wang/2019/12/23/%E5%9F%83%E5%8F%8A%E5%88%86%E6%95%B0/"/>
+    <id>https://xvjie.wang/2019/12/23/埃及分数/</id>
+    <published>2019-12-22T16:00:00.000Z</published>
+    <updated>2020-01-29T03:41:04.808Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;在看科普视频的时候学到了埃及分数和贪婪算法，这里用code实现一下。&lt;/p&gt;
+&lt;h1 id=&quot;埃及分数&quot;&gt;&lt;a href=&quot;#埃及分数&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="算法练习" scheme="https://xvjie.wang/categories/%E7%AE%97%E6%B3%95%E7%BB%83%E4%B9%A0/"/>
+    
+    
+      <category term="python" scheme="https://xvjie.wang/tags/python/"/>
+    
+  </entry>
   
   <entry>
     <title>Python 进度条 tqdm</title>
@@ -514,33 +541,6 @@
         
         
           &lt;h1 id=&quot;表示法（Representation）&quot;&gt;&lt;a href=&quot;#表示法（Representation）&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/categories/Tensorflow/"/>
-    
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/tags/Tensorflow/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TensorFlow 4</title>
-    <link href="https://xvjie.wang/2019/01/08/TensorFlow_4/"/>
-    <id>https://xvjie.wang/2019/01/08/TensorFlow_4/</id>
-    <published>2019-01-08T05:10:00.000Z</published>
-    <updated>2019-01-12T13:56:00.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;验证&quot;&gt;&lt;a href=&quot;#验证&quot; class=&quot;headerlink&quot; title=&quot;验证&quot;&gt;&lt;/a&gt;验证&lt;/h1&gt;&lt;p&gt;通常我们会把数据分配为三分，训练集，交叉验证集和测试集，这样做的好处是为了避免过拟合，能够更好的泛化。&lt;/p&gt;
-&lt;p&gt;&lt;img
         
       
     
