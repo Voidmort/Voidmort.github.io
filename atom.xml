@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2020-01-29T03:41:04.808Z</updated>
+  <updated>2020-02-18T03:11:24.089Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -17,11 +17,37 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Django</title>
+    <link href="https://xvjie.wang/2020/02/05/Django/"/>
+    <id>https://xvjie.wang/2020/02/05/Django/</id>
+    <published>2020-02-04T16:00:00.000Z</published>
+    <updated>2020-02-18T03:11:24.089Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Python下有许多款不同的 Web
+        
+      
+    
+    </summary>
+    
+      <category term="Django" scheme="https://xvjie.wang/categories/Django/"/>
+    
+    
+      <category term="Django" scheme="https://xvjie.wang/tags/Django/"/>
+    
+  </entry>
+  
+  <entry>
     <title>埃及分数</title>
     <link href="https://xvjie.wang/2019/12/23/%E5%9F%83%E5%8F%8A%E5%88%86%E6%95%B0/"/>
     <id>https://xvjie.wang/2019/12/23/埃及分数/</id>
     <published>2019-12-22T16:00:00.000Z</published>
-    <updated>2020-01-29T03:41:04.808Z</updated>
+    <updated>2020-01-29T03:41:04.000Z</updated>
     
     <summary type="html">
     
@@ -48,7 +74,7 @@
     <link href="https://xvjie.wang/2019/07/26/Python%20%E8%BF%9B%E5%BA%A6%E6%9D%A1%20tqdm/"/>
     <id>https://xvjie.wang/2019/07/26/Python 进度条 tqdm/</id>
     <published>2019-07-25T16:00:00.000Z</published>
-    <updated>2019-08-11T11:53:31.456Z</updated>
+    <updated>2019-08-11T11:53:31.000Z</updated>
     
     <summary type="html">
     
@@ -73,7 +99,7 @@
     <link href="https://xvjie.wang/2019/07/25/%E7%AE%80%E5%8D%95%E7%9A%84%E5%BE%AE%E5%8D%9A%E7%88%AC%E8%99%AB/"/>
     <id>https://xvjie.wang/2019/07/25/简单的微博爬虫/</id>
     <published>2019-07-24T16:00:00.000Z</published>
-    <updated>2019-08-11T11:35:12.803Z</updated>
+    <updated>2019-08-11T11:35:12.000Z</updated>
     
     <summary type="html">
     
@@ -100,7 +126,7 @@
     <link href="https://xvjie.wang/2019/07/18/%E6%96%87%E6%9C%AC%E7%9B%B8%E4%BC%BC%E5%BA%A6/"/>
     <id>https://xvjie.wang/2019/07/18/文本相似度/</id>
     <published>2019-07-17T16:00:00.000Z</published>
-    <updated>2019-08-11T11:51:31.832Z</updated>
+    <updated>2019-08-11T11:51:31.000Z</updated>
     
     <summary type="html">
     
@@ -128,7 +154,7 @@
     <link href="https://xvjie.wang/2019/06/10/CodeForces978C%20Letters/"/>
     <id>https://xvjie.wang/2019/06/10/CodeForces978C Letters/</id>
     <published>2019-06-09T16:00:00.000Z</published>
-    <updated>2019-06-15T11:38:19.287Z</updated>
+    <updated>2019-06-15T11:38:19.000Z</updated>
     
     <summary type="html">
     
@@ -158,7 +184,7 @@
     <link href="https://xvjie.wang/2019/05/28/Titanic_Machine_Learning_from_Disaster.2/"/>
     <id>https://xvjie.wang/2019/05/28/Titanic_Machine_Learning_from_Disaster.2/</id>
     <published>2019-05-27T16:00:00.000Z</published>
-    <updated>2019-06-15T11:45:25.936Z</updated>
+    <updated>2019-06-15T11:45:25.000Z</updated>
     
     <summary type="html">
     
@@ -186,7 +212,7 @@
     <link href="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques_V2/"/>
     <id>https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques_V2/</id>
     <published>2019-05-27T16:00:00.000Z</published>
-    <updated>2019-06-15T11:46:15.296Z</updated>
+    <updated>2019-06-15T11:46:15.000Z</updated>
     
     <summary type="html">
     
@@ -213,7 +239,7 @@
     <link href="https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques/"/>
     <id>https://xvjie.wang/2019/05/28/House_Prices_Advanced_Regression_Techniques/</id>
     <published>2019-05-27T16:00:00.000Z</published>
-    <updated>2019-06-15T11:46:10.648Z</updated>
+    <updated>2019-06-15T11:46:10.000Z</updated>
     
     <summary type="html">
     
@@ -236,37 +262,11 @@
   </entry>
   
   <entry>
-    <title>深度学习的参数调试</title>
-    <link href="https://xvjie.wang/2019/04/04/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%82%E6%95%B0%E8%B0%83%E8%AF%95/"/>
-    <id>https://xvjie.wang/2019/04/04/深度学习的参数调试/</id>
-    <published>2019-04-03T16:00:00.000Z</published>
-    <updated>2019-06-02T09:08:15.893Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;在构建神经网络模型时，有许多的参数需要去调试，比如&lt;strong&gt;learning rate&lt;/strong&gt;
-        
-      
-    
-    </summary>
-    
-      <category term="深度学习" scheme="https://xvjie.wang/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="深度学习" scheme="https://xvjie.wang/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
     <title>机器学习策略</title>
     <link href="https://xvjie.wang/2019/04/04/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AD%96%E7%95%A5/"/>
     <id>https://xvjie.wang/2019/04/04/机器学习策略/</id>
     <published>2019-04-03T16:00:00.000Z</published>
-    <updated>2019-06-02T09:08:26.637Z</updated>
+    <updated>2019-06-02T09:08:26.000Z</updated>
     
     <summary type="html">
     
@@ -288,11 +288,37 @@
   </entry>
   
   <entry>
+    <title>深度学习的参数调试</title>
+    <link href="https://xvjie.wang/2019/04/04/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%82%E6%95%B0%E8%B0%83%E8%AF%95/"/>
+    <id>https://xvjie.wang/2019/04/04/深度学习的参数调试/</id>
+    <published>2019-04-03T16:00:00.000Z</published>
+    <updated>2019-06-02T09:08:15.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;在构建神经网络模型时，有许多的参数需要去调试，比如&lt;strong&gt;learning rate&lt;/strong&gt;
+        
+      
+    
+    </summary>
+    
+      <category term="深度学习" scheme="https://xvjie.wang/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="深度学习" scheme="https://xvjie.wang/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
     <title>激活函数（Activation functions）</title>
     <link href="https://xvjie.wang/2019/03/27/%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0%EF%BC%88Activation%20functions%EF%BC%89/"/>
     <id>https://xvjie.wang/2019/03/27/激活函数（Activation functions）/</id>
     <published>2019-03-26T16:00:00.000Z</published>
-    <updated>2019-03-27T14:55:41.866Z</updated>
+    <updated>2019-03-27T14:55:41.000Z</updated>
     
     <summary type="html">
     
@@ -319,7 +345,7 @@
     <link href="https://xvjie.wang/2019/02/25/TensorFlow_10/"/>
     <id>https://xvjie.wang/2019/02/25/TensorFlow_10/</id>
     <published>2019-02-25T08:51:00.000Z</published>
-    <updated>2019-03-19T13:59:46.177Z</updated>
+    <updated>2019-03-19T13:59:46.000Z</updated>
     
     <summary type="html">
     
@@ -398,7 +424,7 @@
     <link href="https://xvjie.wang/2019/02/10/%E6%88%91%E7%9A%84%E6%B5%81%E6%B5%AA%E5%9C%B0%E7%90%83/"/>
     <id>https://xvjie.wang/2019/02/10/我的流浪地球/</id>
     <published>2019-02-09T16:00:00.000Z</published>
-    <updated>2019-03-27T14:33:47.730Z</updated>
+    <updated>2019-03-27T14:33:47.000Z</updated>
     
     <summary type="html">
     
@@ -425,7 +451,7 @@
     <link href="https://xvjie.wang/2019/01/27/Django%20%E9%83%A8%E7%BD%B2(Apache)/"/>
     <id>https://xvjie.wang/2019/01/27/Django 部署(Apache)/</id>
     <published>2019-01-27T02:38:27.000Z</published>
-    <updated>2019-03-27T15:09:15.930Z</updated>
+    <updated>2019-03-27T15:09:15.000Z</updated>
     
     <summary type="html">
     
@@ -453,7 +479,7 @@
     <link href="https://xvjie.wang/2019/01/19/MachineLearningGlossary/"/>
     <id>https://xvjie.wang/2019/01/19/MachineLearningGlossary/</id>
     <published>2019-01-18T16:00:00.000Z</published>
-    <updated>2019-02-23T12:02:15.171Z</updated>
+    <updated>2019-02-23T12:02:15.000Z</updated>
     
     <summary type="html">
     
@@ -515,32 +541,6 @@
         
         
           &lt;h1 id=&quot;特征组合-Feature-Crosses&quot;&gt;&lt;a href=&quot;#特征组合-Feature-Crosses&quot; class=&quot;headerlink&quot; title=&quot;特征组合 (Feature Crosses)&quot;&gt;&lt;/a&gt;特征组合 (Feature
-        
-      
-    
-    </summary>
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/categories/Tensorflow/"/>
-    
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/tags/Tensorflow/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TensorFlow 5</title>
-    <link href="https://xvjie.wang/2019/01/09/TensorFlow_5/"/>
-    <id>https://xvjie.wang/2019/01/09/TensorFlow_5/</id>
-    <published>2019-01-09T02:10:00.000Z</published>
-    <updated>2019-01-12T13:57:16.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;表示法（Representation）&quot;&gt;&lt;a href=&quot;#表示法（Representation）&quot; class=&quot;headerlink&quot;
         
       
     
