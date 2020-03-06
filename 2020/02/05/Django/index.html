@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="Voidmort">
 <meta property="og:description" content="Python下有许多款不同的 Web 框架。Django是重量级选手中最有代表性的一位。许多成功的网站和APP都基于Django。 Django是一个开放源代码的Web应用框架，由Python写成。 Django采用了MVC的软件设计模式，即模型M，视图V和控制器C。 Django的安装12345pip install Django&amp;gt;&amp;gt;&amp;gt; import django&amp;gt;&amp;gt">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-18T03:11:24.089Z">
+<meta property="og:updated_time" content="2020-03-06T08:59:00.615Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django">
 <meta name="twitter:description" content="Python下有许多款不同的 Web 框架。Django是重量级选手中最有代表性的一位。许多成功的网站和APP都基于Django。 Django是一个开放源代码的Web应用框架，由Python写成。 Django采用了MVC的软件设计模式，即模型M，视图V和控制器C。 Django的安装12345pip install Django&amp;gt;&amp;gt;&amp;gt; import django&amp;gt;&amp;gt">
@@ -414,7 +414,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-02-18 11:11:24" itemprop="dateModified" datetime="2020-02-18T11:11:24+08:00">2020-02-18</time>
+                <time title="修改时间：2020-03-06 16:59:00" itemprop="dateModified" datetime="2020-03-06T16:59:00+08:00">2020-03-06</time>
               
             
           </span>
@@ -502,14 +502,21 @@ urls.py：需要自己创建，作为子路由。
 <p>在html中的使用：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">首先创建了一个css文件</span><br><span class="line"></span><br><span class="line">appname/static/js/style.css</span><br><span class="line"></span><br><span class="line">如何使用，appname/templates/index.html里添加下面代码：</span><br><span class="line"></span><br><span class="line">&#123;% load staticfiles %&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">href</span>=<span class="string">"&#123;% static 'js/style.css' %&#125;"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
 <h1 id="添加脚本目录"><a href="#添加脚本目录" class="headerlink" title="添加脚本目录"></a>添加脚本目录</h1><p>我们有一些脚本写在另一个文件夹，我们希望引入它们，在<code>settings.py</code>中添加<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line">sys<span class="selector-class">.path</span><span class="selector-class">.insert</span>(<span class="number">0</span>, os<span class="selector-class">.path</span><span class="selector-class">.join</span>(BASE_DIR, <span class="string">'/home/Scripts'</span>))</span><br></pre></td></tr></table></figure></p>
-<h1 id="部署静态文件"><a href="#部署静态文件" class="headerlink" title="部署静态文件"></a>部署静态文件</h1><ol>
-<li>收集静态文件</li>
-</ol>
-<p>python manage.py collectstatic</p>
+<h1 id="数据库相关"><a href="#数据库相关" class="headerlink" title="数据库相关"></a>数据库相关</h1><h1 id="部署静态文件"><a href="#部署静态文件" class="headerlink" title="部署静态文件"></a>部署静态文件</h1><h2 id="收集静态文件"><a href="#收集静态文件" class="headerlink" title="收集静态文件"></a>收集静态文件</h2><p>python manage.py collectstatic</p>
 <p>这一句话就会把以前放在app下static中的静态文件全部拷贝到 settings.py 中设置的 STATIC_ROOT 文件夹中</p>
-<ol start="2">
-<li>用 apache2 或 nginx 示例代码</li>
-</ol>
+<h2 id="用UWSGI部署"><a href="#用UWSGI部署" class="headerlink" title="用UWSGI部署"></a>用UWSGI部署</h2><p>uWSGI是一个Web服务器，它实现了WSGI协议、uwsgi、http等协议。Nginx中HttpUwsgiModule的作用是与uWSGI服务器进行交换。</p>
+<p>要注意 WSGI / uwsgi / uWSGI 这三个概念的区分。</p>
+<p>WSGI是一种通信协议。</p>
+<p>uwsgi是一种线路协议而不是通信协议，在此常用于在uWSGI服务器与其他网络服务器的数据通信。</p>
+<p>而uWSGI是实现了uwsgi和WSGI两种协议的Web服务器。</p>
+<p>uwsgi协议是一个uWSGI服务器自有的协议，它用于定义传输信息的类型（type of information），每一个uwsgi packet前4byte为传输信息类型描述，它与WSGI相比是两样东西。</p>
+<p>uwsgi安装命令</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip <span class="keyword">install</span> uwsgi <span class="comment">--upgrade</span></span><br></pre></td></tr></table></figure>
+<p>uwsgi.ini配置文件编写</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[uwsgi]</span></span><br><span class="line"><span class="attr">http-socket</span> = <span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">80</span>  # IP地址与端口号</span><br><span class="line"><span class="attr">chdir</span> = /home/user/myProject/  # Django工程的目录</span><br><span class="line"><span class="attr">virtualenv</span> = /home/user/pyvenv/env3.<span class="number">7</span> # python虚拟环境目录</span><br><span class="line"><span class="attr">wsgi-file</span> = myProject/wsgi.py # wsgi.py的位置，接在chdir后面</span><br><span class="line"><span class="attr">static-map</span> = /static=/home/user/myProject/static # 静态文件的位置</span><br><span class="line"><span class="attr">enable-threads</span> = <span class="literal">true</span>   # 允许在django创建线程</span><br><span class="line"><span class="attr">auto-procname</span> = <span class="literal">true</span>    # 自动给进程起名字</span><br><span class="line"><span class="attr">daemonize</span> = /home/user/log/uwsgi.log    # log地址</span><br><span class="line"><span class="attr">pidfile</span> = /home/user/myProject/uwsgi.pid    # 保存主进程pid的文件</span><br><span class="line"><span class="attr">disable-logging</span> = <span class="literal">true</span>  # log只记录错误信息</span><br><span class="line"><span class="attr">buffer-size</span> = <span class="number">51200</span> # 允许传输的字节数</span><br><span class="line"><span class="attr">processes</span> = <span class="number">4</span>   # 进程数</span><br><span class="line"><span class="attr">threads</span> = <span class="number">2</span> # 线程数</span><br><span class="line"><span class="attr">vacuum</span> = <span class="literal">true</span>   # 允许主进程</span><br></pre></td></tr></table></figure>
+<p>关闭只能关闭pidfile里记录的pid号，不能kill其它三个进程</p>
+<figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">uwsgi </span><span class="built_in">--ini</span> <span class="string">uwsgi.</span><span class="string">ini </span>  <span class="comment"># 启动</span></span><br><span class="line"><span class="string">uwsgi </span><span class="built_in">--reload</span> <span class="string">uwsgi.</span><span class="string">pid </span>   <span class="comment"># 重启</span></span><br><span class="line"><span class="string">uwsgi </span><span class="built_in">--stop</span> <span class="string">uwsgi.</span><span class="string">pid </span> <span class="comment"># 关闭</span></span><br></pre></td></tr></table></figure>
+<h2 id="部署到服务器"><a href="#部署到服务器" class="headerlink" title="部署到服务器"></a>部署到服务器</h2><p>用 apache2 或 nginx 示例代码</p>
 <p>apache2配置文件<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Alias <span class="meta-keyword">/static/</span> <span class="meta-keyword">/path/</span>to/collected_static/</span><br><span class="line"> </span><br><span class="line"><span class="params">&lt;Directory /path/to/collected_static&gt;</span></span><br><span class="line">    Require all granted</span><br><span class="line"><span class="params">&lt;/Directory&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>nginx 示例代码：<br><figure class="highlight puppet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location /<span class="keyword">media</span>  &#123;</span><br><span class="line">    <span class="literal">alias</span> /<span class="built_in">path</span>/to/<span class="literal">project</span>/media;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">location</span> /<span class="keyword">static</span> &#123;</span><br><span class="line">    <span class="literal">alias</span> /<span class="built_in">path</span>/to/<span class="literal">project</span>/collected_static;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
@@ -554,6 +561,10 @@ urls.py：需要自己创建，作为子路由。
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/18/机器学习实战（一）/" rel="prev" title="机器学习实战（一）">
+                机器学习实战（一） <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -631,7 +642,7 @@ urls.py：需要自己创建，作为子路由。
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">67</span>
+                    <span class="site-state-item-count">70</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -672,7 +683,11 @@ urls.py：需要自己创建，作为子路由。
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -743,7 +758,13 @@ urls.py：需要自己创建，作为子路由。
                     
                       
                     
-                    <span class="site-state-item-count">29</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">32</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -819,7 +840,7 @@ urls.py：需要自己创建，作为子路由。
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Django的安装"><span class="nav-number">1.</span> <span class="nav-text">Django的安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建工程"><span class="nav-number">2.</span> <span class="nav-text">创建工程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建-APP"><span class="nav-number">3.</span> <span class="nav-text">创建 APP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网页和静态文件"><span class="nav-number">4.</span> <span class="nav-text">网页和静态文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#添加脚本目录"><span class="nav-number">5.</span> <span class="nav-text">添加脚本目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#部署静态文件"><span class="nav-number">6.</span> <span class="nav-text">部署静态文件</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Django的安装"><span class="nav-number">1.</span> <span class="nav-text">Django的安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建工程"><span class="nav-number">2.</span> <span class="nav-text">创建工程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建-APP"><span class="nav-number">3.</span> <span class="nav-text">创建 APP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网页和静态文件"><span class="nav-number">4.</span> <span class="nav-text">网页和静态文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#添加脚本目录"><span class="nav-number">5.</span> <span class="nav-text">添加脚本目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库相关"><span class="nav-number">6.</span> <span class="nav-text">数据库相关</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#部署静态文件"><span class="nav-number">7.</span> <span class="nav-text">部署静态文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#收集静态文件"><span class="nav-number">7.1.</span> <span class="nav-text">收集静态文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用UWSGI部署"><span class="nav-number">7.2.</span> <span class="nav-text">用UWSGI部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署到服务器"><span class="nav-number">7.3.</span> <span class="nav-text">部署到服务器</span></a></li></ol></li></ol></div>
             
 
           </div>

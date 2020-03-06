@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2020-02-18T03:11:24.089Z</updated>
+  <updated>2020-03-06T09:01:06.144Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -17,11 +17,93 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Python虚拟环境的搭建</title>
+    <link href="https://xvjie.wang/2020/02/19/Python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E7%9A%84%E6%90%AD%E5%BB%BA/"/>
+    <id>https://xvjie.wang/2020/02/19/Python虚拟环境的搭建/</id>
+    <published>2020-02-19T03:03:50.000Z</published>
+    <updated>2020-03-06T09:01:06.144Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;我使用的Ubuntu18已经自带了pyhon3.6，现在我想用pip安装一些其它的应用的版本和现有的有冲突，为了防止冲突，我需要另一个python环境。&lt;/p&gt;
+&lt;h1 id=&quot;python的安装&quot;&gt;&lt;a href=&quot;#python的安装&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="virtualenv" scheme="https://xvjie.wang/categories/virtualenv/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>机器学习实战（二）</title>
+    <link href="https://xvjie.wang/2020/02/18/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E4%BA%8C%EF%BC%89/"/>
+    <id>https://xvjie.wang/2020/02/18/机器学习实战（二）/</id>
+    <published>2020-02-18T03:20:50.000Z</published>
+    <updated>2020-03-04T08:15:36.274Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;k-邻近算法概述&quot;&gt;&lt;a href=&quot;#k-邻近算法概述&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习实战" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/"/>
+    
+    
+      <category term="k-邻近算法" scheme="https://xvjie.wang/tags/k-%E9%82%BB%E8%BF%91%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="KNN" scheme="https://xvjie.wang/tags/KNN/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>机器学习实战（一）</title>
+    <link href="https://xvjie.wang/2020/02/18/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <id>https://xvjie.wang/2020/02/18/机器学习实战（一）/</id>
+    <published>2020-02-18T03:20:50.000Z</published>
+    <updated>2020-03-04T08:21:18.713Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;此blog是机器学习实战这本书的读书笔记&lt;/p&gt;
+&lt;h1 id=&quot;机器学习基础&quot;&gt;&lt;a href=&quot;#机器学习基础&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习实战" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/"/>
+    
+    
+      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="机器学习实战" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Django</title>
     <link href="https://xvjie.wang/2020/02/05/Django/"/>
     <id>https://xvjie.wang/2020/02/05/Django/</id>
     <published>2020-02-04T16:00:00.000Z</published>
-    <updated>2020-02-18T03:11:24.089Z</updated>
+    <updated>2020-03-06T08:59:00.615Z</updated>
     
     <summary type="html">
     
@@ -471,85 +553,6 @@
     
     
       <category term="Django" scheme="https://xvjie.wang/tags/Django/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>机器学习术语表</title>
-    <link href="https://xvjie.wang/2019/01/19/MachineLearningGlossary/"/>
-    <id>https://xvjie.wang/2019/01/19/MachineLearningGlossary/</id>
-    <published>2019-01-18T16:00:00.000Z</published>
-    <updated>2019-02-23T12:02:15.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          
-&lt;script
-        
-      
-    
-    </summary>
-    
-      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TensorFlow 7</title>
-    <link href="https://xvjie.wang/2019/01/14/TensorFlow_7/"/>
-    <id>https://xvjie.wang/2019/01/14/TensorFlow_7/</id>
-    <published>2019-01-14T09:10:00.000Z</published>
-    <updated>2019-02-23T11:13:06.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;正则化-Regularization-for-Simplicity&quot;&gt;&lt;a href=&quot;#正则化-Regularization-for-Simplicity&quot; class=&quot;headerlink&quot; title=&quot;正则化 (Regularization for
-        
-      
-    
-    </summary>
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/categories/Tensorflow/"/>
-    
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/tags/Tensorflow/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TensorFlow 6</title>
-    <link href="https://xvjie.wang/2019/01/14/TensorFlow_6/"/>
-    <id>https://xvjie.wang/2019/01/14/TensorFlow_6/</id>
-    <published>2019-01-14T02:10:00.000Z</published>
-    <updated>2019-02-02T15:09:47.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;特征组合-Feature-Crosses&quot;&gt;&lt;a href=&quot;#特征组合-Feature-Crosses&quot; class=&quot;headerlink&quot; title=&quot;特征组合 (Feature Crosses)&quot;&gt;&lt;/a&gt;特征组合 (Feature
-        
-      
-    
-    </summary>
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/categories/Tensorflow/"/>
-    
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/tags/Tensorflow/"/>
     
   </entry>
   

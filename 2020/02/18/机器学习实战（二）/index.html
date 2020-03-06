@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="k-邻近算法概述k-邻近算法采用测量不同特征之间的距离方法进行分类。 优点：精度高，对异常值不敏感，无数据输入假定 缺点：计算复杂度高，空间复杂度高 适用数据范围：数值型和标称型 准备使用Python导入数据首先写一个简单的程序来理解python是如何解析和加载数据的 1234567from numpy import *import operatordef createDataSet():">
+<meta name="keywords" content="k-邻近算法,KNN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习实战（二）">
+<meta property="og:url" content="https://xvjie.wang/2020/02/18/机器学习实战（二）/index.html">
+<meta property="og:site_name" content="Voidmort">
+<meta property="og:description" content="k-邻近算法概述k-邻近算法采用测量不同特征之间的距离方法进行分类。 优点：精度高，对异常值不敏感，无数据输入假定 缺点：计算复杂度高，空间复杂度高 适用数据范围：数值型和标称型 准备使用Python导入数据首先写一个简单的程序来理解python是如何解析和加载数据的 1234567from numpy import *import operatordef createDataSet():">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://xvjie.wang/2020/02/18/机器学习实战（二）/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E4%BA%8C%EF%BC%89_19_0.png">
+<meta property="og:image" content="https://xvjie.wang/2020/02/18/机器学习实战（二）/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E4%BA%8C%EF%BC%89_21_0.png">
+<meta property="og:updated_time" content="2020-03-04T08:15:36.274Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习实战（二）">
+<meta name="twitter:description" content="k-邻近算法概述k-邻近算法采用测量不同特征之间的距离方法进行分类。 优点：精度高，对异常值不敏感，无数据输入假定 缺点：计算复杂度高，空间复杂度高 适用数据范围：数值型和标称型 准备使用Python导入数据首先写一个简单的程序来理解python是如何解析和加载数据的 1234567from numpy import *import operatordef createDataSet():">
+<meta name="twitter:image" content="https://xvjie.wang/2020/02/18/机器学习实战（二）/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E4%BA%8C%EF%BC%89_19_0.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Voidmort" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://xvjie.wang/2020/02/18/机器学习实战（二）/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>机器学习实战（二） | Voidmort</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7b96eb7c2717359e36cc8bd8b546997c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/Voidmort" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Voidmort</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-other">
+    <a href="/other/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-plane"></i> <br />其它</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xvjie.wang/2020/02/18/机器学习实战（二）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Voidmort">
+      <meta itemprop="description" content="研究AI，撰写影评，热爱音乐，努力健身">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Voidmort">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习实战（二）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-18 11:20:50" itemprop="dateCreated datePublished" datetime="2020-02-18T11:20:50+08:00">2020-02-18</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-03-04 16:15:36" itemprop="dateModified" datetime="2020-03-04T16:15:36+08:00">2020-03-04</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习实战/" itemprop="url" rel="index"><span itemprop="name">机器学习实战</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="k-邻近算法概述"><a href="#k-邻近算法概述" class="headerlink" title="k-邻近算法概述"></a>k-邻近算法概述</h1><p>k-邻近算法采用测量不同特征之间的距离方法进行分类。</p>
+<pre><code>优点：精度高，对异常值不敏感，无数据输入假定
+缺点：计算复杂度高，空间复杂度高
+适用数据范围：数值型和标称型
+</code></pre><h1 id="准备使用Python导入数据"><a href="#准备使用Python导入数据" class="headerlink" title="准备使用Python导入数据"></a>准备使用Python导入数据</h1><p>首先写一个简单的程序来理解python是如何解析和加载数据的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> operator</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">createDataSet</span><span class="params">()</span>:</span></span><br><span class="line">    group = array([[<span class="number">1.0</span>, <span class="number">1.1</span>], [<span class="number">1.0</span>, <span class="number">1.0</span>], [<span class="number">0</span>, <span class="number">0</span>], [<span class="number">0</span>, <span class="number">0.1</span>]])</span><br><span class="line">    labels = [<span class="string">'A'</span>, <span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'B'</span>]</span><br><span class="line">    <span class="keyword">return</span> group, labels</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">group, labels = createDataSet()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">group</span><br></pre></td></tr></table></figure>
+<pre><code>array([[1. , 1.1],
+       [1. , 1. ],
+       [0. , 0. ],
+       [0. , 0.1]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">labels</span><br></pre></td></tr></table></figure>
+<pre><code>[&apos;A&apos;, &apos;A&apos;, &apos;B&apos;, &apos;B&apos;]
+</code></pre><h1 id="实施KNN分类算法"><a href="#实施KNN分类算法" class="headerlink" title="实施KNN分类算法"></a>实施KNN分类算法</h1><p>对未知类别属性的数据集中的每个点依次执行以下操作：</p>
+<ol>
+<li>计算已知类别数据集中的点与当前点之间的距离</li>
+<li>按照距离递增次序排序</li>
+<li>选取与当前距离最小的k个点</li>
+<li>确定前k个点所在类别的出现频率</li>
+<li>返回前k个点出现频率最高的类别当作当前点的预测分类</li>
+</ol>
+<p>计算距离的方法使用欧氏距离计算公式:</p>
+<p>$$d=\sqrt{(x_1-x_2)^2+(y_1-y_2)^2}$$</p>
+<p>具体程序如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classify0</span><span class="params">(inX, dataSet, labels, k)</span>:</span></span><br><span class="line">    dataSetSize = dataSet.shape[<span class="number">0</span>]</span><br><span class="line">    diffMat = tile(inX, (dataSetSize, <span class="number">1</span>)) - dataSet</span><br><span class="line">    sqDiffMat = diffMat**<span class="number">2</span></span><br><span class="line">    sqDistances = sqDiffMat.sum(axis=<span class="number">1</span>)</span><br><span class="line">    distances = sqDistances ** <span class="number">0.5</span></span><br><span class="line">    sortedDistIndicies = distances.argsort()</span><br><span class="line">    classCount = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(k):</span><br><span class="line">        voteIlabe1 = labels[sortedDistIndicies[i]]</span><br><span class="line">        classCount[voteIlabe1] = classCount.get(voteIlabe1, <span class="number">0</span>) + <span class="number">1</span></span><br><span class="line">    sortedClassCount = sorted(classCount.items(), key=operator.itemgetter(<span class="number">1</span>), reverse=<span class="keyword">True</span>)</span><br><span class="line">    <span class="keyword">return</span> sortedClassCount[<span class="number">0</span>][<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p>classify0 有四个参数</p>
+<pre><code>inX：需要分类的向量
+dataSet：训练集的特征
+labels：训练集的标签
+k：最近邻居的数目
+</code></pre><p>测试下我们写的算法是否正确，我们传入（0，0）的点，正确的分类点应该是B点</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">classify0([<span class="number">0</span>,<span class="number">0</span>], group, labels, <span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>&apos;B&apos;
+</code></pre><h1 id="使用k-邻近算法改进约会网站的配对结果"><a href="#使用k-邻近算法改进约会网站的配对结果" class="headerlink" title="使用k-邻近算法改进约会网站的配对结果"></a>使用k-邻近算法改进约会网站的配对结果</h1><p>约会网站通过三个特征把样本分为3类</p>
+<table>
+<thead>
+<tr>
+<th>每年飞行里程</th>
+<th>玩游戏消耗的时间百分比</th>
+<th>每周消耗的冰淇淋公升数</th>
+<th>样本分类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>(largeDoses,smallDoses,didntLike)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="准备数据：从文本文件中解析数据"><a href="#准备数据：从文本文件中解析数据" class="headerlink" title="准备数据：从文本文件中解析数据"></a>准备数据：从文本文件中解析数据</h2><p>共有1000行数据存放在datingTestSet2.txt中，行之间用\n分割，列之间\t分割，现在需要把这个文件里的数据转换为一个向量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">file2matrix</span><span class="params">(filename)</span>:</span></span><br><span class="line">    fr = open(filename, <span class="string">'r'</span>)</span><br><span class="line">    arrayOLines = fr.readlines()</span><br><span class="line">    numberOfLines = len(arrayOLines)</span><br><span class="line">    returnMat = zeros((numberOfLines, <span class="number">3</span>))</span><br><span class="line">    classLabelVector = []</span><br><span class="line">    index = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> arrayOLines:</span><br><span class="line">        line = line.strip()</span><br><span class="line">        listFromLine = line.split(<span class="string">'\t'</span>)</span><br><span class="line">        returnMat[index, :] = listFromLine[<span class="number">0</span>: <span class="number">3</span>]</span><br><span class="line">        classLabelVector.append(int(listFromLine[<span class="number">-1</span>]))</span><br><span class="line">        index += <span class="number">1</span></span><br><span class="line">    fr.close()</span><br><span class="line">    <span class="keyword">return</span> returnMat, classLabelVector</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">datingDataMat, datingLabels = file2matrix(<span class="string">'./MLiA_SourceCode/machinelearninginaction/Ch02/datingTestSet2.txt'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">datingDataMat</span><br></pre></td></tr></table></figure>
+<pre><code>array([[4.0920000e+04, 8.3269760e+00, 9.5395200e-01],
+       [1.4488000e+04, 7.1534690e+00, 1.6739040e+00],
+       [2.6052000e+04, 1.4418710e+00, 8.0512400e-01],
+       ...,
+       [2.6575000e+04, 1.0650102e+01, 8.6662700e-01],
+       [4.8111000e+04, 9.1345280e+00, 7.2804500e-01],
+       [4.3757000e+04, 7.8826010e+00, 1.3324460e+00]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">datingLabels[:<span class="number">20</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>[3, 2, 1, 1, 1, 1, 3, 3, 1, 3, 1, 1, 2, 1, 1, 1, 1, 1, 2, 3]
+</code></pre><h2 id="分析数据：使用matplotlib绘制散点图"><a href="#分析数据：使用matplotlib绘制散点图" class="headerlink" title="分析数据：使用matplotlib绘制散点图"></a>分析数据：使用matplotlib绘制散点图</h2><p>数据使用第二列和第三列的值分别是</p>
+<pre><code>x轴：玩游戏消耗的时间百分比
+y轴：每周消费的冰淇淋公升数
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">fig = plt.figure()</span><br><span class="line">ax = fig.add_subplot(<span class="number">111</span>)</span><br><span class="line">ax.scatter(datingDataMat[:, <span class="number">1</span>], datingDataMat[:, <span class="number">2</span>])</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E4%BA%8C%EF%BC%89_19_0.png" alt="png"></p>
+<p>从上图很难看到有用的信息，我们通过颜色标记不同的样本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fig = plt.figure()</span><br><span class="line">ax = fig.add_subplot(<span class="number">111</span>)</span><br><span class="line">ax.scatter(datingDataMat[:, <span class="number">1</span>], datingDataMat[:, <span class="number">2</span>], <span class="number">15.0</span>*array(datingLabels), <span class="number">15.0</span>*array(datingLabels))</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E4%BA%8C%EF%BC%89_21_0.png" alt="png"></p>
+<p>利用颜色和尺寸我们基本可以看出三种样本的区域轮廓。</p>
+<h2 id="准备数据：归一化数值"><a href="#准备数据：归一化数值" class="headerlink" title="准备数据：归一化数值"></a>准备数据：归一化数值</h2><p>我们发现飞行里程的数值远远大于另两个数值，这样我们计算的结果会被飞行里程严重影响，我们认为三个特征是同等重要的，所以作为三个等权重的特征，飞行里程不应该严重影响结果。</p>
+<p>在处理这种不同取值范围的特征时，我们需要先归一化数值，将数值范围处理到0到1或-1到1之间，通常使用的公式是</p>
+<p>$$newValue = (oldValue-min) / max-min)$$</p>
+<p>程序如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">autoNorm</span><span class="params">(dataSet)</span>:</span></span><br><span class="line">    minVals = dataSet.min(<span class="number">0</span>)</span><br><span class="line">    maxVals = dataSet.max(<span class="number">0</span>)</span><br><span class="line">    ranges = maxVals - minVals</span><br><span class="line">    normDataSet = zeros(shape(dataSet))</span><br><span class="line">    m = dataSet.shape[<span class="number">0</span>]</span><br><span class="line">    normDataSet = dataSet - tile(minVals, (m, <span class="number">1</span>))</span><br><span class="line">    normDataSet = normDataSet/tile(ranges, (m, <span class="number">1</span>))</span><br><span class="line">    <span class="keyword">return</span> normDataSet, ranges, minVals</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">normMat, ranges, minVals = autoNorm(datingDataMat)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">normMat</span><br></pre></td></tr></table></figure>
+<pre><code>array([[0.44832535, 0.39805139, 0.56233353],
+       [0.15873259, 0.34195467, 0.98724416],
+       [0.28542943, 0.06892523, 0.47449629],
+       ...,
+       [0.29115949, 0.50910294, 0.51079493],
+       [0.52711097, 0.43665451, 0.4290048 ],
+       [0.47940793, 0.3768091 , 0.78571804]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ranges</span><br></pre></td></tr></table></figure>
+<pre><code>array([9.1273000e+04, 2.0919349e+01, 1.6943610e+00])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minVals</span><br></pre></td></tr></table></figure>
+<pre><code>array([0.      , 0.      , 0.001156])
+</code></pre><h2 id="测试算法：构建完整程序验证分类器"><a href="#测试算法：构建完整程序验证分类器" class="headerlink" title="测试算法：构建完整程序验证分类器"></a>测试算法：构建完整程序验证分类器</h2><p>选择90%的数据作为训练集，10%作为测试集，记录每一次错误的分类，最后用预测错误的总数除以测试集数据的总数就计算出了错误率。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">datingClassTest</span><span class="params">()</span>:</span></span><br><span class="line">    hoRatio = <span class="number">0.10</span></span><br><span class="line">    datingDataMat, datingLabels = file2matrix(<span class="string">'./MLiA_SourceCode/machinelearninginaction/Ch02/datingTestSet2.txt'</span>)</span><br><span class="line">    normMat, ranges, minVals = autoNorm(datingDataMat)</span><br><span class="line">    m = normMat.shape[<span class="number">0</span>]</span><br><span class="line">    numTestVecs = int(m*hoRatio)</span><br><span class="line">    errorCount = <span class="number">0.0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(numTestVecs):</span><br><span class="line">        classifierResult = classify0(normMat[i, :], normMat[numTestVecs:m, :],\</span><br><span class="line">                                    datingLabels[numTestVecs:m], <span class="number">3</span>)</span><br><span class="line">        <span class="comment">#print("the classifier came back with: %d, the real answer is: %d"% (classifierResult, datingLabels[i]))</span></span><br><span class="line">        <span class="keyword">if</span> classifierResult != datingLabels[i]:</span><br><span class="line">            errorCount += <span class="number">1.0</span></span><br><span class="line">    print(<span class="string">"the total error rate is: %f"</span>%(errorCount/float(numTestVecs)))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">datingClassTest()</span><br></pre></td></tr></table></figure>
+<pre><code>the total error rate is: 0.050000
+</code></pre><p>这里计算出的错误率为5%，书中写的为2.4%，担心算错用source code跑了一遍错误率为6.6%</p>
+<h2 id="使用算法：构建完整的可用系统"><a href="#使用算法：构建完整的可用系统" class="headerlink" title="使用算法：构建完整的可用系统"></a>使用算法：构建完整的可用系统</h2><h1 id="手写识别系统"><a href="#手写识别系统" class="headerlink" title="手写识别系统"></a>手写识别系统</h1><p>现在开始第二个示例，识别手写数字，数据已经被图形软件处理为文本格式，先打开几个观察一下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">readTrainingDigits</span><span class="params">(filename)</span>:</span></span><br><span class="line">    fr = open(filename, <span class="string">'r'</span>)</span><br><span class="line">    data = fr.read()</span><br><span class="line">    print(data)</span><br><span class="line">    fr.close()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">readTrainingDigits(<span class="string">'./MLiA_SourceCode/machinelearninginaction/Ch02/digits/trainingDigits/0_0.txt'</span>)</span><br><span class="line">readTrainingDigits(<span class="string">'./MLiA_SourceCode/machinelearninginaction/Ch02/digits/trainingDigits/1_0.txt'</span>)</span><br><span class="line">readTrainingDigits(<span class="string">'./MLiA_SourceCode/machinelearninginaction/Ch02/digits/trainingDigits/2_0.txt'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>00000000000001111000000000000000
+00000000000011111110000000000000
+00000000001111111111000000000000
+00000001111111111111100000000000
+00000001111111011111100000000000
+00000011111110000011110000000000
+00000011111110000000111000000000
+00000011111110000000111100000000
+00000011111110000000011100000000
+00000011111110000000011100000000
+00000011111100000000011110000000
+00000011111100000000001110000000
+00000011111100000000001110000000
+00000001111110000000000111000000
+00000001111110000000000111000000
+00000001111110000000000111000000
+00000001111110000000000111000000
+00000011111110000000001111000000
+00000011110110000000001111000000
+00000011110000000000011110000000
+00000001111000000000001111000000
+00000001111000000000011111000000
+00000001111000000000111110000000
+00000001111000000001111100000000
+00000000111000000111111000000000
+00000000111100011111110000000000
+00000000111111111111110000000000
+00000000011111111111110000000000
+00000000011111111111100000000000
+00000000001111111110000000000000
+00000000000111110000000000000000
+00000000000011000000000000000000
+
+00000000000000001111000000000000
+00000000000000011111111000000000
+00000000000000011111111100000000
+00000000000000011111111110000000
+00000000000000011111111110000000
+00000000000000111111111100000000
+00000000000000111111111100000000
+00000000000001111111111100000000
+00000000000000111111111100000000
+00000000000000111111111100000000
+00000000000000111111111000000000
+00000000000001111111111000000000
+00000000000011111111111000000000
+00000000000111111111110000000000
+00000000001111111111111000000000
+00000001111111111111111000000000
+00000011111111111111110000000000
+00000111111111111111110000000000
+00000111111111111111110000000000
+00000001111111111111110000000000
+00000001111111011111110000000000
+00000000111100011111110000000000
+00000000000000011111110000000000
+00000000000000011111100000000000
+00000000000000111111110000000000
+00000000000000011111110000000000
+00000000000000011111110000000000
+00000000000000011111111000000000
+00000000000000011111111000000000
+00000000000000011111111000000000
+00000000000000000111111110000000
+00000000000000000111111100000000
+
+00000000001111111000000000000000
+00000000011111111100000000000000
+00000000011111111110000000000000
+00000000011111111111100000000000
+00000000111111111111100000000000
+00000001111111111111110000000000
+00000011111110001111110000000000
+00000001111110000111111000000000
+00000001111110000111111000000000
+00000001111110000111111000000000
+00000001111100000111111000000000
+00000001111110000011111100000000
+00000001111111000011111100000000
+00000000111111000011111000000000
+00000000111110000111111000000000
+00000000001110000011111100000000
+00000000000000000011111000000000
+00000000000000000111110000000000
+00000000000000000111111000000000
+00000000000000001111110000000000
+00000000000000011111110000000000
+00000000000000111111100000000000
+00000000000000011111110000000000
+00000000000000111111100000000000
+00000000000001111111000000000000
+00000000000011111110000000000000
+00000000001111111111111111111000
+00000000011111111111111111111100
+00000000111111111111111111111100
+00000000011111111111111111111100
+00000000001111111111111111111100
+00000000000111111111111111110000
+</code></pre><p>这是一个32×32的数字矩阵并且可以很明显的看出数字的轮廓。</p>
+<h2 id="准备数据：将图像转换为测试向量"><a href="#准备数据：将图像转换为测试向量" class="headerlink" title="准备数据：将图像转换为测试向量"></a>准备数据：将图像转换为测试向量</h2><p>如上所示，每一个文件都是一个32×32构成的数字矩阵，为了使用前面写的分类器，我们必须将图像格式化处理为一个1×1024的向量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">img2vector</span><span class="params">(filename)</span>:</span></span><br><span class="line">    returnVect = zeros((<span class="number">1</span>,<span class="number">1024</span>))</span><br><span class="line">    fr = open(filename)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">        lineStr = fr.readline()</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">            returnVect[<span class="number">0</span>,<span class="number">32</span>*i+j] = int(lineStr[j])</span><br><span class="line">    <span class="keyword">return</span> returnVect</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">testVector = img2vector(<span class="string">'./MLiA_SourceCode/machinelearninginaction/Ch02/digits/testDigits/0_13.txt'</span>)</span><br><span class="line">testVector[<span class="number">0</span>, <span class="number">0</span>:<span class="number">31</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 1., 1.,
+       1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">testVector[<span class="number">0</span>, <span class="number">32</span>:<span class="number">63</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 1., 1., 1., 1.,
+       1., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
+</code></pre><h2 id="测试算法：使用k-近邻算法识别手写数字"><a href="#测试算法：使用k-近邻算法识别手写数字" class="headerlink" title="测试算法：使用k-近邻算法识别手写数字"></a>测试算法：使用k-近邻算法识别手写数字</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> trange</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">handwritingClassTest</span><span class="params">()</span>:</span></span><br><span class="line">    hwLabels = []</span><br><span class="line">    trainingFileList = os.listdir(<span class="string">'./MLiA_SourceCode/machinelearninginaction/Ch02/digits/trainingDigits'</span>)           <span class="comment">#load the training set</span></span><br><span class="line">    m = len(trainingFileList)</span><br><span class="line">    trainingMat = zeros((m,<span class="number">1024</span>))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        fileNameStr = trainingFileList[i]</span><br><span class="line">        fileStr = fileNameStr.split(<span class="string">'.'</span>)[<span class="number">0</span>]     <span class="comment">#take off .txt</span></span><br><span class="line">        classNumStr = int(fileStr.split(<span class="string">'_'</span>)[<span class="number">0</span>])</span><br><span class="line">        hwLabels.append(classNumStr)</span><br><span class="line">        trainingMat[i,:] = img2vector(<span class="string">'./MLiA_SourceCode/machinelearninginaction/Ch02/digits/trainingDigits/%s'</span> % fileNameStr)</span><br><span class="line">    testFileList = os.listdir(<span class="string">'./MLiA_SourceCode/machinelearninginaction/Ch02/digits/testDigits'</span>)        <span class="comment">#iterate through the test set</span></span><br><span class="line">    errorCount = <span class="number">0.0</span></span><br><span class="line">    mTest = len(testFileList)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> trange(mTest):</span><br><span class="line">        fileNameStr = testFileList[i]</span><br><span class="line">        fileStr = fileNameStr.split(<span class="string">'.'</span>)[<span class="number">0</span>]     <span class="comment">#take off .txt</span></span><br><span class="line">        classNumStr = int(fileStr.split(<span class="string">'_'</span>)[<span class="number">0</span>])</span><br><span class="line">        vectorUnderTest = img2vector(<span class="string">'./MLiA_SourceCode/machinelearninginaction/Ch02/digits/testDigits/%s'</span> % fileNameStr)</span><br><span class="line">        classifierResult = classify0(vectorUnderTest, trainingMat, hwLabels, <span class="number">3</span>)</span><br><span class="line">        <span class="comment">#print ("the classifier came back with: %d, the real answer is: %d" % (classifierResult, classNumStr))</span></span><br><span class="line">        <span class="keyword">if</span> (classifierResult != classNumStr): errorCount += <span class="number">1.0</span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"\nthe total number of errors is: %d"</span> % errorCount)</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"\nthe total error rate is: %f"</span> % (errorCount/float(mTest)))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">handwritingClassTest()</span><br></pre></td></tr></table></figure>
+<pre><code>100%|██████████| 946/946 [00:30&lt;00:00, 31.30it/s]
+
+
+the total number of errors is: 10
+
+the total error rate is: 0.010571
+</code></pre><p>错误率只有1%，</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>k-近邻算法是分类数据最简单有效的算法，使用算法时我们必须有接近实际数据的训练样本，必须保存全部数据集，如果训练数据集很大，必须使用大量的存储空间，此外，由于必须对数据集中的每个数据计算距离值，实际使用会非常耗时,它的另一个缺陷是无法给出任何数据的基本结构信息，因此我们无法知晓平均实例样本和典型实例样本具体有什么特征。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/k-邻近算法/" rel="tag"><i class="fa fa-tag"></i> k-邻近算法</a>
+          
+            <a href="/tags/KNN/" rel="tag"><i class="fa fa-tag"></i> KNN</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/18/机器学习实战（一）/" rel="next" title="机器学习实战（一）">
+                <i class="fa fa-chevron-left"></i> 机器学习实战（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/19/Python虚拟环境的搭建/" rel="prev" title="Python虚拟环境的搭建">
+                Python虚拟环境的搭建 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Voidmort" />
+            
+              <p class="site-author-name" itemprop="name">Voidmort</p>
+              <p class="site-description motion-element" itemprop="description">研究AI，撰写影评，热爱音乐，努力健身</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">70</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">32</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Voidmort" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:wxj5658@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1749266905" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jusanliusha.xyz" title="Jusanliusha" target="_blank">Jusanliusha</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#k-邻近算法概述"><span class="nav-number">1.</span> <span class="nav-text">k-邻近算法概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#准备使用Python导入数据"><span class="nav-number">2.</span> <span class="nav-text">准备使用Python导入数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实施KNN分类算法"><span class="nav-number">3.</span> <span class="nav-text">实施KNN分类算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用k-邻近算法改进约会网站的配对结果"><span class="nav-number">4.</span> <span class="nav-text">使用k-邻近算法改进约会网站的配对结果</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备数据：从文本文件中解析数据"><span class="nav-number">4.1.</span> <span class="nav-text">准备数据：从文本文件中解析数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析数据：使用matplotlib绘制散点图"><span class="nav-number">4.2.</span> <span class="nav-text">分析数据：使用matplotlib绘制散点图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备数据：归一化数值"><span class="nav-number">4.3.</span> <span class="nav-text">准备数据：归一化数值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试算法：构建完整程序验证分类器"><span class="nav-number">4.4.</span> <span class="nav-text">测试算法：构建完整程序验证分类器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用算法：构建完整的可用系统"><span class="nav-number">4.5.</span> <span class="nav-text">使用算法：构建完整的可用系统</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#手写识别系统"><span class="nav-number">5.</span> <span class="nav-text">手写识别系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备数据：将图像转换为测试向量"><span class="nav-number">5.1.</span> <span class="nav-text">准备数据：将图像转换为测试向量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试算法：使用k-近邻算法识别手写数字"><span class="nav-number">5.2.</span> <span class="nav-text">测试算法：使用k-近邻算法识别手写数字</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Voidmort</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/kesyoban.model.json"},"display":{"position":"right","width":130,"height":260},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>
