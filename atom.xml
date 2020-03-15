@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2020-03-06T09:01:06.144Z</updated>
+  <updated>2020-03-15T06:43:28.902Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>机器学习实战（三）</title>
+    <link href="https://xvjie.wang/2020/03/06/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E4%B8%89%EF%BC%89/"/>
+    <id>https://xvjie.wang/2020/03/06/机器学习实战（三）/</id>
+    <published>2020-03-06T02:15:50.000Z</published>
+    <updated>2020-03-15T06:43:28.902Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;决策树的简介&quot;&gt;&lt;a href=&quot;#决策树的简介&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习实战" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/"/>
+    
+    
+      <category term="决策树" scheme="https://xvjie.wang/tags/%E5%86%B3%E7%AD%96%E6%A0%91/"/>
+    
+      <category term="ID3" scheme="https://xvjie.wang/tags/ID3/"/>
+    
+  </entry>
   
   <entry>
     <title>Python虚拟环境的搭建</title>
@@ -525,34 +553,6 @@
     
     
       <category term="影评" scheme="https://xvjie.wang/tags/%E5%BD%B1%E8%AF%84/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Django 部署(Apache) 趟过的坑</title>
-    <link href="https://xvjie.wang/2019/01/27/Django%20%E9%83%A8%E7%BD%B2(Apache)/"/>
-    <id>https://xvjie.wang/2019/01/27/Django 部署(Apache)/</id>
-    <published>2019-01-27T02:38:27.000Z</published>
-    <updated>2019-03-27T15:09:15.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Django是一个，由Python写成的开放源代码的Web应用框架，在使用apache部署的时候走了好多坑这里记录下。&lt;/p&gt;
-&lt;p&gt;参考：&lt;/p&gt;
-&lt;p&gt;&lt;a
-        
-      
-    
-    </summary>
-    
-      <category term="Django" scheme="https://xvjie.wang/categories/Django/"/>
-    
-    
-      <category term="Django" scheme="https://xvjie.wang/tags/Django/"/>
     
   </entry>
   
