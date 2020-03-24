@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2020-03-15T06:43:28.902Z</updated>
+  <updated>2020-03-24T05:57:28.787Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>机器学习实战（四）</title>
+    <link href="https://xvjie.wang/2020/03/21/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%9B%9B%EF%BC%89/"/>
+    <id>https://xvjie.wang/2020/03/21/机器学习实战（四）/</id>
+    <published>2020-03-21T02:15:50.000Z</published>
+    <updated>2020-03-24T05:57:28.787Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;前两章的分类器只能给出分类结果，而不能给出概率，这一章将学习一个最简单的概率分类器，朴素贝叶斯分类器。之所以称为朴素，是因为整个形式化过程只做最原始，最简单的假设。&lt;/p&gt;
+&lt;h1 id=&quot;基于贝叶斯决策理论的分类方法&quot;&gt;&lt;a href=&quot;#基于贝叶斯决策理论的分类方法&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习实战" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/"/>
+    
+    
+      <category term="朴素贝叶斯" scheme="https://xvjie.wang/tags/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF/"/>
+    
+  </entry>
   
   <entry>
     <title>机器学习实战（三）</title>
@@ -70,34 +97,6 @@
   </entry>
   
   <entry>
-    <title>机器学习实战（二）</title>
-    <link href="https://xvjie.wang/2020/02/18/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E4%BA%8C%EF%BC%89/"/>
-    <id>https://xvjie.wang/2020/02/18/机器学习实战（二）/</id>
-    <published>2020-02-18T03:20:50.000Z</published>
-    <updated>2020-03-04T08:15:36.274Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;k-邻近算法概述&quot;&gt;&lt;a href=&quot;#k-邻近算法概述&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="机器学习实战" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/"/>
-    
-    
-      <category term="k-邻近算法" scheme="https://xvjie.wang/tags/k-%E9%82%BB%E8%BF%91%E7%AE%97%E6%B3%95/"/>
-    
-      <category term="KNN" scheme="https://xvjie.wang/tags/KNN/"/>
-    
-  </entry>
-  
-  <entry>
     <title>机器学习实战（一）</title>
     <link href="https://xvjie.wang/2020/02/18/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E4%B8%80%EF%BC%89/"/>
     <id>https://xvjie.wang/2020/02/18/机器学习实战（一）/</id>
@@ -123,6 +122,34 @@
       <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
       <category term="机器学习实战" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>机器学习实战（二）</title>
+    <link href="https://xvjie.wang/2020/02/18/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E4%BA%8C%EF%BC%89/"/>
+    <id>https://xvjie.wang/2020/02/18/机器学习实战（二）/</id>
+    <published>2020-02-18T03:20:50.000Z</published>
+    <updated>2020-03-04T08:15:36.274Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;k-邻近算法概述&quot;&gt;&lt;a href=&quot;#k-邻近算法概述&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习实战" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/"/>
+    
+    
+      <category term="k-邻近算法" scheme="https://xvjie.wang/tags/k-%E9%82%BB%E8%BF%91%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="KNN" scheme="https://xvjie.wang/tags/KNN/"/>
     
   </entry>
   
@@ -526,33 +553,6 @@
     
     
       <category term="Tensorflow" scheme="https://xvjie.wang/tags/Tensorflow/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>我的流浪地球</title>
-    <link href="https://xvjie.wang/2019/02/10/%E6%88%91%E7%9A%84%E6%B5%81%E6%B5%AA%E5%9C%B0%E7%90%83/"/>
-    <id>https://xvjie.wang/2019/02/10/我的流浪地球/</id>
-    <published>2019-02-09T16:00:00.000Z</published>
-    <updated>2019-03-27T14:33:47.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;pre&gt;&lt;code&gt;二〇一九年二月十号，星期六，农历正月初六，假期的最后一天，明天就要奔赴帝都，开始我的流浪生活。
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;img src=&quot;https://s2.ax1x.com/2019/02/17/kyqmMF.jpg&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="影评" scheme="https://xvjie.wang/categories/%E5%BD%B1%E8%AF%84/"/>
-    
-    
-      <category term="影评" scheme="https://xvjie.wang/tags/%E5%BD%B1%E8%AF%84/"/>
     
   </entry>
   
