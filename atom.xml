@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2020-03-24T05:57:28.787Z</updated>
+  <updated>2020-04-04T02:22:59.763Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>机器学习实战（五）</title>
+    <link href="https://xvjie.wang/2020/04/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E4%BA%94%EF%BC%89/"/>
+    <id>https://xvjie.wang/2020/04/01/机器学习实战（五）/</id>
+    <published>2020-04-01T01:15:50.000Z</published>
+    <updated>2020-04-04T02:22:59.763Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Logistic回归是一个最优化算法，比如如何在最短时间从A点到达B点？&lt;/p&gt;
+&lt;p&gt;回归：假设我们有一些数据点，我们用一条直线对这些点进行拟合（该线称为最佳拟合直线），这个拟合过程就叫做回归。&lt;/p&gt;
+&lt;p&gt;根据现有的数据对分类边界线建立回归公式，依次进行分类。这里的“
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习实战" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/"/>
+    
+    
+      <category term="逻辑回归" scheme="https://xvjie.wang/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"/>
+    
+  </entry>
   
   <entry>
     <title>机器学习实战（四）</title>
@@ -517,33 +545,6 @@
         
         
           &lt;h1 id=&quot;使用神经网络对手写数字进行分类&quot;&gt;&lt;a href=&quot;#使用神经网络对手写数字进行分类&quot; class=&quot;headerlink&quot; title=&quot;使用神经网络对手写数字进行分类&quot;&gt;&lt;/a&gt;使用神经网络对手写数字进行分类&lt;/h1&gt;&lt;p&gt; &lt;img
-        
-      
-    
-    </summary>
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/categories/Tensorflow/"/>
-    
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/tags/Tensorflow/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TensorFlow 8</title>
-    <link href="https://xvjie.wang/2019/02/20/TensorFlow_8/"/>
-    <id>https://xvjie.wang/2019/02/20/TensorFlow_8/</id>
-    <published>2019-02-20T05:10:00.000Z</published>
-    <updated>2019-02-23T11:10:27.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;神经网络简介&quot;&gt;&lt;a href=&quot;#神经网络简介&quot; class=&quot;headerlink&quot; title=&quot;神经网络简介&quot;&gt;&lt;/a&gt;神经网络简介&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;使用 TensorFlow &lt;code&gt;DNNRegressor&lt;/code&gt; 类定义神经网络
         
       
     
