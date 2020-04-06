@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2020-04-04T02:28:26.201Z</updated>
+  <updated>2020-04-06T09:31:17.034Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>机器学习实战（六）</title>
+    <link href="https://xvjie.wang/2020/04/04/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AD%EF%BC%89/"/>
+    <id>https://xvjie.wang/2020/04/04/机器学习实战（六）/</id>
+    <published>2020-04-04T02:15:50.000Z</published>
+    <updated>2020-04-06T09:31:17.034Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;这一章的内容非常多，在神经网络大火前，SVM是最优秀的机器学习算法，尽管现在已经很少用了，但作为一本七年前的书还是很详细的讲解了，所以这里简单的记录下。&lt;/p&gt;
+&lt;h1 id=&quot;基于最大间隔分隔数据&quot;&gt;&lt;a href=&quot;#基于最大间隔分隔数据&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习实战" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/"/>
+    
+    
+      <category term="SVM" scheme="https://xvjie.wang/tags/SVM/"/>
+    
+      <category term="SMO" scheme="https://xvjie.wang/tags/SMO/"/>
+    
+      <category term="支持向量机" scheme="https://xvjie.wang/tags/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/"/>
+    
+  </entry>
   
   <entry>
     <title>机器学习实战（五）</title>
@@ -519,32 +550,6 @@
         
         
           &lt;h1 id=&quot;稀疏数据和嵌入简介&quot;&gt;&lt;a href=&quot;#稀疏数据和嵌入简介&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/categories/Tensorflow/"/>
-    
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/tags/Tensorflow/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TensorFlow 9</title>
-    <link href="https://xvjie.wang/2019/02/21/TensorFlow_9/"/>
-    <id>https://xvjie.wang/2019/02/21/TensorFlow_9/</id>
-    <published>2019-02-21T06:34:00.000Z</published>
-    <updated>2019-02-23T11:10:06.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;使用神经网络对手写数字进行分类&quot;&gt;&lt;a href=&quot;#使用神经网络对手写数字进行分类&quot; class=&quot;headerlink&quot; title=&quot;使用神经网络对手写数字进行分类&quot;&gt;&lt;/a&gt;使用神经网络对手写数字进行分类&lt;/h1&gt;&lt;p&gt; &lt;img
         
       
     

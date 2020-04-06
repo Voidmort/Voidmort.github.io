@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="这一章的内容非常多，在神经网络大火前，SVM是最优秀的机器学习算法，尽管现在已经很少用了，但作为一本七年前的书还是很详细的讲解了，所以这里简单的记录下。 基于最大间隔分隔数据支持向量机 优点：泛化错误率低，计算开销不大，结果易理解 缺点：对参数调节和核函数选择敏感，原始分类器不加修改仅适用于处理二分类问题 适用数据类型：数值型和标称型数据  观察上图图发现我们不能画出一条线或者圆把圆形和方形的数据">
+<meta name="keywords" content="SVM,SMO,支持向量机">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习实战（六）">
+<meta property="og:url" content="https://xvjie.wang/2020/04/04/机器学习实战（六）/index.html">
+<meta property="og:site_name" content="Voidmort">
+<meta property="og:description" content="这一章的内容非常多，在神经网络大火前，SVM是最优秀的机器学习算法，尽管现在已经很少用了，但作为一本七年前的书还是很详细的讲解了，所以这里简单的记录下。 基于最大间隔分隔数据支持向量机 优点：泛化错误率低，计算开销不大，结果易理解 缺点：对参数调节和核函数选择敏感，原始分类器不加修改仅适用于处理二分类问题 适用数据类型：数值型和标称型数据  观察上图图发现我们不能画出一条线或者圆把圆形和方形的数据">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://xvjie.wang/2020/04/04/机器学习实战（六）/06_fig01.jpg">
+<meta property="og:image" content="https://xvjie.wang/2020/04/04/机器学习实战（六）/06_fig02.jpg">
+<meta property="og:image" content="https://xvjie.wang/2020/04/04/机器学习实战（六）/06_fig03.jpg">
+<meta property="og:image" content="https://xvjie.wang/2020/04/04/机器学习实战（六）/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AD%EF%BC%89_18_0.png">
+<meta property="og:image" content="https://xvjie.wang/2020/04/04/机器学习实战（六）/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AD%EF%BC%89_25_0.png">
+<meta property="og:image" content="https://xvjie.wang/2020/04/04/机器学习实战（六）/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AD%EF%BC%89_37_0.png">
+<meta property="og:updated_time" content="2020-04-06T09:31:17.034Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习实战（六）">
+<meta name="twitter:description" content="这一章的内容非常多，在神经网络大火前，SVM是最优秀的机器学习算法，尽管现在已经很少用了，但作为一本七年前的书还是很详细的讲解了，所以这里简单的记录下。 基于最大间隔分隔数据支持向量机 优点：泛化错误率低，计算开销不大，结果易理解 缺点：对参数调节和核函数选择敏感，原始分类器不加修改仅适用于处理二分类问题 适用数据类型：数值型和标称型数据  观察上图图发现我们不能画出一条线或者圆把圆形和方形的数据">
+<meta name="twitter:image" content="https://xvjie.wang/2020/04/04/机器学习实战（六）/06_fig01.jpg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Voidmort" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://xvjie.wang/2020/04/04/机器学习实战（六）/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>机器学习实战（六） | Voidmort</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7b96eb7c2717359e36cc8bd8b546997c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/Voidmort" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Voidmort</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-other">
+    <a href="/other/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-plane"></i> <br />其它</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xvjie.wang/2020/04/04/机器学习实战（六）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Voidmort">
+      <meta itemprop="description" content="研究AI，撰写影评，热爱音乐，努力健身">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Voidmort">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习实战（六）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-04-04 10:15:50" itemprop="dateCreated datePublished" datetime="2020-04-04T10:15:50+08:00">2020-04-04</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-06 17:31:17" itemprop="dateModified" datetime="2020-04-06T17:31:17+08:00">2020-04-06</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习实战/" itemprop="url" rel="index"><span itemprop="name">机器学习实战</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这一章的内容非常多，在神经网络大火前，SVM是最优秀的机器学习算法，尽管现在已经很少用了，但作为一本七年前的书还是很详细的讲解了，所以这里简单的记录下。</p>
+<h1 id="基于最大间隔分隔数据"><a href="#基于最大间隔分隔数据" class="headerlink" title="基于最大间隔分隔数据"></a>基于最大间隔分隔数据</h1><p>支持向量机</p>
+<pre><code>优点：泛化错误率低，计算开销不大，结果易理解
+缺点：对参数调节和核函数选择敏感，原始分类器不加修改仅适用于处理二分类问题
+适用数据类型：数值型和标称型数据
+</code></pre><p><img src="06_fig01.jpg" alt="线性不可分的数据集"></p>
+<p>观察上图图发现我们不能画出一条线或者圆把圆形和方形的数据分割开，而下图可以画出一条直线将两组数据分开。所以下图的数据称为线性可分（linearly separable）。</p>
+<p><img src="06_fig02.jpg" alt="线性可分的数据集"></p>
+<p>将数据集分开的直线称为分割超平面（separating hyperplane）。上面给出的例子数据都在二维平面上，所以分割超平面是一条直线，如果所给的数据是三维的，那么分割数据的就是一个平面。如果数据集是一个1024维的，那就需要一个1023维的对象对数据分割。如果一个数据集是N维的，需要一个N-1维的超平面分割。</p>
+<p>支持向量（support vector）就是离分割超平面最近的那些点。</p>
+<h1 id="寻找最大间隔"><a href="#寻找最大间隔" class="headerlink" title="寻找最大间隔"></a>寻找最大间隔</h1><p>How can we measure the line that best separates the data? To start with, look at figure 6.3. Our separating hyperplane has the form wTx+b. If we want to find the distance from A to the separating plane, we must measure normal or perpendicular to the line. This is given by |wTA+b|/||w||. The constant b is just an offset like w0 in logistic regression. All this w and b stuff describes the separating line, or hyperplane, for our data. Now, let’s talk about the classifier.</p>
+<p><img src="06_fig03.jpg" alt="线性可分的数据集"></p>
+<h2 id="分类器求解的优化问题"><a href="#分类器求解的优化问题" class="headerlink" title="分类器求解的优化问题"></a>分类器求解的优化问题</h2><h2 id="SVM应用的一般框架"><a href="#SVM应用的一般框架" class="headerlink" title="SVM应用的一般框架"></a>SVM应用的一般框架</h2><p>SVM的一般流程</p>
+<ol>
+<li>收集数据</li>
+<li>准备数据：需要数值型数据</li>
+<li>分析数据：有助于可视化分割超平面</li>
+<li>训练算法：SVM大大部分时间都源自训练，该过程主要实现两个参数的调优</li>
+<li>测试算法：十分简单的计算过程就可以实现</li>
+<li>适用算法：几乎所有分类问题都可以适用SVM，值得一提的是，SVM本身是一个二分类分类器，对多分类问题SVM需要对代码修改</li>
+</ol>
+<h2 id="SMO高效优化算法"><a href="#SMO高效优化算法" class="headerlink" title="SMO高效优化算法"></a>SMO高效优化算法</h2><p>SMO表示序列最小优化（Sequential Minimal Optimization）</p>
+<p>SMO算法的目标是求出一系列alpha和b，一旦求出了这些alpha，就很容易计算处权重向量w并得到分割超平面。</p>
+<p>SMO算法的工作原理是：每次循环中选择两个alpha进行优化处理。一旦找到一<br>对合适的alpha，那么就增大其中一个同时减小另一个。这里所谓的合适们就是指两个alpha必须要符合两个条件，一，两个alpha必须要在间隔边界之外，二，两个alpha还没有进行过区间化处理或者不在边界上。</p>
+<h2 id="应用简化版SMO算法处理小规模数据集"><a href="#应用简化版SMO算法处理小规模数据集" class="headerlink" title="应用简化版SMO算法处理小规模数据集"></a>应用简化版SMO算法处理小规模数据集</h2><p>$$\Sigma\alpha*label^{i} = 0$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loadDataSet</span><span class="params">(fileName)</span>:</span></span><br><span class="line">    dataMat = []</span><br><span class="line">    labelMat = []</span><br><span class="line">    fr = open(fileName)</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> fr.readlines():</span><br><span class="line">        lineArr = line.strip().split(<span class="string">'\t'</span>)</span><br><span class="line">        dataMat.append([float(lineArr[<span class="number">0</span>]), float(lineArr[<span class="number">1</span>])])</span><br><span class="line">        labelMat.append(float(lineArr[<span class="number">2</span>]))</span><br><span class="line">    fr.close()</span><br><span class="line">    <span class="keyword">return</span> dataMat, labelMat</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">selectJrand</span><span class="params">(i, m)</span>:</span></span><br><span class="line">    j = i</span><br><span class="line">    <span class="keyword">while</span> (j == i):</span><br><span class="line">        j = int(random.uniform(<span class="number">0</span>, m))</span><br><span class="line">    <span class="keyword">return</span> j</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">clipAlpha</span><span class="params">(aj, H, L)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> aj &gt; H:</span><br><span class="line">        aj = H</span><br><span class="line">    <span class="keyword">if</span> L &gt; aj:</span><br><span class="line">        aj = L</span><br><span class="line">    <span class="keyword">return</span> aj</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dataArr, labelArr = loadDataSet(<span class="string">'MLiA_SourceCode/machinelearninginaction/Ch06/testSet.txt'</span>)</span><br><span class="line">labelArr[:<span class="number">10</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>[-1.0, -1.0, 1.0, -1.0, 1.0, 1.0, 1.0, -1.0, -1.0, -1.0]
+</code></pre><p>selectJrand()有两个参数，i是第一个alpha的下表，m是所有alpha的数目，只要函数值不等于输入值i，函数就会随机选择</p>
+<p>clipAlpha()的作用是调整alpha的值在H和L之间。</p>
+<p>SMO伪代码大致如下：</p>
+<pre><code>创建一个alpha向量并将其初始化为0向量
+当迭代次数小于最大迭代次数时（外循环）
+    对数据集中的每个数据向量（内循环）：
+        如果给数据向量可以被优化：
+            随机选择另外一个数据向量
+            如果优化这两个向量
+            如果两个向量都不能被优化，退出内循环
+    如果所有向量都没被优化，增加迭代数目，继续下一次循环
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> *</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">smoSimple</span><span class="params">(dataMatIn, classLabels, C, toler, maxIter)</span>:</span></span><br><span class="line">    dataMatrix = mat(dataMatIn)</span><br><span class="line">    labelMat = mat(classLabels).transpose()</span><br><span class="line">    b = <span class="number">0</span></span><br><span class="line">    m,n = shape(dataMatrix)</span><br><span class="line">    alphas = mat(zeros((m,<span class="number">1</span>)))</span><br><span class="line">    iter = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> (iter &lt; maxIter):</span><br><span class="line">        alphaPairsChanged = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">            fXi = float(multiply(alphas,labelMat).T*(dataMatrix*dataMatrix[i,:].T)) + b</span><br><span class="line">            Ei = fXi - float(labelMat[i]) <span class="comment">#if checks if an example violates KKT conditions</span></span><br><span class="line">            <span class="keyword">if</span> ((labelMat[i]*Ei &lt; -toler) <span class="keyword">and</span> (alphas[i] &lt; C)) <span class="keyword">or</span> ((labelMat[i]*Ei &gt; toler) <span class="keyword">and</span> (alphas[i] &gt; <span class="number">0</span>)):</span><br><span class="line">                j = selectJrand(i,m)</span><br><span class="line">                fXj = float(multiply(alphas,labelMat).T*(dataMatrix*dataMatrix[j,:].T)) + b</span><br><span class="line">                Ej = fXj - float(labelMat[j])</span><br><span class="line">                alphaIold = alphas[i].copy(); alphaJold = alphas[j].copy();</span><br><span class="line">                <span class="keyword">if</span> (labelMat[i] != labelMat[j]):</span><br><span class="line">                    L = max(<span class="number">0</span>, alphas[j] - alphas[i])</span><br><span class="line">                    H = min(C, C + alphas[j] - alphas[i])</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    L = max(<span class="number">0</span>, alphas[j] + alphas[i] - C)</span><br><span class="line">                    H = min(C, alphas[j] + alphas[i])</span><br><span class="line">                    </span><br><span class="line">                <span class="keyword">if</span> L==H: </span><br><span class="line">                    print(<span class="string">"L==H"</span>)</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">                eta = <span class="number">2.0</span> * dataMatrix[i,:]*dataMatrix[j,:].T - dataMatrix[i,:]*dataMatrix[i,:].T - dataMatrix[j,:]*dataMatrix[j,:].T</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> eta &gt;= <span class="number">0</span>:</span><br><span class="line">                    print(<span class="string">"eta&gt;=0"</span>)</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">                alphas[j] -= labelMat[j]*(Ei - Ej)/eta</span><br><span class="line">                alphas[j] = clipAlpha(alphas[j],H,L)</span><br><span class="line">                <span class="keyword">if</span> (abs(alphas[j] - alphaJold) &lt; <span class="number">0.00001</span>):</span><br><span class="line">                    print(<span class="string">"j not moving enough"</span>)</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">                alphas[i] += labelMat[j]*labelMat[i]*(alphaJold - alphas[j]) <span class="comment"># update i by the same amount as j</span></span><br><span class="line">                                                                             <span class="comment"># the update is in the oppostie direction</span></span><br><span class="line">                b1 = b - Ei- labelMat[i]*(alphas[i]-alphaIold)*dataMatrix[i,:]*dataMatrix[i,:].T - labelMat[j]*(alphas[j]-alphaJold)*dataMatrix[i,:]*dataMatrix[j,:].T</span><br><span class="line">                b2 = b - Ej- labelMat[i]*(alphas[i]-alphaIold)*dataMatrix[i,:]*dataMatrix[j,:].T - labelMat[j]*(alphas[j]-alphaJold)*dataMatrix[j,:]*dataMatrix[j,:].T</span><br><span class="line">                <span class="keyword">if</span> (<span class="number">0</span> &lt; alphas[i]) <span class="keyword">and</span> (C &gt; alphas[i]): </span><br><span class="line">                    b = b1</span><br><span class="line">                <span class="keyword">elif</span> (<span class="number">0</span> &lt; alphas[j]) <span class="keyword">and</span> (C &gt; alphas[j]): </span><br><span class="line">                    b = b2</span><br><span class="line">                <span class="keyword">else</span>: </span><br><span class="line">                    b = (b1 + b2)/<span class="number">2.0</span></span><br><span class="line">                alphaPairsChanged += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">                print(<span class="string">"iter: %d i:%d, pairs changed %d"</span> % (iter,i,alphaPairsChanged))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (alphaPairsChanged == <span class="number">0</span>):</span><br><span class="line">            iter += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            iter = <span class="number">0</span></span><br><span class="line">        print(<span class="string">"iteration number: %d"</span> % iter)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> b,alphas</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b, alphas = smoSimple(dataArr, labelArr, <span class="number">0.6</span>, <span class="number">0.001</span>, <span class="number">40</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>L==H
+L==H
+iter: 0 i:2, pairs changed 1
+iter: 0 i:3, pairs changed 2
+L==H
+...
+...
+iteration number: 39
+j not moving enough
+j not moving enough
+j not moving enough
+iteration number: 40
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b</span><br></pre></td></tr></table></figure>
+<pre><code>matrix([[-3.79661253]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alphas[alphas&gt;<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>matrix([[0.12629181, 0.24169497, 0.36797683]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shape(alphas[alphas&gt;<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+<pre><code>(1, 3)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">supportVectors = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">    <span class="keyword">if</span> alphas[i] &gt; <span class="number">0.0</span>:</span><br><span class="line">        supportVectors.append(dataArr[i])</span><br><span class="line">        print(dataArr[i], labelArr[i])</span><br></pre></td></tr></table></figure>
+<pre><code>[4.658191, 3.507396] -1.0
+[3.457096, -0.082216] -1.0
+[6.080573, 0.418886] 1.0
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> matplotlib.patches <span class="keyword">import</span> Circle</span><br><span class="line">plt.rcParams[<span class="string">'axes.unicode_minus'</span>]=<span class="keyword">False</span> <span class="comment"># 用来正常显示负号</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plotSupportVectors</span><span class="params">(supportVectors)</span>:</span></span><br><span class="line">    xcord0 = []</span><br><span class="line">    ycord0 = []</span><br><span class="line">    xcord1 = []</span><br><span class="line">    ycord1 = []</span><br><span class="line">    markers =[]</span><br><span class="line">    colors =[]</span><br><span class="line">    fr = open(<span class="string">'MLiA_SourceCode/machinelearninginaction/Ch06/testSet.txt'</span>)</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> fr.readlines():</span><br><span class="line">        lineSplit = line.strip().split(<span class="string">'\t'</span>)</span><br><span class="line">        xPt = float(lineSplit[<span class="number">0</span>])</span><br><span class="line">        yPt = float(lineSplit[<span class="number">1</span>])</span><br><span class="line">        label = int(lineSplit[<span class="number">2</span>])</span><br><span class="line">        <span class="keyword">if</span> (label == <span class="number">-1</span>):</span><br><span class="line">            xcord0.append(xPt)</span><br><span class="line">            ycord0.append(yPt)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            xcord1.append(xPt)</span><br><span class="line">            ycord1.append(yPt)</span><br><span class="line"></span><br><span class="line">    fr.close()</span><br><span class="line">    fig = plt.figure()</span><br><span class="line">    ax = fig.add_subplot(<span class="number">111</span>)</span><br><span class="line">    ax.scatter(xcord0,ycord0, marker=<span class="string">'s'</span>, s=<span class="number">90</span>)</span><br><span class="line">    ax.scatter(xcord1,ycord1, marker=<span class="string">'o'</span>, s=<span class="number">50</span>, c=<span class="string">'red'</span>)</span><br><span class="line">    plt.title(<span class="string">'Support Vectors Circled'</span>)</span><br><span class="line">    <span class="keyword">for</span> vector <span class="keyword">in</span> supportVectors:</span><br><span class="line">        circle = Circle(vector, <span class="number">0.5</span>, facecolor=<span class="string">'none'</span>, edgecolor=(<span class="number">0</span>,<span class="number">0.8</span>,<span class="number">0.8</span>), linewidth=<span class="number">2</span>, alpha=<span class="number">0.5</span>)</span><br><span class="line">        ax.add_patch(circle)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#plt.plot([2.3,8.5], [-6,6]) #seperating hyperplane</span></span><br><span class="line">    b = <span class="number">-3.75567</span>; w0=<span class="number">0.8065</span>; w1=<span class="number">-0.2761</span></span><br><span class="line">    x = arange(<span class="number">-2.0</span>, <span class="number">12.0</span>, <span class="number">0.1</span>)</span><br><span class="line">    y = (-w0*x - b)/w1</span><br><span class="line">    ax.plot(x,y)</span><br><span class="line">    ax.axis([<span class="number">-2</span>,<span class="number">12</span>,<span class="number">-8</span>,<span class="number">6</span>])</span><br><span class="line">    plt.show()</span><br></pre></td></tr></table></figure>
+<p>圈出支持向量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plotSupportVectors(supportVectors)</span><br></pre></td></tr></table></figure>
+<p><img src="%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AD%EF%BC%89_18_0.png" alt="png"></p>
+<h1 id="利用完整的SMO算法加速优化"><a href="#利用完整的SMO算法加速优化" class="headerlink" title="利用完整的SMO算法加速优化"></a>利用完整的SMO算法加速优化</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">optStruct</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,dataMatIn, classLabels, C, toler, kTup)</span>:</span>  <span class="comment"># Initialize the structure with the parameters </span></span><br><span class="line">        self.X = dataMatIn</span><br><span class="line">        self.labelMat = classLabels</span><br><span class="line">        self.C = C</span><br><span class="line">        self.tol = toler</span><br><span class="line">        self.m = shape(dataMatIn)[<span class="number">0</span>]</span><br><span class="line">        self.alphas = mat(zeros((self.m,<span class="number">1</span>)))</span><br><span class="line">        self.b = <span class="number">0</span></span><br><span class="line">        self.eCache = mat(zeros((self.m,<span class="number">2</span>))) <span class="comment">#first column is valid flag</span></span><br><span class="line">        </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calcEk</span><span class="params">(oS, k)</span>:</span></span><br><span class="line">    fXk = float(multiply(oS.alphas, oS.labelMat).T*(oS.X*oS.X[k, :].T)) + oS.b</span><br><span class="line">    Ek = fXk - float(oS.labelMat[k])</span><br><span class="line">    <span class="keyword">return</span> Ek</span><br><span class="line">        </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">selectJ</span><span class="params">(i, oS, Ei)</span>:</span>         <span class="comment">#this is the second choice -heurstic, and calcs Ej</span></span><br><span class="line">    maxK = <span class="number">-1</span>; maxDeltaE = <span class="number">0</span>; Ej = <span class="number">0</span></span><br><span class="line">    oS.eCache[i] = [<span class="number">1</span>,Ei]  <span class="comment">#set valid #choose the alpha that gives the maximum delta E</span></span><br><span class="line">    validEcacheList = nonzero(oS.eCache[:,<span class="number">0</span>].A)[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">if</span> (len(validEcacheList)) &gt; <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> validEcacheList:   <span class="comment">#loop through valid Ecache values and find the one that maximizes delta E</span></span><br><span class="line">            <span class="keyword">if</span> k == i: <span class="keyword">continue</span> <span class="comment">#don't calc for i, waste of time</span></span><br><span class="line">            Ek = calcEk(oS, k)</span><br><span class="line">            deltaE = abs(Ei - Ek)</span><br><span class="line">            <span class="keyword">if</span> (deltaE &gt; maxDeltaE):</span><br><span class="line">                maxK = k; maxDeltaE = deltaE; Ej = Ek</span><br><span class="line">        <span class="keyword">return</span> maxK, Ej</span><br><span class="line">    <span class="keyword">else</span>:   <span class="comment">#in this case (first time around) we don't have any valid eCache values</span></span><br><span class="line">        j = selectJrand(i, oS.m)</span><br><span class="line">        Ej = calcEk(oS, j)</span><br><span class="line">    <span class="keyword">return</span> j, Ej</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">updateEk</span><span class="params">(oS, k)</span>:</span><span class="comment">#after any alpha has changed update the new value in the cache</span></span><br><span class="line">    Ek = calcEk(oS, k)</span><br><span class="line">    oS.eCache[k] = [<span class="number">1</span>,Ek]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">innerL</span><span class="params">(i, oS, istraces=True)</span>:</span></span><br><span class="line">    Ei = calcEk(oS, i)</span><br><span class="line">    <span class="keyword">if</span> ((oS.labelMat[i]*Ei &lt; -oS.tol) <span class="keyword">and</span> (oS.alphas[i] &lt; oS.C)) <span class="keyword">or</span> ((oS.labelMat[i]*Ei &gt; oS.tol) <span class="keyword">and</span> (oS.alphas[i] &gt; <span class="number">0</span>)):</span><br><span class="line">        j,Ej = selectJ(i, oS, Ei) <span class="comment">#this has been changed from selectJrand</span></span><br><span class="line">        alphaIold = oS.alphas[i].copy(); alphaJold = oS.alphas[j].copy();</span><br><span class="line">        <span class="keyword">if</span> (oS.labelMat[i] != oS.labelMat[j]):</span><br><span class="line">            L = max(<span class="number">0</span>, oS.alphas[j] - oS.alphas[i])</span><br><span class="line">            H = min(oS.C, oS.C + oS.alphas[j] - oS.alphas[i])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            L = max(<span class="number">0</span>, oS.alphas[j] + oS.alphas[i] - oS.C)</span><br><span class="line">            H = min(oS.C, oS.alphas[j] + oS.alphas[i])</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> L==H:</span><br><span class="line">            <span class="keyword">if</span> istraces: </span><br><span class="line">                print(<span class="string">"L==H"</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        eta = <span class="number">2.0</span> * oS.X[i,:]*oS.X[j,:].T - oS.X[i,:]*oS.X[i,:].T - oS.X[j,:]*oS.X[j,:].T</span><br><span class="line">        <span class="keyword">if</span> eta &gt;= <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">if</span> istraces: </span><br><span class="line">                print(<span class="string">"eta&gt;=0"</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        oS.alphas[j] -= oS.labelMat[j]*(Ei - Ej)/eta</span><br><span class="line">        oS.alphas[j] = clipAlpha(oS.alphas[j],H,L)</span><br><span class="line">        updateEk(oS, j) <span class="comment"># added this for the Ecache</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (abs(oS.alphas[j] - alphaJold) &lt; <span class="number">0.00001</span>):</span><br><span class="line">            <span class="keyword">if</span> istraces: </span><br><span class="line">                print(<span class="string">"j not moving enough"</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        oS.alphas[i] += oS.labelMat[j]*oS.labelMat[i]*(alphaJold - oS.alphas[j])<span class="comment">#update i by the same amount as j</span></span><br><span class="line">        updateEk(oS, i) <span class="comment">#added this for the Ecache                    #the update is in the oppostie direction</span></span><br><span class="line">        b1 = oS.b - Ei - oS.labelMat[i] * (oS.alphas[i]-alphaIold)*oS.X[i,:]*oS.X[i,:].T - oS.labelMat[j]*(oS.alphas[j] - alphaJold)*oS.X[i,:]*oS.X[j,:].T</span><br><span class="line">        b2 = oS.b - Ei - oS.labelMat[i] * (oS.alphas[i]-alphaIold)*oS.X[i,:]*oS.X[i,:].T - oS.labelMat[j]*(oS.alphas[j] - alphaJold)*oS.X[j,:]*oS.X[j,:].T</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (<span class="number">0</span> &lt; oS.alphas[i]) <span class="keyword">and</span> (oS.C &gt; oS.alphas[i]):</span><br><span class="line">            oS.b = b1</span><br><span class="line">        <span class="keyword">elif</span> (<span class="number">0</span> &lt; oS.alphas[j]) <span class="keyword">and</span> (oS.C &gt; oS.alphas[j]):</span><br><span class="line">            oS.b = b2</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            oS.b = (b1 + b2)/<span class="number">2.0</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">else</span>: </span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">smoP</span><span class="params">(dataMatIn, classLabels, C, toler, maxIter, kTup=<span class="params">(<span class="string">'lin'</span>, <span class="number">0</span>)</span>, istraces=True)</span>:</span>    <span class="comment">#full Platt SMO</span></span><br><span class="line">    oS = optStruct(mat(dataMatIn),mat(classLabels).transpose(),C,toler, kTup)</span><br><span class="line">    iter = <span class="number">0</span></span><br><span class="line">    entireSet = <span class="keyword">True</span>; alphaPairsChanged = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> (iter &lt; maxIter) <span class="keyword">and</span> ((alphaPairsChanged &gt; <span class="number">0</span>) <span class="keyword">or</span> (entireSet)):</span><br><span class="line">        alphaPairsChanged = <span class="number">0</span></span><br><span class="line">        <span class="keyword">if</span> entireSet:   <span class="comment"># go over all</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(oS.m):        </span><br><span class="line">                alphaPairsChanged += innerL(i, oS)</span><br><span class="line">                <span class="keyword">if</span> istraces:</span><br><span class="line">                    print(<span class="string">"fullSet, iter: %d i:%d, pairs changed %d"</span> % (iter,i,alphaPairsChanged))</span><br><span class="line">            iter += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>: <span class="comment"># go over non-bound (railed) alphas</span></span><br><span class="line">            nonBoundIs = nonzero((oS.alphas.A &gt; <span class="number">0</span>) * (oS.alphas.A &lt; C))[<span class="number">0</span>]</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> nonBoundIs:</span><br><span class="line">                alphaPairsChanged += innerL(i, oS, istraces)</span><br><span class="line">                <span class="keyword">if</span> istraces:</span><br><span class="line">                    print(<span class="string">"non-bound, iter: %d i:%d, pairs changed %d"</span> % (iter,i,alphaPairsChanged))</span><br><span class="line">            iter += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> entireSet:</span><br><span class="line">            entireSet = <span class="keyword">False</span> <span class="comment">#toggle entire set loop</span></span><br><span class="line">        <span class="keyword">elif</span> (alphaPairsChanged == <span class="number">0</span>):</span><br><span class="line">            entireSet = <span class="keyword">True</span>  </span><br><span class="line">        print(<span class="string">"iteration number: %d"</span> % iter)</span><br><span class="line">    <span class="keyword">return</span> oS.b, oS.alphas</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dataArr, labelArr = loadDataSet(<span class="string">'MLiA_SourceCode/machinelearninginaction/Ch06/testSet.txt'</span>)</span><br><span class="line">b, alphas = smoP(dataArr, labelArr, <span class="number">0.6</span>, <span class="number">0.001</span>, <span class="number">40</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>fullSet, iter: 0 i:0, pairs changed 1
+fullSet, iter: 0 i:1, pairs changed 1
+fullSet, iter: 0 i:2, pairs changed 2
+j not moving enough
+...
+...
+fullSet, iter: 2 i:97, pairs changed 0
+fullSet, iter: 2 i:98, pairs changed 0
+fullSet, iter: 2 i:99, pairs changed 0
+iteration number: 3
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">supportVectors = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">    <span class="keyword">if</span> alphas[i] &gt; <span class="number">0.0</span>:</span><br><span class="line">        supportVectors.append(dataArr[i])</span><br><span class="line">        print(dataArr[i], labelArr[i])</span><br></pre></td></tr></table></figure>
+<pre><code>[3.542485, 1.977398] -1.0
+[7.55151, -1.58003] 1.0
+[8.127113, 1.274372] 1.0
+[7.108772, -0.986906] 1.0
+[6.080573, 0.418886] 1.0
+[3.107511, 0.758367] -1.0
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plotSupportVectors(supportVectors)</span><br></pre></td></tr></table></figure>
+<p><img src="%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AD%EF%BC%89_25_0.png" alt="png"></p>
+<p>如何用上面得到的alpha值来进行分类？首先必须基于alpha值得到超平面，计算w。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calcWs</span><span class="params">(alphas, dataArr, classLabels)</span>:</span></span><br><span class="line">    X = mat(dataArr)</span><br><span class="line">    labelMat = mat(classLabels).transpose()</span><br><span class="line">    m, n = shape(X)</span><br><span class="line">    w = zeros((n ,<span class="number">1</span>))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        w += multiply(alphas[i]*labelMat[i], X[i,:].T)</span><br><span class="line">    <span class="keyword">return</span> w</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ws = calcWs(alphas, dataArr, labelArr)</span><br><span class="line">ws</span><br></pre></td></tr></table></figure>
+<pre><code>array([[ 0.65139219],
+       [-0.18666913]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">datMat = mat(dataArr)</span><br><span class="line">datMat[<span class="number">0</span>]*mat(ws)+b</span><br></pre></td></tr></table></figure>
+<pre><code>matrix([[-0.94421679]])
+</code></pre><p>如果该值大于0那么其属于1类，小于0则属于-1类。对于dataMat[0]点应该时类别-1，验证检查：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">labelArr[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>-1.0
+</code></pre><p>写个函数全部检查一遍看看</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">checkResult</span><span class="params">(alphas, b, dataArr, labelArr)</span>:</span></span><br><span class="line">    ws = calcWs(alphas, dataArr, labelArr)</span><br><span class="line">    datMat = mat(dataArr)</span><br><span class="line">    n = len(datMat)</span><br><span class="line">    errorCount = <span class="number">0.0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        result = datMat[i]*mat(ws)+b</span><br><span class="line">        result = <span class="number">1.0</span> <span class="keyword">if</span> float(result) &gt; <span class="number">0</span> <span class="keyword">else</span> <span class="number">-1.0</span></span><br><span class="line">        <span class="keyword">if</span> result != labelArr[i]:</span><br><span class="line">            errorCount += <span class="number">1.0</span></span><br><span class="line">    print(<span class="string">"the error tate of this test is %f"</span> % float(errorCount/n))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">checkResult(alphas, b, dataArr, labelArr)</span><br></pre></td></tr></table></figure>
+<pre><code>the error tate of this test is 0.000000
+</code></pre><p>测试结果全部都分类正确</p>
+<h1 id="在复杂的数据上应用核函数"><a href="#在复杂的数据上应用核函数" class="headerlink" title="在复杂的数据上应用核函数"></a>在复杂的数据上应用核函数</h1><h2 id="利用核函数将数据映射到高维空间"><a href="#利用核函数将数据映射到高维空间" class="headerlink" title="利用核函数将数据映射到高维空间"></a>利用核函数将数据映射到高维空间</h2><h2 id="径向基核函数"><a href="#径向基核函数" class="headerlink" title="径向基核函数"></a>径向基核函数</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%run MLiA_SourceCode/machinelearninginaction/Ch06/plotRBF.py</span><br></pre></td></tr></table></figure>
+<p><img src="%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AD%EF%BC%89_37_0.png" alt="png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">kernelTrans</span><span class="params">(X, A, kTup)</span>:</span> <span class="comment">#calc the kernel or transform data to a higher dimensional space</span></span><br><span class="line">    m,n = shape(X)</span><br><span class="line">    K = mat(zeros((m,<span class="number">1</span>)))</span><br><span class="line">    <span class="keyword">if</span> kTup[<span class="number">0</span>]==<span class="string">'lin'</span>:</span><br><span class="line">        K = X * A.T   <span class="comment">#linear kernel</span></span><br><span class="line">    <span class="keyword">elif</span> kTup[<span class="number">0</span>]==<span class="string">'rbf'</span>:</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(m):</span><br><span class="line">            deltaRow = X[j,:] - A</span><br><span class="line">            K[j] = deltaRow*deltaRow.T</span><br><span class="line">        K = exp(K/(<span class="number">-1</span>*kTup[<span class="number">1</span>]**<span class="number">2</span>)) <span class="comment">#divide in NumPy is element-wise not matrix like Matlab</span></span><br><span class="line">    <span class="keyword">else</span>: <span class="keyword">raise</span> NameError(<span class="string">'Houston We Have a Problem -- \</span></span><br><span class="line"><span class="string">    That Kernel is not recognized'</span>)</span><br><span class="line">    <span class="keyword">return</span> K</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">optStruct</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,dataMatIn, classLabels, C, toler, kTup)</span>:</span>  <span class="comment"># Initialize the structure with the parameters </span></span><br><span class="line">        self.X = dataMatIn</span><br><span class="line">        self.labelMat = classLabels</span><br><span class="line">        self.C = C</span><br><span class="line">        self.tol = toler</span><br><span class="line">        self.m = shape(dataMatIn)[<span class="number">0</span>]</span><br><span class="line">        self.alphas = mat(zeros((self.m,<span class="number">1</span>)))</span><br><span class="line">        self.b = <span class="number">0</span></span><br><span class="line">        self.eCache = mat(zeros((self.m,<span class="number">2</span>))) <span class="comment">#first column is valid flag</span></span><br><span class="line">        self.K = mat(zeros((self.m,self.m)))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(self.m):</span><br><span class="line">            self.K[:,i] = kernelTrans(self.X, self.X[i,:], kTup)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">innerL</span><span class="params">(i, oS, istraces=False)</span>:</span></span><br><span class="line">    Ei = calcEk(oS, i)</span><br><span class="line">    <span class="keyword">if</span> ((oS.labelMat[i]*Ei &lt; -oS.tol) <span class="keyword">and</span> (oS.alphas[i] &lt; oS.C)) <span class="keyword">or</span> ((oS.labelMat[i]*Ei &gt; oS.tol) <span class="keyword">and</span> (oS.alphas[i] &gt; <span class="number">0</span>)):</span><br><span class="line">        j,Ej = selectJ(i, oS, Ei) <span class="comment">#this has been changed from selectJrand</span></span><br><span class="line">        alphaIold = oS.alphas[i].copy(); alphaJold = oS.alphas[j].copy();</span><br><span class="line">        <span class="keyword">if</span> (oS.labelMat[i] != oS.labelMat[j]):</span><br><span class="line">            L = max(<span class="number">0</span>, oS.alphas[j] - oS.alphas[i])</span><br><span class="line">            H = min(oS.C, oS.C + oS.alphas[j] - oS.alphas[i])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            L = max(<span class="number">0</span>, oS.alphas[j] + oS.alphas[i] - oS.C)</span><br><span class="line">            H = min(oS.C, oS.alphas[j] + oS.alphas[i])</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> L==H:</span><br><span class="line">            <span class="keyword">if</span> istraces: </span><br><span class="line">                print(<span class="string">"L==H"</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        eta = <span class="number">2.0</span> * oS.K[i,j] - oS.K[i,i] - oS.K[j,j] <span class="comment">#changed for kernel</span></span><br><span class="line">        <span class="keyword">if</span> eta &gt;= <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">if</span> istraces: </span><br><span class="line">                print(<span class="string">"eta&gt;=0"</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        oS.alphas[j] -= oS.labelMat[j]*(Ei - Ej)/eta</span><br><span class="line">        oS.alphas[j] = clipAlpha(oS.alphas[j],H,L)</span><br><span class="line">        updateEk(oS, j) <span class="comment"># added this for the Ecache</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (abs(oS.alphas[j] - alphaJold) &lt; <span class="number">0.00001</span>):</span><br><span class="line">            <span class="keyword">if</span> istraces: </span><br><span class="line">                print(<span class="string">"j not moving enough"</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        oS.alphas[i] += oS.labelMat[j]*oS.labelMat[i]*(alphaJold - oS.alphas[j])<span class="comment">#update i by the same amount as j</span></span><br><span class="line">        updateEk(oS, i) <span class="comment">#added this for the Ecache                    #the update is in the oppostie direction</span></span><br><span class="line">        b1 = oS.b - Ei- oS.labelMat[i]*(oS.alphas[i]-alphaIold)*oS.K[i,i] - oS.labelMat[j]*(oS.alphas[j]-alphaJold)*oS.K[i,j]</span><br><span class="line">        b2 = oS.b - Ej- oS.labelMat[i]*(oS.alphas[i]-alphaIold)*oS.K[i,j]- oS.labelMat[j]*(oS.alphas[j]-alphaJold)*oS.K[j,j]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (<span class="number">0</span> &lt; oS.alphas[i]) <span class="keyword">and</span> (oS.C &gt; oS.alphas[i]):</span><br><span class="line">            oS.b = b1</span><br><span class="line">        <span class="keyword">elif</span> (<span class="number">0</span> &lt; oS.alphas[j]) <span class="keyword">and</span> (oS.C &gt; oS.alphas[j]):</span><br><span class="line">            oS.b = b2</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            oS.b = (b1 + b2)/<span class="number">2.0</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">else</span>: </span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calcEk</span><span class="params">(oS, k)</span>:</span></span><br><span class="line">    fXk = float(multiply(oS.alphas,oS.labelMat).T*oS.K[:,k] + oS.b)</span><br><span class="line">    Ek = fXk - float(oS.labelMat[k])</span><br><span class="line">    <span class="keyword">return</span> Ek</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">testRbf</span><span class="params">(k1=<span class="number">1.3</span>)</span>:</span></span><br><span class="line">    dataArr,labelArr = loadDataSet(<span class="string">'MLiA_SourceCode/machinelearninginaction/Ch06/testSetRBF.txt'</span>)</span><br><span class="line">    b,alphas = smoP(dataArr, labelArr, <span class="number">200</span>, <span class="number">0.0001</span>, <span class="number">10000</span>, (<span class="string">'rbf'</span>, k1)) <span class="comment">#C=200 important</span></span><br><span class="line">    datMat=mat(dataArr); labelMat = mat(labelArr).transpose()</span><br><span class="line">    svInd=nonzero(alphas.A&gt;<span class="number">0</span>)[<span class="number">0</span>]</span><br><span class="line">    sVs=datMat[svInd] <span class="comment">#get matrix of only support vectors</span></span><br><span class="line">    labelSV = labelMat[svInd];</span><br><span class="line">    print(<span class="string">"there are %d Support Vectors"</span> % shape(sVs)[<span class="number">0</span>])</span><br><span class="line">    m,n = shape(datMat)</span><br><span class="line">    errorCount = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        kernelEval = kernelTrans(sVs,datMat[i,:],(<span class="string">'rbf'</span>, k1))</span><br><span class="line">        predict=kernelEval.T * multiply(labelSV,alphas[svInd]) + b</span><br><span class="line">        <span class="keyword">if</span> sign(predict)!=sign(labelArr[i]): errorCount += <span class="number">1</span></span><br><span class="line">    print(<span class="string">"the training error rate is: %f"</span> % (float(errorCount)/m))</span><br><span class="line">    dataArr,labelArr = loadDataSet(<span class="string">'MLiA_SourceCode/machinelearninginaction/Ch06/testSetRBF2.txt'</span>)</span><br><span class="line">    errorCount = <span class="number">0</span></span><br><span class="line">    datMat=mat(dataArr); labelMat = mat(labelArr).transpose()</span><br><span class="line">    m,n = shape(datMat)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        kernelEval = kernelTrans(sVs,datMat[i,:],(<span class="string">'rbf'</span>, k1))</span><br><span class="line">        predict=kernelEval.T * multiply(labelSV,alphas[svInd]) + b</span><br><span class="line">        <span class="keyword">if</span> sign(predict)!=sign(labelArr[i]): errorCount += <span class="number">1</span>    </span><br><span class="line">    print(<span class="string">"the test error rate is: %f"</span> % (float(errorCount)/m))</span><br></pre></td></tr></table></figure>
+<h2 id="在测试中使用核函数"><a href="#在测试中使用核函数" class="headerlink" title="在测试中使用核函数"></a>在测试中使用核函数</h2><p>用加入了核函数的算法再次训练</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">testRbf()</span><br></pre></td></tr></table></figure>
+<pre><code>fullSet, iter: 0 i:0, pairs changed 1
+fullSet, iter: 0 i:1, pairs changed 1
+...
+...
+fullSet, iter: 6 i:99, pairs changed 0
+iteration number: 7
+there are 29 Support Vectors
+the training error rate is: 0.070000
+the test error rate is: 0.050000
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">testRbf(<span class="number">0.1</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>fullSet, iter: 0 i:0, pairs changed 1
+fullSet, iter: 0 i:1, pairs changed 2
+...
+...
+iteration number: 7
+there are 89 Support Vectors
+the training error rate is: 0.000000
+the test error rate is: 0.070000
+</code></pre><p>当k1=0.1时候，支持向量为89个，k1=1.3的时候时29个，当减小σ，训练错误率就会降低，但测试错误率就会上升。</p>
+<p>支持向量的数目存在一个最优值。SVM的优点在于它能对数据进行高效分类。如果支持向量太少，就可能会得到一个很差的决策边界；如果支持向量太多，也就相当于每次都利用整个数据集进行分类，这种分类法发称为K近邻。</p>
+<h1 id="实例：手写识别问题回顾"><a href="#实例：手写识别问题回顾" class="headerlink" title="实例：手写识别问题回顾"></a>实例：手写识别问题回顾</h1><p>基于SVM的数字识别</p>
+<ol>
+<li>收集数据</li>
+<li>准备数据：基于二值图像构造向量</li>
+<li>分析数据：对图像向量进行目测</li>
+<li>训练算法：采用两种不同的核函数，并对径向（radial direction）基核函数采用不同的设置来运行SMO算法</li>
+<li>测试算法：编写一个函数来测试不同的核函数并计算错误率</li>
+<li>使用算法</li>
+</ol>
+<p>首先把第二章的img2vector()函数复制过来。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">img2vector</span><span class="params">(filename)</span>:</span></span><br><span class="line">    returnVect = zeros((<span class="number">1</span>,<span class="number">1024</span>))</span><br><span class="line">    fr = open(filename)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">        lineStr = fr.readline()</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">            returnVect[<span class="number">0</span>,<span class="number">32</span>*i+j] = int(lineStr[j])</span><br><span class="line">    <span class="keyword">return</span> returnVect</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loadImages</span><span class="params">(dirName)</span>:</span></span><br><span class="line">    <span class="keyword">from</span> os <span class="keyword">import</span> listdir</span><br><span class="line">    hwLabels = []</span><br><span class="line">    trainingFileList = listdir(dirName)         <span class="comment"># load the training set</span></span><br><span class="line">    m = len(trainingFileList)</span><br><span class="line">    trainingMat = zeros((m,<span class="number">1024</span>))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        fileNameStr = trainingFileList[i]</span><br><span class="line">        fileStr = fileNameStr.split(<span class="string">'.'</span>)[<span class="number">0</span>]     <span class="comment"># take off .txt</span></span><br><span class="line">        classNumStr = int(fileStr.split(<span class="string">'_'</span>)[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">if</span> classNumStr == <span class="number">9</span>:</span><br><span class="line">            hwLabels.append(<span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            hwLabels.append(<span class="number">1</span>)</span><br><span class="line">        trainingMat[i,:] = img2vector(<span class="string">'%s/%s'</span> % (dirName, fileNameStr))</span><br><span class="line">    <span class="keyword">return</span> trainingMat, hwLabels</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">testDigits</span><span class="params">(kTup=<span class="params">(<span class="string">'rbf'</span>, <span class="number">10</span>)</span>, istrances=False)</span>:</span></span><br><span class="line">    dataArr,labelArr = loadImages(<span class="string">'MLiA_SourceCode/machinelearninginaction/Ch06/digits/trainingDigits'</span>)</span><br><span class="line">    b,alphas = smoP(dataArr, labelArr, <span class="number">200</span>, <span class="number">0.0001</span>, <span class="number">10000</span>, kTup, istrances)</span><br><span class="line">    datMat=mat(dataArr)</span><br><span class="line">    labelMat = mat(labelArr).transpose()</span><br><span class="line">    svInd=nonzero(alphas.A&gt;<span class="number">0</span>)[<span class="number">0</span>]</span><br><span class="line">    sVs=datMat[svInd] </span><br><span class="line">    labelSV = labelMat[svInd];</span><br><span class="line">    </span><br><span class="line">    print(<span class="string">"there are %d Support Vectors"</span> % shape(sVs)[<span class="number">0</span>])</span><br><span class="line">    supportVectors = shape(sVs)[<span class="number">0</span>]</span><br><span class="line">    m,n = shape(datMat)</span><br><span class="line">    errorCount = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        kernelEval = kernelTrans(sVs,datMat[i,:],kTup)</span><br><span class="line">        predict = kernelEval.T * multiply(labelSV,alphas[svInd]) + b</span><br><span class="line">        <span class="keyword">if</span> sign(predict) != sign(labelArr[i]):</span><br><span class="line">            errorCount += <span class="number">1</span></span><br><span class="line">    trainErrorRate = float(errorCount)/m        </span><br><span class="line">    print(<span class="string">"the training error rate is: %f"</span> % (float(errorCount)/m))</span><br><span class="line">    dataArr,labelArr = loadImages(<span class="string">'MLiA_SourceCode/machinelearninginaction/Ch06/digits/testDigits'</span>)</span><br><span class="line">    errorCount = <span class="number">0</span></span><br><span class="line">    datMat=mat(dataArr) </span><br><span class="line">    labelMat = mat(labelArr).transpose()</span><br><span class="line">    m,n = shape(datMat)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        kernelEval = kernelTrans(sVs,datMat[i,:],kTup)</span><br><span class="line">        predict=kernelEval.T * multiply(labelSV,alphas[svInd]) + b</span><br><span class="line">        <span class="keyword">if</span> sign(predict) != sign(labelArr[i]):</span><br><span class="line">            errorCount += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">"the test error rate is: %f"</span> % (float(errorCount)/m))</span><br><span class="line">    testErrorTate = float(errorCount)/m</span><br><span class="line">    <span class="keyword">return</span> trainErrorRate, testErrorTate, supportVectors</span><br></pre></td></tr></table></figure>
+<p>尝试不同的参数和线性核函数来学习：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">parameters = [[<span class="string">'rbf'</span>, <span class="number">0.1</span>],</span><br><span class="line">             [<span class="string">'rbf'</span>, <span class="number">5</span>],</span><br><span class="line">             [<span class="string">'rbf'</span>, <span class="number">10</span>],</span><br><span class="line">             [<span class="string">'rbf'</span>, <span class="number">50</span>],</span><br><span class="line">             [<span class="string">'rbf'</span>, <span class="number">100</span>],</span><br><span class="line">             [<span class="string">'lin'</span>, <span class="number">0</span>]]</span><br><span class="line">trainErrorRate = []</span><br><span class="line">testErrorTate = []</span><br><span class="line">supportVectors = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i, j <span class="keyword">in</span> parameters:</span><br><span class="line">    result = testDigits(kTup=(i, j))</span><br><span class="line">    trainErrorRate.append(result[<span class="number">0</span>])</span><br><span class="line">    testErrorTate.append(result[<span class="number">1</span>])</span><br><span class="line">    supportVectors.append(result[<span class="number">2</span>])</span><br></pre></td></tr></table></figure>
+<pre><code>iteration number: 1
+iteration number: 2
+iteration number: 3
+...
+...
+iteration number: 9
+there are 39 Support Vectors
+the training error rate is: 0.000000
+the test error rate is: 0.021505
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">"内核,设置\t训练错误率\t测试错误率\t支持向量数"</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(parameters)):</span><br><span class="line">    print(<span class="string">"%s,%.1f \t%.4f \t\t%.4f \t\t%d"</span> %(parameters[i][<span class="number">0</span>], parameters[i][<span class="number">1</span>], trainErrorRate[i], testErrorTate[i], supportVectors[i]))</span><br></pre></td></tr></table></figure>
+<pre><code>内核,设置    训练错误率    测试错误率    支持向量数
+rbf,0.1     0.0000         0.5215         402
+rbf,5.0     0.0000         0.0323         402
+rbf,10.0     0.0000         0.0054         132
+rbf,50.0     0.0149         0.0269         31
+rbf,100.0     0.0050         0.0108         34
+lin,0.0     0.0000         0.0215         39
+</code></pre><p>观察发现，最小的训练错误率并不对应最小的支持向量数，线性核函数的效果并不是特别糟糕。可以牺牲线性核函数的错误率来换取分类速度的提高。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>支持向量机时一种分类器，之所以称为“机”时因为它会产生一个二值决策结果，即它是一种决策“机”，支持向量机的泛化错误率较低，也就是说它具有良好的学习能力，并且学到的结果具有很好的推广性。</p>
+<p>核函数从一个低纬空间映射到一个高纬空间，可以将一个低维空间中的非线性问题转换为高纬度空间下的线性问题来求解。</p>
+<p>支持向量机是一个二分类器。当解决多分类问题时，则需要额外的方法对其进行扩展，SVM的效果也对优化参数和所用核函数中的参数敏感。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SVM/" rel="tag"><i class="fa fa-tag"></i> SVM</a>
+          
+            <a href="/tags/SMO/" rel="tag"><i class="fa fa-tag"></i> SMO</a>
+          
+            <a href="/tags/支持向量机/" rel="tag"><i class="fa fa-tag"></i> 支持向量机</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/01/机器学习实战（五）/" rel="next" title="机器学习实战（五）">
+                <i class="fa fa-chevron-left"></i> 机器学习实战（五）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Voidmort" />
+            
+              <p class="site-author-name" itemprop="name">Voidmort</p>
+              <p class="site-description motion-element" itemprop="description">研究AI，撰写影评，热爱音乐，努力健身</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">74</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">38</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Voidmort" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:wxj5658@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1749266905" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jusanliusha.xyz" title="Jusanliusha" target="_blank">Jusanliusha</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基于最大间隔分隔数据"><span class="nav-number">1.</span> <span class="nav-text">基于最大间隔分隔数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#寻找最大间隔"><span class="nav-number">2.</span> <span class="nav-text">寻找最大间隔</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分类器求解的优化问题"><span class="nav-number">2.1.</span> <span class="nav-text">分类器求解的优化问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SVM应用的一般框架"><span class="nav-number">2.2.</span> <span class="nav-text">SVM应用的一般框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SMO高效优化算法"><span class="nav-number">2.3.</span> <span class="nav-text">SMO高效优化算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用简化版SMO算法处理小规模数据集"><span class="nav-number">2.4.</span> <span class="nav-text">应用简化版SMO算法处理小规模数据集</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用完整的SMO算法加速优化"><span class="nav-number">3.</span> <span class="nav-text">利用完整的SMO算法加速优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在复杂的数据上应用核函数"><span class="nav-number">4.</span> <span class="nav-text">在复杂的数据上应用核函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#利用核函数将数据映射到高维空间"><span class="nav-number">4.1.</span> <span class="nav-text">利用核函数将数据映射到高维空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#径向基核函数"><span class="nav-number">4.2.</span> <span class="nav-text">径向基核函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在测试中使用核函数"><span class="nav-number">4.3.</span> <span class="nav-text">在测试中使用核函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实例：手写识别问题回顾"><span class="nav-number">5.</span> <span class="nav-text">实例：手写识别问题回顾</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Voidmort</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/kesyoban.model.json"},"display":{"position":"right","width":130,"height":260},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>
