@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2020-04-06T09:31:17.034Z</updated>
+  <updated>2020-04-09T09:02:35.889Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -15,6 +15,38 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>机器学习实战（七）</title>
+    <link href="https://xvjie.wang/2020/04/07/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E4%B8%83%EF%BC%89/"/>
+    <id>https://xvjie.wang/2020/04/07/机器学习实战（七）/</id>
+    <published>2020-04-07T01:20:50.000Z</published>
+    <updated>2020-04-09T09:02:35.889Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;利用AdaBoost元算法提高分类性能&quot;&gt;&lt;a href=&quot;#利用AdaBoost元算法提高分类性能&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习实战" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/"/>
+    
+    
+      <category term="AdaBoost" scheme="https://xvjie.wang/tags/AdaBoost/"/>
+    
+      <category term="bagging" scheme="https://xvjie.wang/tags/bagging/"/>
+    
+      <category term="boosting" scheme="https://xvjie.wang/tags/boosting/"/>
+    
+      <category term="ROC" scheme="https://xvjie.wang/tags/ROC/"/>
+    
+  </entry>
   
   <entry>
     <title>机器学习实战（六）</title>
@@ -533,32 +565,6 @@
     
     
       <category term="激活函数" scheme="https://xvjie.wang/tags/%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TensorFlow 10</title>
-    <link href="https://xvjie.wang/2019/02/25/TensorFlow_10/"/>
-    <id>https://xvjie.wang/2019/02/25/TensorFlow_10/</id>
-    <published>2019-02-25T08:51:00.000Z</published>
-    <updated>2019-03-19T13:59:46.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;稀疏数据和嵌入简介&quot;&gt;&lt;a href=&quot;#稀疏数据和嵌入简介&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/categories/Tensorflow/"/>
-    
-    
-      <category term="Tensorflow" scheme="https://xvjie.wang/tags/Tensorflow/"/>
     
   </entry>
   
