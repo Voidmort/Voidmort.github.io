@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2020-04-09T09:02:35.889Z</updated>
+  <updated>2020-04-30T07:43:02.824Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>机器学习实战（八）</title>
+    <link href="https://xvjie.wang/2020/04/20/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AB%EF%BC%89/"/>
+    <id>https://xvjie.wang/2020/04/20/机器学习实战（八）/</id>
+    <published>2020-04-20T01:20:50.000Z</published>
+    <updated>2020-04-30T07:43:02.824Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;预测数值型数据：回归&quot;&gt;&lt;a href=&quot;#预测数值型数据：回归&quot; class=&quot;headerlink&quot; title=&quot;预测数值型数据：回归&quot;&gt;&lt;/a&gt;预测数值型数据：回归&lt;/h1&gt;&lt;p&gt;分类的目标变量是标称型数据，而回归是对连续性数据做出预测。&lt;/p&gt;
+&lt;h1
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习实战" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/"/>
+    
+    
+      <category term="线性回归" scheme="https://xvjie.wang/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"/>
+    
+      <category term="岭回归" scheme="https://xvjie.wang/tags/%E5%B2%AD%E5%9B%9E%E5%BD%92/"/>
+    
+      <category term="最小二乘法" scheme="https://xvjie.wang/tags/%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95/"/>
+    
+  </entry>
   
   <entry>
     <title>机器学习实战（七）</title>
@@ -538,33 +569,6 @@
     
     
       <category term="深度学习" scheme="https://xvjie.wang/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>激活函数（Activation functions）</title>
-    <link href="https://xvjie.wang/2019/03/27/%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0%EF%BC%88Activation%20functions%EF%BC%89/"/>
-    <id>https://xvjie.wang/2019/03/27/激活函数（Activation functions）/</id>
-    <published>2019-03-26T16:00:00.000Z</published>
-    <updated>2019-03-27T14:55:41.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;在使用神经网络时，需要决定使用哪种激活函数作用在隐藏层上，哪种用在输出节点上。普通的激活函数有sigmoid, tanh, Relu和Relu的优化版Leaky Relu。&lt;/p&gt;
-&lt;h1 id=&quot;为什么需要非线性激活函数&quot;&gt;&lt;a href=&quot;#为什么需要非线性激活函数&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="机器学习" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="激活函数" scheme="https://xvjie.wang/tags/%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0/"/>
     
   </entry>
   

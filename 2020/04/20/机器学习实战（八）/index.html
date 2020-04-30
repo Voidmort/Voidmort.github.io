@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="预测数值型数据：回归分类的目标变量是标称型数据，而回归是对连续性数据做出预测。 用线性回归找到最佳拟合直线线性回归 优点：结果易于理解，计算上不复杂 缺点：对非线性的数据拟合不好 适用数据类型：数值型和标称型数据 回归的目的是预测数值型的目标值。最直接的办法是依据输入写出一个目标值的计算公式。 Z = 0.1*X + 0.2*Y 这就是所谓的回归方程（regression equation）其中0">
+<meta name="keywords" content="线性回归,岭回归,最小二乘法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习实战（八）">
+<meta property="og:url" content="https://xvjie.wang/2020/04/20/机器学习实战（八）/index.html">
+<meta property="og:site_name" content="Voidmort">
+<meta property="og:description" content="预测数值型数据：回归分类的目标变量是标称型数据，而回归是对连续性数据做出预测。 用线性回归找到最佳拟合直线线性回归 优点：结果易于理解，计算上不复杂 缺点：对非线性的数据拟合不好 适用数据类型：数值型和标称型数据 回归的目的是预测数值型的目标值。最直接的办法是依据输入写出一个目标值的计算公式。 Z = 0.1*X + 0.2*Y 这就是所谓的回归方程（regression equation）其中0">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://xvjie.wang/2020/04/20/机器学习实战（八）/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AB%EF%BC%89_7_0.png">
+<meta property="og:image" content="https://xvjie.wang/2020/04/20/机器学习实战（八）/08_fig04_alt.jpg">
+<meta property="og:image" content="https://xvjie.wang/2020/04/20/机器学习实战（八）/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AB%EF%BC%89_20_0.png">
+<meta property="og:image" content="https://xvjie.wang/2020/04/20/机器学习实战（八）/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AB%EF%BC%89_20_1.png">
+<meta property="og:image" content="https://xvjie.wang/2020/04/20/机器学习实战（八）/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AB%EF%BC%89_20_2.png">
+<meta property="og:image" content="https://xvjie.wang/2020/04/20/机器学习实战（八）/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AB%EF%BC%89_46_0.png">
+<meta property="og:image" content="https://xvjie.wang/2020/04/20/机器学习实战（八）/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AB%EF%BC%89_56_0.png">
+<meta property="og:image" content="https://xvjie.wang/2020/04/20/机器学习实战（八）/08_fig08_alt.jpg">
+<meta property="og:updated_time" content="2020-04-30T07:43:02.824Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习实战（八）">
+<meta name="twitter:description" content="预测数值型数据：回归分类的目标变量是标称型数据，而回归是对连续性数据做出预测。 用线性回归找到最佳拟合直线线性回归 优点：结果易于理解，计算上不复杂 缺点：对非线性的数据拟合不好 适用数据类型：数值型和标称型数据 回归的目的是预测数值型的目标值。最直接的办法是依据输入写出一个目标值的计算公式。 Z = 0.1*X + 0.2*Y 这就是所谓的回归方程（regression equation）其中0">
+<meta name="twitter:image" content="https://xvjie.wang/2020/04/20/机器学习实战（八）/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AB%EF%BC%89_7_0.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Voidmort" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://xvjie.wang/2020/04/20/机器学习实战（八）/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>机器学习实战（八） | Voidmort</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7b96eb7c2717359e36cc8bd8b546997c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/Voidmort" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Voidmort</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-other">
+    <a href="/other/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-plane"></i> <br />其它</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xvjie.wang/2020/04/20/机器学习实战（八）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Voidmort">
+      <meta itemprop="description" content="研究AI，撰写影评，热爱音乐，努力健身">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Voidmort">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习实战（八）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-04-20 09:20:50" itemprop="dateCreated datePublished" datetime="2020-04-20T09:20:50+08:00">2020-04-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-30 15:43:02" itemprop="dateModified" datetime="2020-04-30T15:43:02+08:00">2020-04-30</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习实战/" itemprop="url" rel="index"><span itemprop="name">机器学习实战</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="预测数值型数据：回归"><a href="#预测数值型数据：回归" class="headerlink" title="预测数值型数据：回归"></a>预测数值型数据：回归</h1><p>分类的目标变量是标称型数据，而回归是对连续性数据做出预测。</p>
+<h1 id="用线性回归找到最佳拟合直线"><a href="#用线性回归找到最佳拟合直线" class="headerlink" title="用线性回归找到最佳拟合直线"></a>用线性回归找到最佳拟合直线</h1><p>线性回归</p>
+<pre><code>优点：结果易于理解，计算上不复杂
+缺点：对非线性的数据拟合不好
+适用数据类型：数值型和标称型数据
+</code></pre><p>回归的目的是预测数值型的目标值。最直接的办法是依据输入写出一个目标值的计算公式。</p>
+<pre><code>Z = 0.1*X + 0.2*Y
+</code></pre><p>这就是所谓的回归方程（regression equation）其中0.1和0.2称作回归系数（regression weights），求回归系数的过程就是回归。</p>
+<p>回归的一般方法：</p>
+<ol>
+<li>收集数据</li>
+<li>准备数据：回归需要数值型数据，标称型数据将被转换成二进制数据</li>
+<li>分析数据：绘出数据的可视化二维图将有助于对数据做出理解和分析，在采用缩减法求得新回归系数之后，可以将新拟合线绘制在图上作为对比</li>
+<li>训练算法：找到回归系数</li>
+<li>测试算法：适用$R^2$或者预测值和数据的拟合度，来分析模型的效果</li>
+<li>使用算法：使用回归，可以在给定输入的时候预测出一个数值，这是对分类方法的提升，因为这样可以预测连续性数据而不仅仅是离散的类别标签</li>
+</ol>
+<p>假如输入数据为矩阵$X$，回归系数为向量$w$，对于给定的数据$X_1$预测结果将会通过$Y_1=X^T_1w$得到。</p>
+<p>找到$w$的方法是找到使误差最小的$w$，误差指预测值和真实值之间的差值，使用该差值简单的累加将使正差值和负差值相互抵消，所以采用平方误差。</p>
+<p>平方误差可以写作：</p>
+<p>$$\sum_{i=1}^m(y_i-x_i^Tw)^2$$</p>
+<p>用矩阵表示可以写作:</p>
+<p>$$(y-Xw)^T(y-Xw)$$</p>
+<p>对$w$求导，得到$X^T(Y-Xw)$，令其等于0，解出</p>
+<p>$$w=(X^TX)^{-1}X^Ty$$</p>
+<p>$(X^TX)^{-1}$表示矩阵的逆，矩阵的逆可能并不存在，因此要在代码中作出判断。</p>
+<p>上述方法也称作OLS“普通最小二乘法”（ordinary least squares）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loadDataSet</span><span class="params">(fileName)</span>:</span>      <span class="comment">#general function to parse tab -delimited floats</span></span><br><span class="line">    numFeat = len(open(fileName).readline().split(<span class="string">'\t'</span>)) - <span class="number">1</span> <span class="comment">#get number of fields </span></span><br><span class="line">    dataMat = []; labelMat = []</span><br><span class="line">    fr = open(fileName)</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> fr.readlines():</span><br><span class="line">        lineArr =[]</span><br><span class="line">        curLine = line.strip().split(<span class="string">'\t'</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(numFeat):</span><br><span class="line">            lineArr.append(float(curLine[i]))</span><br><span class="line">        dataMat.append(lineArr)</span><br><span class="line">        labelMat.append(float(curLine[<span class="number">-1</span>]))</span><br><span class="line">    <span class="keyword">return</span> dataMat,labelMat</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">standRegres</span><span class="params">(xArr, yArr)</span>:</span></span><br><span class="line">    xMat = mat(xArr)</span><br><span class="line">    yMat = mat(yArr).T</span><br><span class="line">    xTx = xMat.T*xMat</span><br><span class="line">    <span class="keyword">if</span> linalg.det(xTx) == <span class="number">0.0</span>:</span><br><span class="line">        print(<span class="string">"This matrix is singular, cannot do inverse"</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    ws = xTx.I * (xMat.T*yMat)</span><br><span class="line">    <span class="keyword">return</span> ws</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xArr, yArr = loadDataSet(<span class="string">'MLiA_SourceCode/Ch08/ex0.txt'</span>)</span><br><span class="line">xArr[<span class="number">0</span>:<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>[[1.0, 0.067732], [1.0, 0.42781]]
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ws = standRegres(xArr, yArr)</span><br><span class="line">ws</span><br></pre></td></tr></table></figure>
+<pre><code>matrix([[3.00774324],
+        [1.69532264]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xMat = mat(xArr)</span><br><span class="line">yMat = mat(yArr)</span><br><span class="line">yHat = xMat*ws</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">fig = plt.figure()</span><br><span class="line">ax = fig.add_subplot(<span class="number">111</span>)</span><br><span class="line">ax.scatter(xMat[:,<span class="number">1</span>].flatten().A[<span class="number">0</span>], yMat.T[:,<span class="number">0</span>].flatten().A[<span class="number">0</span>], <span class="number">10</span>)</span><br><span class="line">xCopy = xMat.copy()</span><br><span class="line">xCopy.sort(<span class="number">0</span>)</span><br><span class="line">yHat=xCopy*ws</span><br><span class="line">ax.plot(xCopy[:,<span class="number">1</span>], yHat)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AB%EF%BC%89_7_0.png" alt="png"></p>
+<p>几乎任意数据都可以用上述法放建立模型，有一种方法可以计算预测值yHat序列和真实值y序列的相关系数来鉴别拟合效果。</p>
+<p>在python中可以用numpy库的corrcoef(yEstimate, yActual)来计算相关性。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yHat = xMat*ws</span><br><span class="line">corrcoef(yHat.T, yMat)</span><br></pre></td></tr></table></figure>
+<pre><code>array([[1.        , 0.98647356],
+       [0.98647356, 1.        ]])
+</code></pre><p>上面的矩阵包含所有两两组合的相关系数，对角线为1.0是因为yMat和自己匹配是完美的，yHat和yMat的相关系数为0.98。</p>
+<h1 id="局部加权线性回归"><a href="#局部加权线性回归" class="headerlink" title="局部加权线性回归"></a>局部加权线性回归</h1><p>线性回归有可能出现欠拟合，因为求的具有最小均方误差的无偏估计。可以引入一些偏差，从而降低预测的均方误差。其中一个方法是局部加权线性回归（locally weighted linear regression， LWLR），在该算法中，我们给待预测点附近的每个点赋予一定的权重；然后在这个子集上基于最小均方差来进行普通的回归。与KNN一样，这种算法每次预测需要事先选取出对应的数据子集，该算法解出的回归系数w的形式如下</p>
+<p>$$w=(X^TWX)^{-1}X^TW_y$$</p>
+<p>其中w是一个矩阵，用来给每个数据点赋予权重。</p>
+<p>LWLR使用“核”（与支持向量机类似）来对附近的点赋予更高的权重。最常用的是高斯核，因为高斯核符合正态分布，高斯核对应的权重如下：</p>
+<p>$$w(i,i)=exp(\frac{|x^{i}-x|}{-2k^2})$$</p>
+<p>这样就构建了一个只含对角元素的权重矩阵w，并且点x与x(i)越近，w(i,i)将会越大。<br>上述公式包含了一个需要用户指定的参数k，它决定了对附近的点赋予多大的权重，这是使用LWLR时唯一要考虑的参数。<br>下图可以看到参数k与权重的关系</p>
+<p><img src="08_fig04_alt.jpg" alt=""></p>
+<p>每个点的权重图（假定我们正预测的点是=0.5），最上面的图是原始数据集，第二个图显示了当k=0.5时，大部分的数据都用于训练回归模型，最下面的图显示的是当k=0.01时，仅有很少的局部点被用于训练回归模型。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lwlr</span><span class="params">(testPoint, xArr, yArr, k=<span class="number">1.0</span>)</span>:</span></span><br><span class="line">    xMat = mat(xArr)</span><br><span class="line">    yMat = mat(yArr).T</span><br><span class="line">    m = shape(xMat)[<span class="number">0</span>]</span><br><span class="line">    <span class="comment"># 创建对角矩阵</span></span><br><span class="line">    weights = mat(eye((m)))</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(m):</span><br><span class="line">        diffMat = testPoint - xMat[j, :]</span><br><span class="line">        <span class="comment"># 权重大小以指数级衰减</span></span><br><span class="line">        weights[j, j] = exp(diffMat*diffMat.T/(<span class="number">-2.0</span>*k**<span class="number">2</span>))</span><br><span class="line">    xTx = xMat.T * (weights * xMat)</span><br><span class="line">    <span class="keyword">if</span> linalg.det(xTx) == <span class="number">0.0</span>:</span><br><span class="line">        print(<span class="string">'This matrix is singular, cannot do inverse'</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    ws = xTx.I * (xMat.T * (weights * yMat))</span><br><span class="line">    <span class="keyword">return</span> testPoint * ws</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lwlrTest</span><span class="params">(testArr, xArr, yArr, k=<span class="number">1.0</span>)</span>:</span></span><br><span class="line">    m = shape(testArr)[<span class="number">0</span>]</span><br><span class="line">    yHat = zeros(m)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        yHat[i] = lwlr(testArr[i], xArr, yArr, k)</span><br><span class="line">    <span class="keyword">return</span> yHat</span><br></pre></td></tr></table></figure>
+<p>lwlr()的作用是，给定x空间中的任意一点，计算出对应的预测值yHat。权重矩阵是一个方阵，阶数等于样本点个数。也就是说，该矩阵为每个样本初始化了一个权重。接着遍历数据集，计算每个样本点对应的权重，随着样本点与待预测点距离的递增，权重将以指数级衰减。输入参数K控制衰减速度。</p>
+<p>测试算法，对单点进行估计：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xArr[:<span class="number">2</span>], yArr[:<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>([[1.0, 0.067732], [1.0, 0.42781]], [3.176513, 3.816464])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lwlr(xArr[<span class="number">0</span>], xArr, yArr, <span class="number">1.0</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>matrix([[3.12204471]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lwlr(xArr[<span class="number">0</span>], xArr, yArr, <span class="number">0.001</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>matrix([[3.20175729]])
+</code></pre><p>对所有数据点估计，并绘图：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yHat1 = lwlrTest(xArr, xArr, yArr, k=<span class="number">1.0</span>)</span><br><span class="line">yHat2 = lwlrTest(xArr, xArr, yArr, k=<span class="number">0.01</span>)</span><br><span class="line">yHat3 = lwlrTest(xArr, xArr, yArr, k=<span class="number">0.003</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plotLwlr</span><span class="params">(xArr, yHat)</span>:</span></span><br><span class="line">    xMat = mat(xArr)</span><br><span class="line">    srtInd = xMat[:, <span class="number">1</span>].argsort(<span class="number">0</span>)</span><br><span class="line">    xSort = xMat[srtInd][:, <span class="number">0</span>, :]</span><br><span class="line">    fig = plt.figure()</span><br><span class="line">    ax = fig.add_subplot(<span class="number">111</span>)</span><br><span class="line">    ax.plot(xSort[:, <span class="number">1</span>], yHat[srtInd])</span><br><span class="line">    ax.scatter(xMat[:, <span class="number">1</span>].flatten().A[<span class="number">0</span>], mat(yArr).T.flatten().A[<span class="number">0</span>], <span class="number">2</span>, c=<span class="string">'red'</span>)</span><br><span class="line">    plt.show()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">plotLwlr(xArr, yHat1)</span><br><span class="line">plotLwlr(xArr, yHat2)</span><br><span class="line">plotLwlr(xArr, yHat3)</span><br></pre></td></tr></table></figure>
+<p><img src="%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AB%EF%BC%89_20_0.png" alt="png"></p>
+<p><img src="%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AB%EF%BC%89_20_1.png" alt="png"></p>
+<p><img src="%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AB%EF%BC%89_20_2.png" alt="png"></p>
+<p>当k=1.0时，权重很大，如同将所有数据视为等权重，得到的最佳拟合直线和标准回归一致</p>
+<p>当k=0.01时，得到了非常好的效果，抓住了数据的潜在模式</p>
+<p>当k=0.003时，拟合的直线与数据点过于贴近，过拟合</p>
+<p>局部加权线性回归也存在一个问题，即增加了计算量，因为它对每个点做预测时都必须使用整个数据集。</p>
+<h1 id="实例：预测鲍鱼的年龄"><a href="#实例：预测鲍鱼的年龄" class="headerlink" title="实例：预测鲍鱼的年龄"></a>实例：预测鲍鱼的年龄</h1><p>鲍鱼年龄可以从鲍鱼壳的层数来推算得到。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rssError</span><span class="params">(yArr, yHatArr)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> ((yArr-yHatArr)**<span class="number">2</span>).sum()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">abX, abY = loadDataSet(<span class="string">'MLiA_SourceCode/Ch08/abalone.txt'</span>)</span><br><span class="line">yHat01 = lwlrTest(abX[: <span class="number">99</span>], abX[: <span class="number">99</span>], abY[: <span class="number">99</span>], <span class="number">0.1</span>)</span><br><span class="line">yHat1 = lwlrTest(abX[: <span class="number">99</span>], abX[: <span class="number">99</span>], abY[: <span class="number">99</span>], <span class="number">1</span>)</span><br><span class="line">yHat10 = lwlrTest(abX[: <span class="number">99</span>], abX[: <span class="number">99</span>], abY[: <span class="number">99</span>], <span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<p>分析误差大小</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rssError(abY[: <span class="number">99</span>], yHat01.T)</span><br></pre></td></tr></table></figure>
+<pre><code>56.78868743048742
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rssError(abY[: <span class="number">99</span>], yHat1.T)</span><br></pre></td></tr></table></figure>
+<pre><code>429.8905618704059
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rssError(abY[: <span class="number">99</span>], yHat10.T)</span><br></pre></td></tr></table></figure>
+<pre><code>549.1181708828803
+</code></pre><p>可以看出，使用较小的核，可以得到较低的误差，但对新的数据不一定能达到很好的预测效果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yHat01 = lwlrTest(abX[<span class="number">100</span>: <span class="number">199</span>], abX[: <span class="number">99</span>], abY[: <span class="number">99</span>], <span class="number">0.1</span>)</span><br><span class="line">yHat1 = lwlrTest(abX[<span class="number">100</span>: <span class="number">199</span>], abX[: <span class="number">99</span>], abY[: <span class="number">99</span>], <span class="number">1</span>)</span><br><span class="line">yHat10 = lwlrTest(abX[<span class="number">100</span>: <span class="number">199</span>], abX[: <span class="number">99</span>], abY[: <span class="number">99</span>], <span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rssError(abY[<span class="number">100</span>: <span class="number">199</span>], yHat01.T)</span><br></pre></td></tr></table></figure>
+<pre><code>57913.51550155909
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rssError(abY[<span class="number">100</span>: <span class="number">199</span>], yHat1.T)</span><br></pre></td></tr></table></figure>
+<pre><code>573.5261441894984
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rssError(abY[<span class="number">100</span>: <span class="number">199</span>], yHat10.T)</span><br></pre></td></tr></table></figure>
+<pre><code>517.5711905381573
+</code></pre><p>从上面的结果可以看出，核的大小为10的时候测试误差最小，但在训练集上误差却最大，接下来和简单的线性回归比较：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ws = standRegres(abX[<span class="number">0</span>: <span class="number">99</span>], abY[<span class="number">0</span>: <span class="number">99</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yHat = mat(abX[<span class="number">100</span>: <span class="number">199</span>])*ws</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rssError(abY[<span class="number">100</span>: <span class="number">199</span>], yHat.T.A)</span><br></pre></td></tr></table></figure>
+<pre><code>518.6363153245542
+</code></pre><p>简单的线性回归和局部加权线性回归的结果类似。</p>
+<h1 id="缩减系数来“理解”数据"><a href="#缩减系数来“理解”数据" class="headerlink" title="缩减系数来“理解”数据"></a>缩减系数来“理解”数据</h1><p>如果数据的特征比样本点还多（m&gt;n），说明输入矩阵X不是满秩矩阵，求逆时会出错，也就是在计算$(X^TX)^{-1}$的时候会出错。为了解决这个问题，统计学引入了岭回归（ridge regression）。</p>
+<h2 id="岭回归"><a href="#岭回归" class="headerlink" title="岭回归"></a>岭回归</h2><p>简单来说，岭回归就是在矩阵$(X^TX)$上加一个$\lambda I$从而使矩阵非奇异，进而对$(X^TX)+\lambda I$求逆。其中$I$是一个mxm的单位矩阵，对角线上的元素全为1，其它元素全为0，岭回归公式为：</p>
+<p>$$w = (X^TX + \lambda I)^{-1}X^Ty$$</p>
+<p>岭回归最先用于处理特征数多于样本数的情况，现在也用于在估计中加入偏差。这里通过引入λ来限制所有w之和，通过引入该惩罚项，能够减少不重要的参数，这个技术在统计学中也叫作缩减（shrinkage）。</p>
+<p>岭回归中的岭是什么？</p>
+<pre><code>岭回归使用了单位矩阵乘以向量λ，我们观察其中的单位矩阵I，可以看到I贯穿整个对角线，其余元素全是0。形象地，在0构成的平面上有一条1组成的“岭”，这就是岭回归中岭的由来。
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ridgeRegres</span><span class="params">(xMat, yMat, lam=<span class="number">0.2</span>)</span>:</span></span><br><span class="line">    xTx = xMat.T*xMat</span><br><span class="line">    denom = xTx + eye(shape(xMat)[<span class="number">1</span>]) * lam</span><br><span class="line">    <span class="keyword">if</span> linalg.det(denom) == <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">"This matrix is singular, cannot do invers"</span>)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    ws = denom.I * (xMat.T * yMat)</span><br><span class="line">    <span class="keyword">return</span> ws</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ridgeTest</span><span class="params">(xArr, yArr)</span>:</span></span><br><span class="line">    xMat = mat(xArr)</span><br><span class="line">    yMat = mat(yArr).T</span><br><span class="line">    <span class="comment"># 数据归一化</span></span><br><span class="line">    yMean = mean(yMat, <span class="number">0</span>)</span><br><span class="line">    yMat = yMat - yMean</span><br><span class="line">    xMeans = mean(xMat, <span class="number">0</span>)</span><br><span class="line">    xVar = var(xMat, <span class="number">0</span>)</span><br><span class="line">    xMat = (xMat - xMeans)/xVar</span><br><span class="line">    </span><br><span class="line">    numTestPts = <span class="number">30</span></span><br><span class="line">    wMat = zeros((numTestPts, shape(xMat)[<span class="number">1</span>]))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(numTestPts):</span><br><span class="line">        ws = ridgeRegres(xMat, yMat, exp(i<span class="number">-10</span>))</span><br><span class="line">        wMat[i, :] = ws.T</span><br><span class="line">    <span class="keyword">return</span> wMat</span><br></pre></td></tr></table></figure>
+<p>ridgeRegres()用于计算回归系数，而ridgeTest()用于在一组λ上测试结果。为了使用岭回归和缩减技术，首先需要对特征做标准化处理。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ridgeWeights = ridgeTest(abX, abY)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plt.rcParams[<span class="string">'axes.unicode_minus'</span>]=<span class="keyword">False</span> <span class="comment"># 用来正常显示负号</span></span><br><span class="line">fig = plt.figure()</span><br><span class="line">ax = fig.add_subplot(<span class="number">111</span>)</span><br><span class="line">ax.plot(ridgeWeights)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AB%EF%BC%89_46_0.png" alt="png"></p>
+<p>上图绘制了回归系数log(λ)的关系。在最左边，即λ最小时，可以得到所有系数的原始值；而在右边，系数全部缩减成0；在中间的某值将可以取得最好的预测效果。为了定量的找到最佳参数值，还需要进行交叉验证。</p>
+<p>还有一些其它的缩减方法，例如lasso，LAR，PCA回归以及子集选择等，与岭回归一样，这些方法不仅可以提高预测精确率，而且可以解释回归系数。</p>
+<h2 id="向前逐步回归"><a href="#向前逐步回归" class="headerlink" title="向前逐步回归"></a>向前逐步回归</h2><p>向前逐步算法它属于一种贪心算法，即每一步都尽可能减小误差，一开始，权重都设为1，然后每一步所做的决策是对某个权重增加或减少一个很小的值。</p>
+<p>伪代码如下：</p>
+<pre><code>数据标准化，使其分布满足0均值和单位方差
+在每轮迭代过程中：
+    设置当前最小误差lowestError为正无穷
+    对每个特征：
+        增大或减小：
+            改变一个系数得到一个新的W
+            计算新W下的误差
+            如果误差Error小于当前最小误差lowestError：设置Wbest等于当前的W
+         将W设置为最新的Wbest
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">regularize</span><span class="params">(xMat)</span>:</span><span class="comment">#regularize by columns</span></span><br><span class="line">    inMat = xMat.copy()</span><br><span class="line">    inMeans = mean(inMat,<span class="number">0</span>)   <span class="comment">#calc mean then subtract it off</span></span><br><span class="line">    inVar = var(inMat,<span class="number">0</span>)      <span class="comment">#calc variance of Xi then divide by it</span></span><br><span class="line">    inMat = (inMat - inMeans)/inVar</span><br><span class="line">    <span class="keyword">return</span> inMat</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">stageWise</span><span class="params">(xArr, yArr, eps=<span class="number">0.01</span>, numIt=<span class="number">100</span>)</span>:</span></span><br><span class="line">    xMat = mat(xArr)</span><br><span class="line">    yMat = mat(yArr).T</span><br><span class="line">    yMean = mean(yMat, <span class="number">0</span>)</span><br><span class="line">    yMat = yMat - yMean</span><br><span class="line">    xMat = regularize(xMat)</span><br><span class="line">    m, n = shape(xMat)</span><br><span class="line">    returnMat = zeros((numIt, n))</span><br><span class="line">    ws = zeros((n, <span class="number">1</span>))</span><br><span class="line">    wsTest = ws.copy()</span><br><span class="line">    wsMax = ws.copy()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(numIt):</span><br><span class="line">        <span class="comment">#print(ws.T)</span></span><br><span class="line">        lowestError = inf</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(n):</span><br><span class="line">            <span class="keyword">for</span> sign <span class="keyword">in</span> [<span class="number">-1</span>, <span class="number">1</span>]:</span><br><span class="line">                wsTest = ws.copy()</span><br><span class="line">                wsTest[j] += eps*sign</span><br><span class="line">                yTest = xMat*wsTest</span><br><span class="line">                rssE = rssError(yMat.A, yTest.A)</span><br><span class="line">                <span class="keyword">if</span> rssE &lt; lowestError:</span><br><span class="line">                    lowestError = rssE</span><br><span class="line">                    wsMax = wsTest</span><br><span class="line">        ws = wsMax.copy()</span><br><span class="line">        returnMat[i, :] = ws.T</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> returnMat</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stageWise(abX, abY, <span class="number">0.01</span>, <span class="number">200</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>array([[ 0.  ,  0.  ,  0.  , ...,  0.  ,  0.  ,  0.  ],
+       [ 0.  ,  0.  ,  0.  , ...,  0.  ,  0.  ,  0.  ],
+       [ 0.  ,  0.  ,  0.  , ...,  0.  ,  0.  ,  0.  ],
+       ...,
+       [ 0.05,  0.  ,  0.09, ..., -0.64,  0.  ,  0.36],
+       [ 0.04,  0.  ,  0.09, ..., -0.64,  0.  ,  0.36],
+       [ 0.05,  0.  ,  0.09, ..., -0.64,  0.  ,  0.36]])
+</code></pre><p>上述结果中w1和w6都是0，这表示他们不对目标值造成任何影响，也就是说这些特征可能是不需要的，另外，在参数eps设置为0.01的情况下，一段时间后，系数就已经饱和，并在特定值之间震荡，这是因为步长太大的缘故，这里看到第一个权重在0.04和0.05之间震荡。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stageWise(abX, abY, <span class="number">0.001</span>, <span class="number">5000</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>array([[ 0.   ,  0.   ,  0.   , ...,  0.   ,  0.   ,  0.   ],
+       [ 0.   ,  0.   ,  0.   , ...,  0.   ,  0.   ,  0.   ],
+       [ 0.   ,  0.   ,  0.   , ...,  0.   ,  0.   ,  0.   ],
+       ...,
+       [ 0.043, -0.011,  0.12 , ..., -0.963, -0.105,  0.187],
+       [ 0.044, -0.011,  0.12 , ..., -0.963, -0.105,  0.187],
+       [ 0.043, -0.011,  0.12 , ..., -0.963, -0.105,  0.187]])
+</code></pre><p>接着把这些结果与最小二乘法比较。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">xMat = mat(abX)</span><br><span class="line">yMat = mat(abY).T</span><br><span class="line">xMat = regularize(xMat)</span><br><span class="line">yM = mean(yMat, <span class="number">0</span>)</span><br><span class="line">yMat = yMat - yM</span><br><span class="line">weights = standRegres(xMat, yMat.T)</span><br><span class="line">weights.T</span><br></pre></td></tr></table></figure>
+<pre><code>matrix([[ 0.0430442 , -0.02274163,  0.13214087,  0.02075182,  2.22403814,
+         -0.99895312, -0.11725427,  0.16622915]])
+</code></pre><p>可以看到在5000次迭代以后，逐步线性回归算法与常规的最小二乘法效果类似。<br>使用0.005的epsilon值经过1000次迭代后的结果如图。和使用0.001迭代5000图像类似。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fig = plt.figure()</span><br><span class="line">ax = fig.add_subplot(<span class="number">111</span>)</span><br><span class="line">ax.plot(stageWise(abX, abY, <span class="number">0.005</span>, <span class="number">1000</span>))</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%85%AB%EF%BC%89_56_0.png" alt="png"></p>
+<p>逐步线性回归算法的主要优点在于它可以帮助人们理解现有的模型并做出改进。当构建了一个模型后，可以运行该算法找出重要特征，这样就有可能停止对那些不重要的特征收集。最后，如果用于测试，该算法每100次迭代后就可以构建出一个模型，可以使用类似于10折交叉验证的方法比较这些模型，最终选择误差最小的模型。</p>
+<p>当应用缩减方法时，模型也就增加了偏差（bias），于此同时减小模型的方差。</p>
+<h1 id="权衡方差于偏差"><a href="#权衡方差于偏差" class="headerlink" title="权衡方差于偏差"></a>权衡方差于偏差</h1><p><img src="08_fig08_alt.jpg" alt=""></p>
+<p>偏差方差折中与测试误差及训练误差的关系，上面的曲线就是测试误差，在中间部分最低。为了做出最好的预测，我们应该调整模型复杂度来达到测试误差的最小值。</p>
+<h1 id="实例预测乐高玩具套装的价格"><a href="#实例预测乐高玩具套装的价格" class="headerlink" title="实例预测乐高玩具套装的价格"></a>实例预测乐高玩具套装的价格</h1><p>用回归法预测乐高套装的价格</p>
+<ol>
+<li>收集数据：用Google Shopping的API收集数据</li>
+<li>准备数据：从返回的json数据中抽取价格</li>
+<li>分析数据：可视化观察数据</li>
+<li>训练算法：构建不同的模型，采用逐步线性回归和直接的线性回归模型</li>
+<li>测试算法：使用交叉验证来测试不同的模型，分析哪个效果最好</li>
+<li>使用算法：这次练习的目标就是生成数据模型</li>
+</ol>
+<h2 id="收集数据"><a href="#收集数据" class="headerlink" title="收集数据"></a>收集数据</h2><p>因为Google api已经无法访问，所以使用以下code来收集数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">scrapePage</span><span class="params">(inFile, outFile, yr, numPce, origPrc)</span>:</span></span><br><span class="line">    <span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup </span><br><span class="line">    fr = open(inFile)</span><br><span class="line">    fw=open(outFile,<span class="string">'a'</span>) <span class="comment"># a is append mode writing</span></span><br><span class="line">    soup = BeautifulSoup(fr.read())</span><br><span class="line">    i=<span class="number">1</span></span><br><span class="line">    currentRow = soup.findAll(<span class="string">'table'</span>, r=<span class="string">"%d"</span> % i)</span><br><span class="line">    <span class="keyword">while</span>(len(currentRow)!=<span class="number">0</span>):</span><br><span class="line">        title = currentRow[<span class="number">0</span>].findAll(<span class="string">'a'</span>)[<span class="number">1</span>].text</span><br><span class="line">        lwrTitle = title.lower()</span><br><span class="line">        <span class="keyword">if</span> (lwrTitle.find(<span class="string">'new'</span>) &gt; <span class="number">-1</span>) <span class="keyword">or</span> (lwrTitle.find(<span class="string">'nisb'</span>) &gt; <span class="number">-1</span>):</span><br><span class="line">            newFlag = <span class="number">1.0</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            newFlag = <span class="number">0.0</span></span><br><span class="line">        soldUnicde = currentRow[<span class="number">0</span>].findAll(<span class="string">'td'</span>)[<span class="number">3</span>].findAll(<span class="string">'span'</span>)</span><br><span class="line">        <span class="keyword">if</span> len(soldUnicde)==<span class="number">0</span>:</span><br><span class="line">            print(<span class="string">"item #%d did not sell"</span> % i)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            soldPrice = currentRow[<span class="number">0</span>].findAll(<span class="string">'td'</span>)[<span class="number">4</span>]</span><br><span class="line">            priceStr = soldPrice.text</span><br><span class="line">            priceStr = priceStr.replace(<span class="string">'$'</span>,<span class="string">''</span>) <span class="comment">#strips out $</span></span><br><span class="line">            priceStr = priceStr.replace(<span class="string">','</span>,<span class="string">''</span>) <span class="comment">#strips out ,</span></span><br><span class="line">            <span class="keyword">if</span> len(soldPrice)&gt;<span class="number">1</span>:</span><br><span class="line">                priceStr = priceStr.replace(<span class="string">'Free shipping'</span>, <span class="string">''</span>) <span class="comment">#strips out Free Shipping</span></span><br><span class="line">            print(<span class="string">"%s\t%d\t%s"</span> % (priceStr,newFlag,title))</span><br><span class="line">            fw.write(<span class="string">"%d\t%d\t%d\t%f\t%s\n"</span> % (yr,numPce,newFlag,origPrc,priceStr))</span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">        currentRow = soup.findAll(<span class="string">'table'</span>, r=<span class="string">"%d"</span> % i)</span><br><span class="line">    fw.close()</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">setDataCollect</span><span class="params">(outFile)</span>:</span></span><br><span class="line">    scrapePage(<span class="string">'MLiA_SourceCode/Ch08/setHtml/lego8288.html'</span>, outFile, <span class="number">2006</span>, <span class="number">800</span>, <span class="number">49.99</span>)</span><br><span class="line">    scrapePage(<span class="string">'MLiA_SourceCode/Ch08/setHtml/lego10030.html'</span>, outFile, <span class="number">2002</span>, <span class="number">3096</span>, <span class="number">269.99</span>)</span><br><span class="line">    scrapePage(<span class="string">'MLiA_SourceCode/Ch08/setHtml/lego10179.html'</span>, outFile, <span class="number">2007</span>, <span class="number">5195</span>, <span class="number">499.99</span>)</span><br><span class="line">    scrapePage(<span class="string">'MLiA_SourceCode/Ch08/setHtml/lego10181.html'</span>, outFile, <span class="number">2007</span>, <span class="number">3428</span>, <span class="number">199.99</span>)</span><br><span class="line">    scrapePage(<span class="string">'MLiA_SourceCode/Ch08/setHtml/lego10189.html'</span>, outFile, <span class="number">2008</span>, <span class="number">5922</span>, <span class="number">299.99</span>)</span><br><span class="line">    scrapePage(<span class="string">'MLiA_SourceCode/Ch08/setHtml/lego10196.html'</span>, outFile, <span class="number">2009</span>, <span class="number">3263</span>, <span class="number">249.99</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setDataCollect(<span class="string">'result.txt'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>85.00    0    Lego Technic 8288 Crawler crane
+102.50    0    Lego Technic 8288 Crawler Crane USED SET 
+77.00    0    Lego Technic 8288 Crawler Crane
+item #4 did not sell
+162.50    0    RARE Lego Technic 8288 Crawler Crane
+699.99    0    Lego Star Wars Imperial Star Destroyer (10030)  Sealed!
+602.00    0    Lego Star Wars UCS Imperial Star Destroyer #10030
+515.00    0    Lego 10030 Imperial Star Destroyer 
+510.00    0    Lego Star Wars 10030 Ultimate Imperial Star Destroyer
+375.00    0    Lego Star Wars Imperial Star Destroyer (10030)
+1050.00    1    LEGO STAR DESTROYER NEW IN SEALED BOX 10030 STAR WARS
+740.00    0    IMPERIAL STAR DESTROYER #10030 Lego Star Wars   SEALED 
+759.00    1    LEGO STAR WARS 10030 UCS IMPERIAL DESTROYER NISB NEW
+730.00    0    Lego 10030 Star Destroyer, MISB, Old Gray, Ships Free!
+750.00    1    NEW STAR WARS LEGO SET 10030 IMPERIAL STAR DESTROYER
+item #11 did not sell
+910.00    0    LEGO star wars Millenium Falcon #10179 MISB
+1199.99    1    Lego Star Wars - 10179 Ultimate Millennium Falcon - NEW
+811.88    0    Lego Star Wars - 10179 Ultimate Millennium Falcon-USED
+item #4 did not sell
+1324.79    0    Lego Star Wars Millennium Falcon 10179
+850.00    1    NEW LEGO 10179 STAR WARS UC MILLENNIUM FALCON - NISB
+800.00    1    NEW LEGO 10179 STAR WARS UC MILLENNIUM FALCON - NISB
+810.00    0    lego star warsUltimateCol​lectors millennium falcon10179
+1075.00    1    Lego Star Wars Ultimate Millenium Falcon 10179 NEW MISB
+1050.00    0    LEGO STAR WARS 10179 UCS MILLENIUM FALCON! MINT IN BOX
+1199.99    1    LEGO 10179 STAR WARS MILLENNIUM FALCON UCS NEW/SEALED
+1342.31    0    Lego Star Wars 10179 Collectors Millennium Falcon
+1000.00    1    Star Wars - UCS Millennium Falcon - 10179 - New In Box
+1780.00    0    LEGO STAR WARS 10188 10179 DEATH STAR MILLENIUM FALCON
+750.00    0    STAR WARS Lego 10179 Ultimate CS MILLENNIUM FALCON! 
+item #16 did not sell
+2204.99    0     HUGE LOT OF LEGOS 10179 FALCON &amp; MORE STARWARS &amp; MORE
+item #18 did not sell
+925.00    1    Lego #10179 BRAND NEW Star Wars UCS Millenium Falcon
+860.00    0    LEGO STAR WARS UCS MILLENNIUM FALCON #10179 WITH BOX
+item #21 did not sell
+item #22 did not sell
+1199.99    1    Lego Star Wars 10179 UCS Millenium Falcon - NEW!
+1099.99    1    Lego Star Wars 10179 UCS Millennium Falcon  NiSB  HUGE!
+1149.99    1    NEW LEGO 10179 STAR WARS MILLENNIUM FALCON NEW/SEALED
+800.00    1    NEW LEGO 10179 STAR WARS UC MILLENNIUM FALCON - NISB
+850.00    1    NEW LEGO 10179 STAR WARS UC MILLENNIUM FALCON - NISB
+469.95    0    Lego Star Wars Death Star II 10143 MNIB SOLD OUT A++
+479.00    0    NIB Box Collectors Starwars Death Star II - 10143
+299.99    0    Lego Star Wars Death Star II 10143 -Excellent Condition
+369.00    0    Lego Star Wars Death Star ll # 10143
+424.95    1    LEGO Star Wars  Death Star II 10143 *Damaged Box* NEW
+380.00    1    NEW Lego Star Wars Death Star II #10143
+305.00    0    LEGO Star Wars Death Star II 10143 
+530.00    1    LEGO Taj Mahal NEW IN BOX MINT CONDITION! LAST ONE!
+item #2 did not sell
+599.95    1    LEGO 10189 TAJ MAHAL - BRAND NEW - RARE &amp; SOLD OUT!
+510.00    0    Lego~Taj Mahal~#10189~pu​t together once~EUC
+423.00    0    Lego Taj Mahal 10189- Put together ONCE - perfect shape
+item #6 did not sell
+item #7 did not sell
+599.99    1    Lego - Taj Mahal 10189  - NEW Sealed
+item #9 did not sell
+589.99    1    LEGO 10189 TAJ MAHAL NEW SEALED IN BOX FAST SHIPPING
+569.99    1    LEGO 10189 TAJ MAHAL NEW SEALED MINT FREE SHIPPING 
+529.99    1    Lego 10189 Taj Mahal ***New &amp; Sealed***
+500.00    0    LEGO TAJ MAHAL 
+549.95    1    LEGO 10189 TAJ MAHAL - BRAND NEW - RARE &amp; SOLD OUT!
+300.00    0    Lego TAJ MAHAL 10189 100% Complete, No Box, Inst. Incl.
+item #16 did not sell
+380.00    1    Lego - Grand Carousel 10196 - NEW Sealed
+399.00    1    Lego Grand Carousel 10196 - NIB Sealed, Brand New
+427.99    1    Lego 10196 Grand Carousel ***New &amp; Sealed***
+360.00    0    Grand Carousel Lego 10196 Rare Used Extra Minifigs
+item #5 did not sell
+item #6 did not sell
+399.00    1    Lego City 10196 Grand Carousel New In BOX! 
+399.95    1    LEGO CREATOR CAROUSEL 10196 Box New *MISB*
+499.99    1    Lego - Grand Carousel 10196  - NEW Sealed
+item #10 did not sell
+399.95    0    LEGO Grand Carousel 10196 NIB
+item #12 did not sell
+331.51    1    Lego Carousel 10196, New Unopened Bags
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lgX, lgY = loadDataSet(<span class="string">'result.txt'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="训练算法：建立模型"><a href="#训练算法：建立模型" class="headerlink" title="训练算法：建立模型"></a>训练算法：建立模型</h2><p>首先需要添加对应常数项的特征X0(X0=1)，为此创建一个全为1的矩阵。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shape(lgX)</span><br></pre></td></tr></table></figure>
+<pre><code>(126, 4)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lgX1 = mat(ones((<span class="number">126</span>, <span class="number">5</span>)))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lgX1[:, <span class="number">1</span>:<span class="number">5</span>] = mat(lgX)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lgX[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>[2006.0, 800.0, 0.0, 49.99]
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lgX1[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>matrix([[1.000e+00, 2.006e+03, 8.000e+02, 0.000e+00, 4.999e+01]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ws = standRegres(lgX1, lgY)</span><br><span class="line">ws</span><br></pre></td></tr></table></figure>
+<pre><code>matrix([[ 5.53199701e+04],
+        [-2.75928219e+01],
+        [-2.68392234e-02],
+        [-1.12208481e+01],
+        [ 2.57604055e+00]])
+</code></pre><p>检查结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lgX1[<span class="number">0</span>]*ws</span><br></pre></td></tr></table></figure>
+<pre><code>matrix([[76.07418859]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lgX1[<span class="number">-1</span>]*ws</span><br></pre></td></tr></table></figure>
+<pre><code>matrix([[431.17797678]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lgX1[<span class="number">43</span>]*ws</span><br></pre></td></tr></table></figure>
+<pre><code>matrix([[516.20733111]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lgY[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>85.0
+</code></pre><p>交叉验证测试岭回归</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">crossValidation</span><span class="params">(xArr, yArr, numVal=<span class="number">10</span>)</span>:</span></span><br><span class="line">    m = len(yArr)</span><br><span class="line">    indexList = list(range(m))</span><br><span class="line">    errorMat = zeros((numVal, <span class="number">30</span>))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(numVal):</span><br><span class="line">        trainX = []</span><br><span class="line">        trainY = []</span><br><span class="line">        testX = []</span><br><span class="line">        testY = []</span><br><span class="line">        random.shuffle(indexList)</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(m):</span><br><span class="line">            <span class="keyword">if</span> j &lt; m*<span class="number">0.9</span>:</span><br><span class="line">                trainX.append(xArr[indexList[j]])</span><br><span class="line">                trainY.append(yArr[indexList[j]])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                testX.append(xArr[indexList[j]])</span><br><span class="line">                testY.append(yArr[indexList[j]])</span><br><span class="line">        wMat = ridgeTest(trainX, trainY)</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">30</span>):</span><br><span class="line">            matTestX = mat(testX)</span><br><span class="line">            matTrainX = mat(trainX)</span><br><span class="line">            meanTrain = mean(matTrainX, <span class="number">0</span>)</span><br><span class="line">            varTrain = var(matTrainX, <span class="number">0</span>)</span><br><span class="line">            matTestX = (matTestX-meanTrain)/varTrain</span><br><span class="line">            yEst = matTestX * mat(wMat[k, :]).T + mean(trainY)</span><br><span class="line">            errorMat[i, k] = rssError(yEst.T.A, array(testY))</span><br><span class="line">    meanErrors = mean(errorMat,<span class="number">0</span>)<span class="comment">#calc avg performance of the different ridge weight vectors</span></span><br><span class="line">    minMean = float(min(meanErrors))</span><br><span class="line">    bestWeights = wMat[nonzero(meanErrors==minMean)]</span><br><span class="line">    <span class="comment"># 可以非正则化得到模型</span></span><br><span class="line">    <span class="comment"># 正则化后，我们写了Xreg = (x- meanx)/var(x)</span></span><br><span class="line">    <span class="comment"># 我们现在可以用x而不是Xreg来表示:x*w/var(x) - meanX/var(x) +mean</span></span><br><span class="line">    xMat = mat(xArr)</span><br><span class="line">    yMat = mat(yArr).T</span><br><span class="line">    meanX = mean(xMat,<span class="number">0</span>)</span><br><span class="line">    varX = var(xMat,<span class="number">0</span>)</span><br><span class="line">    unReg = bestWeights/varX</span><br><span class="line">    print(<span class="string">"the best model from ridge regression is:\n"</span>, unReg)</span><br><span class="line">    print(<span class="string">"with constant term: "</span>, <span class="number">-1</span>*sum(multiply(meanX, unReg))+mean(yMat))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crossValidation(lgX, lgY, numVal=<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>the best model from ridge regression is:
+ [[-3.13000380e+01 -5.79216518e-04 -1.46976042e+01  2.33709492e+00]]
+with constant term:  62728.39604629546
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ridgeTest(lgX, lgY)</span><br></pre></td></tr></table></figure>
+<pre><code>array([[-1.42567890e+02, -1.59065167e+04, -3.32568485e+00,
+         4.50485291e+04],
+       [-1.46048534e+02, -5.88035105e+03, -3.20592314e+00,
+         4.38513111e+04],
+       [-1.46392961e+02, -7.53268167e+02, -2.49755326e+00,
+         4.21602572e+04],
+       [-1.42882929e+02,  1.24713671e+03, -5.78336771e-01,
+         3.87616551e+04],
+       [-1.34058297e+02,  1.65495690e+03,  3.46766980e+00,
+         3.19757189e+04],
+       [-1.20185790e+02,  1.28302796e+03,  9.65389591e+00,
+         2.16984122e+04],
+       [-1.06405098e+02,  7.16651262e+02,  1.57519175e+01,
+         1.15841453e+04],
+       [-9.74799755e+01,  3.21265653e+02,  1.96506716e+01,
+         5.10995216e+03],
+       [-9.29742820e+01,  1.28256118e+02,  2.14874762e+01,
+         2.02836160e+03],
+       [-9.04274807e+01,  4.86739495e+01,  2.21853397e+01,
+         7.68474711e+02],
+       [-8.75861154e+01,  1.80935644e+01,  2.23113328e+01,
+         2.85792138e+02],
+       [-8.19045992e+01,  6.66134743e+00,  2.20039861e+01,
+         1.05512059e+02],
+       [-6.99384526e+01,  2.43521001e+00,  2.11068607e+01,
+         3.88294842e+01],
+       [-5.00210980e+01,  8.84809679e-01,  1.94076129e+01,
+         1.42672332e+01],
+       [-2.79820303e+01,  3.21315572e-01,  1.69641166e+01,
+         5.24285549e+00],
+       [-1.24628930e+01,  1.17567465e-01,  1.37731297e+01,
+         1.93051917e+00],
+       [-4.77896841e+00,  4.34264276e-02,  9.63509521e+00,
+         7.12700367e-01],
+       [-1.71197823e+00,  1.61100639e-02,  5.40201378e+00,
+         2.63366078e-01],
+       [-6.08727885e-01,  5.96613258e-03,  2.47122138e+00,
+         9.72056597e-02],
+       [-2.19489801e-01,  2.20244723e-03,  9.99173868e-01,
+         3.58199566e-02],
+       [-8.00295532e-02,  8.11429705e-04,  3.81511828e-01,
+         1.31867450e-02],
+       [-2.93376909e-02,  2.98679351e-04,  1.42337367e-01,
+         4.85246297e-03],
+       [-1.07783727e-02,  1.09901635e-04,  5.26372259e-02,
+         1.78530510e-03],
+       [-3.96318049e-03,  4.04337769e-05,  1.94015377e-02,
+         6.56802092e-04],
+       [-1.45770631e-03,  1.48751929e-05,  7.14249987e-03,
+         2.41627386e-04],
+       [-5.36224096e-04,  5.47233696e-06,  2.62826610e-03,
+         8.88902084e-05],
+       [-1.97260935e-04,  2.01316829e-06,  9.66978104e-04,
+         3.27009426e-05],
+       [-7.25675812e-05,  7.40604313e-07,  3.55743958e-04,
+         1.20300129e-05],
+       [-2.66960317e-05,  2.72453248e-07,  1.30872593e-04,
+         4.42559557e-06],
+       [-9.82090911e-06,  1.00229968e-07,  4.81455670e-05,
+         1.62808578e-06]])
+</code></pre><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>与分类一样，回归也是预测目标值的过程。回归与分类的不同点在于，前者预测连续型变量而后者预测离散型变量。在回归方程里，求得特征对应的最佳回归系数的方法是最小化误差的平方和。</p>
+<p>当数据的样本比特征数还少的时候，矩阵$X^TX$的逆不能直接计算，这时可以考虑使用缩减法。</p>
+<p>缩减法还可以看做是对一个模型增加偏差的同时减小方差。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/线性回归/" rel="tag"><i class="fa fa-tag"></i> 线性回归</a>
+          
+            <a href="/tags/岭回归/" rel="tag"><i class="fa fa-tag"></i> 岭回归</a>
+          
+            <a href="/tags/最小二乘法/" rel="tag"><i class="fa fa-tag"></i> 最小二乘法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/07/机器学习实战（七）/" rel="next" title="机器学习实战（七）">
+                <i class="fa fa-chevron-left"></i> 机器学习实战（七）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Voidmort" />
+            
+              <p class="site-author-name" itemprop="name">Voidmort</p>
+              <p class="site-description motion-element" itemprop="description">研究AI，撰写影评，热爱音乐，努力健身</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">76</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Voidmort" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:wxj5658@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1749266905" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jusanliusha.xyz" title="Jusanliusha" target="_blank">Jusanliusha</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#预测数值型数据：回归"><span class="nav-number">1.</span> <span class="nav-text">预测数值型数据：回归</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用线性回归找到最佳拟合直线"><span class="nav-number">2.</span> <span class="nav-text">用线性回归找到最佳拟合直线</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#局部加权线性回归"><span class="nav-number">3.</span> <span class="nav-text">局部加权线性回归</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实例：预测鲍鱼的年龄"><span class="nav-number">4.</span> <span class="nav-text">实例：预测鲍鱼的年龄</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#缩减系数来“理解”数据"><span class="nav-number">5.</span> <span class="nav-text">缩减系数来“理解”数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#岭回归"><span class="nav-number">5.1.</span> <span class="nav-text">岭回归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#向前逐步回归"><span class="nav-number">5.2.</span> <span class="nav-text">向前逐步回归</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#权衡方差于偏差"><span class="nav-number">6.</span> <span class="nav-text">权衡方差于偏差</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实例预测乐高玩具套装的价格"><span class="nav-number">7.</span> <span class="nav-text">实例预测乐高玩具套装的价格</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#收集数据"><span class="nav-number">7.1.</span> <span class="nav-text">收集数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练算法：建立模型"><span class="nav-number">7.2.</span> <span class="nav-text">训练算法：建立模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Voidmort</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/kesyoban.model.json"},"display":{"position":"right","width":130,"height":260},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>
