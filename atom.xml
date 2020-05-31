@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2020-04-30T07:43:02.824Z</updated>
+  <updated>2020-05-31T02:39:24.748Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -15,6 +15,64 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>机器学习实战（十）</title>
+    <link href="https://xvjie.wang/2020/05/15/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E5%8D%81%EF%BC%89/"/>
+    <id>https://xvjie.wang/2020/05/15/机器学习实战（十）/</id>
+    <published>2020-05-15T01:20:50.000Z</published>
+    <updated>2020-05-31T02:39:24.748Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;利用K-均值聚类算法对未标注数据分组&quot;&gt;&lt;a href=&quot;#利用K-均值聚类算法对未标注数据分组&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习实战" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/"/>
+    
+    
+      <category term="聚类" scheme="https://xvjie.wang/tags/%E8%81%9A%E7%B1%BB/"/>
+    
+      <category term="K-均值" scheme="https://xvjie.wang/tags/K-%E5%9D%87%E5%80%BC/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>机器学习实战（九）</title>
+    <link href="https://xvjie.wang/2020/05/01/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E4%B9%9D%EF%BC%89/"/>
+    <id>https://xvjie.wang/2020/05/01/机器学习实战（九）/</id>
+    <published>2020-05-01T01:20:50.000Z</published>
+    <updated>2020-05-31T02:34:14.457Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;数回归&quot;&gt;&lt;a href=&quot;#数回归&quot; class=&quot;headerlink&quot; title=&quot;数回归&quot;&gt;&lt;/a&gt;数回归&lt;/h1&gt;&lt;p&gt;分类回归树 Classification And Regression Trees
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习实战" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/"/>
+    
+    
+      <category term="树回归" scheme="https://xvjie.wang/tags/%E6%A0%91%E5%9B%9E%E5%BD%92/"/>
+    
+      <category term="CSRT算法" scheme="https://xvjie.wang/tags/CSRT%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="树剪枝算法" scheme="https://xvjie.wang/tags/%E6%A0%91%E5%89%AA%E6%9E%9D%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
   
   <entry>
     <title>机器学习实战（八）</title>
@@ -517,58 +575,6 @@
     
     
       <category term="Kaggle" scheme="https://xvjie.wang/tags/Kaggle/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>机器学习策略</title>
-    <link href="https://xvjie.wang/2019/04/04/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AD%96%E7%95%A5/"/>
-    <id>https://xvjie.wang/2019/04/04/机器学习策略/</id>
-    <published>2019-04-03T16:00:00.000Z</published>
-    <updated>2019-06-02T09:08:26.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;当我们的系统达到了90%的准确率时，觉得还是不够好，我们有很多想法去改善我们的系统，比如，去收集更多的训练数据，收集更多不同姿势图片丰富样本的多样性，或者更多的反例集。或者再用梯度下降训练算法，训练久一点。或者尝试用一个完全不同的优化算法，比如Adam优化算法。或者尝试使用
-        
-      
-    
-    </summary>
-    
-      <category term="深度学习" scheme="https://xvjie.wang/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="深度学习" scheme="https://xvjie.wang/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>深度学习的参数调试</title>
-    <link href="https://xvjie.wang/2019/04/04/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8F%82%E6%95%B0%E8%B0%83%E8%AF%95/"/>
-    <id>https://xvjie.wang/2019/04/04/深度学习的参数调试/</id>
-    <published>2019-04-03T16:00:00.000Z</published>
-    <updated>2019-06-02T09:08:15.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;在构建神经网络模型时，有许多的参数需要去调试，比如&lt;strong&gt;learning rate&lt;/strong&gt;
-        
-      
-    
-    </summary>
-    
-      <category term="深度学习" scheme="https://xvjie.wang/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="深度学习" scheme="https://xvjie.wang/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   
