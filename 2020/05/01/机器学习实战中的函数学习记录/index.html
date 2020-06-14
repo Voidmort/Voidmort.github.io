@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="记录机器学习实战中遇到的函数1import numpy as np tile()tile(A, reps) tile函数的作用是让某个数组或矩阵A，以reps的维度重复，构造出新的数组，所以返回值也是个数组。1234a = array([0, 1])b = np.tile(a, 2)c = np.tile(a, (2,2))b,c (array([0, 1, 0, 1]),  array([[0,">
+<meta name="keywords" content="python函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习实战中的函数学习记录">
+<meta property="og:url" content="https://xvjie.wang/2020/05/01/机器学习实战中的函数学习记录/index.html">
+<meta property="og:site_name" content="Voidmort">
+<meta property="og:description" content="记录机器学习实战中遇到的函数1import numpy as np tile()tile(A, reps) tile函数的作用是让某个数组或矩阵A，以reps的维度重复，构造出新的数组，所以返回值也是个数组。1234a = array([0, 1])b = np.tile(a, 2)c = np.tile(a, (2,2))b,c (array([0, 1, 0, 1]),  array([[0,">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://xvjie.wang/2020/05/01/机器学习实战中的函数学习记录/20190125144039645.png">
+<meta property="og:updated_time" content="2020-06-13T07:37:25.941Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习实战中的函数学习记录">
+<meta name="twitter:description" content="记录机器学习实战中遇到的函数1import numpy as np tile()tile(A, reps) tile函数的作用是让某个数组或矩阵A，以reps的维度重复，构造出新的数组，所以返回值也是个数组。1234a = array([0, 1])b = np.tile(a, 2)c = np.tile(a, (2,2))b,c (array([0, 1, 0, 1]),  array([[0,">
+<meta name="twitter:image" content="https://xvjie.wang/2020/05/01/机器学习实战中的函数学习记录/20190125144039645.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Voidmort" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://xvjie.wang/2020/05/01/机器学习实战中的函数学习记录/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>机器学习实战中的函数学习记录 | Voidmort</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7b96eb7c2717359e36cc8bd8b546997c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/Voidmort" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Voidmort</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-other">
+    <a href="/other/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-plane"></i> <br />其它</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xvjie.wang/2020/05/01/机器学习实战中的函数学习记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Voidmort">
+      <meta itemprop="description" content="研究AI，撰写影评，热爱音乐，努力健身">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Voidmort">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习实战中的函数学习记录
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-05-01 09:20:50" itemprop="dateCreated datePublished" datetime="2020-05-01T09:20:50+08:00">2020-05-01</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-06-13 15:37:25" itemprop="dateModified" datetime="2020-06-13T15:37:25+08:00">2020-06-13</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习实战/" itemprop="url" rel="index"><span itemprop="name">机器学习实战</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>记录机器学习实战中遇到的函数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure></p>
+<h1 id="tile"><a href="#tile" class="headerlink" title="tile()"></a>tile()</h1><p>tile(A, reps)</p>
+<p>tile函数的作用是让某个数组或矩阵A，以reps的维度重复，构造出新的数组，所以返回值也是个数组。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = array([<span class="number">0</span>, <span class="number">1</span>])</span><br><span class="line">b = np.tile(a, <span class="number">2</span>)</span><br><span class="line">c = np.tile(a, (<span class="number">2</span>,<span class="number">2</span>))</span><br><span class="line">b,c</span><br></pre></td></tr></table></figure></p>
+<pre><code>(array([0, 1, 0, 1]),
+ array([[0, 1, 0, 1],
+        [0, 1, 0, 1]]))
+</code></pre><h1 id="argsort"><a href="#argsort" class="headerlink" title="argsort()"></a>argsort()</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = array([<span class="number">1</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">-1</span>,<span class="number">6</span>,<span class="number">9</span>])</span><br><span class="line">x.argsort()</span><br></pre></td></tr></table></figure>
+<pre><code>array([3, 0, 2, 1, 4, 5], dtype=int64)
+</code></pre><p>argsort()函数是将x中的元素从小到大排列，提取其对应的index(索引)，然后输出。例如：x[3]=-1最小，所以y[0]=3,x[5]=9最大，所以y[5]=5。</p>
+<h1 id="operator-itemgetter函数"><a href="#operator-itemgetter函数" class="headerlink" title="operator.itemgetter函数"></a>operator.itemgetter函数</h1><p>operator模块提供的itemgetter函数用于获取对象的哪些维的数据，参数为一些序号。</p>
+<p>要注意，operator.itemgetter函数获取的不是值，而是定义了一个函数，通过该函数作用到对象上才能获取值。</p>
+<p>sorted函数用来排序，sorted(iterable[, cmp[, key[, reverse]]])</p>
+<p>其中key的参数为一个函数或者lambda函数。所以itemgetter可以用来当key的参数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> operator</span><br><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">b=operator.itemgetter(<span class="number">1</span>) </span><br><span class="line">b(a)</span><br></pre></td></tr></table></figure></p>
+<pre><code>2
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">b=operator.itemgetter(<span class="number">1</span>,<span class="number">0</span>)  <span class="comment">#定义函数b，获取对象的第1个域和第0个的值</span></span><br><span class="line">b(a)</span><br></pre></td></tr></table></figure>
+<pre><code>(2, 1)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">students = [(<span class="string">'john'</span>, <span class="string">'A'</span>, <span class="number">15</span>), (<span class="string">'jane'</span>, <span class="string">'B'</span>, <span class="number">12</span>), (<span class="string">'dave'</span>, <span class="string">'B'</span>, <span class="number">10</span>)]</span><br><span class="line"><span class="comment">#根据第二个域进行排序</span></span><br><span class="line">sorted(students, key=operator.itemgetter(<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+<pre><code>[(&apos;dave&apos;, &apos;B&apos;, 10), (&apos;jane&apos;, &apos;B&apos;, 12), (&apos;john&apos;, &apos;A&apos;, 15)]
+</code></pre><h1 id="pickle模块"><a href="#pickle模块" class="headerlink" title="pickle模块"></a>pickle模块</h1><p>该pickle模块实现了用于序列化和反序列化Python对象结构的二进制协议。 “Pickling”是将Python对象层次结构转换为字节流的过程， “unpickling”是反向操作，从而将字节流（来自二进制文件或类似字节的对象）转换回对象层次结构。pickle模块对于错误或恶意构造的数据是不安全的。</p>
+<p>pickle协议和JSON（JavaScript Object Notation）的区别 ：</p>
+<p>　　1. JSON是一种文本序列化格式（它输出unicode文本，虽然大部分时间它被编码utf-8），而pickle是二进制序列化格式;</p>
+<p>　　2. JSON是人类可读的，而pickle则不是;</p>
+<p>　　3. JSON是可互操作的，并且在Python生态系统之外广泛使用，而pickle是特定于Python的;</p>
+<p>默认情况下，JSON只能表示Python内置类型的子集，而不能表示自定义类; pickle可以表示极其庞大的Python类型（其中许多是自动的，通过巧妙地使用Python的内省工具;复杂的案例可以通过实现特定的对象API来解决）。</p>
+<p>pickle 数据格式是特定于Python的。它的优点是没有外部标准强加的限制，例如JSON或XDR（不能代表指针共享）; 但是这意味着非Python程序可能无法重建pickled Python对象。</p>
+<p>默认情况下，pickle数据格式使用相对紧凑的二进制表示。如果您需要最佳尺寸特征，则可以有效地压缩数据。</p>
+<p>模块接口</p>
+<p>要序列化对象层次结构，只需调用该dumps()函数即可。同样，要对数据流进行反序列化，请调用该loads()函数。但是，如果您想要更多地控制序列化和反序列化，则可以分别创建一个Pickler或一个Unpickler对象。</p>
+<p>pickle模块提供以下常量：</p>
+<p>pickle.HIGHEST_PROTOCOL<br>整数， 可用的最高协议版本。这个值可以作为一个被传递协议的价值函数 dump()和dumps()以及该Pickler 构造函数。</p>
+<p>pickle.DEFAULT_PROTOCOL<br>整数，用于编码的默认协议版本。可能不到HIGHEST_PROTOCOL。目前，默认协议是3，这是为Python 3设计的新协议。</p>
+<p>pickle模块提供以下功能，使酸洗过程更加方便：</p>
+<p>pickle.dump（obj，file，protocol = None，*，fix_imports = True ）<br>将obj对象的编码pickle编码表示写入到文件对象中，相当于Pickler(file,protocol).dump(obj)</p>
+<p>可供选择的协议参数是一个整数，指定pickler使用的协议版本，支持的协议是0到HIGHEST_PROTOCOL。如果未指定，则默认为DEFAULT_PROTOCOL。如果指定为负数，则选择HIGHEST_PROTOCOL。</p>
+<p>文件参数必须具有接受单个字节的参数写方法。因此，它可以是为二进制写入打开的磁盘文件， io.BytesIO实例或满足此接口的任何其他自定义对象。</p>
+<p>如果fix_imports为true且protocol小于3，则pickle将尝试将新的Python 3名称映射到Python 2中使用的旧模块名称，以便使用Python 2可读取pickle数据流。</p>
+<p>pickle.dumps（obj，protocol = None，*，fix_imports = True ）<br>将对象的pickled表示作为bytes对象返回，而不是将其写入文件。</p>
+<p>参数protocol和fix_imports具有与in中相同的含义 dump()。</p>
+<p>pickle.load（file，*，fix_imports = True，encoding =“ASCII”，errors =“strict” ）<br>从打开的文件对象 文件中读取pickle对象表示，并返回其中指定的重构对象层次结构。这相当于Unpickler(file).load()。</p>
+<p>pickle的协议版本是自动检测的，因此不需要协议参数。超过pickle对象的表示的字节将被忽略。</p>
+<p>参数文件必须有两个方法，一个采用整数参数的read()方法和一个不需要参数的readline()方法。两种方法都应返回字节。因此，文件可以是为二进制读取而打开的磁盘文件，io.BytesIO对象或满足此接口的任何其他自定义对象。</p>
+<p>可选的关键字参数是fix_imports，encoding和errors，用于控制Python 2生成的pickle流的兼容性支持。如果fix_imports为true，则pickle将尝试将旧的Python 2名称映射到Python 3中使用的新名称。编码和 错误告诉pickle如何解码Python 2编码的8位字符串实例; 这些默认分别为’ASCII’和’strict’。该编码可以是“字节”作为字节对象读取这些8位串的实例。使用encoding=’latin1’所需的取储存NumPy的阵列和实例datetime，date并且time被Python 2解码。</p>
+<p>pickle.loads（bytes_object，*，fix_imports = True，encoding =“ASCII”，errors =“strict” ）<br>从bytes对象读取pickle对象层次结构并返回其中指定的重构对象层次结构。</p>
+<p>pickle的协议版本是自动检测的，因此不需要协议参数。超过pickle对象的表示的字节将被忽略。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">import</span> io</span><br><span class="line"></span><br><span class="line">path = <span class="string">'test'</span></span><br><span class="line">f = open(path, <span class="string">'wb'</span>)</span><br><span class="line">data = &#123;<span class="string">'a'</span>:<span class="number">123</span>, <span class="string">'b'</span>:<span class="string">'ads'</span>, <span class="string">'c'</span>:[[<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3</span>,<span class="number">4</span>]]&#125;</span><br><span class="line">pickle.dump(data, f)</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line">f1 = open(path, <span class="string">'rb'</span>)</span><br><span class="line">data1 = pickle.load(f1)</span><br><span class="line">print(data1)</span><br></pre></td></tr></table></figure></p>
+<pre><code>{&apos;a&apos;: 123, &apos;b&apos;: &apos;ads&apos;, &apos;c&apos;: [[1, 2], [3, 4]]}
+</code></pre><h1 id="feedparser-模块"><a href="#feedparser-模块" class="headerlink" title="feedparser 模块"></a>feedparser 模块</h1><p>feedparser是一个Python的Feed解析库，可以处理RSS ，CDF，Atom 。使用它我们可从任何 RSS 或 Atom 订阅源得到标题、链接和文章的条目了。<br>RSS(Really Simple Syndication,简易信息聚合)是一种描述和同步网站内容的格式你可以认为是一种定制个性化推送信息的服务。它能够解决你漫无目的的浏览网页的问题。它不会过时，信息越是过剩，它的意义也越加彰显。网络中充斥着大量的信息垃圾，每天摄入了太多自己根本不关心的信息。让自己关注的信息主动来找自己，且这些信息都是用户自己所需要的，这就是RSS的意义。</p>
+<p>parse() 方法<br>feedparser 最为核心的函数自然是 parse() 解析 URL 地址的函数。<br>我们知道，每个RSS和Atom订阅源都包含一个标题（d.feed.title）和一组文章条目(d.entries)<br>通常每个文章条目都有一段摘要（d.entries[i].summary）,或者是包含了条目中实际文本的描述性标签（d.entries[i].description）<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> feedparser</span><br><span class="line">d=feedparser.parse(<span class="string">'http://xvjie.wang/atom.xml'</span>)</span><br><span class="line">d.feed <span class="comment"># 对应的值也是一个字典</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>{&apos;title&apos;: &apos;Voidmort&apos;,
+ &apos;title_detail&apos;: {&apos;type&apos;: &apos;text/plain&apos;,
+  &apos;language&apos;: None,
+  &apos;base&apos;: &apos;http://xvjie.wang/atom.xml&apos;,
+  &apos;value&apos;: &apos;Voidmort&apos;},
+ &apos;links&apos;: [{&apos;href&apos;: &apos;http://xvjie.wang/atom.xml&apos;,
+   &apos;rel&apos;: &apos;self&apos;,
+   &apos;type&apos;: &apos;application/atom+xml&apos;},
+  {&apos;href&apos;: &apos;https://xvjie.wang/&apos;, &apos;rel&apos;: &apos;alternate&apos;, &apos;type&apos;: &apos;text/html&apos;}],
+ &apos;link&apos;: &apos;https://xvjie.wang/&apos;,
+ &apos;updated&apos;: &apos;2020-03-15T06:43:28.902Z&apos;,
+ &apos;updated_parsed&apos;: time.struct_time(tm_year=2020, tm_mon=3, tm_mday=15, tm_hour=6, tm_min=43, tm_sec=28, tm_wday=6, tm_yday=75, tm_isdst=0),
+ &apos;id&apos;: &apos;https://xvjie.wang/&apos;,
+ &apos;guidislink&apos;: False,
+ &apos;authors&apos;: [{&apos;name&apos;: &apos;Voidmort&apos;}],
+ &apos;author_detail&apos;: {&apos;name&apos;: &apos;Voidmort&apos;},
+ &apos;author&apos;: &apos;Voidmort&apos;,
+ &apos;generator_detail&apos;: {&apos;href&apos;: &apos;http://hexo.io/&apos;, &apos;name&apos;: &apos;Hexo&apos;},
+ &apos;generator&apos;: &apos;Hexo&apos;}
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d[<span class="string">'feed'</span>][<span class="string">'title'</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>&apos;Voidmort&apos;
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d.feed.title    <span class="comment">#通过属性的方式访问</span></span><br></pre></td></tr></table></figure>
+<pre><code>&apos;Voidmort&apos;
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d.feed.title_detail</span><br></pre></td></tr></table></figure>
+<pre><code>{&apos;type&apos;: &apos;text/plain&apos;,
+ &apos;language&apos;: None,
+ &apos;base&apos;: &apos;http://xvjie.wang/atom.xml&apos;,
+ &apos;value&apos;: &apos;Voidmort&apos;}
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d.feed.link</span><br></pre></td></tr></table></figure>
+<pre><code>&apos;https://xvjie.wang/&apos;
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 该属性类型为列表，表示一组文章的条目</span></span><br><span class="line">d.entries[:<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>[{&apos;title&apos;: &apos;机器学习实战（三）&apos;,
+  &apos;title_detail&apos;: {&apos;type&apos;: &apos;text/plain&apos;,
+   &apos;language&apos;: None,
+   &apos;base&apos;: &apos;http://xvjie.wang/atom.xml&apos;,
+   &apos;value&apos;: &apos;机器学习实战（三）&apos;},
+  &apos;links&apos;: [{&apos;href&apos;: &apos;https://xvjie.wang/2020/03/06/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E4%B8%89%EF%BC%89/&apos;,
+    &apos;rel&apos;: &apos;alternate&apos;,
+    &apos;type&apos;: &apos;text/html&apos;}],
+  &apos;link&apos;: &apos;https://xvjie.wang/2020/03/06/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E4%B8%89%EF%BC%89/&apos;,
+  &apos;id&apos;: &apos;https://xvjie.wang/2020/03/06/机器学习实战（三）/&apos;,
+  &apos;guidislink&apos;: False,
+  &apos;published&apos;: &apos;2020-03-06T02:15:50.000Z&apos;,
+  &apos;published_parsed&apos;: time.struct_time(tm_year=2020, tm_mon=3, tm_mday=6, tm_hour=2, tm_min=15, tm_sec=50, tm_wday=4, tm_yday=66, tm_isdst=0),
+  &apos;updated&apos;: &apos;2020-03-15T06:43:28.902Z&apos;,
+  &apos;updated_parsed&apos;: time.struct_time(tm_year=2020, tm_mon=3, tm_mday=15, tm_hour=6, tm_min=43, tm_sec=28, tm_wday=6, tm_yday=75, tm_isdst=0),
+  &apos;summary&apos;: &apos;&lt;h1 id=&quot;决策树的简介&quot;&gt;&lt;a href=&quot;#决策树的简介&quot; class=&quot;headerlink&quot;&apos;,
+  &apos;summary_detail&apos;: {&apos;type&apos;: &apos;text/html&apos;,
+   &apos;language&apos;: None,
+   &apos;base&apos;: &apos;http://xvjie.wang/atom.xml&apos;,
+   &apos;value&apos;: &apos;&lt;h1 id=&quot;决策树的简介&quot;&gt;&lt;a href=&quot;#决策树的简介&quot; class=&quot;headerlink&quot;&apos;},
+  &apos;tags&apos;: [{&apos;term&apos;: &apos;机器学习实战&apos;,
+    &apos;scheme&apos;: &apos;https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/&apos;,
+    &apos;label&apos;: None},
+   {&apos;term&apos;: &apos;决策树&apos;,
+    &apos;scheme&apos;: &apos;https://xvjie.wang/tags/%E5%86%B3%E7%AD%96%E6%A0%91/&apos;,
+    &apos;label&apos;: None},
+   {&apos;term&apos;: &apos;ID3&apos;, &apos;scheme&apos;: &apos;https://xvjie.wang/tags/ID3/&apos;, &apos;label&apos;: None}]},
+ {&apos;title&apos;: &apos;Python虚拟环境的搭建&apos;,
+  &apos;title_detail&apos;: {&apos;type&apos;: &apos;text/plain&apos;,
+   &apos;language&apos;: None,
+   &apos;base&apos;: &apos;http://xvjie.wang/atom.xml&apos;,
+   &apos;value&apos;: &apos;Python虚拟环境的搭建&apos;},
+  &apos;links&apos;: [{&apos;href&apos;: &apos;https://xvjie.wang/2020/02/19/Python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E7%9A%84%E6%90%AD%E5%BB%BA/&apos;,
+    &apos;rel&apos;: &apos;alternate&apos;,
+    &apos;type&apos;: &apos;text/html&apos;}],
+  &apos;link&apos;: &apos;https://xvjie.wang/2020/02/19/Python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E7%9A%84%E6%90%AD%E5%BB%BA/&apos;,
+  &apos;id&apos;: &apos;https://xvjie.wang/2020/02/19/Python虚拟环境的搭建/&apos;,
+  &apos;guidislink&apos;: False,
+  &apos;published&apos;: &apos;2020-02-19T03:03:50.000Z&apos;,
+  &apos;published_parsed&apos;: time.struct_time(tm_year=2020, tm_mon=2, tm_mday=19, tm_hour=3, tm_min=3, tm_sec=50, tm_wday=2, tm_yday=50, tm_isdst=0),
+  &apos;updated&apos;: &apos;2020-03-06T09:01:06.144Z&apos;,
+  &apos;updated_parsed&apos;: time.struct_time(tm_year=2020, tm_mon=3, tm_mday=6, tm_hour=9, tm_min=1, tm_sec=6, tm_wday=4, tm_yday=66, tm_isdst=0),
+  &apos;summary&apos;: &apos;&lt;p&gt;我使用的Ubuntu18已经自带了pyhon3.6，现在我想用pip安装一些其它的应用的版本和现有的有冲突，为了防止冲突，我需要另一个python环境。&lt;/p&gt;\n&lt;h1 id=&quot;python的安装&quot;&gt;&lt;a href=&quot;#python的安装&quot;&apos;,
+  &apos;summary_detail&apos;: {&apos;type&apos;: &apos;text/html&apos;,
+   &apos;language&apos;: None,
+   &apos;base&apos;: &apos;http://xvjie.wang/atom.xml&apos;,
+   &apos;value&apos;: &apos;&lt;p&gt;我使用的Ubuntu18已经自带了pyhon3.6，现在我想用pip安装一些其它的应用的版本和现有的有冲突，为了防止冲突，我需要另一个python环境。&lt;/p&gt;\n&lt;h1 id=&quot;python的安装&quot;&gt;&lt;a href=&quot;#python的安装&quot;&apos;},
+  &apos;tags&apos;: [{&apos;term&apos;: &apos;virtualenv&apos;,
+    &apos;scheme&apos;: &apos;https://xvjie.wang/categories/virtualenv/&apos;,
+    &apos;label&apos;: None}]}]
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">len(d.entries)   <span class="comment">#一共20篇文章</span></span><br></pre></td></tr></table></figure>
+<pre><code>20
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[e.title <span class="keyword">for</span> e <span class="keyword">in</span> d.entries][:<span class="number">5</span>]         <span class="comment">#列出前5篇文章的标题</span></span><br></pre></td></tr></table></figure>
+<pre><code>[&apos;机器学习实战（三）&apos;, &apos;Python虚拟环境的搭建&apos;, &apos;机器学习实战（二）&apos;, &apos;机器学习实战（一）&apos;, &apos;Django&apos;]
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d.entries[<span class="number">0</span>].summary   <span class="comment">#第一篇文章的摘要  和d.entries[0].description功能一样</span></span><br></pre></td></tr></table></figure>
+<pre><code>&apos;&lt;h1 id=&quot;决策树的简介&quot;&gt;&lt;a href=&quot;#决策树的简介&quot; class=&quot;headerlink&quot;&apos;
+</code></pre><h1 id="sign"><a href="#sign" class="headerlink" title="sign()"></a>sign()</h1><p>sign()是Python的Numpy中的取数字符号（数字前的正负号）的函数。</p>
+<p><img src="20190125144039645.png" alt=""><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#导入numpy库</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"> </span><br><span class="line"><span class="comment">#输入数据</span></span><br><span class="line">dataArr = [<span class="number">-0.2</span>, <span class="number">-1.1</span>, <span class="number">0</span>, <span class="number">2.3</span>, <span class="number">4.5</span>, <span class="number">0.0</span>]</span><br><span class="line">print(<span class="string">"输入数据为："</span>)</span><br><span class="line">print(dataArr)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#使用numpy的sign(x)函数求输入数据的符号</span></span><br><span class="line">signResult = np.sign(dataArr)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#打印出sign()的输出结果</span></span><br><span class="line">print(<span class="string">"\n使用sign函数的输出符号为："</span>,signResult)</span><br></pre></td></tr></table></figure></p>
+<pre><code>输入数据为：
+[-0.2, -1.1, 0, 2.3, 4.5, 0.0]
+
+使用sign函数的输出符号为： [-1. -1.  0.  1.  1.  0.]
+</code></pre><h1 id="numpy-linalg"><a href="#numpy-linalg" class="headerlink" title="numpy.linalg"></a>numpy.linalg</h1><p>numpy.linalg模块包含线性代数的函数。使用这个模块，可以计算逆矩阵、求特征值、解线性方程组以及求解行列式等。</p>
+<h2 id="求矩阵的逆"><a href="#求矩阵的逆" class="headerlink" title="求矩阵的逆"></a>求矩阵的逆</h2><p>注：矩阵必须是方阵且可逆，否则会抛出LinAlgError异常。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">A = np.mat(<span class="string">"0 1 2;1 0 3;4 -3 8"</span>)</span><br><span class="line">A</span><br></pre></td></tr></table></figure></p>
+<pre><code>matrix([[ 0,  1,  2],
+        [ 1,  0,  3],
+        [ 4, -3,  8]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用inv函数计算逆矩阵</span></span><br><span class="line">inv = np.linalg.inv(A)</span><br><span class="line">inv</span><br></pre></td></tr></table></figure>
+<pre><code>matrix([[-4.5,  7. , -1.5],
+        [-2. ,  4. , -1. ],
+        [ 1.5, -2. ,  0.5]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 检查原矩阵和求得的逆矩阵相乘的结果为单位矩阵</span></span><br><span class="line">A * inv</span><br></pre></td></tr></table></figure>
+<pre><code>matrix([[1., 0., 0.],
+        [0., 1., 0.],
+        [0., 0., 1.]])
+</code></pre><h2 id="求解线性方程组"><a href="#求解线性方程组" class="headerlink" title="求解线性方程组"></a>求解线性方程组</h2><p>numpy.linalg中的函数solve可以求解形如 Ax = b 的线性方程组，其中 A 为矩阵，b 为一维或二维的数组，x 是未知变量<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#创建矩阵和数组</span></span><br><span class="line">B = np.mat(<span class="string">"1 -2 1;0 2 -8;-4 5 9"</span>)</span><br><span class="line">b = np.array([<span class="number">0</span>,<span class="number">8</span>,<span class="number">-9</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用solve函数求解线性方程</span></span><br><span class="line">x = np.linalg.solve(B,b)</span><br><span class="line">x</span><br></pre></td></tr></table></figure></p>
+<pre><code>array([29., 16.,  3.])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用dot函数检查求得的解是否正确</span></span><br><span class="line">np.dot(B , x)</span><br></pre></td></tr></table></figure>
+<pre><code>matrix([[ 0.,  8., -9.]])
+</code></pre><h2 id="特征值和特征向量"><a href="#特征值和特征向量" class="headerlink" title="特征值和特征向量"></a>特征值和特征向量</h2><p>特征值（eigenvalue）即方程 Ax = ax 的根，是一个标量。</p>
+<p>其中，A 是一个二维矩阵，x 是一个一维向量。特征向量（eigenvector）是关于特征值的向量</p>
+<p>numpy.linalg模块中，eigvals函数可以计算矩阵的特征值，而eig函数可以返回一个包含特征值和对应的特征向量的元组<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建一个矩阵</span></span><br><span class="line">C = np.mat(<span class="string">"3 -2;1 0"</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 调用eigvals函数求解特征值</span></span><br><span class="line">c0 = np.linalg.eigvals(C)</span><br><span class="line">c0</span><br></pre></td></tr></table></figure></p>
+<pre><code>array([2., 1.])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用eig函数求解特征值和特征向量 </span></span><br><span class="line"><span class="comment">#(该函数将返回一个元组，按列排放着特征值和对应的特征向量，其中第一列为特征值，第二列为特征向量)</span></span><br><span class="line">c1,c2 = np.linalg.eig(C)</span><br><span class="line">c1, c2</span><br></pre></td></tr></table></figure>
+<pre><code>(array([2., 1.]),
+ matrix([[0.89442719, 0.70710678],
+         [0.4472136 , 0.70710678]]))
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用dot函数验证求得的解是否正确</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(c1)):</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"left:"</span>,np.dot(C,c2[:,i]))</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"right:"</span>,c1[i] * c2[:,i])</span><br></pre></td></tr></table></figure>
+<pre><code>left: [[1.78885438]
+ [0.89442719]]
+right: [[1.78885438]
+ [0.89442719]]
+left: [[0.70710678]
+ [0.70710678]]
+right: [[0.70710678]
+ [0.70710678]]
+</code></pre><h2 id="奇异值分解"><a href="#奇异值分解" class="headerlink" title="奇异值分解"></a>奇异值分解</h2><p>SVD（Singular Value Decomposition，奇异值分解）是一种因子分解运算，将一个矩阵分解为3个矩阵的乘积</p>
+<p>numpy.linalg模块中的svd函数可以对矩阵进行奇异值分解。该函数返回3个矩阵——U、Sigma和V，其中U和V是正交矩阵，Sigma包含输入矩阵的奇异值。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 分解矩阵</span></span><br><span class="line">D = np.mat(<span class="string">"4 11 14;8 7 -2"</span>)</span><br><span class="line"><span class="comment"># 使用svd函数分解矩阵</span></span><br><span class="line">U,Sigma,V = np.linalg.svd(D,full_matrices=<span class="keyword">False</span>)</span><br><span class="line">U, Sigma, V</span><br></pre></td></tr></table></figure></p>
+<pre><code>(matrix([[-0.9486833 , -0.31622777],
+         [-0.31622777,  0.9486833 ]]),
+ array([18.97366596,  9.48683298]),
+ matrix([[-0.33333333, -0.66666667, -0.66666667],
+         [ 0.66666667,  0.33333333, -0.66666667]]))
+</code></pre><p>结果包含等式中左右两端的两个正交矩阵U和V，以及中间的奇异值矩阵Sigma<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用diag函数生成完整的奇异值矩阵。将分解出的3个矩阵相乘</span></span><br><span class="line">U * np.diag(Sigma) * V</span><br></pre></td></tr></table></figure></p>
+<pre><code>matrix([[ 4., 11., 14.],
+        [ 8.,  7., -2.]])
+</code></pre><h2 id="广义逆矩阵"><a href="#广义逆矩阵" class="headerlink" title="广义逆矩阵"></a>广义逆矩阵</h2><p>使用numpy.linalg模块中的pinv函数进行求解,</p>
+<p>注：inv函数只接受方阵作为输入矩阵，而pinv函数则没有这个限制<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建一个矩阵</span></span><br><span class="line">E = np.mat(<span class="string">"4 11 14;8 7 -2"</span>)</span><br><span class="line"><span class="comment"># 使用pinv函数计算广义逆矩阵</span></span><br><span class="line">pseudoinv = np.linalg.pinv(E)</span><br><span class="line">pseudoinv</span><br></pre></td></tr></table></figure></p>
+<pre><code>matrix([[-0.00555556,  0.07222222],
+        [ 0.02222222,  0.04444444],
+        [ 0.05555556, -0.05555556]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将原矩阵和得到的广义逆矩阵相乘</span></span><br><span class="line">E * pseudoinv</span><br></pre></td></tr></table></figure>
+<pre><code>matrix([[ 1.00000000e+00, -9.29811783e-16],
+        [-1.66533454e-16,  1.00000000e+00]])
+</code></pre><h2 id="行列式"><a href="#行列式" class="headerlink" title="行列式"></a>行列式</h2><p>numpy.linalg模块中的det函数可以计算矩阵的行列式<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 计算矩阵的行列式</span></span><br><span class="line">F = np.mat(<span class="string">"3.0 4.0;5.0 6.0"</span>)</span><br><span class="line"><span class="comment"># 使用det函数计算行列式</span></span><br><span class="line">np.linalg.det(F)</span><br></pre></td></tr></table></figure></p>
+<pre><code>-1.9999999999999971
+</code></pre><p>3×6-4×5=-2 ?<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.eye((<span class="number">3</span>))</span><br></pre></td></tr></table></figure></p>
+<pre><code>array([[1., 0., 0.],
+       [0., 1., 0.],
+       [0., 0., 1.]])
+</code></pre><h1 id="BeautifulSoup"><a href="#BeautifulSoup" class="headerlink" title="BeautifulSoup"></a>BeautifulSoup</h1><p>Beautiful Soup 是一个可以从HTML或XML文件中提取数据的Python库.它能够通过你喜欢的转换器实现惯用的文档导航,查找,修改文档的方式.Beautiful Soup会帮你节省数小时甚至数天的工作时间.</p>
+<p><a href="https://beautifulsoup.readthedocs.io/zh_CN/v4.4.0/" target="_blank" rel="noopener">https://beautifulsoup.readthedocs.io/zh_CN/v4.4.0/</a></p>
+<h1 id="power"><a href="#power" class="headerlink" title="power()"></a>power()</h1><p>函数解释：</p>
+<p>power(A,B) ：求A的B次方，数学等价于$A^B$</p>
+<p>其中A和B既可以是数字(标量),也可以是列表(向量)<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a , b = <span class="number">3</span>, <span class="number">4</span></span><br><span class="line">np.power(a, b)</span><br></pre></td></tr></table></figure></p>
+<pre><code>81
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A, B = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], <span class="number">3</span></span><br><span class="line">np.power(A, B)</span><br></pre></td></tr></table></figure>
+<pre><code>array([ 1,  8, 27], dtype=int32)
+</code></pre><p>A B都是列表(向量)时候，必须len(A)=len(B)<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A, B = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">np.power(A, B)</span><br></pre></td></tr></table></figure></p>
+<pre><code>array([  1,  32, 729], dtype=int32)
+</code></pre><h1 id="nonzero"><a href="#nonzero" class="headerlink" title="nonzero()"></a>nonzero()</h1><p>nonzero(a)</p>
+<p>nonzero函数是numpy中用于得到数组array中非零元素的位置（数组索引）的函数。它的返回值是一个长度为a.ndim(数组a的轴数)的元组，元组的每个元素都是一个整数数组，其值为非零元素的下标在对应轴上的值。</p>
+<p>（1）只有a中非零元素才会有索引值，那些零值元素没有索引值；</p>
+<p>（2）返回的索引值数组是一个2维tuple数组，该tuple数组中包含一维的array数组。其中，一维array向量的个数与a的维数是一致的。</p>
+<p>（3）索引值数组的每一个array均是从一个维度上来描述其索引值。比如，如果a是一个二维数组，则索引值数组有两个array，第一个array从行维度来描述索引值；第二个array从列维度来描述索引值。</p>
+<p>（4）transpose(np.nonzero(x))函数能够描述出每一个非零元素在不同维度的索引值。</p>
+<p>（5）通过a[nonzero(a)]得到所有a中的非零值</p>
+<h2 id="a是一维数组"><a href="#a是一维数组" class="headerlink" title="a是一维数组"></a>a是一维数组</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">a = [<span class="number">0</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">b = np.nonzero(a)</span><br><span class="line">b</span><br></pre></td></tr></table></figure>
+<pre><code>(array([1, 2], dtype=int64),)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.array(b).ndim</span><br></pre></td></tr></table></figure>
+<pre><code>2
+</code></pre><h2 id="a是二维数组"><a href="#a是二维数组" class="headerlink" title="a是二维数组"></a>a是二维数组</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = np.array([[<span class="number">0</span>,<span class="number">0</span>,<span class="number">3</span>],[<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">0</span>,<span class="number">9</span>]])</span><br><span class="line">b = np.nonzero(a)</span><br><span class="line">a, b</span><br></pre></td></tr></table></figure>
+<pre><code>(array([[0, 0, 3],
+        [0, 0, 0],
+        [0, 0, 9]]),
+ (array([0, 2], dtype=int64), array([2, 2], dtype=int64)))
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.array(b).ndim</span><br></pre></td></tr></table></figure>
+<pre><code>2
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.transpose(np.nonzero(a))</span><br></pre></td></tr></table></figure>
+<pre><code>array([[0, 2],
+       [2, 2]], dtype=int64)
+</code></pre><h1 id="frozenset"><a href="#frozenset" class="headerlink" title="frozenset()"></a>frozenset()</h1><h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>frozenset() 返回一个冻结的集合，冻结后集合不能再添加或删除任何元素。</p>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p>frozenset() 函数语法：</p>
+<p>class frozenset([iterable])</p>
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><p>iterable – 可迭代的对象，比如列表、字典、元组等等。<br>返回值<br>返回新的 frozenset 对象，如果不提供任何参数，默认会生成空集合。</p>
+<p>实例<br>以下实例展示了 frozenset() 的使用方法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = frozenset(range(<span class="number">10</span>))     <span class="comment"># 生成一个新的不可变集合</span></span><br><span class="line">a</span><br></pre></td></tr></table></figure></p>
+<pre><code>frozenset({0, 1, 2, 3, 4, 5, 6, 7, 8, 9})
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">b = frozenset(<span class="string">'voidmort'</span>)</span><br><span class="line">b <span class="comment"># 创建不可变集合</span></span><br></pre></td></tr></table></figure>
+<pre><code>frozenset({&apos;d&apos;, &apos;i&apos;, &apos;m&apos;, &apos;o&apos;, &apos;r&apos;, &apos;t&apos;, &apos;v&apos;})
+</code></pre><h1 id="apriori-关联分析"><a href="#apriori-关联分析" class="headerlink" title="apriori 关联分析"></a>apriori 关联分析</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%pip install efficient-apriori</span><br></pre></td></tr></table></figure>
+<pre><code>  Downloading https://files.pythonhosted.org/packages/5a/c6/ecdf3a32d23cada466634c649cf4f50fefe76f56eae53ecceff688b306be/efficient_apriori-1.1.1-py3-none-any.whl
+Installing collected packages: efficient-apriori
+Successfully installed efficient-apriori-1.1.1
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> efficient_apriori <span class="keyword">import</span> apriori</span><br><span class="line">transactions = [(<span class="string">'eggs'</span>, <span class="string">'bacon'</span>, <span class="string">'soup'</span>),</span><br><span class="line">                (<span class="string">'eggs'</span>, <span class="string">'bacon'</span>, <span class="string">'apple'</span>),</span><br><span class="line">                (<span class="string">'soup'</span>, <span class="string">'bacon'</span>, <span class="string">'banana'</span>)]</span><br><span class="line">itemsets, rules = apriori(transactions, min_support=<span class="number">0.5</span>, min_confidence=<span class="number">1</span>)</span><br><span class="line">print(rules)</span><br></pre></td></tr></table></figure>
+<pre><code>[{eggs} -&gt; {bacon}, {soup} -&gt; {bacon}]
+</code></pre><h1 id="NumPy-corrcoef"><a href="#NumPy-corrcoef" class="headerlink" title="NumPy-corrcoef()"></a>NumPy-corrcoef()</h1><p>numpy.corrcoef(x, y=None, rowvar=True, bias=<no value="">, ddof=<no value="">)</no></no></p>
+<p>返回皮尔逊积矩相关系数。</p>
+<p>相关系数矩阵之间的关系，</p>
+<p>返回值r介于-1和1之间（含1）。r=0,没有相关性。</p>
+<p>参数:</p>
+<pre><code>x : array_like
+包含多个变量和观测值的一维或二维数组。每行 x 表示一个变量，每列都是对所有这些变量的单个观察。也看到 rowvar 下面。
+
+y : 阵列式，可选
+一组附加的变量和观察值。 y 形状与 x .
+
+罗瓦尔 : 可选的布尔
+如果 rowvar 为真（默认值），则每行代表一个变量，列中包含观测值。否则，关系将被转置：每列表示一个变量，而行包含观测值。
+</code></pre><p>返回:</p>
+<pre><code>R : 变量的相关系数矩阵。
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">a = np.array([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line">b = np.array([<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>])</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">correlation</span><span class="params">(x, y)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> (((x-x.mean())/(x.std(ddof=<span class="number">0</span>)))*((y-y.mean())/(y.std(ddof=<span class="number">0</span>)))).mean() </span><br><span class="line"> </span><br><span class="line">correlation(a,b)</span><br></pre></td></tr></table></figure>
+<pre><code>0.9999999999999999
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.corrcoef(a, b)</span><br></pre></td></tr></table></figure>
+<pre><code>array([[1., 1.],
+       [1., 1.]])
+</code></pre>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python函数/" rel="tag"><i class="fa fa-tag"></i> python函数</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/01/机器学习实战（九）/" rel="next" title="机器学习实战（九）">
+                <i class="fa fa-chevron-left"></i> 机器学习实战（九）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/15/机器学习实战（十）/" rel="prev" title="机器学习实战（十）">
+                机器学习实战（十） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Voidmort" />
+            
+              <p class="site-author-name" itemprop="name">Voidmort</p>
+              <p class="site-description motion-element" itemprop="description">研究AI，撰写影评，热爱音乐，努力健身</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">85</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">60</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Voidmort" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:wxj5658@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1749266905" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jusanliusha.xyz" title="Jusanliusha" target="_blank">Jusanliusha</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#tile"><span class="nav-number">1.</span> <span class="nav-text">tile()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#argsort"><span class="nav-number">2.</span> <span class="nav-text">argsort()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#operator-itemgetter函数"><span class="nav-number">3.</span> <span class="nav-text">operator.itemgetter函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#pickle模块"><span class="nav-number">4.</span> <span class="nav-text">pickle模块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#feedparser-模块"><span class="nav-number">5.</span> <span class="nav-text">feedparser 模块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sign"><span class="nav-number">6.</span> <span class="nav-text">sign()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#numpy-linalg"><span class="nav-number">7.</span> <span class="nav-text">numpy.linalg</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#求矩阵的逆"><span class="nav-number">7.1.</span> <span class="nav-text">求矩阵的逆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#求解线性方程组"><span class="nav-number">7.2.</span> <span class="nav-text">求解线性方程组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征值和特征向量"><span class="nav-number">7.3.</span> <span class="nav-text">特征值和特征向量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#奇异值分解"><span class="nav-number">7.4.</span> <span class="nav-text">奇异值分解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#广义逆矩阵"><span class="nav-number">7.5.</span> <span class="nav-text">广义逆矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#行列式"><span class="nav-number">7.6.</span> <span class="nav-text">行列式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BeautifulSoup"><span class="nav-number">8.</span> <span class="nav-text">BeautifulSoup</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#power"><span class="nav-number">9.</span> <span class="nav-text">power()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#nonzero"><span class="nav-number">10.</span> <span class="nav-text">nonzero()</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#a是一维数组"><span class="nav-number">10.1.</span> <span class="nav-text">a是一维数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#a是二维数组"><span class="nav-number">10.2.</span> <span class="nav-text">a是二维数组</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#frozenset"><span class="nav-number">11.</span> <span class="nav-text">frozenset()</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#描述"><span class="nav-number">11.1.</span> <span class="nav-text">描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法"><span class="nav-number">11.2.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数"><span class="nav-number">11.3.</span> <span class="nav-text">参数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#apriori-关联分析"><span class="nav-number">12.</span> <span class="nav-text">apriori 关联分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NumPy-corrcoef"><span class="nav-number">13.</span> <span class="nav-text">NumPy-corrcoef()</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Voidmort</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/kesyoban.model.json"},"display":{"position":"right","width":130,"height":260},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>

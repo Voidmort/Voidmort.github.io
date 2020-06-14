@@ -1,0 +1,2493 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="分析微博中的emoji1234567891011# 数据分析库import pandas as pdimport numpy as npimport random# 数据可视化import seaborn as snsimport matplotlib.pyplot as pltplt.style.use(&apos;ggplot&apos;)import emoji 处理收集到到微博评论12345678import">
+<meta name="keywords" content="深度学习,LSTM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文本转Emoji">
+<meta property="og:url" content="https://xvjie.wang/2020/06/01/EmojiAnalysis/index.html">
+<meta property="og:site_name" content="Voidmort">
+<meta property="og:description" content="分析微博中的emoji1234567891011# 数据分析库import pandas as pdimport numpy as npimport random# 数据可视化import seaborn as snsimport matplotlib.pyplot as pltplt.style.use(&apos;ggplot&apos;)import emoji 处理收集到到微博评论12345678import">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://xvjie.wang/2020/06/01/EmojiAnalysis/emojifier-model.png">
+<meta property="og:updated_time" content="2020-06-14T08:42:03.469Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="文本转Emoji">
+<meta name="twitter:description" content="分析微博中的emoji1234567891011# 数据分析库import pandas as pdimport numpy as npimport random# 数据可视化import seaborn as snsimport matplotlib.pyplot as pltplt.style.use(&apos;ggplot&apos;)import emoji 处理收集到到微博评论12345678import">
+<meta name="twitter:image" content="https://xvjie.wang/2020/06/01/EmojiAnalysis/emojifier-model.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Voidmort" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://xvjie.wang/2020/06/01/EmojiAnalysis/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>文本转Emoji | Voidmort</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7b96eb7c2717359e36cc8bd8b546997c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/Voidmort" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Voidmort</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-other">
+    <a href="/other/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-plane"></i> <br />其它</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xvjie.wang/2020/06/01/EmojiAnalysis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Voidmort">
+      <meta itemprop="description" content="研究AI，撰写影评，热爱音乐，努力健身">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Voidmort">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">文本转Emoji
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-06-01 09:20:50" itemprop="dateCreated datePublished" datetime="2020-06-01T09:20:50+08:00">2020-06-01</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-06-14 16:42:03" itemprop="dateModified" datetime="2020-06-14T16:42:03+08:00">2020-06-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/LSTM/" itemprop="url" rel="index"><span itemprop="name">LSTM</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="分析微博中的emoji"><a href="#分析微博中的emoji" class="headerlink" title="分析微博中的emoji"></a>分析微博中的emoji</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 数据分析库</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据可视化</span></span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">plt.style.use(<span class="string">'ggplot'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> emoji</span><br></pre></td></tr></table></figure>
+<h1 id="处理收集到到微博评论"><a href="#处理收集到到微博评论" class="headerlink" title="处理收集到到微博评论"></a>处理收集到到微博评论</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">all_path</span><span class="params">(dirname)</span>:</span></span><br><span class="line">    result = []<span class="comment">#所有的文件</span></span><br><span class="line">    <span class="keyword">for</span> maindir, subdir, file_name_list <span class="keyword">in</span> os.walk(dirname):</span><br><span class="line">        <span class="keyword">for</span> filename <span class="keyword">in</span> file_name_list:</span><br><span class="line">            apath = os.path.join(maindir, filename)<span class="comment">#合并成一个完整路径</span></span><br><span class="line">            result.append(apath)</span><br><span class="line">    <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">filenames = all_path(<span class="string">'WeiboData'</span>)</span><br><span class="line">filenames = filter(<span class="keyword">lambda</span> x: <span class="string">'WeiBoDataRet'</span> <span class="keyword">in</span> x, filenames)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data_list = []</span><br><span class="line"><span class="keyword">for</span> filename <span class="keyword">in</span> filenames:</span><br><span class="line">    tmp = pd.read_csv(filename, sep=<span class="string">'|'</span>, encoding=<span class="string">"utf-8"</span>, names=[<span class="string">'text'</span>, <span class="string">'emoji'</span>])</span><br><span class="line">    data_list.append(tmp)</span><br><span class="line">data = pd.concat(data_list) <span class="comment"># 把所有数据拼接起来</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.head()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>text</th>
+      <th>emoji</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>heartbroken</td>
+      <td>伤心</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>走好</td>
+      <td>悲伤</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>走好</td>
+      <td>心</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>走好</td>
+      <td>心</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>走好</td>
+      <td>心</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.describe()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>text</th>
+      <th>emoji</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>1674858</td>
+      <td>1673955</td>
+    </tr>
+    <tr>
+      <th>unique</th>
+      <td>220772</td>
+      <td>1780</td>
+    </tr>
+    <tr>
+      <th>top</th>
+      <td></td>
+      <td>心</td>
+    </tr>
+    <tr>
+      <th>freq</th>
+      <td>228436</td>
+      <td>194223</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h1 id="数据清洗"><a href="#数据清洗" class="headerlink" title="数据清洗"></a>数据清洗</h1><p>去重</p>
+<p>去除 空格</p>
+<p>去除非emoji</p>
+<p>构建emoji字典</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data = data.drop_duplicates()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data.text = data.text.apply(<span class="keyword">lambda</span> x: x.strip())</span><br><span class="line">data.emoji = data.emoji.apply(<span class="keyword">lambda</span> x: str(x).strip())</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">GetEmojiDict</span><span class="params">()</span>:</span></span><br><span class="line">    fr = open(<span class="string">'ImgName.txt'</span>, <span class="string">'r'</span>)</span><br><span class="line">    jsondata = fr.read()</span><br><span class="line">    <span class="keyword">return</span> json.loads(jsondata)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emojiDict = GetEmojiDict()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">len(emojiDict)</span><br></pre></td></tr></table></figure>
+<pre><code>149
+</code></pre><h2 id="去除非中文text"><a href="#去除非中文text" class="headerlink" title="去除非中文text"></a>去除非中文text</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">zhPattern=re.compile(<span class="string">u'[\u4e00-\u9fa5]+'</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">FilterEmoji</span><span class="params">(contents)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> contents <span class="keyword">in</span> emojiDict:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">if</span> zhPattern.search(contents):</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.info()</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;class &apos;pandas.core.frame.DataFrame&apos;&gt;
+Int64Index: 287976 entries, 0 to 703321
+Data columns (total 2 columns):
+ #   Column  Non-Null Count   Dtype 
+---  ------  --------------   ----- 
+ 0   text    287976 non-null  object
+ 1   emoji   287976 non-null  object
+dtypes: object(2)
+memory usage: 6.6+ MB
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filterReg = data.emoji.apply(<span class="keyword">lambda</span> x: FilterEmoji(x))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filterIndex = filterReg[filterReg==<span class="number">0</span>].index</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filterIndex</span><br></pre></td></tr></table></figure>
+<pre><code>Int64Index([    61,    374,    653,    816,   1428,   1503,   1772,   2093,
+              2382,   2697,
+            ...
+            701750, 701882, 701894, 702185, 702186, 702380, 702501, 703077,
+            703095, 703096],
+           dtype=&apos;int64&apos;, length=4556)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data = data.drop(filterIndex)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">filterReg = data.text.apply(<span class="keyword">lambda</span> x: FilterEmoji(x))</span><br><span class="line">filterIndex = filterReg[filterReg==<span class="number">1</span>].index</span><br><span class="line">filterIndex</span><br></pre></td></tr></table></figure>
+<pre><code>Int64Index([     0,     47,     56,     65,    144,    152,    159,    168,
+               174,    175,
+            ...
+            700205, 700206, 700207, 700266, 700352, 702191, 702192, 702193,
+            702194, 702195],
+           dtype=&apos;int64&apos;, length=3475)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filterIndex</span><br></pre></td></tr></table></figure>
+<pre><code>Int64Index([     0,     47,     56,     65,    144,    152,    159,    168,
+               174,    175,
+            ...
+            700205, 700206, 700207, 700266, 700352, 702191, 702192, 702193,
+            702194, 702195],
+           dtype=&apos;int64&apos;, length=3475)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data = data.drop(filterIndex)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.describe()</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>text</th>
+      <th>emoji</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>277826</td>
+      <td>277826</td>
+    </tr>
+    <tr>
+      <th>unique</th>
+      <td>215349</td>
+      <td>1339</td>
+    </tr>
+    <tr>
+      <th>top</th>
+      <td>[加油]</td>
+      <td>允悲</td>
+    </tr>
+    <tr>
+      <th>freq</th>
+      <td>72</td>
+      <td>22486</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emoji_counts = data.emoji.value_counts()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emoji_counts.describe()</span><br></pre></td></tr></table></figure>
+<pre><code>count     1339.000000
+mean       207.487677
+std       1196.566008
+min          1.000000
+25%          3.000000
+50%          9.000000
+75%         41.000000
+max      22486.000000
+Name: emoji, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>text</th>
+      <th>emoji</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>走好</td>
+      <td>悲伤</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>走好</td>
+      <td>心</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>走好</td>
+      <td>蜡烛</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>舒服了，着尼哥终于死了</td>
+      <td>笑哈哈</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>舒服了，着尼哥终于死了</td>
+      <td>给力</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>703299</th>
+      <td>期待蜜桃第二季，期待邓伦</td>
+      <td>:peach:</td>
+    </tr>
+    <tr>
+      <th>703303</th>
+      <td>期待伦伦</td>
+      <td>心</td>
+    </tr>
+    <tr>
+      <th>703315</th>
+      <td>川西真的是随便一个地方都是风景</td>
+      <td>鼓掌</td>
+    </tr>
+    <tr>
+      <th>703320</th>
+      <td>お疲れ様でした</td>
+      <td>跪了</td>
+    </tr>
+    <tr>
+      <th>703321</th>
+      <td>太快了！！！</td>
+      <td>赞</td>
+    </tr>
+  </tbody>
+</table>
+<p>277826 rows × 2 columns</p>
+</div>
+
+<h2 id="删除重复的text"><a href="#删除重复的text" class="headerlink" title="删除重复的text"></a>删除重复的text</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dupdata = data.text.duplicated()</span><br><span class="line">dupIndex = dupdata[dupdata==<span class="number">1</span>].index</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">len(dupIndex)</span><br></pre></td></tr></table></figure>
+<pre><code>62477
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data = data.drop(dupIndex)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>text</th>
+      <th>emoji</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>走好</td>
+      <td>悲伤</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>舒服了，着尼哥终于死了</td>
+      <td>笑哈哈</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>老人家值得所有人尊重</td>
+      <td>赞</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>老百姓真好</td>
+      <td>心</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>虽然行为点赞，但是还是衷心希望老人，把自己过好了，有能力，再去帮助别人。</td>
+      <td>摊手</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>703298</th>
+      <td>期待蜜桃第二季，期待邓伦</td>
+      <td>心</td>
+    </tr>
+    <tr>
+      <th>703303</th>
+      <td>期待伦伦</td>
+      <td>心</td>
+    </tr>
+    <tr>
+      <th>703315</th>
+      <td>川西真的是随便一个地方都是风景</td>
+      <td>鼓掌</td>
+    </tr>
+    <tr>
+      <th>703320</th>
+      <td>お疲れ様でした</td>
+      <td>跪了</td>
+    </tr>
+    <tr>
+      <th>703321</th>
+      <td>太快了！！！</td>
+      <td>赞</td>
+    </tr>
+  </tbody>
+</table>
+<p>203185 rows × 2 columns</p>
+</div>
+
+<h1 id="单词向量"><a href="#单词向量" class="headerlink" title="单词向量"></a>单词向量</h1><p>下面这段code的功能是解析词组对应的向量的三个字典</p>
+<pre><code>word_to_index 单词查索引
+index_to_word 索引查单词
+word_to_vec_map 单词查向量
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_word_vecs</span><span class="params">(file)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(file, <span class="string">'r'</span>, encoding=<span class="string">"utf-8"</span>) <span class="keyword">as</span> f:</span><br><span class="line">        words = set()</span><br><span class="line">        word_to_vec_map = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">            line = line.strip().split()</span><br><span class="line">            curr_word = line[<span class="number">0</span>]</span><br><span class="line">            words.add(curr_word)</span><br><span class="line">            word_to_vec_map[curr_word] = np.array(line[<span class="number">1</span>:], dtype=np.float64)</span><br><span class="line">        </span><br><span class="line">        i = <span class="number">1</span></span><br><span class="line">        words_to_index = &#123;&#125;</span><br><span class="line">        index_to_words = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> w <span class="keyword">in</span> sorted(words):</span><br><span class="line">            words_to_index[w] = i</span><br><span class="line">            index_to_words[i] = w</span><br><span class="line">            i = i + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> words_to_index, index_to_words, word_to_vec_map</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">word_to_index, index_to_word, word_to_vec_map = read_word_vecs(<span class="string">'sgns.weibo.word'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">word_to_vec_map[<span class="string">'他们'</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>array([-0.058985, -0.095981,  0.213523,  0.078806,  0.090758,  0.303698,
+       -0.080819, -0.070496,  0.100697, -0.014494,  0.105789, -0.081538,
+       -0.220132, -0.001089, -0.010554,  0.045872,  0.020978, -0.078958,
+        0.310522,  0.026538,  0.116843, -0.012077,  0.091833,  0.199016,
+       -0.253477,  0.105833, -0.079761, -0.114635,  0.437327,  0.003209,
+       -0.191938, -0.292937, -0.042434, -0.092598, -0.031424,  0.232141,
+        0.175102, -0.028322, -0.182089, -0.127304, -0.105405, -0.0155  ,
+       -0.105409,  0.128716,  0.271304, -0.258079,  0.294854, -0.225564,
+        0.041693,  0.122313, -0.10642 ,  0.218218, -0.061122,  0.032375,
+        0.061754,  0.060876,  0.177719,  0.080874,  0.040064,  0.028098,
+        0.181363, -0.073601, -0.009067, -0.031534,  0.190581,  0.175827,
+       -0.003394, -0.120093,  0.136633,  0.22353 , -0.286703, -0.083716,
+        0.07307 ,  0.290753, -0.073568, -0.146416,  0.287048,  0.177982,
+        0.159483,  0.033554, -0.113645,  0.086506,  0.182751,  0.222543,
+        0.069108, -0.005411, -0.117244,  0.278492,  0.292221, -0.277547,
+        0.035062,  0.05546 ,  0.043035,  0.118464, -0.03085 ,  0.163017,
+        0.032309,  0.238069,  0.164545, -0.162392, -0.093865,  0.358772,
+       -0.138829, -0.27499 , -0.190523, -0.198303, -0.228555,  0.02823 ,
+        0.12706 , -0.017478,  0.279601, -0.130354,  0.376413,  0.107592,
+        0.501358, -0.392651,  0.167826,  0.030806, -0.047537,  0.0542  ,
+       -0.027822, -0.177908,  0.436953, -0.139909, -0.205398, -0.069401,
+        0.210465, -0.09408 , -0.030155, -0.186514, -0.408763,  0.209337,
+        0.154496, -0.155053, -0.073264, -0.208221,  0.031705,  0.007868,
+        0.105028, -0.313043, -0.030095,  0.32314 ,  0.039472,  0.056924,
+       -0.029449, -0.18332 ,  0.329696, -0.20353 ,  0.079724,  0.005614,
+        0.033271,  0.129164,  0.06442 , -0.093268, -0.26306 ,  0.042632,
+       -0.066531, -0.25593 , -0.082908, -0.211791,  0.269096, -0.231714,
+        0.498682,  0.171995, -0.188561, -0.254678,  0.127424,  0.490121,
+       -0.002619, -0.270687, -0.062654, -0.009806,  0.068663, -0.131597,
+        0.157276, -0.118741,  0.362313, -0.107524, -0.043709,  0.051271,
+        0.016886, -0.303519, -0.131623, -0.103483,  0.090379,  0.071147,
+        0.132338, -0.146149, -0.366627, -0.351044, -0.063839,  0.082302,
+        0.385776,  0.158985,  0.224325, -0.116336, -0.247472, -0.500043,
+       -0.054399, -0.51975 , -0.165844,  0.067776, -0.311503,  0.160354,
+        0.310949, -0.158256, -0.13147 , -0.046553, -0.132425, -0.174187,
+        0.137154,  0.128941,  0.077095,  0.086764, -0.085013, -0.076975,
+        0.116672, -0.234487, -0.029225, -0.297913,  0.03733 ,  0.07142 ,
+       -0.333047,  0.250342,  0.071834, -0.360994,  0.160254, -0.085961,
+       -0.244442, -0.00217 ,  0.016221, -0.25117 ,  0.102826, -0.190794,
+       -0.163422,  0.067348, -0.066799, -0.105879,  0.281125, -0.092643,
+        0.014463, -0.040031, -0.047755, -0.192767,  0.166827, -0.210013,
+       -0.126185,  0.228651,  0.28803 ,  0.045921,  0.15332 ,  0.014357,
+       -0.149424, -0.235598, -0.137925, -0.333645,  0.114881,  0.25207 ,
+        0.046461,  0.00136 ,  0.089115, -0.182189, -0.200544,  0.175124,
+        0.069565, -0.055904,  0.05993 ,  0.067038,  0.119123,  0.143849,
+       -0.182774,  0.354611, -0.137333,  0.157642,  0.028673, -0.504065,
+       -0.006483, -0.056175,  0.131101, -0.106961, -0.07638 ,  0.294719,
+        0.003378,  0.096714, -0.157428, -0.032374, -0.244506,  0.012603,
+        0.202828,  0.080087,  0.06369 , -0.315489, -0.087886,  0.172018,
+       -0.135227, -0.168902,  0.25539 , -0.265512, -0.209118,  0.003291])
+</code></pre><h1 id="文本分词"><a href="#文本分词" class="headerlink" title="文本分词"></a>文本分词</h1><p>使用jieba对text分词</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> jieba</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">words = data.text.apply(<span class="keyword">lambda</span> x: list(jieba.cut(x)))</span><br></pre></td></tr></table></figure>
+<pre><code>Building prefix dict from the default dictionary ...
+Loading model from cache /tmp/jieba.cache
+Loading model cost 0.805 seconds.
+Prefix dict has been built successfully.
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">words</span><br></pre></td></tr></table></figure>
+<pre><code>1                                                    [走, 好]
+6                                 [舒服, 了, ，, 着尼哥, 终于, 死, 了]
+9                                        [老人家, 值得, 所有人, 尊重]
+12                                              [老百姓, 真, 好]
+14        [虽然, 行为, 点赞, ，, 但是, 还是, 衷心希望, 老人, ，, 把, 自己, 过,...
+                                ...                        
+703298                             [期待, 蜜桃, 第二季, ，, 期待, 邓伦]
+703303                                             [期待, 伦伦]
+703315                    [川西, 真的, 是, 随便, 一个, 地方, 都, 是, 风景]
+703320                                [お, 疲, れ, 様, で, し, た]
+703321                                     [太快, 了, ！, ！, ！]
+Name: text, Length: 203185, dtype: object
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data[<span class="string">'words'</span>] = words</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;ipython-input-41-21ad536f0372&gt;:1: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  data[&apos;words&apos;] = words
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>text</th>
+      <th>emoji</th>
+      <th>words</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>走好</td>
+      <td>悲伤</td>
+      <td>[走, 好]</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>舒服了，着尼哥终于死了</td>
+      <td>笑哈哈</td>
+      <td>[舒服, 了, ，, 着尼哥, 终于, 死, 了]</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>老人家值得所有人尊重</td>
+      <td>赞</td>
+      <td>[老人家, 值得, 所有人, 尊重]</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>老百姓真好</td>
+      <td>心</td>
+      <td>[老百姓, 真, 好]</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>虽然行为点赞，但是还是衷心希望老人，把自己过好了，有能力，再去帮助别人。</td>
+      <td>摊手</td>
+      <td>[虽然, 行为, 点赞, ，, 但是, 还是, 衷心希望, 老人, ，, 把, 自己, 过,...</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>703298</th>
+      <td>期待蜜桃第二季，期待邓伦</td>
+      <td>心</td>
+      <td>[期待, 蜜桃, 第二季, ，, 期待, 邓伦]</td>
+    </tr>
+    <tr>
+      <th>703303</th>
+      <td>期待伦伦</td>
+      <td>心</td>
+      <td>[期待, 伦伦]</td>
+    </tr>
+    <tr>
+      <th>703315</th>
+      <td>川西真的是随便一个地方都是风景</td>
+      <td>鼓掌</td>
+      <td>[川西, 真的, 是, 随便, 一个, 地方, 都, 是, 风景]</td>
+    </tr>
+    <tr>
+      <th>703320</th>
+      <td>お疲れ様でした</td>
+      <td>跪了</td>
+      <td>[お, 疲, れ, 様, で, し, た]</td>
+    </tr>
+    <tr>
+      <th>703321</th>
+      <td>太快了！！！</td>
+      <td>赞</td>
+      <td>[太快, 了, ！, ！, ！]</td>
+    </tr>
+  </tbody>
+</table>
+<p>203185 rows × 3 columns</p>
+</div>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ret_words_vector</span><span class="params">(words)</span>:</span></span><br><span class="line">    vector = np.zeros(<span class="number">300</span>)</span><br><span class="line">    n = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> word <span class="keyword">in</span> words:</span><br><span class="line">        v = word_to_vec_map.get(word, <span class="keyword">None</span>)</span><br><span class="line">        <span class="keyword">if</span> type(v) != type(<span class="keyword">None</span>):</span><br><span class="line">            n += <span class="number">1</span></span><br><span class="line">            vector += v</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> vector.all():</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">    <span class="keyword">return</span> vector/n</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vectors = data.words.apply(ret_words_vector)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vectors</span><br></pre></td></tr></table></figure>
+<pre><code>1        [-0.047105999999999995, 0.23246850000000002, 0...
+6        [-0.027774333333333328, -0.114836, 0.062758, 0...
+9        [-0.05153150000000001, 0.103688, 0.23323525, 0...
+12       [-0.16598533333333335, 0.16545333333333334, 0....
+13       [-0.045179, 0.132102, 0.237468, 0.255355, -0.0...
+                               ...                        
+53656    [-0.06892586111111111, -0.040252222222222224, ...
+53666    [-0.124204, -0.0818, -0.02715266666666667, 0.0...
+53669    [0.049611333333333334, 0.011862, 0.10510733333...
+53683    [-0.01563454166666667, -0.008308624999999997, ...
+53685    [-0.363667, -0.25396850000000004, 0.011313, -0...
+Name: words, Length: 6638, dtype: object
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data[<span class="string">'vectors'</span>] = vectors</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>text</th>
+      <th>emoji</th>
+      <th>words</th>
+      <th>vectors</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>走好</td>
+      <td>悲伤</td>
+      <td>[走, 好]</td>
+      <td>[-0.047105999999999995, 0.23246850000000002, 0...</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>舒服了，着尼哥终于死了</td>
+      <td>笑哈哈</td>
+      <td>[舒服, 了, ，, 着尼哥, 终于, 死, 了]</td>
+      <td>[-0.027774333333333328, -0.114836, 0.062758, 0...</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>老人家值得所有人尊重</td>
+      <td>赞</td>
+      <td>[老人家, 值得, 所有人, 尊重]</td>
+      <td>[-0.05153150000000001, 0.103688, 0.23323525, 0...</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>老百姓真好</td>
+      <td>心</td>
+      <td>[老百姓, 真, 好]</td>
+      <td>[-0.16598533333333335, 0.16545333333333334, 0....</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>好人</td>
+      <td>赞</td>
+      <td>[好人]</td>
+      <td>[-0.045179, 0.132102, 0.237468, 0.255355, -0.0...</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>53656</th>
+      <td>还有我们sf9的李达渊他让我们有钱的话先孝敬父母然后有多余的钱再买专辑如果还有多余的钱再来看...</td>
+      <td>泪</td>
+      <td>[还有, 我们, sf9, 的, 李达渊, 他, 让, 我们, 有钱, 的话, 先, 孝敬父...</td>
+      <td>[-0.06892586111111111, -0.040252222222222224, ...</td>
+    </tr>
+    <tr>
+      <th>53666</th>
+      <td>全球的挑战</td>
+      <td>允悲</td>
+      <td>[全球, 的, 挑战]</td>
+      <td>[-0.124204, -0.0818, -0.02715266666666667, 0.0...</td>
+    </tr>
+    <tr>
+      <th>53669</th>
+      <td>[加油]</td>
+      <td>鲜花</td>
+      <td>[[, 加油, ]]</td>
+      <td>[0.049611333333333334, 0.011862, 0.10510733333...</td>
+    </tr>
+    <tr>
+      <th>53683</th>
+      <td>假设不离婚！各过各的！她的业务不再给他凭他的能力早晚被辞退然后没了生计！房子爱住你就住没人管...</td>
+      <td>doge</td>
+      <td>[假设, 不, 离婚, ！, 各过, 各, 的, ！, 她, 的, 业务, 不再, 给, 他...</td>
+      <td>[-0.01563454166666667, -0.008308624999999997, ...</td>
+    </tr>
+    <tr>
+      <th>53685</th>
+      <td>我不配</td>
+      <td>伤心</td>
+      <td>[我, 不配]</td>
+      <td>[-0.363667, -0.25396850000000004, 0.011313, -0...</td>
+    </tr>
+  </tbody>
+</table>
+<p>6638 rows × 4 columns</p>
+</div>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data = data.dropna()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>text</th>
+      <th>emoji</th>
+      <th>words</th>
+      <th>vectors</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>走好</td>
+      <td>悲伤</td>
+      <td>[走, 好]</td>
+      <td>[-0.047105999999999995, 0.23246850000000002, 0...</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>舒服了，着尼哥终于死了</td>
+      <td>笑哈哈</td>
+      <td>[舒服, 了, ，, 着尼哥, 终于, 死, 了]</td>
+      <td>[-0.027774333333333328, -0.114836, 0.062758, 0...</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>老人家值得所有人尊重</td>
+      <td>赞</td>
+      <td>[老人家, 值得, 所有人, 尊重]</td>
+      <td>[-0.05153150000000001, 0.103688, 0.23323525, 0...</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>老百姓真好</td>
+      <td>心</td>
+      <td>[老百姓, 真, 好]</td>
+      <td>[-0.16598533333333335, 0.16545333333333334, 0....</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>好人</td>
+      <td>赞</td>
+      <td>[好人]</td>
+      <td>[-0.045179, 0.132102, 0.237468, 0.255355, -0.0...</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>53656</th>
+      <td>还有我们sf9的李达渊他让我们有钱的话先孝敬父母然后有多余的钱再买专辑如果还有多余的钱再来看...</td>
+      <td>泪</td>
+      <td>[还有, 我们, sf9, 的, 李达渊, 他, 让, 我们, 有钱, 的话, 先, 孝敬父...</td>
+      <td>[-0.06892586111111111, -0.040252222222222224, ...</td>
+    </tr>
+    <tr>
+      <th>53666</th>
+      <td>全球的挑战</td>
+      <td>允悲</td>
+      <td>[全球, 的, 挑战]</td>
+      <td>[-0.124204, -0.0818, -0.02715266666666667, 0.0...</td>
+    </tr>
+    <tr>
+      <th>53669</th>
+      <td>[加油]</td>
+      <td>鲜花</td>
+      <td>[[, 加油, ]]</td>
+      <td>[0.049611333333333334, 0.011862, 0.10510733333...</td>
+    </tr>
+    <tr>
+      <th>53683</th>
+      <td>假设不离婚！各过各的！她的业务不再给他凭他的能力早晚被辞退然后没了生计！房子爱住你就住没人管...</td>
+      <td>doge</td>
+      <td>[假设, 不, 离婚, ！, 各过, 各, 的, ！, 她, 的, 业务, 不再, 给, 他...</td>
+      <td>[-0.01563454166666667, -0.008308624999999997, ...</td>
+    </tr>
+    <tr>
+      <th>53685</th>
+      <td>我不配</td>
+      <td>伤心</td>
+      <td>[我, 不配]</td>
+      <td>[-0.363667, -0.25396850000000004, 0.011313, -0...</td>
+    </tr>
+  </tbody>
+</table>
+<p>6580 rows × 4 columns</p>
+</div>
+
+<h1 id="emoji映射为数字"><a href="#emoji映射为数字" class="headerlink" title="emoji映射为数字"></a>emoji映射为数字</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> LabelEncoder</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NpEncoder</span><span class="params">(json.JSONEncoder)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">default</span><span class="params">(self, obj)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> isinstance(obj, np.integer):</span><br><span class="line">            <span class="keyword">return</span> int(obj)</span><br><span class="line">        <span class="keyword">elif</span> isinstance(obj, np.floating):</span><br><span class="line">            <span class="keyword">return</span> float(obj)</span><br><span class="line">        <span class="keyword">elif</span> isinstance(obj, np.ndarray):</span><br><span class="line">            <span class="keyword">return</span> obj.tolist()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> super(NpEncoder, self).default(obj)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EmojiMap</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">generate</span><span class="params">(emoji_data)</span>:</span></span><br><span class="line">        labelencoder = LabelEncoder()</span><br><span class="line">        emoji_set = list(set(data.emoji))</span><br><span class="line">        x = labelencoder.fit_transform(emoji_set)</span><br><span class="line">        emoji_to_index = dict(zip(emoji_set, x))</span><br><span class="line">        index_to_emoji = dict(zip(x, emoji_set))</span><br><span class="line">        <span class="keyword">return</span> emoji_to_index, index_to_emoji</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">save</span><span class="params">(emoji_dictionary)</span>:</span></span><br><span class="line">        fw = open(<span class="string">'emoji_dictionary.json'</span>, <span class="string">'w'</span>)</span><br><span class="line">        data = json.dumps(emoji_dictionary, cls=NpEncoder)</span><br><span class="line">        fw.write(data)</span><br><span class="line">        fw.close()</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">read</span><span class="params">(filename)</span>:</span></span><br><span class="line">        fr = open(<span class="string">'emoji_dictionary.json'</span>, <span class="string">'r'</span>)</span><br><span class="line">        data = fr.read()</span><br><span class="line">        emoji_dictionary = json.loads(data)</span><br><span class="line">        fr.close()</span><br><span class="line">        <span class="keyword">return</span> emoji_dictionary</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emoji_to_index, index_to_emoji = EmojiMap.generate(data.emoji)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">len(emoji_to_index)</span><br></pre></td></tr></table></figure>
+<pre><code>1043
+</code></pre><h2 id="保存emoji-dictionary"><a href="#保存emoji-dictionary" class="headerlink" title="保存emoji_dictionary"></a>保存emoji_dictionary</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#EmojiMap.save(emoji_to_index)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">emoji_vector = data.emoji.apply(<span class="keyword">lambda</span> x: emoji_to_index[x])</span><br><span class="line">data[<span class="string">'emoji_vector'</span>] = emoji_vector</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;ipython-input-52-2ca0af0b144e&gt;:2: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  data[&apos;emoji_vector&apos;] = emoji_vector
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>text</th>
+      <th>emoji</th>
+      <th>words</th>
+      <th>emoji_vector</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>走好</td>
+      <td>悲伤</td>
+      <td>[走, 好]</td>
+      <td>967</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>舒服了，着尼哥终于死了</td>
+      <td>笑哈哈</td>
+      <td>[舒服, 了, ，, 着尼哥, 终于, 死, 了]</td>
+      <td>1005</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>老人家值得所有人尊重</td>
+      <td>赞</td>
+      <td>[老人家, 值得, 所有人, 尊重]</td>
+      <td>1023</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>老百姓真好</td>
+      <td>心</td>
+      <td>[老百姓, 真, 好]</td>
+      <td>963</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>虽然行为点赞，但是还是衷心希望老人，把自己过好了，有能力，再去帮助别人。</td>
+      <td>摊手</td>
+      <td>[虽然, 行为, 点赞, ，, 但是, 还是, 衷心希望, 老人, ，, 把, 自己, 过,...</td>
+      <td>977</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>703298</th>
+      <td>期待蜜桃第二季，期待邓伦</td>
+      <td>心</td>
+      <td>[期待, 蜜桃, 第二季, ，, 期待, 邓伦]</td>
+      <td>963</td>
+    </tr>
+    <tr>
+      <th>703303</th>
+      <td>期待伦伦</td>
+      <td>心</td>
+      <td>[期待, 伦伦]</td>
+      <td>963</td>
+    </tr>
+    <tr>
+      <th>703315</th>
+      <td>川西真的是随便一个地方都是风景</td>
+      <td>鼓掌</td>
+      <td>[川西, 真的, 是, 随便, 一个, 地方, 都, 是, 风景]</td>
+      <td>1041</td>
+    </tr>
+    <tr>
+      <th>703320</th>
+      <td>お疲れ様でした</td>
+      <td>跪了</td>
+      <td>[お, 疲, れ, 様, で, し, た]</td>
+      <td>1025</td>
+    </tr>
+    <tr>
+      <th>703321</th>
+      <td>太快了！！！</td>
+      <td>赞</td>
+      <td>[太快, 了, ！, ！, ！]</td>
+      <td>1023</td>
+    </tr>
+  </tbody>
+</table>
+<p>203185 rows × 4 columns</p>
+</div>
+
+<h1 id="文本转向量与预测"><a href="#文本转向量与预测" class="headerlink" title="文本转向量与预测"></a>文本转向量与预测</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">text_to_vector</span><span class="params">(txt)</span>:</span></span><br><span class="line">    words = jieba.cut(txt)</span><br><span class="line">    <span class="keyword">return</span> ret_words_vector(words)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">predict_emoji</span><span class="params">(txt, alg)</span>:</span></span><br><span class="line">    X_test = text_to_vector(txt)</span><br><span class="line">    X_test = np.array([X_test])</span><br><span class="line">    Y_pred = alg.predict(X_test)</span><br><span class="line">    Y_pred = int(Y_pred)</span><br><span class="line">    <span class="keyword">return</span> index_to_emoji[Y_pred]</span><br></pre></td></tr></table></figure>
+<h1 id="构建训练集"><a href="#构建训练集" class="headerlink" title="构建训练集"></a>构建训练集</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># shuffle数据</span></span><br><span class="line">data = data.sample(frac=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.info()</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;class &apos;pandas.core.frame.DataFrame&apos;&gt;
+Int64Index: 6580 entries, 30383 to 19525
+Data columns (total 5 columns):
+ #   Column        Non-Null Count  Dtype 
+---  ------        --------------  ----- 
+ 0   text          6580 non-null   object
+ 1   emoji         6580 non-null   object
+ 2   words         6580 non-null   object
+ 3   vectors       6580 non-null   object
+ 4   emoji_vector  6580 non-null   int64 
+dtypes: int64(1), object(4)
+memory usage: 308.4+ KB
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">X_train = data.vectors.iloc[<span class="number">0</span>: ]</span><br><span class="line">Y_train = np.array(data.emoji_vector.iloc[<span class="number">0</span>: ])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X_train.shape, Y_train.shape</span><br></pre></td></tr></table></figure>
+<pre><code>((6580,), (6580,))
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> X_train:</span><br><span class="line">    a.append(i)</span><br><span class="line">a = np.array(a)</span><br><span class="line">X_train = a</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> Y_train:</span><br><span class="line">    a.append([i])</span><br><span class="line">a = np.array(a)</span><br><span class="line">Y_train = a</span><br></pre></td></tr></table></figure>
+<h1 id="SVM"><a href="#SVM" class="headerlink" title="SVM"></a>SVM</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC, LinearSVC</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">svm = SVC(C=<span class="number">100</span>, gamma=<span class="number">10</span>, probability=<span class="keyword">True</span>)</span><br><span class="line">svm.fit(X_train, Y_train)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">predict_emoji(<span class="string">'虽然行为点赞，但是还是衷心希望老人，把自己过好了，有能力，再去帮助别人。'</span>, svm)</span><br></pre></td></tr></table></figure>
+<h1 id="随机森林"><a href="#随机森林" class="headerlink" title="随机森林"></a>随机森林</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Random Forest</span></span><br><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line">random_forest = RandomForestClassifier(max_depth=<span class="number">50</span>)</span><br><span class="line">random_forest.fit(X_train, Y_train)</span><br><span class="line">random_forest.score(X_train, Y_train)</span><br><span class="line">acc_random_forest = round(random_forest.score(X_train, Y_train) * <span class="number">100</span>, <span class="number">2</span>)</span><br><span class="line">acc_random_forest</span><br></pre></td></tr></table></figure>
+<pre><code>99.47
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">predict_emoji(<span class="string">'你是不是傻'</span>, random_forest)</span><br></pre></td></tr></table></figure>
+<pre><code>&apos;doge&apos;
+</code></pre><h1 id="保存模型"><a href="#保存模型" class="headerlink" title="保存模型"></a>保存模型</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.externals <span class="keyword">import</span> joblib</span><br><span class="line"></span><br><span class="line">joblib.dump(random_forest, <span class="string">'random_forest.model'</span>)</span><br><span class="line">svm2 = joblib.load(<span class="string">'random_forest.model'</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="使用keras搭建STML模型"><a href="#使用keras搭建STML模型" class="headerlink" title="使用keras搭建STML模型"></a>使用keras搭建STML模型</h1><h2 id="构建Feature和Labe"><a href="#构建Feature和Labe" class="headerlink" title="构建Feature和Labe"></a>构建Feature和Labe</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data</span><br></pre></td></tr></table></figure>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>text</th>
+      <th>emoji</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>走好</td>
+      <td>悲伤</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>舒服了，着尼哥终于死了</td>
+      <td>笑哈哈</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>老人家值得所有人尊重</td>
+      <td>赞</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>老百姓真好</td>
+      <td>心</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>虽然行为点赞，但是还是衷心希望老人，把自己过好了，有能力，再去帮助别人。</td>
+      <td>摊手</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>703298</th>
+      <td>期待蜜桃第二季，期待邓伦</td>
+      <td>心</td>
+    </tr>
+    <tr>
+      <th>703303</th>
+      <td>期待伦伦</td>
+      <td>心</td>
+    </tr>
+    <tr>
+      <th>703315</th>
+      <td>川西真的是随便一个地方都是风景</td>
+      <td>鼓掌</td>
+    </tr>
+    <tr>
+      <th>703320</th>
+      <td>お疲れ様でした</td>
+      <td>跪了</td>
+    </tr>
+    <tr>
+      <th>703321</th>
+      <td>太快了！！！</td>
+      <td>赞</td>
+    </tr>
+  </tbody>
+</table>
+<p>203185 rows × 2 columns</p>
+</div>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df = data</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">max_len = df.words.map(<span class="keyword">lambda</span> x: len(x)).max()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">max_len</span><br></pre></td></tr></table></figure>
+<pre><code>215
+</code></pre><p>将一组句子(字符串)转换为与句子中的单词对应的索引数组。输出形状应该是这样的，它可以提供给’ Embedding() ‘</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sentences_to_indices</span><span class="params">(X, word_to_index, max_len)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Converts an array of sentences (strings) into an array of indices corresponding to words in the sentences.</span></span><br><span class="line"><span class="string">    The output shape should be such that it can be given to `Embedding()`</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    Arguments:</span></span><br><span class="line"><span class="string">    X -- array of sentences (strings), of shape (m, 1)</span></span><br><span class="line"><span class="string">    word_to_index -- a dictionary containing the each word mapped to its index</span></span><br><span class="line"><span class="string">    max_len -- maximum number of words in a sentence. You can assume every sentence in X is no longer than this. </span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">    X_indices -- array of indices corresponding to words in the sentences from X, of shape (m, max_len)</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    </span><br><span class="line">    m = X.shape[<span class="number">0</span>]                                   <span class="comment"># number of training examples</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Initialize X_indices as a numpy matrix of zeros and the correct shape (≈ 1 line)</span></span><br><span class="line">    X_indices = np.zeros((m, max_len))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):                               <span class="comment"># loop over training examples</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># Convert the ith training sentence in lower case and split is into words. You should get a list of words.</span></span><br><span class="line">        sentence_words = X[i]</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># Initialize j to 0</span></span><br><span class="line">        j = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># Loop over the words of sentence_words</span></span><br><span class="line">        <span class="keyword">for</span> w <span class="keyword">in</span> sentence_words:</span><br><span class="line">            <span class="comment"># Set the (i,j)th entry of X_indices to the index of the correct word.</span></span><br><span class="line">            X_indices[i, j] = word_to_index.get(w, <span class="number">0</span>)</span><br><span class="line">            <span class="comment"># Increment j to j + 1</span></span><br><span class="line">            j = j + <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> X_indices</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X1_indices = sentences_to_indices(np.array(df.words), word_to_index, max_len)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X_train = X1_indices</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Y_train = np.array(df.emoji_vector)</span><br></pre></td></tr></table></figure>
+<p>模型结构如下图</p>
+<p><img src="emojifier-model.png" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> keras.models <span class="keyword">import</span> Model</span><br><span class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> Dense, Input, Dropout, LSTM, Activation</span><br><span class="line"><span class="keyword">from</span> keras.layers.embeddings <span class="keyword">import</span> Embedding</span><br><span class="line"><span class="keyword">from</span> keras.preprocessing <span class="keyword">import</span> sequence</span><br><span class="line"><span class="keyword">from</span> keras.initializers <span class="keyword">import</span> glorot_uniform</span><br></pre></td></tr></table></figure>
+<pre><code>Using TensorFlow backend.
+</code></pre><p>实现pretrained_embedding_layer ()需要执行以下步骤:</p>
+<ol>
+<li>将嵌入矩阵初始化为具有正确形状的零数组。</li>
+<li>用从’ word_to_vec_map ‘中提取的所有单词嵌入填充嵌入矩阵。</li>
+<li>定义Keras嵌入层。使用嵌入()(<a href="https://keras.io/layers/embeddings/)。通过在调用“Embedding()”时设置“trainable" target="_blank" rel="noopener">https://keras.io/layers/embeddings/)。通过在调用“Embedding()”时设置“trainable</a> = False”，确保这个层是不可训练的。如果您设置’ trainable = True ‘，那么它将允许优化算法修改单词embeddings的值。</li>
+<li>设嵌入权重等于嵌入矩阵</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># GRADED FUNCTION: 预处理一个embedding层</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pretrained_embedding_layer</span><span class="params">(word_to_vec_map, word_to_index)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    创建一个 Keras Embedding() 层</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    Arguments:</span></span><br><span class="line"><span class="string">    word_to_vec_map -- dictionary mapping words to their GloVe vector representation.</span></span><br><span class="line"><span class="string">    word_to_index -- dictionary mapping from words to their indices in the vocabulary (400,001 words)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">    embedding_layer -- pretrained layer Keras instance</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    </span><br><span class="line">    vocab_len = len(word_to_index) + <span class="number">1</span>                  <span class="comment"># 增加一层</span></span><br><span class="line">    emb_dim = word_to_vec_map[<span class="string">"我"</span>].shape[<span class="number">0</span>]      <span class="comment"># 默认的向量维度</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 将嵌入矩阵初始化为一个形状为零的numpy数组(vocab_len，单词向量的维数= emb_dim)</span></span><br><span class="line">    emb_matrix = np.zeros((vocab_len, emb_dim))</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 将嵌入矩阵的每一行“index”设为词汇表中“index”第四个单词的单词向量表示</span></span><br><span class="line">    <span class="keyword">for</span> word, index <span class="keyword">in</span> word_to_index.items():</span><br><span class="line">        emb_matrix[index, :] = word_to_vec_map[word]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 定义Keras嵌入层与正确的输出/输入大小，使其可训练。使用嵌入(…)。设置trainable=False。</span></span><br><span class="line">    embedding_layer = Embedding(vocab_len, emb_dim, trainable=<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 构建嵌入层，在设置嵌入层权重之前需要。不要修改“None”。</span></span><br><span class="line">    embedding_layer.build((<span class="keyword">None</span>,))</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 将嵌入层的权重设置为嵌入矩阵。现在是预先训练好的。</span></span><br><span class="line">    embedding_layer.set_weights([emb_matrix])</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> embedding_layer</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">embedding_layer = pretrained_embedding_layer(word_to_vec_map, word_to_index)</span><br><span class="line">print(<span class="string">"weights[0][1][3] ="</span>, embedding_layer.get_weights()[<span class="number">0</span>][<span class="number">1</span>][<span class="number">3</span>])</span><br></pre></td></tr></table></figure>
+<pre><code>weights[0][1][3] = 0.475248
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Emojify</span><span class="params">(input_shape, word_to_vec_map, word_to_index)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Function creating the Emojify-v2 model's graph.</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    Arguments:</span></span><br><span class="line"><span class="string">    input_shape -- shape of the input, usually (max_len,)</span></span><br><span class="line"><span class="string">    word_to_vec_map -- dictionary mapping every word in a vocabulary into its 50-dimensional vector representation</span></span><br><span class="line"><span class="string">    word_to_index -- dictionary mapping from words to their indices in the vocabulary</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">    model -- a model instance in Keras</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">### START CODE HERE ###</span></span><br><span class="line">    <span class="comment"># Define sentence_indices as the input of the graph, it should be of shape input_shape and dtype 'int32' (as it contains indices).</span></span><br><span class="line">    sentence_indices = Input(shape=input_shape, dtype=<span class="string">"int32"</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Create the embedding layer pretrained with GloVe Vectors (≈1 line)</span></span><br><span class="line">    embedding_layer = pretrained_embedding_layer(word_to_vec_map, word_to_index)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Propagate sentence_indices through your embedding layer, you get back the embeddings</span></span><br><span class="line">    embeddings = embedding_layer(sentence_indices)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Propagate the embeddings through an LSTM layer with 128-dimensional hidden state</span></span><br><span class="line">    <span class="comment"># Be careful, the returned output should be a batch of sequences.</span></span><br><span class="line">    X = LSTM(units=<span class="number">128</span>, return_sequences=<span class="keyword">True</span>)(embeddings)</span><br><span class="line">    <span class="comment"># Add dropout with a probability of 0.5</span></span><br><span class="line">    X = Dropout(<span class="number">0.5</span>)(X)</span><br><span class="line">    <span class="comment"># Propagate X trough another LSTM layer with 128-dimensional hidden state</span></span><br><span class="line">    <span class="comment"># Be careful, the returned output should be a single hidden state, not a batch of sequences.</span></span><br><span class="line">    X = LSTM(units=<span class="number">128</span>, return_sequences=<span class="keyword">False</span>)(X)</span><br><span class="line">    <span class="comment"># Add dropout with a probability of 0.5</span></span><br><span class="line">    X = Dropout(<span class="number">0.5</span>)(X)</span><br><span class="line">    <span class="comment"># Propagate X through a Dense layer with softmax activation to get back a batch of 5-dimensional vectors.</span></span><br><span class="line">    X = Dense(<span class="number">1</span>)(X)</span><br><span class="line">    <span class="comment"># Add a softmax activation</span></span><br><span class="line">    X = Activation(<span class="string">"softmax"</span>)(X)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Create Model instance which converts sentence_indices into X.</span></span><br><span class="line">    model = Model(inputs=sentence_indices, outputs=X)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> model</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">maxLen = len(max(X_train, key=len))</span><br><span class="line">model = Emojify((maxLen,), word_to_vec_map, word_to_index)</span><br><span class="line">model.summary()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.compile(loss=<span class="string">'binary_crossentropy'</span>, optimizer=<span class="string">'adam'</span>, metrics=[<span class="string">'accuracy'</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X_train[<span class="number">0</span>], Y_train[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>(array([170081.,  75835.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.,      0.,      0.,
+             0.,      0.,      0.,      0.,      0.]),
+ 967)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.fit(X_train, Y_train, epochs = <span class="number">5</span>, batch_size = <span class="number">32</span>, shuffle=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Epoch 1/5
+ 33632/203185 [===&gt;..........................] - ETA: 32:43 - loss: -13765.9092 - accuracy: 0.0000e+00
+</code></pre><h1 id="预测"><a href="#预测" class="headerlink" title="预测"></a>预测</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">x = list(jieba.cut(<span class="string">'今天天气不错'</span>))</span><br><span class="line">x = np.array([x])</span><br><span class="line">x = sentences_to_indices(x, word_to_index, maxLen)</span><br><span class="line">p = model.predict(x)</span><br><span class="line">index_to_emoji[int(p)]</span><br></pre></td></tr></table></figure>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>随机森林效果最好，但是训练速度最慢，占用内存太大，SVM稍快，占用空间小。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/深度学习/" rel="tag"><i class="fa fa-tag"></i> 深度学习</a>
+          
+            <a href="/tags/LSTM/" rel="tag"><i class="fa fa-tag"></i> LSTM</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/28/机器学习实战（十一）/" rel="next" title="机器学习实战（十一）">
+                <i class="fa fa-chevron-left"></i> 机器学习实战（十一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/02/机器学习实战（十二）/" rel="prev" title="机器学习实战（十二）">
+                机器学习实战（十二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Voidmort" />
+            
+              <p class="site-author-name" itemprop="name">Voidmort</p>
+              <p class="site-description motion-element" itemprop="description">研究AI，撰写影评，热爱音乐，努力健身</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">85</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">60</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Voidmort" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:wxj5658@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1749266905" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jusanliusha.xyz" title="Jusanliusha" target="_blank">Jusanliusha</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分析微博中的emoji"><span class="nav-number">1.</span> <span class="nav-text">分析微博中的emoji</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#处理收集到到微博评论"><span class="nav-number">2.</span> <span class="nav-text">处理收集到到微博评论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据清洗"><span class="nav-number">3.</span> <span class="nav-text">数据清洗</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#去除非中文text"><span class="nav-number">3.1.</span> <span class="nav-text">去除非中文text</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除重复的text"><span class="nav-number">3.2.</span> <span class="nav-text">删除重复的text</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#单词向量"><span class="nav-number">4.</span> <span class="nav-text">单词向量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文本分词"><span class="nav-number">5.</span> <span class="nav-text">文本分词</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#emoji映射为数字"><span class="nav-number">6.</span> <span class="nav-text">emoji映射为数字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#保存emoji-dictionary"><span class="nav-number">6.1.</span> <span class="nav-text">保存emoji_dictionary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文本转向量与预测"><span class="nav-number">7.</span> <span class="nav-text">文本转向量与预测</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#构建训练集"><span class="nav-number">8.</span> <span class="nav-text">构建训练集</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SVM"><span class="nav-number">9.</span> <span class="nav-text">SVM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#随机森林"><span class="nav-number">10.</span> <span class="nav-text">随机森林</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#保存模型"><span class="nav-number">11.</span> <span class="nav-text">保存模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用keras搭建STML模型"><span class="nav-number">12.</span> <span class="nav-text">使用keras搭建STML模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#构建Feature和Labe"><span class="nav-number">12.1.</span> <span class="nav-text">构建Feature和Labe</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#预测"><span class="nav-number">13.</span> <span class="nav-text">预测</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">14.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Voidmort</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/kesyoban.model.json"},"display":{"position":"right","width":130,"height":260},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>

@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="利用SVD简化数据奇异值分解（singular value decomposition，SVD） SVD的应用奇异值分解 优点：简化数据，去除噪声，提高算法的结果 缺点：数据的转换可能难以理解 适用数据类型：数值型数据 利用SVD实现，我们能够用小得多的数据集来表示原始数据集。这样做，实际上是去除噪声和冗余信息。 隐性语义索引SVD的应用之一就是信息检索。我们称利用SVD的方法为隐性语义索引（La">
+<meta name="keywords" content="SVD">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习实战（十四）">
+<meta property="og:url" content="https://xvjie.wang/2020/06/08/机器学习实战（十四）/index.html">
+<meta property="og:site_name" content="Voidmort">
+<meta property="og:description" content="利用SVD简化数据奇异值分解（singular value decomposition，SVD） SVD的应用奇异值分解 优点：简化数据，去除噪声，提高算法的结果 缺点：数据的转换可能难以理解 适用数据类型：数值型数据 利用SVD实现，我们能够用小得多的数据集来表示原始数据集。这样做，实际上是去除噪声和冗余信息。 隐性语义索引SVD的应用之一就是信息检索。我们称利用SVD的方法为隐性语义索引（La">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://xvjie.wang/2020/06/08/机器学习实战（十四）/14fig02.jpg">
+<meta property="og:updated_time" content="2020-06-13T07:32:41.842Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习实战（十四）">
+<meta name="twitter:description" content="利用SVD简化数据奇异值分解（singular value decomposition，SVD） SVD的应用奇异值分解 优点：简化数据，去除噪声，提高算法的结果 缺点：数据的转换可能难以理解 适用数据类型：数值型数据 利用SVD实现，我们能够用小得多的数据集来表示原始数据集。这样做，实际上是去除噪声和冗余信息。 隐性语义索引SVD的应用之一就是信息检索。我们称利用SVD的方法为隐性语义索引（La">
+<meta name="twitter:image" content="https://xvjie.wang/2020/06/08/机器学习实战（十四）/14fig02.jpg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Voidmort" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://xvjie.wang/2020/06/08/机器学习实战（十四）/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>机器学习实战（十四） | Voidmort</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7b96eb7c2717359e36cc8bd8b546997c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/Voidmort" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Voidmort</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-other">
+    <a href="/other/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-plane"></i> <br />其它</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xvjie.wang/2020/06/08/机器学习实战（十四）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Voidmort">
+      <meta itemprop="description" content="研究AI，撰写影评，热爱音乐，努力健身">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Voidmort">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习实战（十四）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-06-08 16:20:50" itemprop="dateCreated datePublished" datetime="2020-06-08T16:20:50+08:00">2020-06-08</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-06-13 15:32:41" itemprop="dateModified" datetime="2020-06-13T15:32:41+08:00">2020-06-13</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习实战/" itemprop="url" rel="index"><span itemprop="name">机器学习实战</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="利用SVD简化数据"><a href="#利用SVD简化数据" class="headerlink" title="利用SVD简化数据"></a>利用SVD简化数据</h1><p>奇异值分解（singular value decomposition，SVD）</p>
+<h1 id="SVD的应用"><a href="#SVD的应用" class="headerlink" title="SVD的应用"></a>SVD的应用</h1><p>奇异值分解</p>
+<pre><code>优点：简化数据，去除噪声，提高算法的结果
+缺点：数据的转换可能难以理解
+适用数据类型：数值型数据
+</code></pre><p>利用SVD实现，我们能够用小得多的数据集来表示原始数据集。这样做，实际上是去除噪声和冗余信息。</p>
+<h2 id="隐性语义索引"><a href="#隐性语义索引" class="headerlink" title="隐性语义索引"></a>隐性语义索引</h2><p>SVD的应用之一就是信息检索。我们称利用SVD的方法为隐性语义索引（Latent Semantic Indexing，LSI）。</p>
+<p>在LSI中，一个矩阵是由文档和词语组成的。当我们在该矩阵上应用SVD时，就会构建出多个奇异值。这些奇异值代表了文档中的概念或主题，这一特点可以用于更高效的文档搜索。在词语拼写错误时，只基于词语存在与否的简单搜索方法会遇到问题。简单搜索的另一个问题就是同义词的使用。</p>
+<h2 id="推荐系统"><a href="#推荐系统" class="headerlink" title="推荐系统"></a>推荐系统</h2><p>SVD的另一个应用就是推荐系统。简单版本的推荐系统能够计算项或人之间的相似度。更先进的方法则先利用SVD从数据中构建一个主题空间，然后再再该空间下计算相似度。</p>
+<h1 id="矩阵分解"><a href="#矩阵分解" class="headerlink" title="矩阵分解"></a>矩阵分解</h1><p>SVD是矩阵分解的一种类型，矩阵分解是将数据矩阵分解为多个独立部分的过程。<br>SVD将原始的数据集矩阵Data分解成三个矩阵$U,\Sigma,V^T$。如果原始矩阵Data是m行n列，那么$U,\Sigma,V^T$分别是m行m列，m行n列，n行n列。上述过程可以写成下面结果：</p>
+<p>$$Data_{m×n}=U_{m×m}\Sigma_{m×n}V^T_{n×n}$$<br>上述分解中会构建一个矩阵$\Sigma$，该矩阵只有对角元素，其他元素均为0。另一个惯例就是$\Sigma$的对角元素是从大到小排列的。这些对角元素称为奇异值（Singular Value），它们对应了原始数据矩阵Data的奇异值。奇异值和特征值是有关系的，这里的奇异值就是矩阵$Data*Data^T$特征值的平方根。</p>
+<h1 id="利用Python实现SVD"><a href="#利用Python实现SVD" class="headerlink" title="利用Python实现SVD"></a>利用Python实现SVD</h1><p>在numpy中提供了svd的实现<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">U, Sigma, VT = linalg.svd([[<span class="number">1</span>, <span class="number">1</span>], [<span class="number">7</span>, <span class="number">7</span>]])</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">U</span><br></pre></td></tr></table></figure>
+<pre><code>array([[-0.14142136, -0.98994949],
+       [-0.98994949,  0.14142136]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sigma</span><br></pre></td></tr></table></figure>
+<pre><code>array([10.,  0.])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VT</span><br></pre></td></tr></table></figure>
+<pre><code>array([[-0.70710678, -0.70710678],
+       [-0.70710678,  0.70710678]])
+</code></pre><p>注意到，矩阵Sigma以行向量array([10., 0.])返回，而非如下矩阵</p>
+<pre><code>array([[10,  0],
+       [ 0,  0]])
+</code></pre><p>这是由于矩阵处理对角元素其他均为0，因此这种仅返回对角元素的方式能节省空间，我们需要知道Sigma是一个矩阵。</p>
+<p>构建以下矩阵</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loadExData</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span>[[<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>],</span><br><span class="line">           [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">3</span>],</span><br><span class="line">           [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>],</span><br><span class="line">           [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">           [<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">           [<span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">           [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>]]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Data = loadExData()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">U, Sigma, VT = linalg.svd(Data)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sigma</span><br></pre></td></tr></table></figure>
+<pre><code>array([9.64365076e+00, 5.29150262e+00, 7.40623935e-16, 4.05103551e-16,
+       2.21838243e-32])
+</code></pre><p>前三个数值比其他值大了很多，于是我们可以将最后两个数值去掉了。</p>
+<p>接下来我们的原始数据集就可以用如下结果来近似</p>
+<p>$$Data_{m×n}≈U_{m×3}\Sigma_{3×3}V^T_{3×n}$$</p>
+<p><img src="14fig02.jpg" alt=""></p>
+<p>SVD示意图。矩阵Data被分解。浅灰色区域是原始数据，深灰色区域是矩阵近似计算仅需的数据</p>
+<p>我们试图重构原始矩阵，首先构建一个3×3的矩阵Sig3</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Sig3 = mat([[Sigma[<span class="number">0</span>], <span class="number">0</span>, <span class="number">0</span>], </span><br><span class="line">            [<span class="number">0</span>, Sigma[<span class="number">1</span>], <span class="number">0</span>], </span><br><span class="line">            [<span class="number">0</span>, <span class="number">0</span>, Sigma[<span class="number">2</span>]]])</span><br></pre></td></tr></table></figure>
+<p>接下来重构原始矩阵的近似矩阵。由于Sig3仅为3×3的矩阵，因而我们只需要使用矩阵U的前3列和$V^T$的前3行。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data = U[:, :<span class="number">3</span>]*Sig3*VT[:<span class="number">3</span>, :]</span><br><span class="line">data.astype(<span class="string">'int'</span>)</span><br></pre></td></tr></table></figure></p>
+<pre><code>matrix([[0, 0, 0, 2, 2],
+        [0, 0, 0, 3, 3],
+        [0, 0, 0, 1, 1],
+        [1, 1, 1, 0, 0],
+        [2, 2, 2, 0, 0],
+        [5, 5, 5, 0, 0],
+        [1, 1, 1, 0, 0]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Data</span><br></pre></td></tr></table></figure>
+<pre><code>[[0, 0, 0, 2, 2],
+ [0, 0, 0, 3, 3],
+ [0, 0, 0, 1, 1],
+ [1, 1, 1, 0, 0],
+ [2, 2, 2, 0, 0],
+ [5, 5, 5, 0, 0],
+ [1, 1, 1, 0, 0]]
+</code></pre><p>通过SVD我们可以用一个小很多的矩阵来表示一个大矩阵。</p>
+<h1 id="基于协同过滤的推荐引擎"><a href="#基于协同过滤的推荐引擎" class="headerlink" title="基于协同过滤的推荐引擎"></a>基于协同过滤的推荐引擎</h1><h2 id="相似度计算"><a href="#相似度计算" class="headerlink" title="相似度计算"></a>相似度计算</h2><pre><code>欧氏距离
+皮尔逊相关系数（pearson correlation）
+余弦相似度（cosine similarity）
+</code></pre><p>相似度计算<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> linalg <span class="keyword">as</span> la</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eulidSim</span><span class="params">(inA, inB)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1.0</span>/(<span class="number">1.0</span>+la.norm(inA - inB))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pearsSim</span><span class="params">(inA, inB)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(inA) &lt; <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1.0</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0.5</span>+<span class="number">0.5</span>*corrcoef(inA, inB, rowvar=<span class="number">0</span>)[<span class="number">0</span>][<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cosSim</span><span class="params">(inA, inB)</span>:</span></span><br><span class="line">    num = float(inA.T * inB)</span><br><span class="line">    denom = la.norm(inA) * la.norm(inB)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0.5</span>+<span class="number">0.5</span>*(num/denom)</span><br></pre></td></tr></table></figure></p>
+<p>测试一下这三个函数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">myMat = mat(loadExData())</span><br></pre></td></tr></table></figure></p>
+<p>欧氏距离：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ecludSim(myMat[:, <span class="number">0</span>], myMat[:, <span class="number">4</span>])</span><br></pre></td></tr></table></figure></p>
+<pre><code>0.12973190755680383
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ecludSim(myMat[:, <span class="number">0</span>], myMat[:, <span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+<pre><code>1.0
+</code></pre><p>余弦相似度<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cosSim(myMat[:, <span class="number">0</span>], myMat[:, <span class="number">4</span>])</span><br></pre></td></tr></table></figure></p>
+<pre><code>0.5
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cosSim(myMat[:, <span class="number">0</span>], myMat[:, <span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+<pre><code>1.0
+</code></pre><p>皮尔逊相关系数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pearsSim(myMat[:, <span class="number">0</span>], myMat[:, <span class="number">4</span>])</span><br></pre></td></tr></table></figure></p>
+<pre><code>0.20596538173840329
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pearsSim(myMat[:, <span class="number">0</span>], myMat[:, <span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+<pre><code>1.0
+</code></pre><p>上面的相似度计算都是假设数据采用了列向量方式进行表示。如果利用上述函数来计算两个向量的相似度就会遇到问题（我们很容易对上述函数进行修改以计算行向量之间的相似度）。这里采用列向量的表示方法，暗示着我们将利用基于物品的相似度计算方法。</p>
+<h2 id="基于物品的相似度还是基于用户的相似度"><a href="#基于物品的相似度还是基于用户的相似度" class="headerlink" title="基于物品的相似度还是基于用户的相似度"></a>基于物品的相似度还是基于用户的相似度</h2><p>我们计算了两个餐馆菜肴之间的距离，这称为基于物品（item-based）的相似度。另一种计算用户距离的方法称为基于用户（user-based）。基于物品相似度计算的时间会随着物品数量的增加而增加，基于用户的相似度计算时间则会随用户数量的增加而增加。</p>
+<h2 id="推荐引擎的评价"><a href="#推荐引擎的评价" class="headerlink" title="推荐引擎的评价"></a>推荐引擎的评价</h2><p>通常用于推荐引擎的评价指标称为最小均方根误差（Root Mean Squared Error，RMSE）的指标，它首先计算均方误差的平均值再取其平方根。</p>
+<h2 id="实例：餐馆菜肴推荐引擎"><a href="#实例：餐馆菜肴推荐引擎" class="headerlink" title="实例：餐馆菜肴推荐引擎"></a>实例：餐馆菜肴推荐引擎</h2><p>推荐未尝过的菜肴</p>
+<ol>
+<li>寻找用户没有评级的菜肴，即在用户物品矩阵中的0值</li>
+<li>在用户没有评级的所有物品中，对每个物品预计一个可能的评级分数。（我们认为用户可能对物品的打分）</li>
+<li>对这些物品的评分从高到低排序，返回前N个物品<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">standEst</span><span class="params">(dataMat, user, simMeas, item)</span>:</span></span><br><span class="line">    n = shape(dataMat)[<span class="number">1</span>]</span><br><span class="line">    simTotal = <span class="number">0.0</span></span><br><span class="line">    ratSimTotal = <span class="number">0.0</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(n):</span><br><span class="line">        userRating = dataMat[user, j]</span><br><span class="line">        <span class="keyword">if</span> userRating == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        overLap = nonzero(logical_and(dataMat[:,item].A&gt;<span class="number">0</span>, dataMat[:,j].A&gt;<span class="number">0</span>))[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">if</span> len(overLap) == <span class="number">0</span>:</span><br><span class="line">            similarity = <span class="number">0</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            similarity = simMeas(dataMat[overLap,item], dataMat[overLap,j])</span><br><span class="line">        print(<span class="string">'the %d and %d similarity is: %f'</span> % (item, j, similarity))</span><br><span class="line">        simTotal += similarity</span><br><span class="line">        ratSimTotal += similarity * userRating</span><br><span class="line">    <span class="keyword">if</span> simTotal == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> ratSimTotal/simTotal</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">recommend</span><span class="params">(dataMat, user, N=<span class="number">3</span>, simMeas=cosSim, estMethod=standEst)</span>:</span></span><br><span class="line">    unratedItems = nonzero(dataMat[user, :].A==<span class="number">0</span>)[<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">if</span> len(unratedItems) == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'you rated everything'</span></span><br><span class="line">    itemScores = []</span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> unratedItems:</span><br><span class="line">        estimatedScore = estMethod(dataMat, user, simMeas, item)</span><br><span class="line">        itemScores.append((item, estimatedScore))</span><br><span class="line">    <span class="keyword">return</span> sorted(itemScores, key=<span class="keyword">lambda</span> jj: jj[<span class="number">1</span>], reverse=<span class="keyword">True</span>)[:N]</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>第一个函数standEst()用来计算给定相似度计算方法的条件下，用户对物品的评估分值。第二个函数recommend()也就是推荐引擎，他会调用standEst()函数。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myMat = mat(loadExData())</span><br><span class="line">myMat[<span class="number">0</span>, <span class="number">1</span>] = myMat[<span class="number">0</span>, <span class="number">0</span>] = myMat[<span class="number">1</span>, <span class="number">0</span>] = myMat[<span class="number">2</span>, <span class="number">0</span>] = <span class="number">4</span></span><br><span class="line">myMat[<span class="number">3</span>, <span class="number">3</span>] = <span class="number">2</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">myMat</span><br></pre></td></tr></table></figure>
+<pre><code>matrix([[4, 4, 0, 2, 2],
+        [4, 0, 0, 3, 3],
+        [4, 0, 0, 1, 1],
+        [1, 1, 1, 2, 0],
+        [2, 2, 2, 0, 0],
+        [5, 5, 5, 0, 0],
+        [1, 1, 1, 0, 0]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">recommend(myMat, <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>the 1 and 0 similarity is: 1.000000
+the 1 and 3 similarity is: 0.928746
+the 1 and 4 similarity is: 1.000000
+the 2 and 0 similarity is: 1.000000
+the 2 and 3 similarity is: 1.000000
+the 2 and 4 similarity is: 0.000000
+
+[(2, 2.5), (1, 2.0243290220056256)]
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">recommend(myMat, <span class="number">2</span>, simMeas=ecludSim)</span><br></pre></td></tr></table></figure>
+<pre><code>the 1 and 0 similarity is: 1.000000
+the 1 and 3 similarity is: 0.309017
+the 1 and 4 similarity is: 0.333333
+the 2 and 0 similarity is: 1.000000
+the 2 and 3 similarity is: 0.500000
+the 2 and 4 similarity is: 0.000000
+
+[(2, 3.0), (1, 2.8266504712098603)]
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">recommend(myMat, <span class="number">2</span>, simMeas=pearsSim)</span><br></pre></td></tr></table></figure>
+<pre><code>the 1 and 0 similarity is: 1.000000
+the 1 and 3 similarity is: 1.000000
+the 1 and 4 similarity is: 1.000000
+the 2 and 0 similarity is: 1.000000
+the 2 and 3 similarity is: 1.000000
+the 2 and 4 similarity is: 0.000000
+
+[(2, 2.5), (1, 2.0)]
+</code></pre><p>这个例子给出了如何利用基于物品相似度和多个相似度计算方法来进行推荐的过程。</p>
+<h2 id="利用SVD提高推荐效果"><a href="#利用SVD提高推荐效果" class="headerlink" title="利用SVD提高推荐效果"></a>利用SVD提高推荐效果</h2><p>下面是一个更大的矩阵<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loadExData2</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span>[[<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>],</span><br><span class="line">           [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">3</span>],</span><br><span class="line">           [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>],</span><br><span class="line">           [<span class="number">3</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">           [<span class="number">5</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">           [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">0</span>],</span><br><span class="line">           [<span class="number">4</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">1</span>],</span><br><span class="line">           [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>],</span><br><span class="line">           [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>],</span><br><span class="line">           [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>],</span><br><span class="line">           [<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>]]</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">U, Sigma, VT = la.svd(mat(loadExData2()))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sigma</span><br></pre></td></tr></table></figure>
+<pre><code>array([15.77075346, 11.40670395, 11.03044558,  4.84639758,  3.09292055,
+        2.58097379,  1.00413543,  0.72817072,  0.43800353,  0.22082113,
+        0.07367823])
+</code></pre><p>首先对Sigma中的值求平方<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sig2 = Sigma**<span class="number">2</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum(Sig2)</span><br></pre></td></tr></table></figure>
+<pre><code>541.9999999999995
+</code></pre><p>在计算总能量的90%<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum(Sig2)*<span class="number">0.9</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>487.7999999999996
+</code></pre><p>然后计算前两个元素包含的能量<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum(Sig2[:<span class="number">2</span>])</span><br></pre></td></tr></table></figure></p>
+<pre><code>378.8295595113579
+</code></pre><p>该值低于总能量的90%，于是计算前三个元素所包含的能量<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sum(Sig2[:<span class="number">3</span>])</span><br></pre></td></tr></table></figure></p>
+<pre><code>500.50028912757926
+</code></pre><p>该值高于90%，这就可以了。于是我们将一个11维的矩阵转换为一个3维的矩阵，下面对转换后的三维空间构造一个相似度计算函数。我们利用SVD将所有的菜肴映射到一个低维空间中去。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">svdEst</span><span class="params">(dataMat, user, simMeas, item)</span>:</span></span><br><span class="line">    n = shape(dataMat)[<span class="number">1</span>]</span><br><span class="line">    simTotal = <span class="number">0.0</span></span><br><span class="line">    ratSimTotal = <span class="number">0.0</span></span><br><span class="line">    U,Sigma,VT = la.svd(dataMat)</span><br><span class="line">    Sig4 = mat(eye(<span class="number">4</span>)*Sigma[:<span class="number">4</span>])</span><br><span class="line">    xformedItems = dataMat.T * U[:,:<span class="number">4</span>] * Sig4.I</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(n):</span><br><span class="line">        userRating = dataMat[user, j]</span><br><span class="line">        <span class="keyword">if</span> userRating == <span class="number">0</span> <span class="keyword">or</span> j==item:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        similarity = simMeas(xformedItems[item,:].T, xformedItems[j,:].T)</span><br><span class="line">        print(<span class="string">'the %d and %d similarity is: %f'</span> % (item, j, similarity))</span><br><span class="line">        simTotal += similarity</span><br><span class="line">        ratSimTotal += similarity * userRating</span><br><span class="line">    <span class="keyword">if</span> simTotal == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> ratSimTotal/simTotal</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">myMat = mat(loadExData2())</span><br><span class="line">recommend(myMat, <span class="number">1</span>, estMethod=svdEst)</span><br></pre></td></tr></table></figure>
+<pre><code>the 0 and 3 similarity is: 0.490950
+the 0 and 5 similarity is: 0.484274
+the 0 and 10 similarity is: 0.512755
+the 1 and 3 similarity is: 0.491294
+the 1 and 5 similarity is: 0.481516
+the 1 and 10 similarity is: 0.509709
+the 2 and 3 similarity is: 0.491573
+the 2 and 5 similarity is: 0.482346
+the 2 and 10 similarity is: 0.510584
+the 4 and 3 similarity is: 0.450495
+the 4 and 5 similarity is: 0.506795
+the 4 and 10 similarity is: 0.512896
+the 6 and 3 similarity is: 0.743699
+the 6 and 5 similarity is: 0.468366
+the 6 and 10 similarity is: 0.439465
+the 7 and 3 similarity is: 0.482175
+the 7 and 5 similarity is: 0.494716
+the 7 and 10 similarity is: 0.524970
+the 8 and 3 similarity is: 0.491307
+the 8 and 5 similarity is: 0.491228
+the 8 and 10 similarity is: 0.520290
+the 9 and 3 similarity is: 0.522379
+the 9 and 5 similarity is: 0.496130
+the 9 and 10 similarity is: 0.493617
+
+[(4, 3.344714938469228), (7, 3.329402072452697), (9, 3.328100876390069)]
+</code></pre><p>尝试另一种方法<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">recommend(myMat, <span class="number">1</span>, simMeas=pearsSim, estMethod=svdEst)</span><br></pre></td></tr></table></figure></p>
+<pre><code>the 0 and 3 similarity is: 0.341942
+the 0 and 5 similarity is: 0.124132
+the 0 and 10 similarity is: 0.116698
+the 1 and 3 similarity is: 0.345560
+the 1 and 5 similarity is: 0.126456
+the 1 and 10 similarity is: 0.118892
+the 2 and 3 similarity is: 0.345149
+the 2 and 5 similarity is: 0.126190
+the 2 and 10 similarity is: 0.118640
+the 4 and 3 similarity is: 0.450126
+the 4 and 5 similarity is: 0.528504
+the 4 and 10 similarity is: 0.544647
+the 6 and 3 similarity is: 0.923822
+the 6 and 5 similarity is: 0.724840
+the 6 and 10 similarity is: 0.710896
+the 7 and 3 similarity is: 0.319482
+the 7 and 5 similarity is: 0.118324
+the 7 and 10 similarity is: 0.113370
+the 8 and 3 similarity is: 0.334910
+the 8 and 5 similarity is: 0.119673
+the 8 and 10 similarity is: 0.112497
+the 9 and 3 similarity is: 0.566918
+the 9 and 5 similarity is: 0.590049
+the 9 and 10 similarity is: 0.602380
+
+[(4, 3.346952186702173), (9, 3.3353796573274694), (6, 3.3071930278130366)]
+</code></pre><h1 id="实例：基于SVD的图像压缩"><a href="#实例：基于SVD的图像压缩" class="headerlink" title="实例：基于SVD的图像压缩"></a>实例：基于SVD的图像压缩</h1><p>我们可以使用SVD来对数据降维，从而实现图像的压缩。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">printMat</span><span class="params">(inMat, thresh=<span class="number">0.8</span>)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">            <span class="keyword">if</span> float(inMat[i, k] &gt; thresh):</span><br><span class="line">                print(<span class="number">1</span>, end=<span class="string">''</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                print(<span class="number">0</span>, end=<span class="string">''</span>)</span><br><span class="line">        print(<span class="string">''</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">imgCompress</span><span class="params">(numSV=<span class="number">3</span>, thresh=<span class="number">0.8</span>)</span>:</span></span><br><span class="line">    myl = []</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> open(<span class="string">'MLiA_SourceCode/Ch14/0_5.txt'</span>).readlines():</span><br><span class="line">        newRow = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">            newRow.append(int(line[i]))</span><br><span class="line">        myl.append(newRow)</span><br><span class="line">    myMat = mat(myl)</span><br><span class="line">    print(<span class="string">'***originam matrix*****'</span>)</span><br><span class="line">    printMat(myMat, thresh)</span><br><span class="line">    U, Sigma, VT = la.svd(myMat)</span><br><span class="line">    SigRecon = mat(zeros((numSV, numSV)))</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> range(numSV):</span><br><span class="line">        SigRecon[k, k] = Sigma[k]</span><br><span class="line">    reconMat = U[:, :numSV] * SigRecon*VT[:numSV, :]</span><br><span class="line">    print(<span class="string">"****reconstructed matrix using %d singular values******"</span> % numSV)</span><br><span class="line">    printMat(reconMat, thresh)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">imgCompress(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>***originam matrix*****
+00000000000000110000000000000000
+00000000000011111100000000000000
+00000000000111111110000000000000
+00000000001111111111000000000000
+00000000111111111111100000000000
+00000001111111111111110000000000
+00000000111111111111111000000000
+00000000111111100001111100000000
+00000001111111000001111100000000
+00000011111100000000111100000000
+00000011111100000000111110000000
+00000011111100000000011110000000
+00000011111100000000011110000000
+00000001111110000000001111000000
+00000011111110000000001111000000
+00000011111100000000001111000000
+00000001111100000000001111000000
+00000011111100000000001111000000
+00000001111100000000001111000000
+00000001111100000000011111000000
+00000000111110000000001111100000
+00000000111110000000001111100000
+00000000111110000000001111100000
+00000000111110000000011111000000
+00000000111110000000111111000000
+00000000111111000001111110000000
+00000000011111111111111110000000
+00000000001111111111111110000000
+00000000001111111111111110000000
+00000000000111111111111000000000
+00000000000011111111110000000000
+00000000000000111111000000000000
+****reconstructed matrix using 2 singular values******
+00000000000000000000000000000000
+00000000000000000000000000000000
+00000000000001111100000000000000
+00000000000011111111000000000000
+00000000000111111111100000000000
+00000000001111111111110000000000
+00000000001111111111110000000000
+00000000011110000000001000000000
+00000000111100000000001100000000
+00000000111100000000001110000000
+00000000111100000000001110000000
+00000000111100000000001110000000
+00000000111100000000001110000000
+00000000111100000000001110000000
+00000000111100000000001110000000
+00000000111100000000001110000000
+00000000111100000000001110000000
+00000000111100000000001110000000
+00000000111100000000001110000000
+00000000111100000000001110000000
+00000000111100000000001110000000
+00000000111100000000001110000000
+00000000111100000000001110000000
+00000000111100000000001110000000
+00000000111100000000001110000000
+00000000111100000000001100000000
+00000000001111111111111000000000
+00000000001111111111110000000000
+00000000001111111111110000000000
+00000000000011111111100000000000
+00000000000011111111000000000000
+00000000000000000000000000000000
+</code></pre><p>可以看到，只需要两个奇异值就能相当精确的对图像实现重构。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>SVD是一种强大的降维工具，我们可以利用SVD来逼近矩阵并从中提取重要特征。通过保留矩阵80%~90%的能量，就可以得到重要的特征并去掉噪声。SVD已经运用到了多个应用中，其中一个成功的案例就是推荐引擎。</p>
+<p>推荐引擎将物品推荐给用户，协调过滤则是一种基于用户喜好或行为数据的推荐实现方法。协调过滤的核心是相似度计算方法，很多相似度计算方法都可以用计算物品或用户之间的相似度。通过降低空间下计算相似度，SVD提高了推荐引擎的效果。</p>
+<p>在大规模数据集上，SVD的计算和推荐可能是一个很困难的工程问题。通过离线方式来进行分解和相似度计算，是一种减少冗余计算和推荐所需时间的办法。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SVD/" rel="tag"><i class="fa fa-tag"></i> SVD</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/04/机器学习实战（十三）/" rel="next" title="机器学习实战（十三）">
+                <i class="fa fa-chevron-left"></i> 机器学习实战（十三）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Voidmort" />
+            
+              <p class="site-author-name" itemprop="name">Voidmort</p>
+              <p class="site-description motion-element" itemprop="description">研究AI，撰写影评，热爱音乐，努力健身</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">85</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">60</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Voidmort" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:wxj5658@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1749266905" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jusanliusha.xyz" title="Jusanliusha" target="_blank">Jusanliusha</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#利用SVD简化数据"><span class="nav-number">1.</span> <span class="nav-text">利用SVD简化数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SVD的应用"><span class="nav-number">2.</span> <span class="nav-text">SVD的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#隐性语义索引"><span class="nav-number">2.1.</span> <span class="nav-text">隐性语义索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐系统"><span class="nav-number">2.2.</span> <span class="nav-text">推荐系统</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#矩阵分解"><span class="nav-number">3.</span> <span class="nav-text">矩阵分解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用Python实现SVD"><span class="nav-number">4.</span> <span class="nav-text">利用Python实现SVD</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基于协同过滤的推荐引擎"><span class="nav-number">5.</span> <span class="nav-text">基于协同过滤的推荐引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#相似度计算"><span class="nav-number">5.1.</span> <span class="nav-text">相似度计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于物品的相似度还是基于用户的相似度"><span class="nav-number">5.2.</span> <span class="nav-text">基于物品的相似度还是基于用户的相似度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐引擎的评价"><span class="nav-number">5.3.</span> <span class="nav-text">推荐引擎的评价</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例：餐馆菜肴推荐引擎"><span class="nav-number">5.4.</span> <span class="nav-text">实例：餐馆菜肴推荐引擎</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用SVD提高推荐效果"><span class="nav-number">5.5.</span> <span class="nav-text">利用SVD提高推荐效果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实例：基于SVD的图像压缩"><span class="nav-number">6.</span> <span class="nav-text">实例：基于SVD的图像压缩</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Voidmort</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/kesyoban.model.json"},"display":{"position":"right","width":130,"height":260},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>
