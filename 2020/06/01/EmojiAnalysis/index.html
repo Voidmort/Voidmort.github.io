@@ -117,7 +117,7 @@
 <meta property="og:description" content="分析微博中的emoji1234567891011# 数据分析库import pandas as pdimport numpy as npimport random# 数据可视化import seaborn as snsimport matplotlib.pyplot as pltplt.style.use(&apos;ggplot&apos;)import emoji 处理收集到到微博评论12345678import">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://xvjie.wang/2020/06/01/EmojiAnalysis/emojifier-model.png">
-<meta property="og:updated_time" content="2020-06-14T08:42:03.469Z">
+<meta property="og:updated_time" content="2020-06-14T08:45:36.723Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="文本转Emoji">
 <meta name="twitter:description" content="分析微博中的emoji1234567891011# 数据分析库import pandas as pdimport numpy as npimport random# 数据可视化import seaborn as snsimport matplotlib.pyplot as pltplt.style.use(&apos;ggplot&apos;)import emoji 处理收集到到微博评论12345678import">
@@ -416,7 +416,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-06-14 16:42:03" itemprop="dateModified" datetime="2020-06-14T16:42:03+08:00">2020-06-14</time>
+                <time title="修改时间：2020-06-14 16:45:36" itemprop="dateModified" datetime="2020-06-14T16:45:36+08:00">2020-06-14</time>
               
             
           </span>
@@ -1414,7 +1414,8 @@ memory usage: 308.4+ KB
 <h1 id="SVM"><a href="#SVM" class="headerlink" title="SVM"></a>SVM</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC, LinearSVC</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">svm = SVC(C=<span class="number">100</span>, gamma=<span class="number">10</span>, probability=<span class="keyword">True</span>)</span><br><span class="line">svm.fit(X_train, Y_train)</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">predict_emoji(<span class="string">'虽然行为点赞，但是还是衷心希望老人，把自己过好了，有能力，再去帮助别人。'</span>, svm)</span><br></pre></td></tr></table></figure>
-<h1 id="随机森林"><a href="#随机森林" class="headerlink" title="随机森林"></a>随机森林</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Random Forest</span></span><br><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line">random_forest = RandomForestClassifier(max_depth=<span class="number">50</span>)</span><br><span class="line">random_forest.fit(X_train, Y_train)</span><br><span class="line">random_forest.score(X_train, Y_train)</span><br><span class="line">acc_random_forest = round(random_forest.score(X_train, Y_train) * <span class="number">100</span>, <span class="number">2</span>)</span><br><span class="line">acc_random_forest</span><br></pre></td></tr></table></figure>
+<pre><code>&apos;心&apos;
+</code></pre><h1 id="随机森林"><a href="#随机森林" class="headerlink" title="随机森林"></a>随机森林</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Random Forest</span></span><br><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line">random_forest = RandomForestClassifier(max_depth=<span class="number">50</span>)</span><br><span class="line">random_forest.fit(X_train, Y_train)</span><br><span class="line">random_forest.score(X_train, Y_train)</span><br><span class="line">acc_random_forest = round(random_forest.score(X_train, Y_train) * <span class="number">100</span>, <span class="number">2</span>)</span><br><span class="line">acc_random_forest</span><br></pre></td></tr></table></figure>
 <pre><code>99.47
 </code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">predict_emoji(<span class="string">'你是不是傻'</span>, random_forest)</span><br></pre></td></tr></table></figure>
 <pre><code>&apos;doge&apos;
@@ -1693,7 +1694,7 @@ memory usage: 308.4+ KB
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">85</span>
+                    <span class="site-state-item-count">90</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1740,7 +1741,17 @@ memory usage: 308.4+ KB
                     
                       
                     
-                    <span class="site-state-item-count">17</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">22</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1873,7 +1884,15 @@ memory usage: 308.4+ KB
                     
                       
                     
-                    <span class="site-state-item-count">60</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">64</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

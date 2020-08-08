@@ -1,0 +1,1709 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="保存与加载模型安装tensorflow-datasets，导入依赖项： 1%pip install tensorflow-datasets 1234import tensorflow_datasets as tfdsimport tensorflow as tftfds.disable_progress_bar() 1tf.__version__ &amp;apos;2.3.0&amp;apos; 1mirror">
+<meta property="og:type" content="article">
+<meta property="og:title" content="保存与加载Tensorflow模型">
+<meta property="og:url" content="https://xvjie.wang/2020/08/01/保存与加载Tensorflow模型/index.html">
+<meta property="og:site_name" content="Voidmort">
+<meta property="og:description" content="保存与加载模型安装tensorflow-datasets，导入依赖项： 1%pip install tensorflow-datasets 1234import tensorflow_datasets as tfdsimport tensorflow as tftfds.disable_progress_bar() 1tf.__version__ &amp;apos;2.3.0&amp;apos; 1mirror">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-08-08T02:15:54.895Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="保存与加载Tensorflow模型">
+<meta name="twitter:description" content="保存与加载模型安装tensorflow-datasets，导入依赖项： 1%pip install tensorflow-datasets 1234import tensorflow_datasets as tfdsimport tensorflow as tftfds.disable_progress_bar() 1tf.__version__ &amp;apos;2.3.0&amp;apos; 1mirror">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Voidmort" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://xvjie.wang/2020/08/01/保存与加载Tensorflow模型/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>保存与加载Tensorflow模型 | Voidmort</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7b96eb7c2717359e36cc8bd8b546997c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/Voidmort" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Voidmort</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-other">
+    <a href="/other/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-plane"></i> <br />其它</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xvjie.wang/2020/08/01/保存与加载Tensorflow模型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Voidmort">
+      <meta itemprop="description" content="研究AI，撰写影评，热爱音乐，努力健身">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Voidmort">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">保存与加载Tensorflow模型
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-08-01 00:00:00" itemprop="dateCreated datePublished" datetime="2020-08-01T00:00:00+08:00">2020-08-01</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-08-08 10:15:54" itemprop="dateModified" datetime="2020-08-08T10:15:54+08:00">2020-08-08</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/tensorflow2/" itemprop="url" rel="index"><span itemprop="name">tensorflow2</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="保存与加载模型"><a href="#保存与加载模型" class="headerlink" title="保存与加载模型"></a>保存与加载模型</h1><p>安装tensorflow-datasets，导入依赖项：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%pip install tensorflow-datasets</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow_datasets <span class="keyword">as</span> tfds</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line">tfds.disable_progress_bar()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.__version__</span><br></pre></td></tr></table></figure>
+<pre><code>&apos;2.3.0&apos;
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mirrored_strategy = tf.distribute.MirroredStrategy()</span><br></pre></td></tr></table></figure>
+<pre><code>WARNING:tensorflow:There are non-GPU devices in `tf.distribute.Strategy`, not using nccl allreduce.
+INFO:tensorflow:Using MirroredStrategy with devices (&apos;/job:localhost/replica:0/task:0/device:CPU:0&apos;,)
+</code></pre><p>创建一个分发变量和图形的策略</p>
+<p>tf.distribute.MirroredStrategy 策略是如何运作的？</p>
+<pre><code>所有变量和模型图都复制在副本上。
+输入都均匀分布在副本中。
+每个副本在收到输入后计算输入的损失和梯度。
+通过求和，每一个副本上的梯度都能同步。
+同步后，每个副本上的复制的变量都可以同样更新。
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_data</span><span class="params">()</span>:</span></span><br><span class="line">  datasets, ds_info = tfds.load(name=<span class="string">'mnist'</span>, with_info=<span class="keyword">True</span>, as_supervised=<span class="keyword">True</span>)</span><br><span class="line">  mnist_train, mnist_test = datasets[<span class="string">'train'</span>], datasets[<span class="string">'test'</span>]</span><br><span class="line"></span><br><span class="line">  BUFFER_SIZE = <span class="number">10000</span></span><br><span class="line"></span><br><span class="line">  BATCH_SIZE_PER_REPLICA = <span class="number">64</span></span><br><span class="line">  BATCH_SIZE = BATCH_SIZE_PER_REPLICA * mirrored_strategy.num_replicas_in_sync</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">scale</span><span class="params">(image, label)</span>:</span></span><br><span class="line">    image = tf.cast(image, tf.float32)</span><br><span class="line">    image /= <span class="number">255</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> image, label</span><br><span class="line"></span><br><span class="line">  train_dataset = mnist_train.map(scale).cache().shuffle(BUFFER_SIZE).batch(BATCH_SIZE)</span><br><span class="line">  eval_dataset = mnist_test.map(scale).batch(BATCH_SIZE)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> train_dataset, eval_dataset</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_model</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">with</span> mirrored_strategy.scope():</span><br><span class="line">        model = tf.keras.Sequential([</span><br><span class="line">            tf.keras.layers.Conv2D(<span class="number">32</span>, <span class="number">3</span>, activation=<span class="string">'relu'</span>, input_shape=(<span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>)),</span><br><span class="line">            tf.keras.layers.MaxPool2D(),</span><br><span class="line">            tf.keras.layers.Flatten(),</span><br><span class="line">            tf.keras.layers.Dense(<span class="number">64</span>, activation=<span class="string">'relu'</span>),</span><br><span class="line">            tf.keras.layers.Dense(<span class="number">10</span>)</span><br><span class="line">        ])</span><br><span class="line">        </span><br><span class="line">        model.compile(loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=<span class="keyword">True</span>),</span><br><span class="line">                     optimizer=tf.keras.optimizers.Adam(),</span><br><span class="line">                     metrics=[<span class="string">'accuracy'</span>])</span><br><span class="line">        <span class="keyword">return</span> model</span><br></pre></td></tr></table></figure>
+<h1 id="训练模型"><a href="#训练模型" class="headerlink" title="训练模型"></a>训练模型</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model = get_model()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_dataset, eval_dataset = get_data()</span><br></pre></td></tr></table></figure>
+<pre><code>[1mDownloading and preparing dataset mnist/3.0.1 (download: Unknown size, generated: Unknown size, total: Unknown size) to C:\Users\v-xujwan\tensorflow_datasets\mnist\3.0.1...[0m
+Shuffling and writing examples to C:\Users\v-xujwan\tensorflow_datasets\mnist\3.0.1.incompleteI371SH\mnist-train.tfrecord
+Shuffling and writing examples to C:\Users\v-xujwan\tensorflow_datasets\mnist\3.0.1.incompleteI371SH\mnist-test.tfrecord
+[1mDataset mnist downloaded and prepared to C:\Users\v-xujwan\tensorflow_datasets\mnist\3.0.1. Subsequent calls will reuse this data.[0m
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.fit(train_dataset, epochs=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Epoch 1/2
+WARNING:tensorflow:From D:\Anaconda3\envs\py36_tf2\lib\site-packages\tensorflow\python\data\ops\multi_device_iterator_ops.py:601: get_next_as_optional (from tensorflow.python.data.ops.iterator_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.data.Iterator.get_next_as_optional()` instead.
+
+
+WARNING:tensorflow:From D:\Anaconda3\envs\py36_tf2\lib\site-packages\tensorflow\python\data\ops\multi_device_iterator_ops.py:601: get_next_as_optional (from tensorflow.python.data.ops.iterator_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.data.Iterator.get_next_as_optional()` instead.
+
+
+938/938 [==============================] - 18s 19ms/step - loss: 0.2089 - accuracy: 0.9389
+Epoch 2/2
+938/938 [==============================] - 19s 20ms/step - loss: 0.0689 - accuracy: 0.97980s - los
+
+&lt;tensorflow.python.keras.callbacks.History at 0x2b4c939e278&gt;
+</code></pre><h1 id="保存并加载模型"><a href="#保存并加载模型" class="headerlink" title="保存并加载模型"></a>保存并加载模型</h1><p>现在有了一个简单的模型可以使用，让我们看一下保存/加载API。有两套可用的API：</p>
+<pre><code>高级的keras model.save和tf.keras.models.load_model
+低级的tf.saved_model.save和tf.saved_model.load
+</code></pre><h2 id="使用keras-API"><a href="#使用keras-API" class="headerlink" title="使用keras API"></a>使用keras API</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">keras_model_path = <span class="string">"./tmp/keras_save"</span></span><br><span class="line">model.save(keras_model_path)</span><br></pre></td></tr></table></figure>
+<pre><code>WARNING:tensorflow:From D:\Anaconda3\envs\py36_tf2\lib\site-packages\tensorflow\python\training\tracking\tracking.py:111: Model.state_updates (from tensorflow.python.keras.engine.training) is deprecated and will be removed in a future version.
+Instructions for updating:
+This property should not be used in TensorFlow 2.0, as updates are applied automatically.
+
+
+WARNING:tensorflow:From D:\Anaconda3\envs\py36_tf2\lib\site-packages\tensorflow\python\training\tracking\tracking.py:111: Model.state_updates (from tensorflow.python.keras.engine.training) is deprecated and will be removed in a future version.
+Instructions for updating:
+This property should not be used in TensorFlow 2.0, as updates are applied automatically.
+
+
+WARNING:tensorflow:From D:\Anaconda3\envs\py36_tf2\lib\site-packages\tensorflow\python\training\tracking\tracking.py:111: Layer.updates (from tensorflow.python.keras.engine.base_layer) is deprecated and will be removed in a future version.
+Instructions for updating:
+This property should not be used in TensorFlow 2.0, as updates are applied automatically.
+
+
+WARNING:tensorflow:From D:\Anaconda3\envs\py36_tf2\lib\site-packages\tensorflow\python\training\tracking\tracking.py:111: Layer.updates (from tensorflow.python.keras.engine.base_layer) is deprecated and will be removed in a future version.
+Instructions for updating:
+This property should not be used in TensorFlow 2.0, as updates are applied automatically.
+
+
+INFO:tensorflow:Assets written to: ./tmp/keras_save\assets
+
+
+INFO:tensorflow:Assets written to: ./tmp/keras_save\assets
+</code></pre><p>模型保存成功，看一下保存的文件</p>
+<pre><code>└───tmp
+    └───keras_save
+        ├───assets
+        └───variables
+            └───variables.data-00000-of-00001
+            └───variables.index
+        └───saved_model.pb
+</code></pre><p>接着还原模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">restored_keras_model = tf.keras.models.load_model(keras_model_path)</span><br></pre></td></tr></table></figure>
+<p>还原后的模型可以继续训练</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">restored_keras_model.fit(train_dataset, epochs=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Epoch 1/2
+938/938 [==============================] - 16s 17ms/step - loss: 0.0494 - accuracy: 0.09890s - loss: 0.0493 - accuracy: 0.09
+Epoch 2/2
+938/938 [==============================] - 16s 17ms/step - loss: 0.0353 - accuracy: 0.0989
+
+&lt;tensorflow.python.keras.callbacks.History at 0x2b4c5b5a128&gt;
+</code></pre><p>现在加载模型并使用进行训练tf.distribute.Strategy</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">another_strategy = tf.distribute.OneDeviceStrategy(<span class="string">"/cpu:0"</span>)</span><br><span class="line"><span class="keyword">with</span> another_strategy.scope():</span><br><span class="line">  restored_keras_model_ds = tf.keras.models.load_model(keras_model_path)</span><br><span class="line">  restored_keras_model_ds.fit(train_dataset, epochs=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Epoch 1/2
+938/938 [==============================] - 16s 17ms/step - loss: 0.0501 - accuracy: 0.0990
+Epoch 2/2
+938/938 [==============================] - 16s 17ms/step - loss: 0.0354 - accuracy: 0.0989
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">restored_keras_model_ds.predict</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;tensorflow.python.keras.engine.sequential.Sequential at 0x2b4c75ea2b0&gt;
+</code></pre><h2 id="使用tf-saved-model-API"><a href="#使用tf-saved-model-API" class="headerlink" title="使用tf.saved_model API"></a>使用tf.saved_model API</h2><p>现在使用低级的api，保存方法和keras类似</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">model = get_model()</span><br><span class="line">saved_model_path = <span class="string">"./tmp/tf_save"</span></span><br><span class="line">tf.saved_model.save(model, saved_model_path)</span><br></pre></td></tr></table></figure>
+<pre><code>INFO:tensorflow:Assets written to: ./tmp/tf_save\assets
+
+
+INFO:tensorflow:Assets written to: ./tmp/tf_save\assets
+</code></pre><p>可以使用进行加载tf.saved_model.load()。但是，由于它是一个较低级别的API（因此具有更广泛的用例范围），因此它不会返回Keras模型。相反，它返回一个对象，该对象包含可用于进行推断的函数。例如：</p>
+<p>还可以以分布式方式加载和进行推断：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">another_strategy = tf.distribute.MirroredStrategy()</span><br><span class="line"><span class="keyword">with</span> another_strategy.scope():</span><br><span class="line">  loaded = tf.saved_model.load(saved_model_path)</span><br><span class="line">  inference_func = loaded.signatures[DEFAULT_FUNCTION_KEY]</span><br><span class="line"></span><br><span class="line">  dist_predict_dataset = another_strategy.experimental_distribute_dataset(</span><br><span class="line">      predict_dataset)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Calling the function in a distributed manner</span></span><br><span class="line">  <span class="keyword">for</span> batch <span class="keyword">in</span> dist_predict_dataset:</span><br><span class="line">    another_strategy.run(inference_func,args=(batch,))</span><br></pre></td></tr></table></figure>
+<pre><code>WARNING:tensorflow:There are non-GPU devices in `tf.distribute.Strategy`, not using nccl allreduce.
+
+
+WARNING:tensorflow:There are non-GPU devices in `tf.distribute.Strategy`, not using nccl allreduce.
+
+
+INFO:tensorflow:Using MirroredStrategy with devices (&apos;/job:localhost/replica:0/task:0/device:CPU:0&apos;,)
+
+
+INFO:tensorflow:Using MirroredStrategy with devices (&apos;/job:localhost/replica:0/task:0/device:CPU:0&apos;,)
+
+
+WARNING:tensorflow:Using MirroredStrategy eagerly has significant overhead currently. We will be working on improving this in the future, but for now please wrap `call_for_each_replica` or `experimental_run` or `experimental_run_v2` inside a tf.function to get the best performance.
+
+
+WARNING:tensorflow:Using MirroredStrategy eagerly has significant overhead currently. We will be working on improving this in the future, but for now please wrap `call_for_each_replica` or `experimental_run` or `experimental_run_v2` inside a tf.function to get the best performance.
+
+
+WARNING:tensorflow:Using MirroredStrategy eagerly has significant overhead currently. We will be working on improving this in the future, but for now please wrap `call_for_each_replica` or `experimental_run` or `experimental_run_v2` inside a tf.function to get the best performance.
+
+
+WARNING:tensorflow:Using MirroredStrategy eagerly has significant overhead currently. We will be working on improving this in the future, but for now please wrap `call_for_each_replica` or `experimental_run` or `experimental_run_v2` inside a tf.function to get the best performance.
+
+
+WARNING:tensorflow:Using MirroredStrategy eagerly has significant overhead currently. We will be working on improving this in the future, but for now please wrap `call_for_each_replica` or `experimental_run` or `experimental_run_v2` inside a tf.function to get the best performance.
+
+
+WARNING:tensorflow:Using MirroredStrategy eagerly has significant overhead currently. We will be working on improving this in the future, but for now please wrap `call_for_each_replica` or `experimental_run` or `experimental_run_v2` inside a tf.function to get the best performance.
+
+
+WARNING:tensorflow:Using MirroredStrategy eagerly has significant overhead currently. We will be working on improving this in the future, but for now please wrap `call_for_each_replica` or `experimental_run` or `experimental_run_v2` inside a tf.function to get the best performance.
+
+
+WARNING:tensorflow:Using MirroredStrategy eagerly has significant overhead currently. We will be working on improving this in the future, but for now please wrap `call_for_each_replica` or `experimental_run` or `experimental_run_v2` inside a tf.function to get the best performance.
+
+
+WARNING:tensorflow:Using MirroredStrategy eagerly has significant overhead currently. We will be working on improving this in the future, but for now please wrap `call_for_each_replica` or `experimental_run` or `experimental_run_v2` inside a tf.function to get the best performance.
+
+
+WARNING:tensorflow:Using MirroredStrategy eagerly has significant overhead currently. We will be working on improving this in the future, but for now please wrap `call_for_each_replica` or `experimental_run` or `experimental_run_v2` inside a tf.function to get the best performance.
+</code></pre><h1 id="保存检查点"><a href="#保存检查点" class="headerlink" title="保存检查点"></a>保存检查点</h1><p>检查站捕获所有参数（的精确值tf.Variable由模型中使用的对象）。检查点不包含由模型所定义的计算的任何描述，因此通常仅当将使用保存的参数值源代码可用有用。</p>
+<p>在另一方面中SavedModel格式包括由除了参数值（检查点）模型中定义的计算的序列化描述。这种格式的模型是独立于创建模型的源代码。因此，它们适用于通过TensorFlow部署服务，TensorFlow精简版，TensorFlow.js，或在其他编程语言（的C，C ++，JAVA，围棋，防锈，C＃等TensorFlow API）的程序。</p>
+<p>本指南涵盖API进行写入和读出检查站。</p>
+<h2 id="建立"><a href="#建立" class="headerlink" title="建立"></a>建立</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Net</span><span class="params">(tf.keras.Model)</span>:</span></span><br><span class="line">    <span class="comment"># 一个简单的线性模型</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(Net, self).__init__()</span><br><span class="line">        self.l1 = tf.keras.layers.Dense(<span class="number">5</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">call</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.l1(x)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net = Net()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.save_weights(<span class="string">'./tmp/easy_checkpoint'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="写检查站"><a href="#写检查站" class="headerlink" title="写检查站"></a>写检查站</h2><p>一个TensorFlow模型的持久状态被存储在tf.Variable对象。这些可以直接构造，但通常通过高级API等生成tf.keras.layers或tf.keras.Model 。</p>
+<p>管理变量最简单的方法是将其安装到Python对象，然后引用这些对象。</p>
+<p>的子类tf.train.Checkpoint ， tf.keras.layers.Layer和tf.keras.Model自动跟踪分配给它们的属性变量。下面的例子构造了一个简单的线性模型，然后写入其中包含所有模型的变量值的检查站。</p>
+<p>您可以轻松地保存模型检查点与Model.save_weights</p>
+<h1 id="手动检查点"><a href="#手动检查点" class="headerlink" title="手动检查点"></a>手动检查点</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">toy_dataset</span><span class="params">()</span>:</span></span><br><span class="line">    inputs = tf.range(<span class="number">10.</span>)[:, <span class="keyword">None</span>]</span><br><span class="line">    labels = inputs * <span class="number">5.</span> + tf.range(<span class="number">5.</span>)[<span class="keyword">None</span>, :]</span><br><span class="line">    <span class="keyword">return</span> tf.data.Dataset.from_tensor_slices(dict(x=inputs, y=labels)).repeat().batch(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_step</span><span class="params">(net, example, optimizer)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> tf.GradientTape() <span class="keyword">as</span> tape:</span><br><span class="line">        output = net(example[<span class="string">'x'</span>])</span><br><span class="line">        loss = tf.reduce_mean(tf.abs(output - example[<span class="string">'y'</span>]))</span><br><span class="line">    variables = net.trainable_variables</span><br><span class="line">    gradients = tape.gradient(loss, variables)</span><br><span class="line">    optimizer.apply_gradients(zip(gradients, variables))</span><br><span class="line">    <span class="keyword">return</span> loss</span><br></pre></td></tr></table></figure>
+<h2 id="创建检查点的对象"><a href="#创建检查点的对象" class="headerlink" title="创建检查点的对象"></a>创建检查点的对象</h2><p>手动进行检查点，您将需要一个tf.train.Checkpoint对象。凡检查点你想要的对象被设置为对象的属性。</p>
+<p>一个tf.train.CheckpointManager也可用于管理多个检查点有帮助。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">opt = tf.keras.optimizers.Adam(<span class="number">0.1</span>)</span><br><span class="line">dataset = toy_dataset()</span><br><span class="line">iterator = iter(dataset)</span><br><span class="line">ckpt = tf.train.Checkpoint(step=tf.Variable(<span class="number">1</span>), optimizer=opt, net=net, iterator=iterator)</span><br><span class="line">manager = tf.train.CheckpointManager(ckpt, <span class="string">'./tmp/tf_ckpts'</span>, max_to_keep=<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="训练和保存检查点模型"><a href="#训练和保存检查点模型" class="headerlink" title="训练和保存检查点模型"></a>训练和保存检查点模型</h2><p>下面的训练循环创建模型的实例和优化的，然后收集他们入tf.train.Checkpoint对象。它在循环中调用数据的每批训练步骤，并定期检查点写入到磁盘。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_and_checkpoint</span><span class="params">(net, manager)</span>:</span></span><br><span class="line">    ckpt.restore(manager.latest_checkpoint)</span><br><span class="line">    <span class="keyword">if</span> manager.latest_checkpoint:</span><br><span class="line">        print(<span class="string">"恢复点：&#123;&#125;"</span>.format(manager.latest_checkpoint))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">"开始初始化"</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">50</span>):</span><br><span class="line">        example = next(iterator)</span><br><span class="line">        loss = train_step(net, example, opt)</span><br><span class="line">        ckpt.step.assign_add(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">if</span> int(ckpt.step) % <span class="number">10</span> == <span class="number">0</span>:</span><br><span class="line">          save_path = manager.save()</span><br><span class="line">          print(<span class="string">"保存检查点 &#123;&#125;: &#123;&#125;"</span>.format(int(ckpt.step), save_path))</span><br><span class="line">          print(<span class="string">"loss &#123;:1.2f&#125;"</span>.format(loss.numpy()))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_and_checkpoint(net, manager)</span><br></pre></td></tr></table></figure>
+<pre><code>开始初始化
+保存检查点 10: ./tmp/tf_ckpts\ckpt-1
+loss 29.78
+保存检查点 20: ./tmp/tf_ckpts\ckpt-2
+loss 23.19
+保存检查点 30: ./tmp/tf_ckpts\ckpt-3
+loss 16.63
+保存检查点 40: ./tmp/tf_ckpts\ckpt-4
+loss 10.17
+保存检查点 50: ./tmp/tf_ckpts\ckpt-5
+loss 4.09
+</code></pre><h1 id="恢复和继续训练"><a href="#恢复和继续训练" class="headerlink" title="恢复和继续训练"></a>恢复和继续训练</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">opt = tf.keras.optimizers.Adam(<span class="number">0.1</span>)</span><br><span class="line">dataset = toy_dataset()</span><br><span class="line">iterator = iter(dataset)</span><br><span class="line">ckpt = tf.train.Checkpoint(step=tf.Variable(<span class="number">1</span>), optimizer=opt, net=net, iterator=iterator)</span><br><span class="line">manager = tf.train.CheckpointManager(ckpt, <span class="string">'./tmp/tf_ckpts'</span>, max_to_keep=<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_and_checkpoint(net, manager)</span><br></pre></td></tr></table></figure>
+<pre><code>恢复点：./tmp/tf_ckpts\ckpt-10
+保存检查点 110: ./tmp/tf_ckpts\ckpt-11
+loss 0.27
+保存检查点 120: ./tmp/tf_ckpts\ckpt-12
+loss 0.20
+保存检查点 130: ./tmp/tf_ckpts\ckpt-13
+loss 0.16
+保存检查点 140: ./tmp/tf_ckpts\ckpt-14
+loss 0.21
+保存检查点 150: ./tmp/tf_ckpts\ckpt-15
+loss 0.20
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(manager.checkpoints)</span><br></pre></td></tr></table></figure>
+<pre><code>[&apos;./tmp/tf_ckpts\\ckpt-13&apos;, &apos;./tmp/tf_ckpts\\ckpt-14&apos;, &apos;./tmp/tf_ckpts\\ckpt-15&apos;]
+</code></pre><p>这些路径，如’./tf_ckpts/ckpt-10’ ，不是磁盘上的文件。相反，它们是一个前缀index文件和包含可变值的一个或多个数据文件。这些前缀在单个组合在一起checkpoint文件（ ‘./tf_ckpts/checkpoint’ ），其中CheckpointManager保存其状态。</p>
+<h1 id="手动检查"><a href="#手动检查" class="headerlink" title="手动检查"></a>手动检查</h1><p>tf.train.list_variables列出了检查点键和变量的形状在一个检查点。检查点键是显示在以上图上的路径。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.train.list_variables(tf.train.latest_checkpoint(<span class="string">'./tmp/tf_ckpts'</span>))</span><br></pre></td></tr></table></figure>
+<pre><code>[(&apos;_CHECKPOINTABLE_OBJECT_GRAPH&apos;, []),
+ (&apos;iterator/.ATTRIBUTES/ITERATOR_STATE&apos;, [1]),
+ (&apos;net/l1/bias/.ATTRIBUTES/VARIABLE_VALUE&apos;, [5]),
+ (&apos;net/l1/bias/.OPTIMIZER_SLOT/optimizer/m/.ATTRIBUTES/VARIABLE_VALUE&apos;, [5]),
+ (&apos;net/l1/bias/.OPTIMIZER_SLOT/optimizer/v/.ATTRIBUTES/VARIABLE_VALUE&apos;, [5]),
+ (&apos;net/l1/kernel/.ATTRIBUTES/VARIABLE_VALUE&apos;, [1, 5]),
+ (&apos;net/l1/kernel/.OPTIMIZER_SLOT/optimizer/m/.ATTRIBUTES/VARIABLE_VALUE&apos;,
+  [1, 5]),
+ (&apos;net/l1/kernel/.OPTIMIZER_SLOT/optimizer/v/.ATTRIBUTES/VARIABLE_VALUE&apos;,
+  [1, 5]),
+ (&apos;optimizer/beta_1/.ATTRIBUTES/VARIABLE_VALUE&apos;, []),
+ (&apos;optimizer/beta_2/.ATTRIBUTES/VARIABLE_VALUE&apos;, []),
+ (&apos;optimizer/decay/.ATTRIBUTES/VARIABLE_VALUE&apos;, []),
+ (&apos;optimizer/iter/.ATTRIBUTES/VARIABLE_VALUE&apos;, []),
+ (&apos;optimizer/learning_rate/.ATTRIBUTES/VARIABLE_VALUE&apos;, []),
+ (&apos;save_counter/.ATTRIBUTES/VARIABLE_VALUE&apos;, []),
+ (&apos;step/.ATTRIBUTES/VARIABLE_VALUE&apos;, [])]
+</code></pre><h1 id="保存与估计基于对象的检查站"><a href="#保存与估计基于对象的检查站" class="headerlink" title="保存与估计基于对象的检查站"></a>保存与估计基于对象的检查站</h1><p>通过默认保存变量名，而不是在前面的章节中描述的对象图检查点估计。 tf.train.Checkpoint将接受基于域名的检查点，但移动估计的模型以外的部位时，变量名可以更改model_fn 。保存基于对象的检查站，使得它更容易培养的估算内部模型，然后外面用它之一。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow.compat.v1 <span class="keyword">as</span> tf_compat</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">model_fn</span><span class="params">(features, labels, mode)</span>:</span></span><br><span class="line">    net = Net()</span><br><span class="line">    opt = tf.keras.optimizers.Adam(<span class="number">0.1</span>)</span><br><span class="line">    ckpt = tf.train.Checkpoint(step=tf_compat.train.get_global_step(),</span><br><span class="line">                              optimizers=opt, net=net)</span><br><span class="line">    <span class="keyword">with</span> tf.GradientTape()<span class="keyword">as</span> tape:</span><br><span class="line">        output = net(features[<span class="string">'x'</span>])</span><br><span class="line">        loss = tf.reduce_mean(tf.abs(output - features[<span class="string">'y'</span>]))</span><br><span class="line">    variables = net.trainable_variables</span><br><span class="line">    gradients = tape.gradient(loss, variables)</span><br><span class="line">    <span class="keyword">return</span> tf.estimator.EstimatorSpec(</span><br><span class="line">        mode,</span><br><span class="line">        loss=loss,</span><br><span class="line">        train_op=tf.group(opt.apply_gradients(zip(gradients, variables)),</span><br><span class="line">                          ckpt.step.assign_add(<span class="number">1</span>)),scaffold=tf_compat.train.Scaffold(saver=ckpt))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tf.keras.backend.clear_session()</span><br><span class="line">est = tf.estimator.Estimator(model_fn, <span class="string">'./tmp/tf_estimator_example/'</span>)</span><br><span class="line">est.train(toy_dataset, steps=<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>INFO:tensorflow:Using default config.
+
+
+INFO:tensorflow:Using default config.
+
+
+INFO:tensorflow:Using config: {&apos;_model_dir&apos;: &apos;./tmp/tf_estimator_example/&apos;, &apos;_tf_random_seed&apos;: None, &apos;_save_summary_steps&apos;: 100, &apos;_save_checkpoints_steps&apos;: None, &apos;_save_checkpoints_secs&apos;: 600, &apos;_session_config&apos;: allow_soft_placement: true
+graph_options {
+  rewrite_options {
+    meta_optimizer_iterations: ONE
+  }
+}
+, &apos;_keep_checkpoint_max&apos;: 5, &apos;_keep_checkpoint_every_n_hours&apos;: 10000, &apos;_log_step_count_steps&apos;: 100, &apos;_train_distribute&apos;: None, &apos;_device_fn&apos;: None, &apos;_protocol&apos;: None, &apos;_eval_distribute&apos;: None, &apos;_experimental_distribute&apos;: None, &apos;_experimental_max_worker_delay_secs&apos;: None, &apos;_session_creation_timeout_secs&apos;: 7200, &apos;_service&apos;: None, &apos;_cluster_spec&apos;: ClusterSpec({}), &apos;_task_type&apos;: &apos;worker&apos;, &apos;_task_id&apos;: 0, &apos;_global_id_in_cluster&apos;: 0, &apos;_master&apos;: &apos;&apos;, &apos;_evaluation_master&apos;: &apos;&apos;, &apos;_is_chief&apos;: True, &apos;_num_ps_replicas&apos;: 0, &apos;_num_worker_replicas&apos;: 1}
+
+
+INFO:tensorflow:Using config: {&apos;_model_dir&apos;: &apos;./tmp/tf_estimator_example/&apos;, &apos;_tf_random_seed&apos;: None, &apos;_save_summary_steps&apos;: 100, &apos;_save_checkpoints_steps&apos;: None, &apos;_save_checkpoints_secs&apos;: 600, &apos;_session_config&apos;: allow_soft_placement: true
+graph_options {
+  rewrite_options {
+    meta_optimizer_iterations: ONE
+  }
+}
+, &apos;_keep_checkpoint_max&apos;: 5, &apos;_keep_checkpoint_every_n_hours&apos;: 10000, &apos;_log_step_count_steps&apos;: 100, &apos;_train_distribute&apos;: None, &apos;_device_fn&apos;: None, &apos;_protocol&apos;: None, &apos;_eval_distribute&apos;: None, &apos;_experimental_distribute&apos;: None, &apos;_experimental_max_worker_delay_secs&apos;: None, &apos;_session_creation_timeout_secs&apos;: 7200, &apos;_service&apos;: None, &apos;_cluster_spec&apos;: ClusterSpec({}), &apos;_task_type&apos;: &apos;worker&apos;, &apos;_task_id&apos;: 0, &apos;_global_id_in_cluster&apos;: 0, &apos;_master&apos;: &apos;&apos;, &apos;_evaluation_master&apos;: &apos;&apos;, &apos;_is_chief&apos;: True, &apos;_num_ps_replicas&apos;: 0, &apos;_num_worker_replicas&apos;: 1}
+
+
+WARNING:tensorflow:From D:\Anaconda3\envs\py36_tf2\lib\site-packages\tensorflow\python\training\training_util.py:236: Variable.initialized_value (from tensorflow.python.ops.variables) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use Variable.read_value. Variables in 2.X are initialized automatically both in eager and graph (inside tf.defun) contexts.
+
+
+WARNING:tensorflow:From D:\Anaconda3\envs\py36_tf2\lib\site-packages\tensorflow\python\training\training_util.py:236: Variable.initialized_value (from tensorflow.python.ops.variables) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use Variable.read_value. Variables in 2.X are initialized automatically both in eager and graph (inside tf.defun) contexts.
+
+
+INFO:tensorflow:Calling model_fn.
+
+
+INFO:tensorflow:Calling model_fn.
+
+
+INFO:tensorflow:Done calling model_fn.
+
+
+INFO:tensorflow:Done calling model_fn.
+
+
+INFO:tensorflow:Create CheckpointSaverHook.
+
+
+INFO:tensorflow:Create CheckpointSaverHook.
+
+
+INFO:tensorflow:Graph was finalized.
+
+
+INFO:tensorflow:Graph was finalized.
+
+
+INFO:tensorflow:Running local_init_op.
+
+
+INFO:tensorflow:Running local_init_op.
+
+
+INFO:tensorflow:Done running local_init_op.
+
+
+INFO:tensorflow:Done running local_init_op.
+
+
+INFO:tensorflow:Calling checkpoint listeners before saving checkpoint 0...
+
+
+INFO:tensorflow:Calling checkpoint listeners before saving checkpoint 0...
+
+
+INFO:tensorflow:Saving checkpoints for 0 into ./tmp/tf_estimator_example/model.ckpt.
+
+
+INFO:tensorflow:Saving checkpoints for 0 into ./tmp/tf_estimator_example/model.ckpt.
+
+
+INFO:tensorflow:Calling checkpoint listeners after saving checkpoint 0...
+
+
+INFO:tensorflow:Calling checkpoint listeners after saving checkpoint 0...
+
+
+INFO:tensorflow:loss = 4.505075, step = 1
+
+
+INFO:tensorflow:loss = 4.505075, step = 1
+
+
+INFO:tensorflow:Calling checkpoint listeners before saving checkpoint 10...
+
+
+INFO:tensorflow:Calling checkpoint listeners before saving checkpoint 10...
+
+
+INFO:tensorflow:Saving checkpoints for 10 into ./tmp/tf_estimator_example/model.ckpt.
+
+
+INFO:tensorflow:Saving checkpoints for 10 into ./tmp/tf_estimator_example/model.ckpt.
+
+
+INFO:tensorflow:Calling checkpoint listeners after saving checkpoint 10...
+
+
+INFO:tensorflow:Calling checkpoint listeners after saving checkpoint 10...
+
+
+INFO:tensorflow:Loss for final step: 36.96539.
+
+
+INFO:tensorflow:Loss for final step: 36.96539.
+
+
+&lt;tensorflow_estimator.python.estimator.estimator.EstimatorV2 at 0x2b4ccb5f588&gt;
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.train.latest_checkpoint(<span class="string">'./tmp/tf_estimator_example'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>&apos;./tmp/tf_estimator_example\\model.ckpt-10&apos;
+</code></pre><h1 id="tf-train-Checkpoint则可以从其加载估计的检查站model-dir-。"><a href="#tf-train-Checkpoint则可以从其加载估计的检查站model-dir-。" class="headerlink" title="tf.train.Checkpoint则可以从其加载估计的检查站model_dir 。"></a>tf.train.Checkpoint则可以从其加载估计的检查站model_dir 。</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">opt = tf.keras.optimizers.Adam(<span class="number">0.1</span>)</span><br><span class="line">net = Net()</span><br><span class="line">ckpt = tf.train.Checkpoint(step=tf.Variable(<span class="number">1</span>, dtype=tf.int64), optimizer=opt, net=net)</span><br><span class="line">ckpt.restore(tf.train.latest_checkpoint(<span class="string">'./tmp/tf_estimator_example/'</span>))</span><br><span class="line">ckpt.step.numpy()</span><br></pre></td></tr></table></figure>
+<pre><code>10
+</code></pre>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/24/gRPC/" rel="next" title="gRPC">
+                <i class="fa fa-chevron-left"></i> gRPC
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/08/01/Keras学习笔记/" rel="prev" title="Keras学习笔记">
+                Keras学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Voidmort" />
+            
+              <p class="site-author-name" itemprop="name">Voidmort</p>
+              <p class="site-description motion-element" itemprop="description">研究AI，撰写影评，热爱音乐，努力健身</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">90</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">64</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Voidmort" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:wxj5658@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1749266905" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jusanliusha.xyz" title="Jusanliusha" target="_blank">Jusanliusha</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#保存与加载模型"><span class="nav-number">1.</span> <span class="nav-text">保存与加载模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#训练模型"><span class="nav-number">2.</span> <span class="nav-text">训练模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#保存并加载模型"><span class="nav-number">3.</span> <span class="nav-text">保存并加载模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用keras-API"><span class="nav-number">3.1.</span> <span class="nav-text">使用keras API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用tf-saved-model-API"><span class="nav-number">3.2.</span> <span class="nav-text">使用tf.saved_model API</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#保存检查点"><span class="nav-number">4.</span> <span class="nav-text">保存检查点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#建立"><span class="nav-number">4.1.</span> <span class="nav-text">建立</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写检查站"><span class="nav-number">4.2.</span> <span class="nav-text">写检查站</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#手动检查点"><span class="nav-number">5.</span> <span class="nav-text">手动检查点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建检查点的对象"><span class="nav-number">5.1.</span> <span class="nav-text">创建检查点的对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练和保存检查点模型"><span class="nav-number">5.2.</span> <span class="nav-text">训练和保存检查点模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#恢复和继续训练"><span class="nav-number">6.</span> <span class="nav-text">恢复和继续训练</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#手动检查"><span class="nav-number">7.</span> <span class="nav-text">手动检查</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#保存与估计基于对象的检查站"><span class="nav-number">8.</span> <span class="nav-text">保存与估计基于对象的检查站</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#tf-train-Checkpoint则可以从其加载估计的检查站model-dir-。"><span class="nav-number">9.</span> <span class="nav-text">tf.train.Checkpoint则可以从其加载估计的检查站model_dir 。</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Voidmort</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/kesyoban.model.json"},"display":{"position":"right","width":130,"height":260},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2020-06-13T07:32:41.842Z</updated>
+  <updated>2020-08-08T02:15:59.326Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -15,6 +15,139 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>docker + TensorFlow2.0 + jupyter lab</title>
+    <link href="https://xvjie.wang/2020/08/20/docker%20+%20TensorFlow2.0%20+%20jupyter%20lab/"/>
+    <id>https://xvjie.wang/2020/08/20/docker + TensorFlow2.0 + jupyter lab/</id>
+    <published>2020-08-19T16:00:00.000Z</published>
+    <updated>2020-08-08T02:15:59.326Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;服务器为 Ubuntu&lt;/p&gt;
+&lt;p&gt;首先当然需要有&lt;a href=&quot;https://docs.docker.com/get-docker/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Docker&lt;/a&gt;&lt;/p&gt;
+&lt;h1
+        
+      
+    
+    </summary>
+    
+      <category term="docker" scheme="https://xvjie.wang/categories/docker/"/>
+    
+    
+      <category term="docker" scheme="https://xvjie.wang/tags/docker/"/>
+    
+      <category term="TensorFlow2" scheme="https://xvjie.wang/tags/TensorFlow2/"/>
+    
+      <category term="jupyter" scheme="https://xvjie.wang/tags/jupyter/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Jetson Nano学习笔记</title>
+    <link href="https://xvjie.wang/2020/08/08/Jetson%20Nano%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <id>https://xvjie.wang/2020/08/08/Jetson Nano学习笔记/</id>
+    <published>2020-08-08T02:15:59.282Z</published>
+    <updated>2020-08-08T02:15:59.282Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;JetsonNano是Nvidia的一个嵌入式开发板，具备Maxwell128核心的GPU和4核心 ARM
+        
+      
+    
+    </summary>
+    
+      <category term="嵌入式" scheme="https://xvjie.wang/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
+    
+    
+      <category term="Jetson Nano" scheme="https://xvjie.wang/tags/Jetson-Nano/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Keras学习笔记</title>
+    <link href="https://xvjie.wang/2020/08/01/Keras%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <id>https://xvjie.wang/2020/08/01/Keras学习笔记/</id>
+    <published>2020-07-31T16:00:00.000Z</published>
+    <updated>2020-08-08T02:15:54.847Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span
+        
+      
+    
+    </summary>
+    
+      <category term="tensorflow2" scheme="https://xvjie.wang/categories/tensorflow2/"/>
+    
+      <category term="keras" scheme="https://xvjie.wang/categories/tensorflow2/keras/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>保存与加载Tensorflow模型</title>
+    <link href="https://xvjie.wang/2020/08/01/%E4%BF%9D%E5%AD%98%E4%B8%8E%E5%8A%A0%E8%BD%BDTensorflow%E6%A8%A1%E5%9E%8B/"/>
+    <id>https://xvjie.wang/2020/08/01/保存与加载Tensorflow模型/</id>
+    <published>2020-07-31T16:00:00.000Z</published>
+    <updated>2020-08-08T02:15:54.895Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;保存与加载模型&quot;&gt;&lt;a href=&quot;#保存与加载模型&quot; class=&quot;headerlink&quot; title=&quot;保存与加载模型&quot;&gt;&lt;/a&gt;保存与加载模型&lt;/h1&gt;&lt;p&gt;安装tensorflow-datasets，导入依赖项：&lt;/p&gt;
+&lt;figure
+        
+      
+    
+    </summary>
+    
+      <category term="tensorflow2" scheme="https://xvjie.wang/categories/tensorflow2/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>gRPC</title>
+    <link href="https://xvjie.wang/2020/07/24/gRPC/"/>
+    <id>https://xvjie.wang/2020/07/24/gRPC/</id>
+    <published>2020-07-23T16:00:00.000Z</published>
+    <updated>2020-08-08T02:24:11.709Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;什么是RPC&quot;&gt;&lt;a href=&quot;#什么是RPC&quot; class=&quot;headerlink&quot; title=&quot;什么是RPC&quot;&gt;&lt;/a&gt;什么是RPC&lt;/h1&gt;&lt;p&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="gRPC" scheme="https://xvjie.wang/categories/gRPC/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>机器学习实战（十四）</title>
@@ -103,7 +236,7 @@
     <link href="https://xvjie.wang/2020/06/01/EmojiAnalysis/"/>
     <id>https://xvjie.wang/2020/06/01/EmojiAnalysis/</id>
     <published>2020-06-01T01:20:50.000Z</published>
-    <updated>2020-06-14T08:42:03.469Z</updated>
+    <updated>2020-06-14T08:45:36.723Z</updated>
     
     <summary type="html">
     
@@ -437,144 +570,6 @@
     
       <category term="virtualenv" scheme="https://xvjie.wang/categories/virtualenv/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>机器学习实战（一）</title>
-    <link href="https://xvjie.wang/2020/02/18/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E4%B8%80%EF%BC%89/"/>
-    <id>https://xvjie.wang/2020/02/18/机器学习实战（一）/</id>
-    <published>2020-02-18T03:20:50.000Z</published>
-    <updated>2020-03-04T08:21:18.713Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;此blog是机器学习实战这本书的读书笔记&lt;/p&gt;
-&lt;h1 id=&quot;机器学习基础&quot;&gt;&lt;a href=&quot;#机器学习基础&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="机器学习实战" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/"/>
-    
-    
-      <category term="机器学习" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-      <category term="机器学习实战" scheme="https://xvjie.wang/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>机器学习实战（二）</title>
-    <link href="https://xvjie.wang/2020/02/18/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98%EF%BC%88%E4%BA%8C%EF%BC%89/"/>
-    <id>https://xvjie.wang/2020/02/18/机器学习实战（二）/</id>
-    <published>2020-02-18T03:20:50.000Z</published>
-    <updated>2020-03-04T08:15:36.274Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;k-邻近算法概述&quot;&gt;&lt;a href=&quot;#k-邻近算法概述&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="机器学习实战" scheme="https://xvjie.wang/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/"/>
-    
-    
-      <category term="k-邻近算法" scheme="https://xvjie.wang/tags/k-%E9%82%BB%E8%BF%91%E7%AE%97%E6%B3%95/"/>
-    
-      <category term="KNN" scheme="https://xvjie.wang/tags/KNN/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Django</title>
-    <link href="https://xvjie.wang/2020/02/05/Django/"/>
-    <id>https://xvjie.wang/2020/02/05/Django/</id>
-    <published>2020-02-04T16:00:00.000Z</published>
-    <updated>2020-03-06T08:59:00.615Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Python下有许多款不同的 Web
-        
-      
-    
-    </summary>
-    
-      <category term="Django" scheme="https://xvjie.wang/categories/Django/"/>
-    
-    
-      <category term="Django" scheme="https://xvjie.wang/tags/Django/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Aerial Cactus Identification</title>
-    <link href="https://xvjie.wang/2020/01/10/AerialCactusIdentification/"/>
-    <id>https://xvjie.wang/2020/01/10/AerialCactusIdentification/</id>
-    <published>2020-01-09T16:00:00.000Z</published>
-    <updated>2020-06-13T08:54:53.620Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;仙人掌识别&quot;&gt;&lt;a href=&quot;#仙人掌识别&quot; class=&quot;headerlink&quot; title=&quot;仙人掌识别&quot;&gt;&lt;/a&gt;仙人掌识别&lt;/h1&gt;&lt;p&gt;To assess the impact of climate change on Earth’s flora
-        
-      
-    
-    </summary>
-    
-      <category term="Kaggle" scheme="https://xvjie.wang/categories/Kaggle/"/>
-    
-    
-      <category term="Kaggle" scheme="https://xvjie.wang/tags/Kaggle/"/>
-    
-      <category term="keras" scheme="https://xvjie.wang/tags/keras/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>埃及分数</title>
-    <link href="https://xvjie.wang/2019/12/23/%E5%9F%83%E5%8F%8A%E5%88%86%E6%95%B0/"/>
-    <id>https://xvjie.wang/2019/12/23/埃及分数/</id>
-    <published>2019-12-22T16:00:00.000Z</published>
-    <updated>2020-01-29T03:41:04.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;在看科普视频的时候学到了埃及分数和贪婪算法，这里用code实现一下。&lt;/p&gt;
-&lt;h1 id=&quot;埃及分数&quot;&gt;&lt;a href=&quot;#埃及分数&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="算法练习" scheme="https://xvjie.wang/categories/%E7%AE%97%E6%B3%95%E7%BB%83%E4%B9%A0/"/>
-    
-    
-      <category term="python" scheme="https://xvjie.wang/tags/python/"/>
     
   </entry>
   
