@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="前言JetsonNano是Nvidia的一个嵌入式开发板，具备Maxwell128核心的GPU和4核心 ARM A57的CPU，可运行Ubuntu(Linux for Tegra，L4T)，浮点运算能力为472GFLOPS(FP16)，官方给出的功率为10W。JetsonNano可以用来搞些机器学习相关内容。  JetsonNano平台只支持Python3.6的TensorFlow。 Jetson">
+<meta name="keywords" content="Jetson Nano">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jetson Nano学习笔记">
+<meta property="og:url" content="https://xvjie.wang/2020/12/01/Jetson Nano学习笔记/index.html">
+<meta property="og:site_name" content="Voidmort">
+<meta property="og:description" content="前言JetsonNano是Nvidia的一个嵌入式开发板，具备Maxwell128核心的GPU和4核心 ARM A57的CPU，可运行Ubuntu(Linux for Tegra，L4T)，浮点运算能力为472GFLOPS(FP16)，官方给出的功率为10W。JetsonNano可以用来搞些机器学习相关内容。  JetsonNano平台只支持Python3.6的TensorFlow。 Jetson">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://www.waveshare.net/photo/development-board/Jetson-Nano-Developer-Kit/Jetson-Nano-Developer-Kit-intro1.jpg">
+<meta property="og:updated_time" content="2021-05-01T11:46:31.210Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Jetson Nano学习笔记">
+<meta name="twitter:description" content="前言JetsonNano是Nvidia的一个嵌入式开发板，具备Maxwell128核心的GPU和4核心 ARM A57的CPU，可运行Ubuntu(Linux for Tegra，L4T)，浮点运算能力为472GFLOPS(FP16)，官方给出的功率为10W。JetsonNano可以用来搞些机器学习相关内容。  JetsonNano平台只支持Python3.6的TensorFlow。 Jetson">
+<meta name="twitter:image" content="https://www.waveshare.net/photo/development-board/Jetson-Nano-Developer-Kit/Jetson-Nano-Developer-Kit-intro1.jpg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Voidmort" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://xvjie.wang/2020/12/01/Jetson Nano学习笔记/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Jetson Nano学习笔记 | Voidmort</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7b96eb7c2717359e36cc8bd8b546997c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/Voidmort" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Voidmort</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-other">
+    <a href="/other/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-plane"></i> <br />其它</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xvjie.wang/2020/12/01/Jetson Nano学习笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Voidmort">
+      <meta itemprop="description" content="研究AI，撰写影评，热爱音乐，努力健身">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Voidmort">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Jetson Nano学习笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-12-01 09:20:50" itemprop="dateCreated datePublished" datetime="2020-12-01T09:20:50+08:00">2020-12-01</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-05-01 19:46:31" itemprop="dateModified" datetime="2021-05-01T19:46:31+08:00">2021-05-01</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/嵌入式/" itemprop="url" rel="index"><span itemprop="name">嵌入式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>JetsonNano是Nvidia的一个嵌入式开发板，具备Maxwell128核心的GPU和4核心 ARM A57的CPU，可运行Ubuntu(Linux for Tegra，L4T)，浮点运算能力为472GFLOPS(FP16)，官方给出的功率为10W。<br>JetsonNano可以用来搞些机器学习相关内容。</p>
+<ol>
+<li>JetsonNano平台只支持Python3.6的TensorFlow。</li>
+<li>JetsonNano镜像版本：JetPack4.4</li>
+<li>TensroFlow API版本：r2.1.0</li>
+</ol>
+<p>以上信息为当前时间更新。</p>
+<h1 id="关于Jetson-Nano-Developer-Kit"><a href="#关于Jetson-Nano-Developer-Kit" class="headerlink" title="关于Jetson Nano Developer Kit"></a>关于Jetson Nano Developer Kit</h1><table>
+<thead>
+<tr>
+<th>硬件</th>
+<th>配置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPU</td>
+<td>NVIDIA Maxwell™ 架构，配备 128 个 NVIDIA CUDA® 核心</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>四核 ARM® Cortex®-A57 MPCore 处理器</td>
+</tr>
+<tr>
+<td>内存</td>
+<td>4 GB 64 位 LPDDR4</td>
+</tr>
+<tr>
+<td>存储</td>
+<td>Micro SD 卡卡槽（需要另购16G以上SD卡接入）</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://www.waveshare.net/photo/development-board/Jetson-Nano-Developer-Kit/Jetson-Nano-Developer-Kit-intro1.jpg" alt="image"></p>
+<ol>
+<li>Micro SD 卡卡槽: 可接入TF卡（16G以上），烧写系统镜像</li>
+<li>40PIN GPIO扩展接口（兼容树莓派40PIN接口）</li>
+<li>Micro  USB接口：用于5V电源输入或者USB数据传输</li>
+<li>千兆以太网口: 10/100/1000Base-T 自适应以太网端口</li>
+<li>USB3.0接口：4个USB3.0接口</li>
+<li>HDMI高清接口：用于外接HDMI屏幕</li>
+<li>DisplayPort接口：用于外接DP屏幕</li>
+<li>DC电源接口：用于外接5V电源（外径5.5， 内径2.1）</li>
+<li>MIPS CSI 摄像头接口：兼容树莓派摄像头接口</li>
+</ol>
+<h1 id="烧写镜像"><a href="#烧写镜像" class="headerlink" title="烧写镜像"></a>烧写镜像</h1><p><a href="https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit" target="_blank" rel="noopener">官方教程</a></p>
+<p>推荐使用<a href="https://www.balena.io/etcher/" target="_blank" rel="noopener">Etcher</a>烧写</p>
+<p>镜像很大，有14G，烧写很慢，但安装系统很快。</p>
+<p>系统版本为 Ubuntu 18.04.4 LTS (GNU/Linux 4.9.140-tegra aarch64)</p>
+<h1 id="安装tensorflow"><a href="#安装tensorflow" class="headerlink" title="安装tensorflow"></a>安装tensorflow</h1><p>安装方法为官方给出</p>
+<p><a href="https://forums.developer.nvidia.com/t/official-tensorflow-for-jetson-nano/71770" target="_blank" rel="noopener">link</a></p>
+<p>安装版本为 <strong>Python 3.6 + JetPack4.4</strong></p>
+<figure class="highlight q"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span></span><br><span class="line"></span><br><span class="line">$ sudo apt-<span class="built_in">get</span> install libhdf5-serial-<span class="built_in">dev</span> hdf5-tools libhdf5-<span class="built_in">dev</span> zlib1g-<span class="built_in">dev</span> zip libjpeg8-<span class="built_in">dev</span> liblapack-<span class="built_in">dev</span> libblas-<span class="built_in">dev</span> gfortran</span><br><span class="line"></span><br><span class="line">$ sudo apt-<span class="built_in">get</span> install python3-pip</span><br><span class="line"></span><br><span class="line">$ sudo pip3 install -U pip</span><br></pre></td></tr></table></figure>
+<p>安装h5py会出错，尝试重启单独安装，这个有点玄学，我重刷了两次，单独安装才安装成功</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo pip3 install -U pip testresources setuptools numpy==<span class="number">1.16</span><span class="number">.1</span> future==<span class="number">0.17</span><span class="number">.1</span> mock==<span class="number">3.0</span><span class="number">.5</span> h5py==<span class="number">2.9</span><span class="number">.0</span> keras_preprocessing==<span class="number">1.0</span><span class="number">.5</span> keras_applications==<span class="number">1.0</span><span class="number">.8</span> gast==<span class="number">0.2</span><span class="number">.2</span> futures protobuf pybind11</span><br></pre></td></tr></table></figure>
+<p>接下来是漫长的等待</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># TF-2.x</span></span><br><span class="line">$ sudo pip3 install --pre --extra-index-url https:<span class="regexp">//</span>developer.download.nvidia.com<span class="regexp">/compute/</span>redist<span class="regexp">/jp/</span>v44 tensorflow==<span class="number">2.2</span>.<span class="number">0</span>+nv20.<span class="number">6</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># TF-1.15</span></span><br><span class="line">$ sudo pip3 install --pre --extra-index-url https:<span class="regexp">//</span>developer.download.nvidia.com<span class="regexp">/compute/</span>redist<span class="regexp">/jp/</span>v44 ‘tensorflow&lt;<span class="number">2</span>’</span><br></pre></td></tr></table></figure>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Successfully installed absl-py-<span class="number">0.9</span><span class="meta">.0</span> astunparse-<span class="number">1.6</span><span class="meta">.3</span> cachetools-<span class="number">4.1</span><span class="meta">.1</span> gast-<span class="number">0.3</span><span class="meta">.3</span> google-auth-<span class="number">1.19</span><span class="meta">.1</span> google-auth-oauthlib-<span class="number">0.4</span><span class="meta">.1</span> google-pasta-<span class="number">0.2</span><span class="meta">.0</span> grpcio-<span class="number">1.30</span><span class="meta">.0</span> h5py-<span class="number">2.10</span><span class="meta">.0</span> importlib-metadata-<span class="number">1.7</span><span class="meta">.0</span> keras-preprocessing-<span class="number">1.1</span><span class="meta">.2</span> markdown-<span class="number">3.2</span><span class="meta">.2</span> oauthlib-<span class="number">3.1</span><span class="meta">.0</span> opt-einsum-<span class="number">3.2</span><span class="meta">.1</span> pyasn1-<span class="number">0.4</span><span class="meta">.8</span> pyasn1-modules-<span class="number">0.2</span><span class="meta">.8</span> requests-<span class="number">2.24</span><span class="meta">.0</span> requests-oauthlib-<span class="number">1.3</span><span class="meta">.0</span> rsa-<span class="number">4.6</span> scipy-<span class="number">1.4</span><span class="meta">.1</span> six-<span class="number">1.15</span><span class="meta">.0</span> tensorboard-<span class="number">2.2</span><span class="meta">.2</span> tensorboard-plugin-wit-<span class="number">1.7</span><span class="meta">.0</span> tensorflow-<span class="number">2.2</span><span class="meta">.0</span>+nv20<span class="meta">.6</span> tensorflow-estimator-<span class="number">2.2</span><span class="meta">.0</span> termcolor-<span class="number">1.1</span><span class="meta">.0</span> werkzeug-<span class="number">1.0</span><span class="meta">.1</span> wrapt-<span class="number">1.12</span><span class="meta">.1</span> zipp-<span class="number">3.1</span><span class="meta">.0</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">nano@jetson:</span>~$ python3</span><br><span class="line">Python <span class="number">3.6</span><span class="meta">.9</span> (<span class="meta">default</span>, Apr <span class="number">18</span> <span class="number">2020</span>, <span class="number">01</span>:<span class="number">56</span>:<span class="number">04</span>)</span><br><span class="line">[GCC <span class="number">8.4</span><span class="meta">.0</span>] on linux</span><br><span class="line">Type <span class="string">"help"</span>, <span class="string">"copyright"</span>, <span class="string">"credits"</span> <span class="keyword">or</span> <span class="string">"license"</span> for more information.</span><br><span class="line">&gt;&gt;&gt; import tensorflow</span><br><span class="line"><span class="number">2020</span>-<span class="number">07</span>-<span class="number">16</span> <span class="number">08</span>:<span class="number">53</span>:<span class="number">15.536130</span>: I tensorflow/stream_executor/platform/<span class="meta">default</span>/dso_loader.cc:<span class="number">48</span>] Successfully opened dynamic library libcudart.so<span class="meta">.10</span>.</span><br></pre></td></tr></table></figure>
+<h1 id="安装jupyter"><a href="#安装jupyter" class="headerlink" title="安装jupyter"></a>安装jupyter</h1><p>能否安装成功也有一定的玄学，遇到的问题有，pyzmq编译出错，远程登录无法识别密码。</p>
+<p><a href="https://github.com/NVIDIA-AI-IOT/jetbot/wiki/Create-SD-Card-Image-From-Scratch" target="_blank" rel="noopener">安装方法同样来自官方</a></p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">安装nodejs</span><br><span class="line">$ sudo apt <span class="keyword">install </span>nodejs npm</span><br><span class="line"></span><br><span class="line">安装<span class="keyword">jupyter</span></span><br><span class="line"><span class="keyword">$ </span>sudo pip3 <span class="keyword">install </span><span class="keyword">jupyter </span><span class="keyword">jupyterlab</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line"><span class="keyword">$ </span>sudo <span class="keyword">jupyter </span>labextension <span class="keyword">install </span>@<span class="keyword">jupyter-widgets/jupyterlab-manager</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line"><span class="keyword">$ </span>sudo <span class="keyword">jupyter </span>labextension <span class="keyword">install </span>@<span class="keyword">jupyterlab/statusbar</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line"><span class="keyword">生成jupyter配置文件</span></span><br><span class="line"><span class="keyword">$ </span><span class="keyword">jupyter </span>lab --generate-<span class="built_in">config</span></span><br><span class="line"></span><br><span class="line">$ <span class="keyword">jupyter </span>notebook password</span><br><span class="line">输入登陆密码</span><br><span class="line">生成<span class="keyword">jupyter_notebook_config.json文件</span></span><br></pre></td></tr></table></figure>
+<p>修改jupyter_notebook_config.py的配置，添加以下内容</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">c.NotebookApp.ip = <span class="string">'*'</span> <span class="comment"># 就是设置所有ip皆可访问</span></span><br><span class="line">c.NotebookApp.password = <span class="string">u'sha1:0fb67bb71f8f:9525f730807d01c04ea963492b0e3340de7b9d67'</span> <span class="comment">#jupyter_notebook_config.json里的sha1密文</span></span><br><span class="line">c.NotebookApp.open_browser = <span class="keyword">False</span> <span class="comment"># 禁止自动打开浏览器</span></span><br><span class="line">c.NotebookApp.port = <span class="number">8888</span> <span class="comment">#指定为NAT端口映射的端口号</span></span><br></pre></td></tr></table></figure>
+<p>启动<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>jupyter-lab</span><br></pre></td></tr></table></figure></p>
+<h1 id="安装openCV"><a href="#安装openCV" class="headerlink" title="安装openCV"></a>安装openCV</h1><p>自带opencv，存在一个bug，如果先导入tensorflow会出错，但先导入cv2，再导入tensorflow则没有错误。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; <span class="keyword">import</span> tensorflow</span><br><span class="line"><span class="number">2020</span><span class="number">-07</span><span class="number">-16</span> <span class="number">08</span>:<span class="number">53</span>:<span class="number">15.536130</span>: I tensorflow<span class="regexp">/stream_executor/</span>platform<span class="regexp">/default/</span>dso_loader.<span class="string">cc:</span><span class="number">48</span>] Successfully opened dynamic library libcudart.so<span class="number">.10</span><span class="number">.2</span></span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; <span class="keyword">import</span> cv2</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">  File <span class="string">"/usr/lib/python3.6/dist-packages/cv2/__init__.py"</span>, line <span class="number">89</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    bootstrap()</span><br><span class="line">  File <span class="string">"/usr/lib/python3.6/dist-packages/cv2/__init__.py"</span>, line <span class="number">79</span>, <span class="keyword">in</span> bootstrap</span><br><span class="line">    <span class="keyword">import</span> cv2</span><br><span class="line"><span class="string">ImportError:</span> <span class="regexp">/usr/</span>lib<span class="regexp">/aarch64-linux-gnu/</span>libgomp.so<span class="number">.1</span>: cannot allocate memory <span class="keyword">in</span> <span class="keyword">static</span> TLS block</span><br><span class="line"></span><br><span class="line">先导入cv2则不会出错</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; <span class="keyword">import</span> cv2</span><br><span class="line">&gt;&gt;&gt; <span class="keyword">import</span> tensorflow</span><br><span class="line"><span class="number">2020</span><span class="number">-07</span><span class="number">-16</span> <span class="number">08</span>:<span class="number">56</span>:<span class="number">07.842807</span>: I tensorflow<span class="regexp">/stream_executor/</span>platform<span class="regexp">/default/</span>dso_loader.<span class="string">cc:</span><span class="number">48</span>] Successfully opened dynamic library libcudart.so<span class="number">.10</span><span class="number">.2</span></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="测试Tensorflow"><a href="#测试Tensorflow" class="headerlink" title="测试Tensorflow"></a>测试Tensorflow</h1><p>首先导入tensorflow<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br></pre></td></tr></table></figure></p>
+<p>看下版本<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.__version__</span><br></pre></td></tr></table></figure></p>
+<pre><code>&apos;2.2.0&apos;
+</code></pre><p>载入并准备好 <a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">MNIST数据集</a>。将样本从整数转换为浮点数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mnist = tf.keras.datasets.mnist</span><br><span class="line"></span><br><span class="line">(x_train, y_train), (x_test, y_test) = mnist.load_data()</span><br><span class="line">x_train, x_test = x_train / <span class="number">255.0</span>, x_test / <span class="number">255.0</span></span><br></pre></td></tr></table></figure>
+<pre><code>Downloading data from https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz
+11493376/11490434 [==============================] - 1s 0us/step
+</code></pre><p>用tf.keras.Sequential构建一个模型。<br>为模型选择优化器和损失函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">model = tf.keras.models.Sequential([</span><br><span class="line">  tf.keras.layers.Flatten(input_shape=(<span class="number">28</span>, <span class="number">28</span>)),</span><br><span class="line">  tf.keras.layers.Dense(<span class="number">128</span>, activation=<span class="string">'relu'</span>),</span><br><span class="line">  tf.keras.layers.Dropout(<span class="number">0.2</span>),</span><br><span class="line">  tf.keras.layers.Dense(<span class="number">10</span>, activation=<span class="string">'softmax'</span>)</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line">model.compile(optimizer=<span class="string">'adam'</span>,</span><br><span class="line">              loss=<span class="string">'sparse_categorical_crossentropy'</span>,</span><br><span class="line">              metrics=[<span class="string">'accuracy'</span>])</span><br></pre></td></tr></table></figure>
+<p>开始训练</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.fit(x_train, y_train, epochs=<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Epoch 1/5
+1875/1875 [==============================] - 26s 14ms/step - loss: 0.2933 - accuracy: 0.9154
+Epoch 2/5
+1875/1875 [==============================] - 26s 14ms/step - loss: 0.1426 - accuracy: 0.9577
+Epoch 3/5
+1875/1875 [==============================] - 26s 14ms/step - loss: 0.1062 - accuracy: 0.9676
+Epoch 4/5
+1875/1875 [==============================] - 26s 14ms/step - loss: 0.0870 - accuracy: 0.9731
+Epoch 5/5
+1875/1875 [==============================] - 25s 14ms/step - loss: 0.0734 - accuracy: 0.9771
+
+&lt;tensorflow.python.keras.callbacks.History at 0x7f4c402710&gt;
+</code></pre><p>速度不是太慢，最后看下准确度</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.evaluate(x_test,  y_test, verbose=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>313/313 - 2s - loss: 0.0704 - accuracy: 0.9803
+[0.07044795155525208, 0.9803000092506409]
+</code></pre><p>98%的准确度 jetson nano 完美运行tensorflow2</p>
+<h1 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h1><p>我想通过ssh远程运行图形程序，如何尝试都不行，直到在<strong>NVIDIA Metropolis Documentation</strong>发现了这句话。</p>
+<p><a href="https://docs.nvidia.com/metropolis/deepstream/DeepStream_5.0_Release_Notes.pdf" target="_blank" rel="noopener">ReleaseNotes</a> 2.0 LIMITATIONS</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">On Jetson, <span class="built_in">running</span> a DeepStream <span class="built_in">application</span> <span class="keyword">over</span> SSH (via putty) <span class="keyword">with</span> X11 forwarding</span><br><span class="line"><span class="keyword">does</span> <span class="keyword">not</span> work</span><br></pre></td></tr></table></figure>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这个东西还是存在着许多bug，系统也不是非常稳定，开发也很麻烦，如果是想玩玩还是推荐树莓派。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Jetson-Nano/" rel="tag"><i class="fa fa-tag"></i> Jetson Nano</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/20/docker + TensorFlow2.0 + jupyter lab/" rel="next" title="docker + TensorFlow2.0 + jupyter lab">
+                <i class="fa fa-chevron-left"></i> docker + TensorFlow2.0 + jupyter lab
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Voidmort" />
+            
+              <p class="site-author-name" itemprop="name">Voidmort</p>
+              <p class="site-description motion-element" itemprop="description">研究AI，撰写影评，热爱音乐，努力健身</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">90</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">64</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Voidmort" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:wxj5658@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/u/1749266905" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://jusanliusha.xyz" title="Jusanliusha" target="_blank">Jusanliusha</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于Jetson-Nano-Developer-Kit"><span class="nav-number">2.</span> <span class="nav-text">关于Jetson Nano Developer Kit</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#烧写镜像"><span class="nav-number">3.</span> <span class="nav-text">烧写镜像</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装tensorflow"><span class="nav-number">4.</span> <span class="nav-text">安装tensorflow</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装jupyter"><span class="nav-number">5.</span> <span class="nav-text">安装jupyter</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装openCV"><span class="nav-number">6.</span> <span class="nav-text">安装openCV</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试Tensorflow"><span class="nav-number">7.</span> <span class="nav-text">测试Tensorflow</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#坑"><span class="nav-number">8.</span> <span class="nav-text">坑</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">9.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Voidmort</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/kesyoban.model.json"},"display":{"position":"right","width":130,"height":260},"mobile":{"show":false},"log":false,"tagMode":false});</script></body>
+</html>
