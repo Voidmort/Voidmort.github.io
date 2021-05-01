@@ -108,17 +108,17 @@
 
 
 
-  <meta name="description" content="保存与加载模型安装tensorflow-datasets，导入依赖项： 1%pip install tensorflow-datasets 1234import tensorflow_datasets as tfdsimport tensorflow as tftfds.disable_progress_bar() 1tf.__version__ &amp;apos;2.3.0&amp;apos; 1mirror">
+  <meta name="description" content="保存与加载模型安装tensorflow-datasets，导入依赖项： 1%pip install tensorflow-datasets 1234import tensorflow_datasets as tfdsimport tensorflow as tftfds.disable_progress_bar() 1tf.__version__ 2.3.0 1mirrored_strategy">
 <meta property="og:type" content="article">
 <meta property="og:title" content="保存与加载Tensorflow模型">
 <meta property="og:url" content="https://xvjie.wang/2020/08/01/保存与加载Tensorflow模型/index.html">
 <meta property="og:site_name" content="Voidmort">
-<meta property="og:description" content="保存与加载模型安装tensorflow-datasets，导入依赖项： 1%pip install tensorflow-datasets 1234import tensorflow_datasets as tfdsimport tensorflow as tftfds.disable_progress_bar() 1tf.__version__ &amp;apos;2.3.0&amp;apos; 1mirror">
+<meta property="og:description" content="保存与加载模型安装tensorflow-datasets，导入依赖项： 1%pip install tensorflow-datasets 1234import tensorflow_datasets as tfdsimport tensorflow as tftfds.disable_progress_bar() 1tf.__version__ 2.3.0 1mirrored_strategy">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-08-08T02:15:54.895Z">
+<meta property="og:updated_time" content="2021-05-01T11:34:07.610Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="保存与加载Tensorflow模型">
-<meta name="twitter:description" content="保存与加载模型安装tensorflow-datasets，导入依赖项： 1%pip install tensorflow-datasets 1234import tensorflow_datasets as tfdsimport tensorflow as tftfds.disable_progress_bar() 1tf.__version__ &amp;apos;2.3.0&amp;apos; 1mirror">
+<meta name="twitter:description" content="保存与加载模型安装tensorflow-datasets，导入依赖项： 1%pip install tensorflow-datasets 1234import tensorflow_datasets as tfdsimport tensorflow as tftfds.disable_progress_bar() 1tf.__version__ 2.3.0 1mirrored_strategy">
 
 
 
@@ -413,7 +413,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-08-08 10:15:54" itemprop="dateModified" datetime="2020-08-08T10:15:54+08:00">2020-08-08</time>
+                <time title="修改时间：2021-05-01 19:34:07" itemprop="dateModified" datetime="2021-05-01T19:34:07+08:00">2021-05-01</time>
               
             
           </span>
@@ -468,11 +468,9 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%pip install tensorflow-datasets</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow_datasets <span class="keyword">as</span> tfds</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line">tfds.disable_progress_bar()</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.__version__</span><br></pre></td></tr></table></figure>
-<pre><code>&apos;2.3.0&apos;
+<pre><code>2.3.0
 </code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mirrored_strategy = tf.distribute.MirroredStrategy()</span><br></pre></td></tr></table></figure>
-<pre><code>WARNING:tensorflow:There are non-GPU devices in `tf.distribute.Strategy`, not using nccl allreduce.
-INFO:tensorflow:Using MirroredStrategy with devices (&apos;/job:localhost/replica:0/task:0/device:CPU:0&apos;,)
-</code></pre><p>创建一个分发变量和图形的策略</p>
+<p>创建一个分发变量和图形的策略</p>
 <p>tf.distribute.MirroredStrategy 策略是如何运作的？</p>
 <pre><code>所有变量和模型图都复制在副本上。
 输入都均匀分布在副本中。
@@ -483,10 +481,10 @@ INFO:tensorflow:Using MirroredStrategy with devices (&apos;/job:localhost/replic
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_model</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">with</span> mirrored_strategy.scope():</span><br><span class="line">        model = tf.keras.Sequential([</span><br><span class="line">            tf.keras.layers.Conv2D(<span class="number">32</span>, <span class="number">3</span>, activation=<span class="string">'relu'</span>, input_shape=(<span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>)),</span><br><span class="line">            tf.keras.layers.MaxPool2D(),</span><br><span class="line">            tf.keras.layers.Flatten(),</span><br><span class="line">            tf.keras.layers.Dense(<span class="number">64</span>, activation=<span class="string">'relu'</span>),</span><br><span class="line">            tf.keras.layers.Dense(<span class="number">10</span>)</span><br><span class="line">        ])</span><br><span class="line">        </span><br><span class="line">        model.compile(loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=<span class="keyword">True</span>),</span><br><span class="line">                     optimizer=tf.keras.optimizers.Adam(),</span><br><span class="line">                     metrics=[<span class="string">'accuracy'</span>])</span><br><span class="line">        <span class="keyword">return</span> model</span><br></pre></td></tr></table></figure>
 <h1 id="训练模型"><a href="#训练模型" class="headerlink" title="训练模型"></a>训练模型</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model = get_model()</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train_dataset, eval_dataset = get_data()</span><br></pre></td></tr></table></figure>
-<pre><code>[1mDownloading and preparing dataset mnist/3.0.1 (download: Unknown size, generated: Unknown size, total: Unknown size) to C:\Users\v-xujwan\tensorflow_datasets\mnist\3.0.1...[0m
+<pre><code>[1mDownloading and preparing dataset mnist/3.0.1 (download: Unknown size, generated: Unknown size, total: Unknown size) to C:\Users\v-xujwan\tensorflow_datasets\mnist\3.0.1...[0m
 Shuffling and writing examples to C:\Users\v-xujwan\tensorflow_datasets\mnist\3.0.1.incompleteI371SH\mnist-train.tfrecord
 Shuffling and writing examples to C:\Users\v-xujwan\tensorflow_datasets\mnist\3.0.1.incompleteI371SH\mnist-test.tfrecord
-[1mDataset mnist downloaded and prepared to C:\Users\v-xujwan\tensorflow_datasets\mnist\3.0.1. Subsequent calls will reuse this data.[0m
+[1mDataset mnist downloaded and prepared to C:\Users\v-xujwan\tensorflow_datasets\mnist\3.0.1. Subsequent calls will reuse this data.[0m
 </code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.fit(train_dataset, epochs=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
 <pre><code>Epoch 1/2
 WARNING:tensorflow:From D:\Anaconda3\envs\py36_tf2\lib\site-packages\tensorflow\python\data\ops\multi_device_iterator_ops.py:601: get_next_as_optional (from tensorflow.python.data.ops.iterator_ops) is deprecated and will be removed in a future version.
@@ -972,7 +970,7 @@ INFO:tensorflow:Loss for final step: 36.96539.
                     
                       
                     
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">21</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>

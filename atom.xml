@@ -79,7 +79,7 @@
     <link href="https://xvjie.wang/2020/08/01/Keras%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <id>https://xvjie.wang/2020/08/01/Keras学习笔记/</id>
     <published>2020-07-31T16:00:00.000Z</published>
-    <updated>2020-08-08T02:15:54.847Z</updated>
+    <updated>2021-05-01T10:23:10.020Z</updated>
     
     <summary type="html">
     
@@ -95,8 +95,6 @@
     
       <category term="tensorflow2" scheme="https://xvjie.wang/categories/tensorflow2/"/>
     
-      <category term="keras" scheme="https://xvjie.wang/categories/tensorflow2/keras/"/>
-    
     
   </entry>
   
@@ -105,7 +103,7 @@
     <link href="https://xvjie.wang/2020/08/01/%E4%BF%9D%E5%AD%98%E4%B8%8E%E5%8A%A0%E8%BD%BDTensorflow%E6%A8%A1%E5%9E%8B/"/>
     <id>https://xvjie.wang/2020/08/01/保存与加载Tensorflow模型/</id>
     <published>2020-07-31T16:00:00.000Z</published>
-    <updated>2020-08-08T02:15:54.895Z</updated>
+    <updated>2021-05-01T11:34:07.610Z</updated>
     
     <summary type="html">
     
