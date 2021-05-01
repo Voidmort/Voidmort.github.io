@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xvjie.wang/"/>
-  <updated>2020-08-08T02:15:59.326Z</updated>
+  <updated>2020-08-08T02:15:59.282Z</updated>
   <id>https://xvjie.wang/</id>
   
   <author>
@@ -17,11 +17,37 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Jetson Nano学习笔记</title>
+    <link href="https://xvjie.wang/2021/04/30/Jetson%20Nano%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <id>https://xvjie.wang/2021/04/30/Jetson Nano学习笔记/</id>
+    <published>2021-04-30T11:47:06.000Z</published>
+    <updated>2020-08-08T02:15:59.282Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;JetsonNano是Nvidia的一个嵌入式开发板，具备Maxwell128核心的GPU和4核心 ARM
+        
+      
+    
+    </summary>
+    
+      <category term="嵌入式" scheme="https://xvjie.wang/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
+    
+    
+      <category term="Jetson Nano" scheme="https://xvjie.wang/tags/Jetson-Nano/"/>
+    
+  </entry>
+  
+  <entry>
     <title>docker + TensorFlow2.0 + jupyter lab</title>
     <link href="https://xvjie.wang/2020/08/20/docker%20+%20TensorFlow2.0%20+%20jupyter%20lab/"/>
     <id>https://xvjie.wang/2020/08/20/docker + TensorFlow2.0 + jupyter lab/</id>
     <published>2020-08-19T16:00:00.000Z</published>
-    <updated>2020-08-08T02:15:59.326Z</updated>
+    <updated>2020-08-08T02:15:59.000Z</updated>
     
     <summary type="html">
     
@@ -45,32 +71,6 @@
       <category term="TensorFlow2" scheme="https://xvjie.wang/tags/TensorFlow2/"/>
     
       <category term="jupyter" scheme="https://xvjie.wang/tags/jupyter/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Jetson Nano学习笔记</title>
-    <link href="https://xvjie.wang/2020/08/08/Jetson%20Nano%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-    <id>https://xvjie.wang/2020/08/08/Jetson Nano学习笔记/</id>
-    <published>2020-08-08T02:15:59.282Z</published>
-    <updated>2020-08-08T02:15:59.282Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;JetsonNano是Nvidia的一个嵌入式开发板，具备Maxwell128核心的GPU和4核心 ARM
-        
-      
-    
-    </summary>
-    
-      <category term="嵌入式" scheme="https://xvjie.wang/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
-    
-    
-      <category term="Jetson Nano" scheme="https://xvjie.wang/tags/Jetson-Nano/"/>
     
   </entry>
   
@@ -130,7 +130,7 @@
     <link href="https://xvjie.wang/2020/07/24/gRPC/"/>
     <id>https://xvjie.wang/2020/07/24/gRPC/</id>
     <published>2020-07-23T16:00:00.000Z</published>
-    <updated>2020-08-08T02:24:11.709Z</updated>
+    <updated>2020-08-08T02:24:11.000Z</updated>
     
     <summary type="html">
     
@@ -236,7 +236,7 @@
     <link href="https://xvjie.wang/2020/06/01/EmojiAnalysis/"/>
     <id>https://xvjie.wang/2020/06/01/EmojiAnalysis/</id>
     <published>2020-06-01T01:20:50.000Z</published>
-    <updated>2020-06-14T08:45:36.723Z</updated>
+    <updated>2020-06-14T08:45:36.000Z</updated>
     
     <summary type="html">
     
