@@ -1,0 +1,115 @@
+<!--
+	THIS EXAMPLE WAS DOWNLOADED FROM https://echarts.apache.org/examples/zh/editor.html?c=graph-label-overlap&code=LYTwwgFghgTgLgOgM4QPYHcAyqoBMCWAdgOYAUAlANwBQAJAsQKZwBSAygPIBypAShxwAqAfQAKAQUEAJAAQBqGQHIA9LihwoyqEiTNV6zQBtGSALTB8umFABGxpAgBWSVIUUAaGQDMAroQDGcPiuMqTE1gAOEOQyAN7UMjKgkLCIEPi4jNh4RGRUCTKoEUEhALxxBYlwqKiGQREAXHEAvu6VMsZMhLhNANrtifGJw8NqGk3hUFEI_uqMxKgw-CYIwFOkvgElhKFQMUMjhzDMPjA7UAiEUMCMNIfDzeQDMs3tALptI1bLSH3PB_crjcmopMCYZABZSyMax2EweZ5VEARRggyZRBH3RKGKAgVA-OAgryLfyMTFYqCEfBrbZNOAwHyMT5YsZQCaRCCXVCZJDM-6GIgAa1-MnRnIFhGFfMOszg80WP3ZU05svlSxM0pGMBwwDpDKZiI6tkYhiaAKxKAwesZmsOEVQSHwtKUREdmXJWO8ixpcpgINiNmaikNiUNrUNuGsxGItmM1oNnpxNhNmFx-MJFU9iXSmQ4ADcYTjGjJ6Yyw7bEkhZsZMNSnWaQ0kiE0AAwIAAsFeGawAHk0AEzlw3EmCkhtZmSMXBMMEkOAQJoARhbLa7iWOER8hkdrgHK7XouseadIFbCEXQ8TREYbDgIDjmaz_lqixBLlOpI9WP8pwLhBMIptgAzGGzyvCMbwFM0dxJOA0DwMgzAcMUwSEKQRTbPkjyUEAA
+	请注意，该图表不是 Apache ECharts 官方示例，而是由用户代码生成的。请注意鉴别其内容。
+-->
+<!DOCTYPE html>
+<html lang="zh-CN" style="height: 100%">
+<head>
+  <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 100%"></div>
+
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/jquery"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.3.2/dist/echarts.min.js"></script>
+  <!-- Uncomment this line if you want to dataTool extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.3.2/dist/extension/dataTool.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use gl extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to echarts-stat extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use map
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/china.js"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js"></script>
+  -->
+  <!-- Uncomment these two lines if you want to use bmap extension
+  <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.3.2/dist/extension/bmap.min.js"></script>
+  -->
+
+  <script type="text/javascript">
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var app = {};
+    var ROOT_PATH = 'https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples';
+    var option;
+    myChart.on('click', function (param) {
+      if (param.dataType == 'node') {
+          console.log('点击了节点',param)
+      } else {
+          console.log('点击了边',param)
+      }
+    });
+    myChart.showLoading();
+$.getJSON('pomes.json', function (graph) {
+  myChart.hideLoading();
+  option = {
+    tooltip: {
+      //formatter: function (params, ticket, callback) {
+        //$.get('detail?name=' + params.name, function (content) {
+        //    callback(ticket, toHTML(content));
+        //});
+        //console.info(params)
+        //return 'Loading';
+    //}
+    },
+    legend: [
+      {
+        data: graph.categories.map(function (a) {
+          return a.name;
+        })
+      }
+    ],
+    series: [
+      {
+        name: 'Les Miserables',
+        type: 'graph',
+        layout: 'force',
+        animation: true,
+        data: graph.nodes,
+        links: graph.links,
+        categories: graph.categories,
+        roam: true,
+        label: {
+          show: true,
+          position: 'inside',
+          formatter: '{b}'
+          
+        },
+        draggable: true,
+        labelLayout: {
+          hideOverlap: true
+        },
+        scaleLimit: {
+          min: 0.4,
+          max: 2
+        },
+        force: {
+          edgeLength: 100,
+          repulsion: 200,
+          gravity: 0.1
+        },
+        lineStyle: {
+          color: 'source',
+          curveness: 0.3
+        }
+      }
+    ]
+  };
+  myChart.setOption(option);
+});
+
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+  </script>
+</body>
+</html>
